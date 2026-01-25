@@ -1,6 +1,6 @@
 
 
-Repository con giochi didattici INVALSI per la scuola primaria.
+Repository con giochi didattici per la quinta classe della scuola primaria per la preparazione alle prove (alla prova) INVALSI.
 
 **Dati REDMI**: Materiali formativi e risorse per alunni e insegnanti.
 
