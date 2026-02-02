@@ -443,6 +443,12 @@
             background: rgba(255, 193, 7, 0.3);
             border-color: #ffc107;
             color: #ffd166;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .messaggio-info:hover {
+            background: rgba(255, 193, 7, 0.4);
         }
         
         .messaggio-game-over {
@@ -1041,6 +1047,11 @@
         let timerInterval;
         let timerAttivo = false;
         const TEMPO_TOTALE = 600; // 10 minuti in secondi
+        
+        // VARIABILE PER IL TIMEOUT DEL MESSAGGIO DI BENVENUTO
+        let timeoutBenvenuto = null;
+        // VARIABILE PER CONTROLLARE SE IL MESSAGGIO DI BENVENUTO È STATO VISTO
+        let messaggioBenvenutoNascosto = false;
 
         // FUNZIONI PER I DISPLAY 7 SEGMENTI
         function aggiornaDisplayPunteggio() {
@@ -1174,16 +1185,94 @@
             modalitaGioco = 'interi';
             verificaEseguita = false;
             tempoRimanente = TEMPO_TOTALE;
+            messaggioBenvenutoNascosto = false;
             
             aggiornaViteUI();
             aggiornaDisplayPunteggio();
             aggiornaDisplayTempo();
             creaTastiera();
             resetTimer();
-            nuovaOperazione();
+            
+            // Prepara la prima operazione senza nascondere il messaggio
+            preparaPrimaOperazione();
             
             document.getElementById("bottone-verifica").disabled = false;
             document.getElementById("bottone-aiuto").disabled = false;
+            
+            // Mostra un messaggio di benvenuto
+            mostraMessaggioBenvenuto();
+        }
+
+        function mostraMessaggioBenvenuto() {
+            // Mostra un messaggio di benvenuto con tempo prolungato
+            mostraMessaggio("Clicca su una casella gialla e poi usa la tastiera per inserire le cifre. Inizia dalle unità (a destra)! Clicca qui per chiudere", "info");
+            
+            // Aggiungi l'evento di click per nascondere il messaggio manualmente
+            const messaggioDiv = document.getElementById("messaggio-verifica");
+            messaggioDiv.style.cursor = 'pointer';
+            
+            // Rimuovi eventuali listener precedenti per evitare duplicati
+            messaggioDiv.removeEventListener('click', nascondiMessaggioBenvenuto);
+            messaggioDiv.addEventListener('click', nascondiMessaggioBenvenuto);
+            
+            // Nascondi il messaggio dopo 30 secondi
+            timeoutBenvenuto = setTimeout(() => {
+                nascondiMessaggioBenvenuto();
+            }, 30000); // 30 secondi
+        }
+
+        function nascondiMessaggioBenvenuto() {
+            nascondiMessaggio();
+            messaggioBenvenutoNascosto = true;
+            if (timeoutBenvenuto) {
+                clearTimeout(timeoutBenvenuto);
+                timeoutBenvenuto = null;
+            }
+        }
+
+        function preparaPrimaOperazione() {
+            // Prepara la prima operazione senza nascondere il messaggio
+            if (modalitaGioco === 'interi') {
+                const cifre = Math.floor(Math.random() * 4) + 2;
+                numeroCifreOperazioneCorrente = cifre;
+                punteggioBaseOperazioneCorrente = cifre;
+                
+                numero1 = generaNumeroCasuale(cifre);
+                numero2 = generaNumeroCasuale(cifre);
+                risultatoCorretto = numero1 + numero2;
+                
+                const cifreRisultato = risultatoCorretto.toString().length;
+                if (cifreRisultato > cifre) {
+                    numeroCifreOperazioneCorrente = cifreRisultato;
+                    punteggioBaseOperazioneCorrente = cifreRisultato;
+                }
+                
+                if (cifreRisultato > 6) {
+                    const differenza = risultatoCorretto - Math.pow(10, 6);
+                    numero2 = Math.max(1, numero2 - differenza - 1);
+                    risultatoCorretto = numero1 + numero2;
+                }
+                
+            } else {
+                numeroCifreOperazioneCorrente = 3;
+                punteggioBaseOperazioneCorrente = 3;
+                
+                numero1 = generaNumeroDecimale();
+                numero2 = generaNumeroDecimale();
+                
+                if (numero1 > 999.99) numero1 = numero1 % 1000;
+                if (numero2 > 999.99) numero2 = numero2 % 1000;
+                
+                risultatoCorretto = Math.round((numero1 + numero2) * 100) / 100;
+            }
+            
+            preparaNumeriPerColonna();
+            
+            colonnaAttiva = numCifreTotali - 1;
+            modalitaRiporto = false;
+            
+            aggiornaColonna();
+            aggiornaUI();
         }
 
         function cambiaModalita(nuovaModalita) {
@@ -1225,16 +1314,12 @@
                 numero2 = generaNumeroCasuale(cifre);
                 risultatoCorretto = numero1 + numero2;
                 
-                // CORREZIONE: garantire che il risultato abbia sempre una cifra in più se necessario
                 const cifreRisultato = risultatoCorretto.toString().length;
                 if (cifreRisultato > cifre) {
-                    // Se il risultato ha più cifre dei numeri originali,
-                    // aumentiamo il numero di cifre totali
                     numeroCifreOperazioneCorrente = cifreRisultato;
                     punteggioBaseOperazioneCorrente = cifreRisultato;
                 }
                 
-                // Limita il risultato a 6 cifre per evitare overflow
                 if (cifreRisultato > 6) {
                     const differenza = risultatoCorretto - Math.pow(10, 6);
                     numero2 = Math.max(1, numero2 - differenza - 1);
@@ -1273,8 +1358,6 @@
                 str2 = numero2.toString();
                 strRisultato = risultatoCorretto.toString();
                 
-                // CORREZIONE: usiamo sempre la lunghezza del risultato come riferimento
-                // per garantire che ci siano abbastanza colonne per tutte le cifre
                 const maxLength = Math.max(str1.length, str2.length, strRisultato.length);
                 str1 = str1.padStart(maxLength, '0');
                 str2 = str2.padStart(maxLength, '0');
@@ -1344,9 +1427,7 @@
                 }
             }
             
-            // CORREZIONE: se c'è un riporto finale, dobbiamo aggiungere una cifra
             if (riporto > 0) {
-                // Aggiungiamo una cifra all'inizio di tutti gli array
                 cifreNumero1.unshift("0");
                 cifreNumero2.unshift("0");
                 cifreRisultato.unshift("");
@@ -1384,13 +1465,9 @@
                 }
             }
             
-            // CORREZIONE: per i decimali, se c'è un riporto finale, dobbiamo aggiungere una cifra
             if (riporto > 0) {
-                // Aggiungiamo una cifra all'inizio (prima della virgola)
-                // Troviamo la posizione della virgola
                 let idxVirgola = cifreNumero1.indexOf(",");
                 
-                // Inseriamo una cifra all'inizio
                 cifreNumero1.unshift("0");
                 cifreNumero2.unshift("0");
                 cifreRisultato.unshift("");
@@ -1398,7 +1475,6 @@
                 risultatiCorretti.unshift(riporto);
                 riportiCorretti.unshift(0);
                 
-                // Aggiorniamo la posizione della virgola
                 posizioneVirgola++;
                 numCifreTotali++;
             }
@@ -1448,14 +1524,10 @@
             const rigaRisultato = document.createElement("div");
             rigaRisultato.className = "riga-colonna";
             
-            // CORREZIONE: assicuriamoci che ci sia esattamente una casella per ogni cifra
             for (let i = 0; i < numCifreTotali; i++) {
-                // Cella per i riporti
                 if (i === numCifreTotali - 1) {
-                    // Ultima colonna: cella nascosta per allineamento
                     rigaRiporti.innerHTML += '<div class="cella-riporto" style="visibility: hidden;"></div>';
                 } else if (modalitaGioco === 'decimali' && i === posizioneVirgola) {
-                    // Se è la posizione della virgola, cella nascosta
                     rigaRiporti.innerHTML += '<div class="cella-riporto" style="visibility: hidden;"></div>';
                 } else {
                     let valoreRiporto = "";
@@ -1473,21 +1545,18 @@
                          </div>`;
                 }
                 
-                // Cella per il primo numero
                 if (modalitaGioco === 'decimali' && i === posizioneVirgola) {
                     rigaNumero1.innerHTML += `<div class="cella-virgola">,</div>`;
                 } else {
                     rigaNumero1.innerHTML += `<div class="cella-numero">${cifreNumero1[i]}</div>`;
                 }
                 
-                // Cella per il secondo numero
                 if (modalitaGioco === 'decimali' && i === posizioneVirgola) {
                     rigaNumero2.innerHTML += `<div class="cella-virgola">,</div>`;
                 } else {
                     rigaNumero2.innerHTML += `<div class="cella-numero">${cifreNumero2[i]}</div>`;
                 }
                 
-                // Cella per il risultato
                 const isAttiva = colonnaAttiva === i && !modalitaRiporto;
                 
                 if (modalitaGioco === 'decimali' && i === posizioneVirgola) {
@@ -1507,7 +1576,6 @@
             colonnaContainer.appendChild(linea);
             colonnaContainer.appendChild(rigaRisultato);
             
-            // Aggiorna la larghezza della linea di divisione
             const lineaDiv = document.querySelector('.linea-divisione');
             const larghezzaLinea = (numCifreTotali * 30) + ((numCifreTotali - 1) * 4);
             lineaDiv.style.width = `${larghezzaLinea}px`;
@@ -1535,6 +1603,13 @@
         // FUNZIONE PER MOSTRARE MESSAGGI
         function mostraMessaggio(testo, tipo) {
             const messaggioDiv = document.getElementById("messaggio-verifica");
+            
+            // Cancella il timeout del messaggio di benvenuto, se presente
+            if (timeoutBenvenuto) {
+                clearTimeout(timeoutBenvenuto);
+                timeoutBenvenuto = null;
+            }
+            
             messaggioDiv.textContent = testo;
             messaggioDiv.className = "messaggio-verifica mostra";
             
@@ -1601,6 +1676,11 @@
         function selezionaColonna(indice) {
             if (gameOver || modalitaGioco === 'decimali' && indice === posizioneVirgola) return;
             
+            // Nascondi il messaggio di benvenuto se è ancora visibile
+            if (!messaggioBenvenutoNascosto) {
+                nascondiMessaggioBenvenuto();
+            }
+            
             colonnaAttiva = indice;
             modalitaRiporto = false;
             aggiornaColonna();
@@ -1619,6 +1699,11 @@
             if (gameOver || colonnaAttiva < 0 || colonnaAttiva >= numCifreTotali) return;
             
             if (modalitaGioco === 'decimali' && colonnaAttiva === posizioneVirgola) return;
+            
+            // Nascondi il messaggio di benvenuto se è ancora visibile
+            if (!messaggioBenvenutoNascosto) {
+                nascondiMessaggioBenvenuto();
+            }
             
             if (modalitaRiporto) {
                 if (cifra === 0 || cifra === 1) {
