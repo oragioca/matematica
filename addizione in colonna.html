@@ -3,8 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Addizioni</title>
+    <title>Addizioni - Display 7 Segmenti</title>
     <style>
+        @font-face {
+            font-family: 'Digital7';
+            src: url('https://fonts.gstatic.com/s/digital7/v2/8KIv3CtvB87O1Kfsj5q7lOY.woff2') format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'Segment7';
+            src: url('https://cdn.rawgit.com/raphaelbastide/Segment7-font/master/Segment7.woff') format('woff');
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,79 +23,203 @@
         }
         
         body {
-            background: linear-gradient(to bottom, #87cefa, #add8e6);
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 10px;
+            color: white;
         }
         
         .game-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 100, 0.2);
-            padding: 15px;
+            background: linear-gradient(145deg, #2d3047, #1f2235);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            padding: 20px;
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             text-align: center;
-            border: 3px solid #4a90e2;
+            border: 2px solid #3a3f5c;
             position: relative;
+            overflow: hidden;
+        }
+        
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b00, #ffa500, #ff6b00);
+            z-index: 1;
         }
         
         .game-header {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            position: relative;
         }
         
         h1 {
-            color: #ff6b00;
+            color: #ffa500;
             font-size: 1.8rem;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(90deg, #ff6b00, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
         }
         
-        .game-info {
+        /* DISPLAY 7 SEGMENTI - PUNTEGGIO E TEMPO */
+        .cruscotto-container {
             display: flex;
             justify-content: space-around;
-            background: #e6f7ff;
-            padding: 8px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            border: 2px solid #4a90e2;
-        }
-        
-        .punteggio, .vite, .istruzioni-btn {
-            font-size: 0.9rem;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: flex;
             align-items: center;
-            gap: 5px;
-            cursor: pointer;
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #3a3f5c;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5),
+                        0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
         
-        .punteggio { 
-            background: #d4edda;
-            color: #155724;
-            border: 2px solid #28a745;
-        }
-        .vite { 
-            background: #ffe6e6;
-            color: #dc3545;
-            border: 2px solid #dc3545;
-        }
-        .istruzioni-btn { 
-            background: #fff3cd;
-            color: #856404;
-            border: 2px solid #ffc107;
-            transition: all 0.2s;
+        .cruscotto-container::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(255, 165, 0, 0.2);
+            border-radius: 8px;
+            pointer-events: none;
         }
         
-        .istruzioni-btn:hover {
-            background: #ffeaa7;
-            transform: translateY(-1px);
+        .indicatore-cruscotto {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
         }
         
+        .display-container {
+            position: relative;
+            width: 160px;
+            height: 90px;
+            margin-bottom: 10px;
+            background: linear-gradient(145deg, #0a0e14, #05070a);
+            border-radius: 8px;
+            border: 3px solid #1a3b5d;
+            box-shadow: 
+                inset 0 0 15px rgba(0, 20, 40, 0.8),
+                0 4px 8px rgba(0, 0, 0, 0.5),
+                0 0 0 2px rgba(0, 100, 200, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .display-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.03) 0px,
+                rgba(255, 255, 255, 0.03) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .display-7segmenti {
+            font-family: 'Segment7', 'Digital7', 'Courier New', monospace;
+            font-size: 3.2rem;
+            font-weight: normal;
+            color: #ff0000;
+            text-shadow: 
+                0 0 10px rgba(255, 0, 0, 0.8),
+                0 0 20px rgba(255, 0, 0, 0.4);
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+            transform: skew(-1deg);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .display-7segmenti.giallo {
+            color: #ffcc00;
+            text-shadow: 
+                0 0 10px rgba(255, 204, 0, 0.8),
+                0 0 20px rgba(255, 204, 0, 0.4);
+        }
+        
+        .display-7segmenti.verde {
+            color: #00ff00;
+            text-shadow: 
+                0 0 10px rgba(0, 255, 0, 0.8),
+                0 0 20px rgba(0, 255, 0, 0.4);
+        }
+        
+        /* Display del tempo ridotto del 50% */
+        .display-7segmenti.tempo {
+            font-size: 1.6rem; /* 50% di 3.2rem */
+            letter-spacing: 1px;
+        }
+        
+        .display-title {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #ffcc00;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+            letter-spacing: 1px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .info-vite {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .vite-container {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .vita {
+            width: 25px;
+            height: 25px;
+            background: #ff4757;
+            clip-path: polygon(50% 0%, 100% 35%, 82% 100%, 18% 100%, 0% 35%);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+            transition: all 0.3s ease;
+        }
+        
+        .vita.persa {
+            background: #3a3f5c;
+            transform: scale(0.8);
+        }
+        
+        /* ALTRI STILI (mantenuti dal codice originale con piccole modifiche) */
         .modalita-selezione {
             display: flex;
             justify-content: center;
@@ -97,27 +231,30 @@
             padding: 8px 15px;
             border: 2px solid #4a90e2;
             border-radius: 6px;
-            background: #e6f7ff;
+            background: rgba(74, 144, 226, 0.2);
+            color: white;
             cursor: pointer;
             transition: all 0.2s;
         }
         
         .bottone-modalita:hover {
-            background: #b3e0ff;
+            background: rgba(74, 144, 226, 0.4);
         }
         
         .bottone-modalita.attiva {
             background: #4a90e2;
             color: white;
             font-weight: bold;
+            box-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
         }
         
         .sezione-colonna {
-            background: #f0f8ff;
+            background: rgba(30, 33, 57, 0.8);
             border: 2px solid #4a90e2;
             border-radius: 8px;
             padding: 15px;
             margin: 15px 0;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4);
         }
         
         .colonna-container {
@@ -149,18 +286,20 @@
             align-items: center;
             border: 2px solid #228b22;
             border-radius: 6px;
-            background: #90ee90;
+            background: linear-gradient(145deg, #228b22, #1a6b1a);
             font-size: 1.2rem;
             font-weight: bold;
-            color: #006400;
+            color: #ffffff;
             margin-left: 5px;
             cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
         
         .cella-riporto.attivo {
-            background: #c8f7c5;
-            border: 2px solid #28a745;
+            background: linear-gradient(145deg, #28a745, #1e7e34);
+            border: 2px solid #32cd32;
             animation: pulse 1s infinite;
+            box-shadow: 0 0 15px rgba(40, 167, 69, 0.6);
         }
         
         @keyframes pulse {
@@ -173,6 +312,7 @@
             margin-right: 5px;
             font-size: 1.3rem;
             font-weight: bold;
+            color: #ffa500;
         }
         
         .cella-numero {
@@ -185,7 +325,8 @@
             margin-left: 5px;
             font-size: 1.2rem;
             font-weight: bold;
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
             border-radius: 6px;
         }
         
@@ -199,6 +340,7 @@
             font-weight: bold;
             margin-left: 2px;
             margin-right: 2px;
+            color: #ffa500;
         }
         
         .cella-risultato {
@@ -211,20 +353,22 @@
             margin-left: 5px;
             font-size: 1.2rem;
             font-weight: bold;
-            background: #e6f7ff;
+            background: rgba(74, 144, 226, 0.2);
+            color: white;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s;
         }
         
         .cella-risultato:hover {
-            background: #b3e0ff;
+            background: rgba(74, 144, 226, 0.4);
         }
         
         .cella-evidenziata {
             animation: evidenzia 1s infinite;
             border: 2px solid #ffa500;
-            background: #fffacd;
+            background: rgba(255, 165, 0, 0.3);
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
         }
         
         @keyframes evidenzia {
@@ -233,26 +377,25 @@
         }
         
         .cella-corretta {
-            background: #c8f7c5;
+            background: rgba(40, 167, 69, 0.3);
             border: 2px solid #28a745;
         }
         
         .cella-errata {
-            background: #ffcccc;
+            background: rgba(220, 53, 69, 0.3);
             border: 2px solid #dc3545;
         }
         
-        /* LINEA NERA - RIMESSA, LUNGHEZZA UGUALI ALLE CASELLE */
         .linea-divisione {
-            border-top: 2px solid #000;
+            border-top: 2px solid #ffa500;
             margin: 5px 0;
-            width: calc(35px * 5 + 5px * 4); /* 5 caselle da 35px + 4 margini da 5px */
+            width: calc(35px * 5 + 5px * 4);
             align-self: flex-end;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
         }
         
-        /* MESSAGGIO DI VERIFICA DENTRO LO SCHERMO */
         .messaggio-verifica {
-            background: #fff3cd;
+            background: rgba(255, 193, 7, 0.2);
             border: 2px dashed #ffc107;
             border-radius: 6px;
             padding: 10px 15px;
@@ -267,6 +410,7 @@
             opacity: 0;
             transform: translateY(-10px);
             transition: all 0.3s ease;
+            color: white;
         }
         
         .messaggio-verifica.mostra {
@@ -275,25 +419,25 @@
         }
         
         .messaggio-corretto {
-            background: #d4edda;
+            background: rgba(40, 167, 69, 0.3);
             border-color: #28a745;
-            color: #155724;
+            color: #90ee90;
         }
         
         .messaggio-errato {
-            background: #f8d7da;
+            background: rgba(220, 53, 69, 0.3);
             border-color: #dc3545;
-            color: #721c24;
+            color: #ff6b6b;
         }
         
         .messaggio-info {
-            background: #fff3cd;
+            background: rgba(255, 193, 7, 0.3);
             border-color: #ffc107;
-            color: #856404;
+            color: #ffd166;
         }
         
         .messaggio-game-over {
-            background: #6c757d;
+            background: rgba(108, 117, 125, 0.3);
             border-color: #495057;
             color: white;
             font-size: 1.1rem;
@@ -312,33 +456,51 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            background: #4a90e2;
+            background: linear-gradient(145deg, #4a90e2, #3a7bd5);
             color: white;
             transition: all 0.2s;
             min-width: 100px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
         .bottone:hover {
-            background: #357ae8;
+            background: linear-gradient(145deg, #3a7bd5, #2a6bc5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
         }
         
         .bottone-verifica {
-            background: #28a745;
+            background: linear-gradient(145deg, #28a745, #1e7e34);
+        }
+        
+        .bottone-verifica:hover {
+            background: linear-gradient(145deg, #1e7e34, #156d2b);
         }
         
         .bottone-aiuto {
-            background: #ffa500;
+            background: linear-gradient(145deg, #ffa500, #ff8c00);
+        }
+        
+        .bottone-aiuto:hover {
+            background: linear-gradient(145deg, #ff8c00, #e67e00);
         }
         
         .bottone-nuova {
-            background: #9370db;
+            background: linear-gradient(145deg, #9370db, #7b5fcf);
+        }
+        
+        .bottone-nuova:hover {
+            background: linear-gradient(145deg, #7b5fcf, #6a4fcb);
         }
         
         .tastiera-container {
-            background: #e6f7ff;
+            background: rgba(30, 33, 57, 0.8);
             border-radius: 8px;
             padding: 10px;
             border: 2px solid #4a90e2;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
         }
         
         .tastiera-numerica {
@@ -355,31 +517,57 @@
             font-weight: bold;
             border: 2px solid #4a90e2;
             border-radius: 6px;
-            background: #b3e0ff;
+            background: linear-gradient(145deg, #3a3f5c, #2d3047);
             cursor: pointer;
-            color: #000080;
+            color: #ffffff;
+            transition: all 0.2s;
         }
         
         .tasto-numero:hover {
-            background: #87cefa;
+            background: linear-gradient(145deg, #4a4f6c, #3d4057);
+            transform: translateY(-2px);
         }
         
         .tasto-cancella {
-            background: #ff6b6b;
+            background: linear-gradient(145deg, #ff4757, #ff3742);
             color: white;
             border-color: #dc3545;
             font-size: 1rem;
             width: 70px;
         }
         
-        /* MODALE ISTRUZIONI */
+        .tasto-cancella:hover {
+            background: linear-gradient(145deg, #ff3742, #ff2732);
+        }
+        
+        .risposte-consecutive, .aiuti-utilizzati {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #a0a0c0;
+            font-weight: bold;
+        }
+        
+        .cuore-consecutivo {
+            color: #ff4757;
+            font-size: 1rem;
+        }
+        
+        .icona-aiuto {
+            color: #ffa500;
+            font-size: 1rem;
+        }
+        
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             z-index: 1000;
             display: none;
             justify-content: center;
@@ -387,16 +575,17 @@
         }
         
         .modal-content {
-            background: white;
+            background: linear-gradient(145deg, #2d3047, #1f2235);
             border-radius: 10px;
             padding: 20px;
             width: 90%;
             max-width: 500px;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 3px solid #4a90e2;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            border: 2px solid #4a90e2;
             position: relative;
+            color: white;
         }
         
         .modal-header {
@@ -409,12 +598,12 @@
         }
         
         .modal-title {
-            color: #ff6b00;
+            color: #ffa500;
             font-size: 1.3rem;
         }
         
         .close-modal {
-            background: #dc3545;
+            background: #ff4757;
             color: white;
             border: none;
             border-radius: 50%;
@@ -422,6 +611,7 @@
             height: 30px;
             cursor: pointer;
             font-size: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         
         .modal-section {
@@ -441,12 +631,14 @@
             margin-bottom: 8px;
             line-height: 1.4;
             font-size: 0.9rem;
+            color: #d0d0e0;
         }
         
         .modal-list {
             list-style-type: decimal;
             padding-left: 20px;
             margin: 10px 0;
+            color: #d0d0e0;
         }
         
         .modal-list li {
@@ -463,7 +655,7 @@
         }
         
         .punteggio-item {
-            background: #e6f7ff;
+            background: rgba(74, 144, 226, 0.2);
             padding: 8px;
             border-radius: 6px;
             border: 2px solid #4a90e2;
@@ -477,38 +669,23 @@
             font-size: 1.1rem;
         }
         
-        /* Indicatore risposte consecutive */
-        .risposte-consecutive {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            margin-top: 5px;
-            font-size: 0.8rem;
-            color: #4a90e2;
+        /* Pulsante istruzioni */
+        .istruzioni-btn {
+            padding: 8px 15px;
+            background: linear-gradient(145deg, #ffa500, #ff8c00);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
             font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s;
         }
         
-        .cuore-consecutivo {
-            color: #dc3545;
-            font-size: 1rem;
-        }
-        
-        /* Indicatore aiuti utilizzati */
-        .aiuti-utilizzati {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            margin-top: 5px;
-            font-size: 0.8rem;
-            color: #856404;
-            font-weight: bold;
-        }
-        
-        .icona-aiuto {
-            color: #ffa500;
-            font-size: 1rem;
+        .istruzioni-btn:hover {
+            background: linear-gradient(145deg, #ff8c00, #e67e00);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -526,22 +703,42 @@
                 </button>
             </div>
             
-            <div class="game-info">
-                <div class="punteggio">🌟 <span id="punteggio">0</span> punti</div>
-                <div class="vite">❤️ <span id="vite">3</span> vite</div>
-                <div class="istruzioni-btn" onclick="mostraIstruzioni()" title="Istruzioni del gioco">
-                    📚 Istruzioni
+            <!-- CRUSCOTTO AUTO CON DISPLAY 7 SEGMENTI -->
+            <div class="cruscotto-container">
+                <!-- Display 7 segmenti Punteggio -->
+                <div class="indicatore-cruscotto">
+                    <div class="display-container">
+                        <div class="display-7segmenti giallo" id="punteggio-display">0</div>
+                    </div>
+                    <div class="display-title">PUNTEGGIO</div>
+                </div>
+                
+                <!-- Indicatore Vite -->
+                <div class="info-vite">
+                    <div class="istruzioni-btn" onclick="mostraIstruzioni()" title="Istruzioni del gioco">
+                        📚 Istruzioni
+                    </div>
+                    <div class="vite-container" id="vite-container">
+                        <!-- Le vite verranno aggiunte dinamicamente -->
+                    </div>
+                </div>
+                
+                <!-- Display 7 segmenti Tempo (ridotto del 50%) -->
+                <div class="indicatore-cruscotto">
+                    <div class="display-container">
+                        <div class="display-7segmenti verde tempo" id="tempo-display">10:00</div>
+                    </div>
+                    <div class="display-title">TEMPO</div>
                 </div>
             </div>
             
-            <!-- Indicatore risposte consecutive corrette -->
+            <!-- Indicatori aggiuntivi -->
             <div class="risposte-consecutive" id="risposte-consecutive">
                 <span>Risposte consecutive corrette:</span>
                 <span id="contatore-consecutive">0</span>
                 <span class="cuore-consecutivo">❤️</span>
             </div>
             
-            <!-- Indicatore aiuti utilizzati in questa operazione -->
             <div class="aiuti-utilizzati" id="aiuti-utilizzati">
                 <span>Aiuti utilizzati in questa operazione:</span>
                 <span id="contatore-aiuti">0</span>
@@ -657,7 +854,7 @@
         
         // VARIABILI PER IL PUNTEGGIO DINAMICO
         let aiutiUtilizzatiOperazioneCorrente = 0;
-        let punteggioBaseOperazioneCorrente = 0; // Dipende dal numero di cifre
+        let punteggioBaseOperazioneCorrente = 0;
         let numeroCifreOperazioneCorrente = 0;
         
         let numCifreTotali = 0;
@@ -670,6 +867,116 @@
         let riportiCorretti = [];
         let modalitaRiporto = false;
         let posizioneVirgola = 0;
+        
+        // VARIABILI PER IL TIMER (10 minuti = 600 secondi)
+        let tempoRimanente = 600; // 10 minuti in secondi (inizialmente)
+        let timerInterval;
+        let timerAttivo = false;
+        const TEMPO_TOTALE = 600; // 10 minuti in secondi
+
+        // FUNZIONI PER I DISPLAY 7 SEGMENTI
+        function aggiornaDisplayPunteggio() {
+            const punteggioDisplay = document.getElementById('punteggio-display');
+            
+            // Effetto di scorrimento/aggiornamento
+            punteggioDisplay.style.opacity = '0.7';
+            punteggioDisplay.style.transform = 'scale(1.1) skew(-1deg)';
+            
+            setTimeout(() => {
+                punteggioDisplay.textContent = punteggio;
+                punteggioDisplay.style.opacity = '1';
+                punteggioDisplay.style.transform = 'scale(1) skew(-1deg)';
+                
+                // Effetto cambia colore in base al punteggio
+                if (punteggio >= 150) {
+                    punteggioDisplay.className = 'display-7segmenti giallo';
+                } else if (punteggio >= 100) {
+                    punteggioDisplay.className = 'display-7segmenti verde';
+                } else {
+                    punteggioDisplay.className = 'display-7segmenti giallo';
+                }
+            }, 150);
+        }
+        
+        function aggiornaDisplayTempo() {
+            const tempoDisplay = document.getElementById('tempo-display');
+            const minuti = Math.floor(tempoRimanente / 60);
+            const secondi = tempoRimanente % 60;
+            const tempoFormattato = `${minuti.toString().padStart(2, '0')}:${secondi.toString().padStart(2, '0')}`;
+            
+            // Effetto di scorrimento/aggiornamento
+            tempoDisplay.style.opacity = '0.7';
+            tempoDisplay.style.transform = 'scale(1.05) skew(-1deg)';
+            
+            setTimeout(() => {
+                tempoDisplay.textContent = tempoFormattato;
+                tempoDisplay.style.opacity = '1';
+                tempoDisplay.style.transform = 'scale(1) skew(-1deg)';
+                
+                // Cambia colore quando il tempo è quasi finito
+                if (tempoRimanente <= 60) {
+                    tempoDisplay.style.color = '#ff0000';
+                    tempoDisplay.style.textShadow = '0 0 10px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.4)';
+                    
+                    // Effetto lampeggiante per gli ultimi 10 secondi
+                    if (tempoRimanente <= 10) {
+                        tempoDisplay.style.animation = tempoRimanente % 2 === 0 ? 'none' : 'pulse 0.5s infinite';
+                    }
+                } else if (tempoRimanente <= 180) {
+                    tempoDisplay.style.color = '#ff9900';
+                    tempoDisplay.style.textShadow = '0 0 10px rgba(255, 153, 0, 0.8), 0 0 20px rgba(255, 153, 0, 0.4)';
+                } else {
+                    tempoDisplay.style.color = '#00ff00';
+                    tempoDisplay.style.textShadow = '0 0 10px rgba(0, 255, 0, 0.8), 0 0 20px rgba(0, 255, 0, 0.4)';
+                }
+            }, 150);
+        }
+        
+        function aggiornaViteUI() {
+            const viteContainer = document.getElementById('vite-container');
+            viteContainer.innerHTML = '';
+            
+            for (let i = 0; i < 3; i++) {
+                const vitaDiv = document.createElement('div');
+                vitaDiv.className = `vita ${i < vite ? '' : 'persa'}`;
+                viteContainer.appendChild(vitaDiv);
+            }
+        }
+        
+        function avviaTimer() {
+            if (timerAttivo || gameOver) return;
+            
+            timerAttivo = true;
+            aggiornaDisplayTempo();
+            
+            timerInterval = setInterval(() => {
+                tempoRimanente--;
+                aggiornaDisplayTempo();
+                
+                // Controlla se il tempo è scaduto
+                if (tempoRimanente <= 0) {
+                    fermaTimer();
+                    tempoRimanente = 0;
+                    gameOver = true;
+                    mostraMessaggio(`TEMPO SCADUTO! Punteggio finale: ${punteggio}. Clicca "Nuova" per ricominciare`, "game-over");
+                    document.getElementById("bottone-verifica").disabled = true;
+                    document.getElementById("bottone-aiuto").disabled = true;
+                    aggiornaUI();
+                }
+            }, 1000);
+        }
+        
+        function fermaTimer() {
+            clearInterval(timerInterval);
+            timerAttivo = false;
+        }
+        
+        function resetTimer() {
+            fermaTimer();
+            tempoRimanente = TEMPO_TOTALE;
+            aggiornaDisplayTempo();
+            avviaTimer();
+        }
 
         // FUNZIONE PER GENERARE NUMERI CASUALI MIGLIORI - VERSIONE SEMPLIFICATA
         function generaNumeroCasuale(cifre) {
@@ -694,12 +1001,17 @@
             vite = 3;
             gameOver = false;
             haSbagliatoQuestaOperazione = false;
-            operazioniCorretteConsecutive = 0; // Reset contatore
-            aiutiUtilizzatiOperazioneCorrente = 0; // Reset aiuti
+            operazioniCorretteConsecutive = 0;
+            aiutiUtilizzatiOperazioneCorrente = 0;
             modalitaGioco = 'interi';
             verificaEseguita = false;
-            aggiornaUI();
+            tempoRimanente = TEMPO_TOTALE;
+            
+            aggiornaViteUI();
+            aggiornaDisplayPunteggio();
+            aggiornaDisplayTempo();
             creaTastiera();
+            resetTimer();
             nuovaOperazione();
             
             document.getElementById("bottone-verifica").disabled = false;
@@ -712,7 +1024,7 @@
             modalitaGioco = nuovaModalita;
             verificaEseguita = false;
             haSbagliatoQuestaOperazione = false;
-            aiutiUtilizzatiOperazioneCorrente = 0; // Reset aiuti
+            aiutiUtilizzatiOperazioneCorrente = 0;
             
             document.querySelectorAll('.bottone-modalita').forEach(btn => {
                 btn.classList.remove('attiva');
@@ -733,37 +1045,37 @@
             
             verificaEseguita = false;
             haSbagliatoQuestaOperazione = false;
-            aiutiUtilizzatiOperazioneCorrente = 0; // Reset aiuti per la nuova operazione
+            aiutiUtilizzatiOperazioneCorrente = 0;
             nascondiMessaggio();
             
             if (modalitaGioco === 'interi') {
-                // Genera numeri con 2-5 cifre
-                const cifre = Math.floor(Math.random() * 4) + 2; // 2-5 cifre
+                const cifre = Math.floor(Math.random() * 4) + 2;
                 numeroCifreOperazioneCorrente = cifre;
+                punteggioBaseOperazioneCorrente = cifre;
                 
-                // Imposta il punteggio base in base al numero di cifre
-                punteggioBaseOperazioneCorrente = cifre; // 2, 3, 4 o 5 punti max
-                
-                // Genera due numeri casuali
                 numero1 = generaNumeroCasuale(cifre);
                 numero2 = generaNumeroCasuale(cifre);
-                
-                // Calcola il risultato
                 risultatoCorretto = numero1 + numero2;
                 
-                // Assicurati che il risultato abbia al massimo 6 cifre (5+1 per riporto finale)
+                // CORREZIONE: garantire che il risultato abbia sempre una cifra in più se necessario
                 const cifreRisultato = risultatoCorretto.toString().length;
+                if (cifreRisultato > cifre) {
+                    // Se il risultato ha più cifre dei numeri originali,
+                    // aumentiamo il numero di cifre totali
+                    numeroCifreOperazioneCorrente = cifreRisultato;
+                    punteggioBaseOperazioneCorrente = cifreRisultato;
+                }
+                
+                // Limita il risultato a 6 cifre per evitare overflow
                 if (cifreRisultato > 6) {
-                    // Se troppo grande, riduci il secondo numero
                     const differenza = risultatoCorretto - Math.pow(10, 6);
                     numero2 = Math.max(1, numero2 - differenza - 1);
                     risultatoCorretto = numero1 + numero2;
                 }
                 
             } else {
-                // Numeri decimali - consideriamo 3 cifre (es: 12,34 ha 2 cifre intere + 2 decimali)
-                numeroCifreOperazioneCorrente = 3; // Consideriamo un livello medio
-                punteggioBaseOperazioneCorrente = 3; // 3 punti max per i decimali
+                numeroCifreOperazioneCorrente = 3;
+                punteggioBaseOperazioneCorrente = 3;
                 
                 numero1 = generaNumeroDecimale();
                 numero2 = generaNumeroDecimale();
@@ -776,14 +1088,12 @@
             
             preparaNumeriPerColonna();
             
-            // Inizia dall'ultima colonna (più a destra)
             colonnaAttiva = numCifreTotali - 1;
             modalitaRiporto = false;
             
             aggiornaColonna();
             document.getElementById("bottone-verifica").disabled = false;
             
-            // Aggiorna l'indicatore degli aiuti
             aggiornaUI();
         }
 
@@ -795,10 +1105,9 @@
                 str2 = numero2.toString();
                 strRisultato = risultatoCorretto.toString();
                 
-                // Calcola la lunghezza massima tra tutti e tre i numeri
+                // CORREZIONE: usiamo sempre la lunghezza del risultato come riferimento
+                // per garantire che ci siano abbastanza colonne per tutte le cifre
                 const maxLength = Math.max(str1.length, str2.length, strRisultato.length);
-                
-                // Usa la lunghezza massima per tutte le cifre
                 str1 = str1.padStart(maxLength, '0');
                 str2 = str2.padStart(maxLength, '0');
                 strRisultato = strRisultato.padStart(maxLength, '0');
@@ -824,8 +1133,8 @@
                 const parteRis = strRisultato.replace('.', '');
                 
                 const maxLength = Math.max(parte1.length, parte2.length, parteRis.length);
-                numCifreTotali = maxLength + 1; // +1 per la virgola
-                posizioneVirgola = maxLength - 2; // Posizione della virgola
+                numCifreTotali = maxLength + 1;
+                posizioneVirgola = maxLength - 2;
                 
                 cifreNumero1 = new Array(numCifreTotali).fill("");
                 cifreNumero2 = new Array(numCifreTotali).fill("");
@@ -867,10 +1176,9 @@
                 }
             }
             
-            // Se c'è un riporto finale (oltre la colonna più a sinistra),
-            // aggiungi una colonna extra
+            // CORREZIONE: se c'è un riporto finale, dobbiamo aggiungere una cifra
             if (riporto > 0) {
-                // Aggiungi una colonna a sinistra per il riporto finale
+                // Aggiungiamo una cifra all'inizio di tutti gli array
                 cifreNumero1.unshift("0");
                 cifreNumero2.unshift("0");
                 cifreRisultato.unshift("");
@@ -907,16 +1215,34 @@
                     }
                 }
             }
+            
+            // CORREZIONE: per i decimali, se c'è un riporto finale, dobbiamo aggiungere una cifra
+            if (riporto > 0) {
+                // Aggiungiamo una cifra all'inizio (prima della virgola)
+                // Troviamo la posizione della virgola
+                let idxVirgola = cifreNumero1.indexOf(",");
+                
+                // Inseriamo una cifra all'inizio
+                cifreNumero1.unshift("0");
+                cifreNumero2.unshift("0");
+                cifreRisultato.unshift("");
+                cifreRiporto.unshift("");
+                risultatiCorretti.unshift(riporto);
+                riportiCorretti.unshift(0);
+                
+                // Aggiorniamo la posizione della virgola
+                posizioneVirgola++;
+                numCifreTotali++;
+            }
         }
 
         // VISUALIZZAZIONE
         function aggiornaUI() {
-            document.getElementById("punteggio").textContent = punteggio;
-            document.getElementById("vite").textContent = vite;
+            aggiornaDisplayPunteggio();
+            aggiornaViteUI();
             document.getElementById("contatore-consecutive").textContent = operazioniCorretteConsecutive;
             document.getElementById("contatore-aiuti").textContent = aiutiUtilizzatiOperazioneCorrente;
             
-            // Mostra/nascondi l'indicatore di risposte consecutive
             const indicatoreConsecutive = document.getElementById("risposte-consecutive");
             if (operazioniCorretteConsecutive > 0) {
                 indicatoreConsecutive.style.display = "flex";
@@ -924,7 +1250,6 @@
                 indicatoreConsecutive.style.display = "none";
             }
             
-            // Mostra/nascondi l'indicatore degli aiuti
             const indicatoreAiuti = document.getElementById("aiuti-utilizzati");
             if (aiutiUtilizzatiOperazioneCorrente > 0) {
                 indicatoreAiuti.style.display = "flex";
@@ -932,7 +1257,6 @@
                 indicatoreAiuti.style.display = "none";
             }
             
-            // Aggiorna il testo del bottone aiuto
             document.getElementById("bottone-aiuto").innerHTML = `🧠 Aiuto (-2 punti)`;
         }
 
@@ -940,34 +1264,30 @@
             const colonnaContainer = document.getElementById("colonna-container");
             colonnaContainer.innerHTML = "";
             
-            // Riga riporti
             const rigaRiporti = document.createElement("div");
             rigaRiporti.className = "riga-colonna riga-riporti";
             
-            // Riga primo numero
             const rigaNumero1 = document.createElement("div");
             rigaNumero1.className = "riga-colonna";
             
-            // Riga secondo numero
             const rigaNumero2 = document.createElement("div");
             rigaNumero2.className = "riga-colonna";
             rigaNumero2.innerHTML = '<div class="spazio-segno">+</div>';
             
-            // Linea divisione (NERA)
             const linea = document.createElement("div");
             linea.className = "linea-divisione";
             
-            // Riga risultato
             const rigaRisultato = document.createElement("div");
             rigaRisultato.className = "riga-colonna";
             
+            // CORREZIONE: assicuriamoci che ci sia esattamente una casella per ogni cifra
             for (let i = 0; i < numCifreTotali; i++) {
-                // RIPORTI
+                // Cella per i riporti
                 if (i === numCifreTotali - 1) {
-                    // Ultima colonna (unità) non ha riporto a destra
+                    // Ultima colonna: cella nascosta per allineamento
                     rigaRiporti.innerHTML += '<div class="cella-riporto" style="visibility: hidden;"></div>';
                 } else if (modalitaGioco === 'decimali' && i === posizioneVirgola) {
-                    // Posizione della virgola per decimali
+                    // Se è la posizione della virgola, cella nascosta
                     rigaRiporti.innerHTML += '<div class="cella-riporto" style="visibility: hidden;"></div>';
                 } else {
                     let valoreRiporto = "";
@@ -985,21 +1305,21 @@
                          </div>`;
                 }
                 
-                // Primo numero
+                // Cella per il primo numero
                 if (modalitaGioco === 'decimali' && i === posizioneVirgola) {
                     rigaNumero1.innerHTML += `<div class="cella-virgola">,</div>`;
                 } else {
                     rigaNumero1.innerHTML += `<div class="cella-numero">${cifreNumero1[i]}</div>`;
                 }
                 
-                // Secondo numero
+                // Cella per il secondo numero
                 if (modalitaGioco === 'decimali' && i === posizioneVirgola) {
                     rigaNumero2.innerHTML += `<div class="cella-virgola">,</div>`;
                 } else {
                     rigaNumero2.innerHTML += `<div class="cella-numero">${cifreNumero2[i]}</div>`;
                 }
                 
-                // Risultato
+                // Cella per il risultato
                 const isAttiva = colonnaAttiva === i && !modalitaRiporto;
                 
                 if (modalitaGioco === 'decimali' && i === posizioneVirgola) {
@@ -1013,14 +1333,13 @@
                 }
             }
             
-            // Aggiungi tutte le righe al container
             colonnaContainer.appendChild(rigaRiporti);
             colonnaContainer.appendChild(rigaNumero1);
             colonnaContainer.appendChild(rigaNumero2);
             colonnaContainer.appendChild(linea);
             colonnaContainer.appendChild(rigaRisultato);
             
-            // Regola la lunghezza della linea nera in base al numero di cifre
+            // Aggiorna la larghezza della linea di divisione
             const lineaDiv = document.querySelector('.linea-divisione');
             const larghezzaLinea = (numCifreTotali * 35) + ((numCifreTotali - 1) * 5);
             lineaDiv.style.width = `${larghezzaLinea}px`;
@@ -1083,7 +1402,6 @@
                 calcolaRisultatiCorrettiDecimali();
             }
             
-            // Controlla se l'operazione è corretta
             let tuttoCorretto = true;
             for (let i = 0; i < numCifreTotali; i++) {
                 if (modalitaGioco === 'decimali' && i === posizioneVirgola) continue;
@@ -1096,7 +1414,6 @@
                 }
             }
             
-            // Controlla i riporti
             for (let i = 0; i < numCifreTotali; i++) {
                 if (modalitaGioco === 'decimali' && i === posizioneVirgola) continue;
                 if (i === numCifreTotali - 1) continue;
@@ -1136,22 +1453,17 @@
             if (modalitaGioco === 'decimali' && colonnaAttiva === posizioneVirgola) return;
             
             if (modalitaRiporto) {
-                // Inserimento riporto
                 if (cifra === 0 || cifra === 1) {
                     cifreRiporto[colonnaAttiva] = cifra.toString();
-                    
-                    // Dopo il riporto, resta sulla stessa colonna per il risultato
                     modalitaRiporto = false;
                 } else {
                     mostraMessaggio("Il riporto può essere solo 0 o 1", "errato");
                     return;
                 }
             } else {
-                // Inserimento cifra risultato
                 if (cifra >= 0 && cifra <= 9) {
                     cifreRisultato[colonnaAttiva] = cifra.toString();
                     
-                    // Calcola se c'è bisogno di riporto
                     const cifra1 = parseInt(cifreNumero1[colonnaAttiva]) || 0;
                     const cifra2 = parseInt(cifreNumero2[colonnaAttiva]) || 0;
                     const riportoIn = parseInt(cifreRiporto[colonnaAttiva]) || 0;
@@ -1159,7 +1471,6 @@
                     
                     const nuovoRiporto = Math.floor(somma / 10);
                     
-                    // Vai alla colonna precedente (a sinistra)
                     let precedente = colonnaAttiva - 1;
                     
                     if (modalitaGioco === 'decimali') {
@@ -1175,7 +1486,6 @@
                             modalitaRiporto = true;
                         }
                     } else {
-                        // Ultima colonna completata
                         mostraMessaggio("Operazione completata! Premi VERIFICA", "info");
                     }
                 } else {
@@ -1206,20 +1516,15 @@
                 return;
             }
             
-            // Controlla se ha abbastanza punti (non può andare troppo in negativo PRIMA dell'operazione)
-            // Permettiamo comunque l'aiuto, ma segnaliamo che potrebbe finire con 0 punti
             if (punteggio <= 0 && aiutiUtilizzatiOperazioneCorrente >= 1) {
                 mostraMessaggio("Attenzione! Potresti finire con 0 punti per questa operazione!", "errato");
                 return;
             }
             
-            // Incrementa contatore aiuti
             aiutiUtilizzatiOperazioneCorrente++;
             
-            // Calcola quanti punti verrebbero sottratti
             const puntiDaSottrarre = 2;
             
-            // Mostra il messaggio di aiuto
             if (modalitaRiporto) {
                 const riportoCorretto = riportiCorretti[colonnaAttiva] || 0;
                 if (riportoCorretto === 1) {
@@ -1232,14 +1537,12 @@
                 mostraMessaggio(`Aiuto: risultato = ${risultatoCorrettoColonna} (-${puntiDaSottrarre} punti, totale aiuti: ${aiutiUtilizzatiOperazioneCorrente})`, "info");
             }
             
-            // Aggiorna UI
             aggiornaUI();
         }
 
         function verificaOperazione() {
             if (gameOver) return;
             
-            // Controlla se tutte le caselle sono state riempite
             let tuttePiene = true;
             for (let i = 0; i < numCifreTotali; i++) {
                 if (modalitaGioco === 'decimali' && i === posizioneVirgola) continue;
@@ -1255,22 +1558,15 @@
                 return;
             }
             
-            // Controlla se l'operazione è corretta
             const tuttoCorretto = controllaSeCorretto();
             
             if (tuttoCorretto) {
-                // CALCOLA IL PUNTEGGIO FINALE PER QUESTA OPERAZIONE
-                // Punteggio base (dipende dal numero di cifre) - (aiuti * 2)
                 const puntiGuadagnati = punteggioBaseOperazioneCorrente - (aiutiUtilizzatiOperazioneCorrente * 2);
-                
-                // Il punteggio NON può essere negativo per questa operazione
                 const puntiFinali = Math.max(0, puntiGuadagnati);
                 
-                // Aggiungi al punteggio totale
                 punteggio += puntiFinali;
                 operazioniCorretteConsecutive++;
                 
-                // Prepara il messaggio
                 let messaggioPunti = `✓ Corretto!`;
                 if (puntiFinali > 0) {
                     messaggioPunti += ` +${puntiFinali} punti`;
@@ -1284,10 +1580,9 @@
                     messaggioPunti += ` (decimali, ${aiutiUtilizzatiOperazioneCorrente} aiuti)`;
                 }
                 
-                // RECUPERA UNA VITA OGNI 5 RISPOSTE CONSECUTIVE CORRETTE
                 if (operazioniCorretteConsecutive >= 5 && vite < 3) {
                     vite++;
-                    operazioniCorretteConsecutive = 0; // Reset contatore dopo aver dato la vita
+                    operazioniCorretteConsecutive = 0;
                     messaggioPunti += ` 🎉 5 risposte consecutive! Vita recuperata!`;
                 }
                 
@@ -1295,10 +1590,8 @@
                 setTimeout(nuovaOperazione, 2000);
                 verificaEseguita = true;
             } else {
-                // Reset contatore risposte consecutive se sbaglia
                 operazioniCorretteConsecutive = 0;
                 
-                // Se è la prima volta che sbaglia questa operazione
                 if (!haSbagliatoQuestaOperazione) {
                     vite--;
                     haSbagliatoQuestaOperazione = true;
@@ -1306,6 +1599,7 @@
                     
                     if (vite <= 0) {
                         gameOver = true;
+                        fermaTimer();
                         mostraMessaggio(`GAME OVER! Punteggio finale: ${punteggio}. Clicca "Nuova" per ricominciare`, "game-over");
                         document.getElementById("bottone-verifica").disabled = true;
                         document.getElementById("bottone-aiuto").disabled = true;
@@ -1330,6 +1624,16 @@
                 document.getElementById('modal-overlay').style.display = 'none';
             }
         }
+        
+        // Aggiungiamo una animazione pulse per l'effetto lampeggiante
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.3; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
