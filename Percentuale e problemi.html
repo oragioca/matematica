@@ -844,6 +844,31 @@
             font-size: 0.75rem;
         }
         
+        /* Nuovo indicatore errori */
+        .errori-indicatore {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            font-size: 0.7rem;
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        
+        .pallino-errore {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #3a3f5c;
+            border: 1px solid #ff4757;
+        }
+        
+        .pallino-errore.attivo {
+            background: #ff4757;
+            box-shadow: 0 0 5px rgba(255, 71, 87, 0.8);
+        }
+        
         /* MEDIA QUERIES PER MOBILE */
         @media (max-width: 768px) {
             body {
@@ -991,6 +1016,15 @@
                 font-size: 0.75rem;
                 margin: 4px auto;
             }
+            
+            .errori-indicatore {
+                font-size: 0.65rem;
+            }
+            
+            .pallino-errore {
+                width: 10px;
+                height: 10px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1111,6 +1145,15 @@
             .modal-content {
                 padding: 8px;
             }
+            
+            .errori-indicatore {
+                font-size: 0.6rem;
+            }
+            
+            .pallino-errore {
+                width: 9px;
+                height: 9px;
+            }
         }
         
         @media (max-width: 360px) {
@@ -1204,6 +1247,15 @@
             </div>
             
             <div class="vite-container" id="vite-container"></div>
+            
+            <!-- Nuovo indicatore errori -->
+            <div class="errori-indicatore" id="errori-indicatore">
+                <span>Errori consecutivi:</span>
+                <div class="pallino-errore" id="errore-1"></div>
+                <div class="pallino-errore" id="errore-2"></div>
+                <div class="pallino-errore" id="errore-3"></div>
+                <span>(perdi 1 vita al 3° errore)</span>
+            </div>
             
             <div class="risposte-consecutive" id="risposte-consecutive">
                 <span>Risposte consecutive corrette:</span>
@@ -1302,8 +1354,8 @@
                         <div class="value">-2 punti ciascuno</div>
                     </div>
                     <div class="punteggio-item">
-                        <div>Errore:</div>
-                        <div class="value">-1 vita</div>
+                        <div>Errori consecutivi:</div>
+                        <div class="value">-1 vita ogni 3 errori</div>
                     </div>
                     <div class="punteggio-item">
                         <div>5 risposte corrette consecutive:</div>
@@ -1312,6 +1364,7 @@
                 </div>
                 <p><strong>⚠️ Attenzione:</strong> Se usi troppi aiuti, potresti finire con 0 punti per quella domanda!</p>
                 <p><strong>✨ Bonus Vita:</strong> Ogni 5 risposte consecutive corrette, recuperi una vita (massimo 3 vite).</p>
+                <p><strong>🔄 Sistema Errori:</strong> Perdi una vita solo dopo 3 errori consecutivi. Ogni risposta corretta resetta il contatore errori.</p>
             </div>
             
             <div class="modal-section">
@@ -1355,6 +1408,9 @@
         
         let timeoutBenvenuto = null;
         let giocoIniziato = false;
+        
+        // NUOVA VARIABILE: contatore errori consecutivi
+        let erroriConsecutivi = 0;
         
         // NUOVO ARRAY DI DOMANDE INVALSI PER QUINTA PRIMARIA
         const domande = {
@@ -1905,6 +1961,23 @@
             }
         }
         
+        // NUOVA FUNZIONE: aggiorna indicatore errori
+        function aggiornaIndicatoreErrori() {
+            const errore1 = document.getElementById('errore-1');
+            const errore2 = document.getElementById('errore-2');
+            const errore3 = document.getElementById('errore-3');
+            
+            // Resetta tutti
+            errore1.className = 'pallino-errore';
+            errore2.className = 'pallino-errore';
+            errore3.className = 'pallino-errore';
+            
+            // Attiva quelli necessari
+            if (erroriConsecutivi >= 1) errore1.className = 'pallino-errore attivo';
+            if (erroriConsecutivi >= 2) errore2.className = 'pallino-errore attivo';
+            if (erroriConsecutivi >= 3) errore3.className = 'pallino-errore attivo';
+        }
+        
         function avviaTimer() {
             if (timerAttivo || gameOver) return;
             
@@ -1955,6 +2028,9 @@
             giocoIniziato = false;
             opzioneSelezionata = null;
             rispostaAperta = "";
+            
+            // NUOVO: reset contatore errori
+            erroriConsecutivi = 0;
             
             // Inizializza audio
             if (!audioInizializzato) {
@@ -2413,6 +2489,9 @@
                 punteggio += puntiFinali;
                 operazioniCorretteConsecutive++;
                 
+                // NUOVO: reset errori consecutivi quando la risposta è corretta
+                erroriConsecutivi = 0;
+                
                 let messaggioPunti = `✓ Corretto!`;
                 
                 if (domandaCorrente.difficolta >= 3) {
@@ -2446,25 +2525,40 @@
                 operazioniCorretteConsecutive = 0;
                 
                 if (!haSbagliatoQuestaDomanda) {
-                    vite--;
                     haSbagliatoQuestaDomanda = true;
                     verificaEseguita = false;
                     
-                    if (vite <= 0) {
-                        gameOver = true;
-                        fermaTimer();
+                    // NUOVO: sistema errori consecutivi (1 vita ogni 3 errori)
+                    erroriConsecutivi++;
+                    
+                    // Controlla se è il 3° errore consecutivo
+                    if (erroriConsecutivi >= 3) {
+                        vite--;
+                        erroriConsecutivi = 0; // Reset dopo aver perso una vita
                         
-                        playAhiSound();
-                        
-                        mostraMessaggio(`AHI! GAME OVER! Punteggio finale: ${punteggio}. Clicca "Nuova" per ricominciare`, "ahi", true);
-                        document.getElementById("bottone-verifica").disabled = true;
-                        document.getElementById("bottone-aiuto").disabled = true;
-                    } else {
-                        if (domandaCorrente.difficolta >= 2) {
+                        if (vite <= 0) {
+                            gameOver = true;
+                            fermaTimer();
+                            
                             playAhiSound();
-                            mostraMessaggio(`AHI! Hai perso una vita! Vite rimaste: ${vite}`, "ahi", true);
+                            
+                            mostraMessaggio(`AHI! GAME OVER! 3 errori consecutivi! Punteggio finale: ${punteggio}. Clicca "Nuova" per ricominciare`, "ahi", true);
+                            document.getElementById("bottone-verifica").disabled = true;
+                            document.getElementById("bottone-aiuto").disabled = true;
                         } else {
-                            mostraMessaggio(`Ahi! Hai perso una vita! Vite rimaste: ${vite}`, "errato");
+                            if (domandaCorrente.difficolta >= 2) {
+                                playAhiSound();
+                                mostraMessaggio(`AHI! 3 errori consecutivi! Hai perso una vita! Vite rimaste: ${vite}`, "ahi", true);
+                            } else {
+                                mostraMessaggio(`Ahi! 3 errori consecutivi! Hai perso una vita! Vite rimaste: ${vite}`, "errato");
+                            }
+                        }
+                    } else {
+                        // Mostra solo messaggio di errore (non perdi vite)
+                        if (domandaCorrente.difficolta >= 2) {
+                            mostraMessaggio(`Errore! (${erroriConsecutivi}/3 errori consecutivi)`, "errato");
+                        } else {
+                            mostraMessaggio(`La risposta non è corretta. (${erroriConsecutivi}/3 errori consecutivi)`, "errato");
                         }
                     }
                 } else {
@@ -2531,6 +2625,8 @@
         function aggiornaUI() {
             aggiornaDisplayPunteggio();
             aggiornaViteUI();
+            aggiornaIndicatoreErrori(); // NUOVO: aggiorna indicatore errori
+            
             document.getElementById("contatore-consecutive").textContent = operazioniCorretteConsecutive;
             document.getElementById("contatore-aiuti").textContent = aiutiUtilizzatiDomandaCorrente;
             
