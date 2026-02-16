@@ -4,6 +4,4 @@ Repository con giochi didattici per la quinta classe della scuola primaria per l
 
 **Dati REDMI**: Materiali formativi e risorse per alunni e insegnanti.
 
-**Link sito**: https://rguzzi75-dotcom.github.io/lezioni-PNRR/
-
 **Link sito**: (https://oragioca.github.io/matematica/)
