@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisioni in Colonna - Touch & Drag</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            touch-action: manipulation;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            max-height: 98vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4facfe;
+            margin-bottom: 4px;
+            font-size: 1.2em;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 4px;
+            padding: 4px;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-label {
+            font-size: 0.65em;
+            opacity: 0.9;
+        }
+
+        .score-value {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #4facfe;
+            margin: 2px 0;
+        }
+
+        .phase-indicator {
+            text-align: center;
+            padding: 2px 4px;
+            margin: 2px 0;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 8px;
+            font-size: 0.7em;
+            font-weight: bold;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        /* PANNELLO CIFRE OTTIMIZZATO PER TOUCH */
+        .digits-panel {
+            background: #e3f2fd;
+            padding: 6px;
+            border-radius: 10px;
+            margin: 4px 0;
+            text-align: center;
+        }
+
+        .digits-title {
+            font-size: 0.7em;
+            color: #666;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .digits-container {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 5px;
+            min-height: 60px;
+            touch-action: none;
+        }
+
+        /* CIFRE PIÙ GRANDI PER TOUCH */
+        .digit-tile {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+            font-family: 'Courier New', monospace;
+            touch-action: none;
+            position: relative;
+        }
+
+        .digit-tile:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .digit-tile.selected {
+            transform: scale(0.9);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 0 15px rgba(245, 87, 108, 0.5);
+            z-index: 100;
+        }
+
+        .digit-tile.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ZONE DI DROP PIÙ GRANDE */
+        .drop-zone {
+            width: 40px;
+            height: 40px;
+            border: 3px dashed #4facfe;
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            margin: 2px;
+            touch-action: none;
+        }
+
+        .drop-zone.touch-hover {
+            background: #e3f2fd;
+            border-color: #1976d2;
+            border-style: solid;
+            transform: scale(1.1);
+        }
+
+        .drop-zone.filled {
+            background: #e8f5e9;
+            border-color: #43e97b;
+            border-style: solid;
+        }
+
+        .drop-zone.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .drop-zone.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            animation: shake 0.3s;
+        }
+
+        /* ZONE PIÙ PICCOLE PER I CALCOLI */
+        .drop-zone-small {
+            width: 35px;
+            height: 35px;
+            border: 2px dashed #43e97b;
+            border-radius: 6px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            font-weight: bold;
+            margin: 1px;
+            touch-action: none;
+        }
+
+        .drop-zone-result {
+            width: 32px;
+            height: 32px;
+            border: 2px dashed #ffc107;
+            border-radius: 6px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            font-weight: bold;
+            margin: 1px;
+            touch-action: none;
+        }
+
+        /* PULSANTI PIÙ GRANDI PER TOUCH */
+        .button-group {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 16px;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            min-width: 120px;
+            touch-action: manipulation;
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* MESSAGGI */
+        .message {
+            text-align: center;
+            padding: 8px;
+            margin-top: 8px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message.show {
+            opacity: 1;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .message.points {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* TOUCH FEEDBACK */
+        .touch-feedback {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: rgba(79, 172, 254, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            transform: translate(-50%, -50%);
+            animation: pulse 0.5s forwards;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                margin: 5px;
+                max-height: 95vh;
+            }
+            
+            h1 {
+                font-size: 1.1em;
+            }
+            
+            .digit-tile {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4em;
+            }
+            
+            .drop-zone {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2em;
+            }
+            
+            .drop-zone-small {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .drop-zone-result {
+                width: 38px;
+                height: 38px;
+            }
+            
+            button {
+                min-width: 140px;
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .digits-container {
+                gap: 10px;
+            }
+            
+            .button-group {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1em;
+            }
+            
+            .digit-tile {
+                width: 42px;
+                height: 42px;
+                font-size: 1.2em;
+            }
+            
+            .digits-container {
+                gap: 6px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 90%;
+                max-width: 250px;
+            }
+        }
+
+        /* REST OF YOUR EXISTING STYLES REMAIN THE SAME */
+        .division-area { /* ... keep existing styles ... */ }
+        .division-classic { /* ... keep existing styles ... */ }
+        .division-header { /* ... keep existing styles ... */ }
+        .dividend-box { /* ... keep existing styles ... */ }
+        .dividend-digit { /* ... keep existing styles ... */ }
+        .divisor-box { /* ... keep existing styles ... */ }
+        .quotient-box { /* ... keep existing styles ... */ }
+        .work-column { /* ... keep existing styles ... */ }
+        .step-row { /* ... keep existing styles ... */ }
+        .step-label { /* ... keep existing styles ... */ }
+        .calculation-line { /* ... keep existing styles ... */ }
+        .calc-row { /* ... keep existing styles ... */ }
+        .number-display { /* ... keep existing styles ... */ }
+        .operation-sign { /* ... keep existing styles ... */ }
+        .subtraction-box { /* ... keep existing styles ... */ }
+        .tooltip { /* ... keep existing styles ... */ }
+        @keyframes shake { /* ... keep existing styles ... */ }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Divisioni in Colonna - Touch & Drag 🎯</h1>
+        
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">Punteggio</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Operazioni</div>
+                <div class="score-value" id="operations">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Streak 🔥</div>
+                <div class="score-value" id="streak">0</div>
+            </div>
+        </div>
+
+        <div class="timer" id="timer">Tempo: 0s</div>
+
+        <div class="digits-panel">
+            <div class="digits-title">👆 Tocca una cifra, poi tocca una casella vuota:</div>
+            <div class="digits-container" id="digitsContainer"></div>
+        </div>
+
+        <div class="division-area">
+            <div class="phase-indicator" id="phaseIndicator">Seleziona una cifra e tocca una casella!</div>
+            <div style="display: flex; justify-content: center;">
+                <div id="operation"></div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-check" id="checkBtn">✅ Controlla</button>
+            <button class="btn-reset" id="resetBtn">🔄 Ricomincia</button>
+            <button class="btn-new" id="newBtn">🆕 Nuova Divisione</button>
+            <button class="btn-hint" id="hintBtn">💡 Aiuto</button>
+        </div>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        // VARIABILI GLOBALI
+        let dividend, divisor, quotient, remainder;
+        let startTime, timerInterval;
+        let score = 0, operations = 0, streak = 0;
+        let divisionSteps = [];
+        let selectedDigitTile = null;
+        let usedDigits = new Set();
+
+        // TOUCH SUPPORT
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isDragging = false;
+
+        // FUNZIONI DEL GIOCO (LE STESSE DI PRIMA)
+        function generateDivision() {
+            divisor = Math.floor(Math.random() * 8) + 2;
+            quotient = Math.floor(Math.random() * 90) + 10;
+            remainder = Math.floor(Math.random() * divisor);
+            dividend = quotient * divisor + remainder;
+            
+            if (dividend > 999) {
+                quotient = Math.floor(Math.random() * 90) + 10;
+                remainder = Math.floor(Math.random() * divisor);
+                dividend = quotient * divisor + remainder;
+            }
+            
+            calculateSteps();
+        }
+
+        function calculateSteps() {
+            // ... (same as before)
+            divisionSteps = [];
+            const dividendStr = dividend.toString();
+            const quotientStr = quotient.toString();
+            let currentNumber = 0;
+            let position = 0;
+            let digitIndex = 0;
+            
+            let firstDigits = [];
+            while (currentNumber < divisor && digitIndex < dividendStr.length) {
+                firstDigits.push(digitIndex);
+                currentNumber = currentNumber * 10 + parseInt(dividendStr[digitIndex]);
+                digitIndex++;
+            }
+            
+            if (currentNumber >= divisor) {
+                const quotientDigit = parseInt(quotientStr[position]);
+                const product = quotientDigit * divisor;
+                const partialRemainder = currentNumber - product;
+                
+                divisionSteps.push({
+                    numberToDivide: currentNumber,
+                    quotientDigit: quotientDigit,
+                    product: product,
+                    remainder: partialRemainder,
+                    digitsTaken: digitIndex,
+                    highlightDigits: firstDigits,
+                    isFirst: true
+                });
+                
+                currentNumber = partialRemainder;
+                position++;
+            }
+            
+            for (let i = digitIndex; i < dividendStr.length; i++) {
+                currentNumber = currentNumber * 10 + parseInt(dividendStr[i]);
+                const quotientDigit = parseInt(quotientStr[position]);
+                const product = quotientDigit * divisor;
+                const partialRemainder = currentNumber - product;
+                
+                divisionSteps.push({
+                    numberToDivide: currentNumber,
+                    quotientDigit: quotientDigit,
+                    product: product,
+                    remainder: partialRemainder,
+                    digitsTaken: 1,
+                    digitBroughtDown: dividendStr[i],
+                    highlightDigits: [i],
+                    isFirst: false
+                });
+                
+                currentNumber = partialRemainder;
+                position++;
+            }
+        }
+
+        function calculateNeededDigits() {
+            const neededDigits = [];
+            
+            const quotientStr = quotient.toString();
+            for (let digit of quotientStr) {
+                neededDigits.push(digit);
+            }
+            
+            divisionSteps.forEach(step => {
+                neededDigits.push(step.quotientDigit.toString());
+                neededDigits.push(step.quotientDigit.toString());
+                
+                const productStr = step.product.toString();
+                for (let digit of productStr) {
+                    neededDigits.push(digit);
+                }
+                
+                for (let digit of productStr) {
+                    neededDigits.push(digit);
+                }
+                
+                const remainderStr = step.remainder.toString();
+                for (let digit of remainderStr) {
+                    neededDigits.push(digit);
+                }
+            });
+            
+            return neededDigits;
+        }
+
+        // TOUCH VERSION OF DIGIT TILES
+        function renderDigitTiles() {
+            const container = document.getElementById('digitsContainer');
+            container.innerHTML = '';
+            
+            const neededDigits = calculateNeededDigits();
+            
+            neededDigits.forEach((digit, index) => {
+                const tile = document.createElement('div');
+                tile.className = 'digit-tile';
+                tile.textContent = digit;
+                tile.dataset.digit = digit;
+                tile.dataset.tileId = `tile-${digit}-${index}`;
+                
+                // TOUCH EVENTS
+                tile.addEventListener('touchstart', handleTouchStart, { passive: true });
+                tile.addEventListener('touchend', handleTouchEnd, { passive: true });
+                tile.addEventListener('touchmove', handleTouchMove, { passive: true });
+                
+                // MOUSE EVENTS (for desktop)
+                tile.addEventListener('mousedown', handleMouseDown);
+                tile.addEventListener('click', handleTileClick);
+                
+                container.appendChild(tile);
+            });
+        }
+
+        function handleTouchStart(e) {
+            if (e.target.classList.contains('used')) {
+                return;
+            }
+            
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            
+            selectDigitTile(e.target);
+            e.preventDefault();
+        }
+
+        function handleTouchMove(e) {
+            if (!selectedDigitTile) return;
+            
+            const touch = e.touches[0];
+            const deltaX = Math.abs(touch.clientX - touchStartX);
+            const deltaY = Math.abs(touch.clientY - touchStartY);
+            
+            if (deltaX > 10 || deltaY > 10) {
+                isDragging = true;
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (!selectedDigitTile) return;
+            
+            if (!isDragging) {
+                // Simple tap - just select the tile
+                selectDigitTile(selectedDigitTile);
+            }
+            
+            isDragging = false;
+        }
+
+        function handleMouseDown(e) {
+            if (e.target.classList.contains('used')) {
+                return;
+            }
+            
+            selectDigitTile(e.target);
+            e.preventDefault();
+        }
+
+        function handleTileClick(e) {
+            if (e.target.classList.contains('used')) {
+                return;
+            }
+            
+            selectDigitTile(e.target);
+        }
+
+        function selectDigitTile(tile) {
+            // Deselect previous tile
+            if (selectedDigitTile) {
+                selectedDigitTile.classList.remove('selected');
+            }
+            
+            // Select new tile
+            selectedDigitTile = tile;
+            tile.classList.add('selected');
+            
+            showMessage(`Selezionato: ${tile.textContent}. Tocca una casella vuota!`, 'points');
+        }
+
+        // SETUP TOUCH FOR DROP ZONES
+        function setupDropZones() {
+            const dropZones = document.querySelectorAll('.drop-zone, .drop-zone-small, .drop-zone-result');
+            
+            dropZones.forEach(zone => {
+                // Clear previous events
+                zone.replaceWith(zone.cloneNode(true));
+            });
+            
+            // Re-select after clone
+            document.querySelectorAll('.drop-zone, .drop-zone-small, .drop-zone-result').forEach(zone => {
+                // TOUCH EVENTS
+                zone.addEventListener('touchstart', handleZoneTouch, { passive: true });
+                zone.addEventListener('touchmove', handleZoneTouchMove, { passive: true });
+                zone.addEventListener('touchend', handleZoneTouchEnd, { passive: true });
+                
+                // MOUSE EVENTS
+                zone.addEventListener('mouseover', handleZoneMouseOver);
+                zone.addEventListener('mouseout', handleZoneMouseOut);
+                zone.addEventListener('click', handleZoneClick);
+                
+                zone.addEventListener('click', function() {
+                    const stepIdx = this.dataset.step;
+                    if (stepIdx !== undefined) {
+                        const stepRow = document.querySelector(`.step-row[data-step="${stepIdx}"]`);
+                        if (stepRow) {
+                            const digits = stepRow.dataset.digits;
+                            if (digits) {
+                                highlightDigits(digits.split(','));
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        function handleZoneTouch(e) {
+            const zone = e.target;
+            zone.classList.add('touch-hover');
+        }
+
+        function handleZoneTouchMove(e) {
+            // Prevent default to avoid scrolling
+            e.preventDefault();
+        }
+
+        function handleZoneTouchEnd(e) {
+            const zone = e.target;
+            zone.classList.remove('touch-hover');
+            placeDigitInZone(zone);
+        }
+
+        function handleZoneMouseOver(e) {
+            if (selectedDigitTile) {
+                e.target.classList.add('touch-hover');
+            }
+        }
+
+        function handleZoneMouseOut(e) {
+            e.target.classList.remove('touch-hover');
+        }
+
+        function handleZoneClick(e) {
+            placeDigitInZone(e.target);
+        }
+
+        function placeDigitInZone(zone) {
+            if (!selectedDigitTile || zone.classList.contains('filled')) {
+                return;
+            }
+            
+            const digit = selectedDigitTile.dataset.digit;
+            const expectedDigit = getExpectedDigit(zone);
+            
+            if (expectedDigit !== null && digit !== expectedDigit) {
+                zone.classList.add('incorrect');
+                setTimeout(() => {
+                    zone.classList.remove('incorrect');
+                }, 500);
+                showMessage('❌ Cifra sbagliata! Riprova.', 'error');
+                return;
+            }
+            
+            if (zone.dataset.placedTileId) {
+                const oldTile = document.querySelector(`[data-tile-id="${zone.dataset.placedTileId}"]`);
+                if (oldTile) {
+                    oldTile.classList.remove('used');
+                    usedDigits.delete(zone.dataset.placedTileId);
+                }
+            }
+            
+            zone.textContent = digit;
+            zone.classList.add('filled');
+            zone.dataset.value = digit;
+            zone.dataset.placedTileId = selectedDigitTile.dataset.tileId;
+            
+            selectedDigitTile.classList.add('used');
+            selectedDigitTile.classList.remove('selected');
+            usedDigits.add(selectedDigitTile.dataset.tileId);
+            
+            selectedDigitTile = null;
+            showMessage('✅ Cifra posizionata! Seleziona un\'altra cifra.', 'points');
+        }
+
+        function getExpectedDigit(zone) {
+            // ... (same as before)
+            const type = zone.dataset.type;
+            const step = parseInt(zone.dataset.step);
+            const pos = parseInt(zone.dataset.pos);
+            
+            if (type === 'quotient') {
+                const quotientStr = quotient.toString();
+                return quotientStr[step];
+            }
+            
+            if (step !== undefined && divisionSteps[step]) {
+                const stepData = divisionSteps[step];
+                
+                if (type === 'quotient-step' || type === 'mult') {
+                    return stepData.quotientDigit.toString();
+                }
+                
+                if (type === 'product' || type === 'subtract') {
+                    const productStr = stepData.product.toString();
+                    if (pos !== undefined && pos < productStr.length) {
+                        return productStr[pos];
+                    }
+                    return productStr;
+                }
+                
+                if (type === 'remainder') {
+                    const remainderStr = stepData.remainder.toString();
+                    if (pos !== undefined && pos < remainderStr.length) {
+                        return remainderStr[pos];
+                    }
+                    return remainderStr;
+                }
+            }
+            
+            return null;
+        }
+
+        // REST OF FUNCTIONS REMAIN THE SAME
+        function renderDivision() {
+            // ... (same as before, with your existing renderDivision function)
+        }
+
+        function highlightDigits(digitIndices) {
+            // ... (same as before)
+        }
+
+        function resetAllDropZones() {
+            // ... (same as before)
+        }
+
+        function newDivision() {
+            generateDivision();
+            renderDigitTiles();
+            renderDivision();
+            usedDigits.clear();
+            selectedDigitTile = null;
+            startTimer();
+            showMessage('');
+        }
+
+        function startTimer() {
+            // ... (same as before)
+        }
+
+        function stopTimer() {
+            // ... (same as before)
+        }
+
+        function checkAnswer() {
+            // ... (same as before)
+        }
+
+        function showHint() {
+            // ... (same as before)
+        }
+
+        function showMessage(text, type = '') {
+            // ... (same as before)
+        }
+
+        // EVENT LISTENERS
+        document.getElementById('checkBtn').addEventListener('click', checkAnswer);
+        document.getElementById('resetBtn').addEventListener('click', resetAllDropZones);
+        document.getElementById('newBtn').addEventListener('click', newDivision);
+        document.getElementById('hintBtn').addEventListener('click', showHint);
+
+        // INIT
+        newDivision();
+
+        // Prevent context menu on long press
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+        
+        // Prevent text selection
+        document.addEventListener('selectstart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
