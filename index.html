@@ -183,6 +183,82 @@
             color: var(--light);
         }
         
+        /* STILI PER LA SEZIONE COMMENTI */
+        .comments-section {
+            background: rgba(45, 48, 71, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 209, 102, 0.3);
+        }
+        
+        .comments-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .comments-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .comments-container input,
+        .comments-container textarea {
+            padding: 12px 15px;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+        
+        .comments-container input::placeholder,
+        .comments-container textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .comments-container input:focus,
+        .comments-container textarea:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .comments-container button {
+            padding: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid var(--accent);
+        }
+        
+        .comments-container button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 209, 102, 0.4);
+        }
+        
+        /* CONTATORE VISITE */
+        .visitor-counter {
+            display: inline-block;
+            background: rgba(0,0,0,0.3);
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+        
+        .visitor-counter img {
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        
         /* FOOTER CON INFO SEO */
         footer {
             text-align: center;
@@ -190,6 +266,7 @@
             color: #888;
             font-size: 0.9rem;
             line-height: 1.6;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
         
         .footer-links {
@@ -306,7 +383,34 @@
             </div>
         </section>
         
-        <!-- FOOTER CON INFO AGGIUNTIVE -->
+        <!-- NUOVA SEZIONE COMMENTI (FORM) -->
+        <section class="comments-section">
+            <h2 class="section-title">✍️ LASCIA UN COMMENTO</h2>
+            <div class="comments-container">
+                <!--
+                    FORM SUBMIT (https://formsubmit.co/)
+                    Sostituisci 'tuo-email@example.com' con il tuo indirizzo email.
+                    Dopo l'invio, l'utente verrà reindirizzato a 'grazie.html' (devi creare quella pagina).
+                    Se non hai una pagina di ringraziamento, puoi usare '_next' vuoto o un URL come https://formsubmit.co/el/your-email.
+                -->
+                <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
+                    <!-- Campi nascosti per configurare FormSubmit -->
+                    <input type="hidden" name="_next" value="https://giochimatematici.vercel.app/grazie.html">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    
+                    <input type="text" name="name" placeholder="Il tuo nome" required>
+                    <input type="email" name="email" placeholder="La tua email (opzionale)">
+                    <textarea name="message" placeholder="Scrivi il tuo commento..." rows="4" required></textarea>
+                    <button type="submit">Invia commento</button>
+                </form>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #aaa;">
+                    I commenti saranno inviati via email. Non saranno pubblicati automaticamente.
+                </p>
+            </div>
+        </section>
+        
+        <!-- FOOTER CON INFO AGGIUNTIVE E CONTATORE VISITE -->
         <footer>
             <p><strong>GiochiMatematici.vercel.app</strong> - Piattaforma educativa per la scuola primaria © 2024</p>
             
@@ -316,6 +420,16 @@
                 <a href="divisioni%20con%20virgola.html">Divisioni</a>
                 <a href="moltiplicazioni.html">Moltiplicazioni</a>
                 <a href="Media.html">Calcolo Media</a>
+            </div>
+            
+            <!-- CONTATORE VISITE (esempio con HitWebCounter) -->
+            <div class="visitor-counter">
+                <span>Visite totali:</span>
+                <!--
+                    Sostituisci il link sottostante con il codice del tuo contatore.
+                    Puoi ottenerne uno gratuito su https://www.hitwebcounter.com/ o servizi simili.
+                -->
+                <img src="https://hitwebcounter.com/counter/counter.php?page=1234567&style=0006&nbdigits=5" alt="visite" border="0">
             </div>
             
             <p>Risorse gratuite per l'insegnamento della matematica nella scuola primaria.</p>
@@ -337,7 +451,6 @@
         // gtag('config', 'TUO-ID-GA');
     </script>
 </body>
-
 </html>
 
 
