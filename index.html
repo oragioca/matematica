@@ -131,10 +131,12 @@
             text-shadow: 2px 2px 0 #000;
         }
         
+        /* Griglia principale per i primi 12 giochi */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 25px;
+            margin-bottom: 25px;
         }
         
         .game-card {
@@ -190,7 +192,15 @@
             color: var(--light);
         }
         
-        /* CARD RECORD - OCCUPA DUE COLONNE */
+        /* Riga finale con Geometria, Record e Commenti */
+        .final-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 0;
+        }
+        
+        /* Card record */
         .record-card {
             background: linear-gradient(145deg, #3a3d5d, #2d3047);
             border-radius: 20px;
@@ -205,9 +215,6 @@
             justify-content: center;
             align-items: center;
             min-height: 200px;
-            
-            /* Occupa due colonne della griglia */
-            grid-column: span 2;
         }
         
         .record-card:hover {
@@ -221,25 +228,18 @@
             line-height: 1.4;
         }
         
-        /* CARD COMMENTI - OCCUPA FINO ALL'ULTIMA COLONNA */
+        /* Card commenti - compatta */
         .comment-card {
             background: linear-gradient(145deg, #3a3d5d, #2d3047);
             border-radius: 20px;
-            padding: 12px 10px;
+            padding: 15px 12px;
             text-align: center;
             color: white;
             border: 2px solid var(--accent);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
-            
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            
-            /* Si estende fino all'ultima colonna */
-            grid-column: auto / -1;
-            
-            /* Stessa altezza delle altre card */
             min-height: 200px;
         }
         
@@ -250,27 +250,26 @@
         
         .comment-card h3 {
             font-size: 1.1rem;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: var(--accent);
         }
         
         .comment-card form {
-            flex-grow: 1;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            gap: 6px;
         }
         
         .comment-card input,
         .comment-card textarea {
             width: 100%;
             padding: 6px;
-            margin-bottom: 6px;
             border: 2px solid var(--secondary);
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             outline: none;
         }
         
@@ -286,7 +285,7 @@
         
         .comment-card textarea {
             resize: vertical;
-            min-height: 30px;
+            min-height: 40px;
         }
         
         .comment-card button {
@@ -299,9 +298,7 @@
             cursor: pointer;
             transition: 0.3s;
             border: 1px solid var(--accent);
-            width: 100%;
-            margin-top: 5px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
         
         .comment-card button:hover {
@@ -310,9 +307,9 @@
         }
         
         .comment-note {
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             color: #aaa;
-            margin-top: 5px;
+            margin-top: 6px;
         }
         
         /* FOOTER */
@@ -340,21 +337,21 @@
         }
         
         /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .title { font-size: 2.5rem; }
-            .games-grid { grid-template-columns: repeat(2, 1fr); }
-            .section-title { font-size: 1.8rem; }
-            .seo-text { font-size: 1rem; }
+        @media (max-width: 700px) {
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .final-row {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 480px) {
-            .title { font-size: 2rem; }
-            .games-grid { grid-template-columns: 1fr; }
-            .section-title { font-size: 1.6rem; }
-            
-            /* Su mobile, le card speciali tornano a larghezza normale */
-            .record-card, .comment-card {
-                grid-column: auto / auto;
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -374,8 +371,8 @@
         <section class="games-section">
             <h2 class="section-title">🎮 GIOCHINI DI MATEMATICA 🎮</h2>
             
+            <!-- Griglia principale con i primi 12 giochi -->
             <div class="games-grid">
-                <!-- Tutti i giochi in ordine -->
                 <a href="addizione%20in%20colonna.html" class="game-card"><span class="game-icon">➕</span><div class="game-name">Addizione in Colonna</div></a>
                 <a href="divisioni%20con%20virgola.html" class="game-card"><span class="game-icon">➗</span><div class="game-name">Divisioni con Virgola</div></a>
                 <a href="divisioni_drag_drop.html" class="game-card"><span class="game-icon">🎯</span><div class="game-name">Divisioni Drag & Drop</div></a>
@@ -388,14 +385,19 @@
                 <a href="probabilità.html" class="game-card"><span class="game-icon">🎲</span><div class="game-name">PROBABILITA'</div></a>
                 <a href="problem solving.html" class="game-card"><span class="game-icon">🤔</span><div class="game-name">Tabelle e Grafici'</div></a>
                 <a href="problemi.html" class="game-card"><span class="game-icon">💡</span><div class="game-name">Problemi</div></a>
-                <a href="area e perimetro.html" class="game-card"><span class="game-icon">📐</span><div class="game-name">GEOMETRIA</div></a>
+            </div>
+            
+            <!-- Riga finale con Geometria, Record e Commenti -->
+            <div class="final-row">
+                <a href="area%20e%20perimetro.html" class="game-card">
+                    <span class="game-icon">📐</span>
+                    <div class="game-name">GEOMETRIA</div>
+                </a>
                 
-                <!-- CARD RECORD - OCCUPA DUE COLONNE -->
                 <div class="record-card">
                     <h3>🎯 Prova a giocare, batti il record!</h3>
                 </div>
                 
-                <!-- CARD COMMENTI - SI ESTENDE ALL'ULTIMA COLONNA -->
                 <div class="comment-card">
                     <h3>✍️ Lascia un commento</h3>
                     <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
