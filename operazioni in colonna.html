@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Bruco Matematico - Addizioni in Colonna</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #87cefa, #add8e6);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow-x: hidden;
+        }
+        
+        .game-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 100, 0.2);
+            padding: 20px;
+            width: 98%;
+            max-width: 1400px;
+            text-align: center;
+            border: 8px solid #4a90e2;
+            margin: 10px;
+        }
+        
+        h1 {
+            color: #ff6b00;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0 #ffd700;
+        }
+        
+        .sottotitolo {
+            color: #333;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-around;
+            background: #e6f7ff;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 3px solid #4a90e2;
+        }
+        
+        .punteggio, .vite, .operazione-info {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .punteggio { 
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #28a745;
+        }
+        .vite { 
+            background: #ffe6e6;
+            color: #dc3545;
+            border: 3px solid #dc3545;
+        }
+        .operazione-info { 
+            background: #fff3cd;
+            color: #856404;
+            border: 3px solid #ffc107;
+        }
+        
+        .bruco-container {
+            position: relative;
+            height: 160px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .testa-bruco {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(145deg, #ff6b00, #ff8c00);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            margin: 0 20px 0 0;
+            border: 6px solid #cc5500;
+            box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);
+            z-index: 3;
+            position: relative;
+        }
+        
+        .faccia-bruco {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            z-index: 4;
+        }
+        
+        .occhio {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 30px;
+        }
+        
+        .occhio-sinistro { left: 25px; }
+        .occhio-destro { right: 25px; }
+        
+        .pupilla {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: black;
+            border-radius: 50%;
+            top: 4px;
+            left: 4px;
+        }
+        
+        .sorriso {
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            border-bottom: 5px solid black;
+            border-radius: 0 0 40px 40px;
+            bottom: 25px;
+            left: 25px;
+        }
+        
+        .segmento-bruco {
+            width: 85px;
+            height: 85px;
+            background: linear-gradient(145deg, #ff8c00, #ff6b00);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.8rem;
+            margin: 0 10px;
+            border: 5px solid #cc5500;
+            box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);
+            z-index: 2;
+            position: relative;
+        }
+        
+        .segmento-numero {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px #000;
+        }
+        
+        .linea-bruco {
+            position: absolute;
+            height: 25px;
+            background: linear-gradient(to right, #ff8c00, #ffa500, #ff8c00);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            border-radius: 12px;
+            width: 500px !important;
+            left: calc(50% - 250px) !important;
+        }
+        
+        /* LAYOUT A DUE COLONNE */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .left-column {
+            flex: 1;
+        }
+        
+        .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* SEZIONE OPERAZIONE IN COLONNA */
+        .sezione-colonna {
+            background: #f0f8ff;
+            border: 4px solid #4a90e2;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .titolo-operazione {
+            font-size: 1.8rem;
+            color: #000080;
+            margin-bottom: 20px;
+            background: #fffacd;
+            padding: 12px;
+            border-radius: 10px;
+            border: 3px solid #ffa500;
+        }
+        
+        /* COLONNA ALLINEATA CORRETTAMENTE */
+        .colonna-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px auto;
+            max-width: 650px;
+        }
+        
+        .riga-colonna {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin: 8px 0;
+            width: 100%;
+            position: relative;
+        }
+        
+        /* RIPORTI SOPRA LA COLONNA - CORRETTI */
+        .riga-riporti {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+            min-height: 60px;
+        }
+        
+        .cella-riporto {
+            width: 65px;
+            height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #228b22;
+            border-radius: 10px;
+            background: #90ee90;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #006400;
+            margin-left: 10px;
+        }
+        
+        .cella-riporto.attivo {
+            background: #c8f7c5 !important;
+            border: 4px solid #28a745 !important;
+            animation: pulse-riporto 1s infinite;
+        }
+        
+        @keyframes pulse-riporto {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .spazio-segno {
+            width: 40px;
+            margin-right: 15px;
+            font-size: 2.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cella-numero {
+            width: 65px;
+            height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #4a90e2;
+            margin-left: 10px;
+            font-size: 2.2rem;
+            font-weight: bold;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .cella-risultato {
+            width: 65px;
+            height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #4a90e2;
+            margin-left: 10px;
+            font-size: 2.2rem;
+            font-weight: bold;
+            background: #e6f7ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cella-risultato:hover {
+            background: #b3e0ff;
+            transform: scale(1.05);
+        }
+        
+        .cella-evidenziata {
+            animation: evidencia 1s infinite;
+            border: 4px solid #ffa500 !important;
+            background: #fffacd !important;
+        }
+        
+        @keyframes evidencia {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .cella-corretta {
+            background: #c8f7c5 !important;
+            border: 4px solid #28a745 !important;
+            color: #155724;
+        }
+        
+        .cella-errata {
+            background: #ffcccc !important;
+            border: 4px solid #dc3545 !important;
+            color: #721c24;
+        }
+        
+        .linea-divisione {
+            border-top: 4px solid #000;
+            margin: 20px 0;
+            width: 100%;
+        }
+        
+        .etichette-colonna {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+            width: 100%;
+        }
+        
+        .etichetta {
+            width: 65px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-left: 10px;
+        }
+        
+        /* TASTIERA NUMERICA GRANDE */
+        .tastiera-container {
+            background: #e6f7ff;
+            border-radius: 15px;
+            padding: 20px;
+            flex-grow: 1;
+            border: 4px solid #4a90e2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .tastiera-title {
+            font-size: 1.6rem;
+            color: #000080;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .tastiera-numerica {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .tasto-numero {
+            width: 90px;
+            height: 90px;
+            font-size: 2.8rem;
+            font-weight: bold;
+            border: 4px solid #4a90e2;
+            border-radius: 15px;
+            background: #b3e0ff;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #000080;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tasto-numero:hover {
+            background: #87cefa;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tasto-numero:active {
+            transform: scale(0.95);
+        }
+        
+        .tasto-cancella {
+            background: #ff6b6b;
+            color: white;
+            border-color: #dc3545;
+            font-size: 2rem;
+        }
+        
+        .tasto-ok {
+            background: #32cd32;
+            color: white;
+            border-color: #28a745;
+            font-size: 2rem;
+            grid-column: span 2;
+        }
+        
+        .tasto-aiuto {
+            background: #ffa500;
+            color: white;
+            border-color: #ff8c00;
+            font-size: 1.8rem;
+            grid-column: span 2;
+        }
+        
+        /* CONTROLLI E MESSAGGI */
+        .controlli {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .bottone {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background: #4a90e2;
+            color: white;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 180px;
+            justify-content: center;
+            text-decoration: none; /* Per i link */
+        }
+        
+        .bottone:hover {
+            background: #357ae8;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .bottone:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .bottone-verifica {
+            background: #28a745;
+        }
+        
+        .bottone-aiuto {
+            background: #ffa500;
+        }
+        
+        .bottone-nuova {
+            background: #9370db;
+        }
+        
+        .messaggio-container {
+            background: #fff3cd;
+            border: 3px dashed #ffc107;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .messaggio {
+            font-size: 1.6rem;
+            font-weight: bold;
+            text-align: center;
+            color: #856404;
+        }
+        
+        .messaggio-corretto {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .messaggio-errato {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        
+        /* GUIDA RAPIDA */
+        .guida-rapida {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 3px solid #4a90e2;
+        }
+        
+        .guida-titolo {
+            color: #000080;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .passo-guida {
+            display: flex;
+            align-items: flex-start;
+            margin: 12px 0;
+            gap: 15px;
+        }
+        
+        .numero-passo {
+            background: #4a90e2;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .passo-testo {
+            text-align: left;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+        
+        .esempio-guida {
+            background: #fffacd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px dashed #ffa500;
+            text-align: left;
+        }
+        
+        .esempio-titolo {
+            font-weight: bold;
+            color: #000080;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        /* RIPORTI INFO */
+        .riporti-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .riporto-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.2rem;
+            background: #f0f8ff;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 2px solid #4a90e2;
+        }
+        
+        .riporto-icon {
+            font-size: 1.5rem;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .tastiera-numerica {
+                max-width: 600px;
+            }
+            
+            .tasto-numero {
+                width: 80px;
+                height: 80px;
+                font-size: 2.4rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .testa-bruco {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .segmento-bruco {
+                width: 60px;
+                height: 60px;
+                margin: 0 5px;
+            }
+            
+            .segmento-numero {
+                font-size: 2rem;
+            }
+            
+            .linea-bruco {
+                width: 350px !important;
+                left: calc(50% - 175px) !important;
+            }
+            
+            .cella-numero, .cella-risultato, .cella-riporto {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+                margin-left: 8px;
+            }
+            
+            .etichetta {
+                width: 50px;
+                font-size: 1.1rem;
+                margin-left: 8px;
+            }
+            
+            .tasto-numero {
+                width: 70px;
+                height: 70px;
+                font-size: 2.2rem;
+            }
+            
+            .tastiera-numerica {
+                gap: 12px;
+                max-width: 450px;
+            }
+            
+            .controlli {
+                flex-wrap: wrap;
+            }
+            
+            .bottone {
+                font-size: 1.3rem;
+                padding: 12px 25px;
+                min-width: 160px;
+            }
+            
+            .messaggio {
+                font-size: 1.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .testa-bruco {
+                width: 60px;
+                height: 60px;
+                margin: 0 5px 0 0;
+            }
+            
+            .segmento-bruco {
+                width: 50px;
+                height: 50px;
+                margin: 0 3px;
+            }
+            
+            .segmento-numero {
+                font-size: 1.8rem;
+            }
+            
+            .linea-bruco {
+                width: 280px !important;
+                left: calc(50% - 140px) !important;
+            }
+            
+            .cella-numero, .cella-risultato, .cella-riporto {
+                width: 45px;
+                height: 45px;
+                font-size: 1.6rem;
+                margin-left: 6px;
+            }
+            
+            .etichetta {
+                width: 45px;
+                font-size: 1rem;
+                margin-left: 6px;
+            }
+            
+            .tasto-numero {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .tastiera-numerica {
+                max-width: 350px;
+                gap: 10px;
+            }
+            
+            .bottone {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+            
+            .controlli {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .riporti-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body onload="inizializzaGioco()">
+    <div class="game-container">
+        <h1>🐛 IL BRUCO MATEMATICO 🐛</h1>
+        <p class="sottotitolo">Impara le addizioni in colonna con il bruco simpatico!</p>
+        
+        <div class="game-info">
+            <div class="punteggio">🌟 <span id="punteggio">0</span> punti</div>
+            <div class="vite">❤️ <span id="vite">3</span> vite</div>
+            <div class="operazione-info">🔢 Addizione in colonna</div>
+        </div>
+        
+        <div class="bruco-container">
+            <div class="linea-bruco" id="linea-bruco"></div>
+            <div class="testa-bruco">
+                <div class="faccia-bruco">
+                    <div class="occhio occhio-sinistro"><div class="pupilla"></div></div>
+                    <div class="occhio occhio-destro"><div class="pupilla"></div></div>
+                    <div class="sorriso"></div>
+                </div>
+            </div>
+            <div class="segmento-bruco" id="segmento1"><span class="segmento-numero">?</span></div>
+            <div class="segmento-bruco" id="segmento2"><span class="segmento-numero">+</span></div>
+            <div class="segmento-bruco" id="segmento3"><span class="segmento-numero">?</span></div>
+            <div class="segmento-bruco" id="segmento4"><span class="segmento-numero">=</span></div>
+            <div class="segmento-bruco" id="segmento5"><span class="segmento-numero">❓</span></div>
+        </div>
+        
+        <!-- LAYOUT A DUE COLONNE -->
+        <div class="main-content">
+            <div class="left-column">
+                <div class="sezione-colonna">
+                    <div class="titolo-operazione" id="titolo-operazione">Operazione in colonna</div>
+                    
+                    <!-- COLONNA ALLINEATA CORRETTAMENTE -->
+                    <div class="colonna-container" id="colonna-container">
+                        <!-- Contenuto generato dinamicamente -->
+                    </div>
+                    
+                    <!-- Informazioni sui riporti -->
+                    <div class="riporti-info">
+                        <div class="riporto-item">
+                            <span class="riporto-icon">📝</span>
+                            <span>Clicca su una casella gialla per inserire</span>
+                        </div>
+                        <div class="riporto-item">
+                            <span class="riporto-icon">🔄</span>
+                            <span>Segui l'ordine: da destra verso sinistra</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Istruzioni passo passo -->
+                    <div class="messaggio-container" id="messaggio-container">
+                        <div class="messaggio" id="messaggio-testo">
+                            Clicca sulla casella gialla delle unità (U) per iniziare!
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CONTROLLI -->
+                <div class="controlli">
+                    <button class="bottone bottone-aiuto" onclick="mostraAiuto()">
+                        🧠 Aiuto (-1 punto)
+                    </button>
+                    <button class="bottone bottone-verifica" onclick="verificaOperazione()" id="bottone-verifica">
+                        ✓ Verifica
+                    </button>
+                    <button class="bottone bottone-nuova" onclick="nuovaOperazione()">
+                        🔄 Nuova
+                    </button>
+                    <!-- PULSANTE ESCRI AGGIUNTO -->
+                    <a href="https://oragioca.github.io/matematica/" class="bottone bottone-esci" style="background-color: #dc3545;">
+                        🚪 Esci
+                    </a>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <!-- TASTIERA NUMERICA GRANDE -->
+                <div class="tastiera-container">
+                    <div class="tastiera-title">Tastiera numerica</div>
+                    <div class="tastiera-numerica" id="tastiera-numerica">
+                        <!-- Numeri verranno aggiunti dinamicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- GUIDA RAPIDA -->
+        <div class="guida-rapida">
+            <div class="guida-titolo">
+                <span>📚 COME FARE L'ADDIZIONE IN COLONNA:</span>
+            </div>
+            
+            <div class="passo-guida">
+                <div class="numero-passo">1</div>
+                <div class="passo-testo"><strong>Parti dalle unità (U)</strong> - la colonna più a destra</div>
+            </div>
+            
+            <div class="passo-guida">
+                <div class="numero-passo">2</div>
+                <div class="passo-testo"><strong>Somma le cifre</strong> - esempio: 7 + 8 = 15</div>
+            </div>
+            
+            <div class="passo-guida">
+                <div class="numero-passo">3</div>
+                <div class="passo-testo"><strong>Se la somma è 10 o più:</strong><br>
+                    • Scrivi solo la <strong>cifra delle unità</strong> (5) nel risultato<br>
+                    • Metti la <strong>cifra delle decine</strong> (1) nel riporto sopra la colonna successiva (decine)
+                </div>
+            </div>
+            
+            <div class="passo-guida">
+                <div class="numero-passo">4</div>
+                <div class="passo-testo"><strong>Passa alla colonna successiva</strong> (decine) e aggiungi anche il riporto!</div>
+            </div>
+            
+            <div class="esempio-guida">
+                <div class="esempio-titolo">🧮 ESEMPIO: 881 + 848 = 1729</div>
+                <div>
+                    1. <strong>Unità (U):</strong> 1 + 8 = 9 → scrivi 9<br>
+                    2. <strong>Decine (D):</strong> 8 + 4 = 12 → scrivi 2, riporto 1<br>
+                    3. <strong>Centinaia (C):</strong> 8 + 8 + 1(riporto) = 17 → scrivi 7, riporto 1<br>
+                    4. <strong>Migliaia (M):</strong> riporto 1 → scrivi 1<br>
+                    5. <strong>Risultato:</strong> 1729
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ====================================================
+        // VARIABILI DEL GIOCO
+        // ====================================================
+        let punteggio = 0;
+        let vite = 3;
+        let numero1 = 0;
+        let numero2 = 0;
+        let risultatoCorretto = 0;
+        
+        // Variabili dinamiche basate sui numeri
+        let numCifre = 0; // Numero di cifre necessarie (3 o 4)
+        let colonnaAttiva = 0; // Indice della colonna (0 = più a sinistra, numCifre-1 = più a destra)
+        let cifreNumero1 = [];
+        let cifreNumero2 = [];
+        let cifreRisultato = [];
+        let cifreRiporto = []; // Riporti che l'utente DEVE inserire (NON per le unità)
+        let risultatiCorretti = [];
+        let riportiCorretti = []; // Riporti corretti per ogni colonna (il riporto DOPO aver sommato quella colonna)
+        let modalitaRiporto = false; // true = stiamo inserendo un riporto, false = stiamo inserendo un risultato
+        let riportiDaInserire = []; // Colonne dove serve inserire un riporto
+
+        // ====================================================
+        // INIZIALIZZAZIONE
+        // ====================================================
+        function inizializzaGioco() {
+            punteggio = 0;
+            vite = 3;
+            aggiornaUI();
+            creaTastiera();
+            nuovaOperazione();
+        }
+
+        function nuovaOperazione() {
+            // Genera numeri casuali (possono dare risultati a 3 o 4 cifre)
+            numero1 = Math.floor(Math.random() * 900) + 100; // Da 100 a 999
+            numero2 = Math.floor(Math.random() * 900) + 100; // Da 100 a 999
+            
+            risultatoCorretto = numero1 + numero2;
+            
+            // Determina quante cifre servono - CORREZIONE: usa la lunghezza del risultato
+            numCifre = risultatoCorretto.toString().length;
+            
+            // Inizializza array con il numero corretto di cifre
+            cifreNumero1 = new Array(numCifre).fill("");
+            cifreNumero2 = new Array(numCifre).fill("");
+            cifreRisultato = new Array(numCifre).fill("");
+            cifreRiporto = new Array(numCifre).fill(""); // Riporti da inserire
+            risultatiCorretti = new Array(numCifre).fill(0);
+            riportiCorretti = new Array(numCifre).fill(0); // Riporti corretti
+            riportiDaInserire = [];
+            
+            // Estrai le cifre dai numeri (allineate a destra)
+            const str1 = numero1.toString().padStart(numCifre, '0');
+            const str2 = numero2.toString().padStart(numCifre, '0');
+            
+            for (let i = 0; i < numCifre; i++) {
+                cifreNumero1[i] = str1[i];
+                cifreNumero2[i] = str2[i];
+            }
+            
+            // Calcola risultati e riporti corretti
+            calcolaRisultatiCorretti();
+            
+            // Determina quali riporti devono essere inseriti dall'utente
+            for (let i = numCifre - 1; i > 0; i--) {
+                const somma = parseInt(cifreNumero1[i]) + parseInt(cifreNumero2[i]);
+                if (i < numCifre - 1 && riportiCorretti[i+1] > 0) {
+                    riportiDaInserire.push(i-1);
+                } else if (somma >= 10) {
+                    riportiDaInserire.push(i-1);
+                }
+            }
+            
+            // Inizia dall'ultima colonna (unità) - la più a destra
+            colonnaAttiva = numCifre - 1;
+            modalitaRiporto = false;
+            
+            // Aggiorna visualizzazione
+            aggiornaBruco();
+            aggiornaColonna();
+            aggiornaMessaggio(`Clicca sulla casella gialla delle ${getNomeColonna(colonnaAttiva)} (${getEtichettaColonna(colonnaAttiva)}) per iniziare!`);
+            
+            // Abilita/disabilita pulsanti
+            document.getElementById("bottone-verifica").disabled = false;
+        }
+
+        // FUNZIONI PER GESTIRE CORRETTAMENTE LE ETICHETTE
+        function getNomeColonna(indice) {
+            // Indice 0 = più a sinistra, indice numCifre-1 = più a destra
+            const posizioneDaDestra = numCifre - 1 - indice;
+            
+            switch(posizioneDaDestra) {
+                case 0: return "unità";
+                case 1: return "decine";
+                case 2: return "centinaia";
+                case 3: return "migliaia";
+                case 4: return "decine di migliaia";
+                default: return "unità";
+            }
+        }
+
+        function getEtichettaColonna(indice) {
+            // Indice 0 = più a sinistra, indice numCifre-1 = più a destra
+            const posizioneDaDestra = numCifre - 1 - indice;
+            
+            switch(posizioneDaDestra) {
+                case 0: return "U";
+                case 1: return "D";
+                case 2: return "C";
+                case 3: return "M";
+                case 4: return "DM";
+                default: return "U";
+            }
+        }
+
+        function calcolaRisultatiCorretti() {
+            let riporto = 0;
+            
+            // Calcola da destra a sinistra (da unità a migliaia)
+            for (let i = numCifre - 1; i >= 0; i--) {
+                const cifra1 = parseInt(cifreNumero1[i]) || 0;
+                const cifra2 = parseInt(cifreNumero2[i]) || 0;
+                const somma = cifra1 + cifra2 + riporto;
+                
+                risultatiCorretti[i] = somma % 10;
+                // Il riporto di questa colonna va alla colonna a sinistra (i-1)
+                riporto = Math.floor(somma / 10);
+                
+                // Salva il riporto che ESCE da questa colonna (va alla colonna i-1)
+                // Per la colonna più a sinistra, il riporto è l'ultima cifra del risultato
+                if (i === 0 && riporto > 0) {
+                    // Questo caso è gestito dal numero di cifre
+                }
+            }
+            
+            // Ora calcola i riporti CORRETTI per ogni colonna
+            // Il riporto per la colonna i è il riporto che viene DALLA colonna i+1
+            riportiCorretti = new Array(numCifre).fill(0);
+            riporto = 0;
+            
+            for (let i = numCifre - 1; i >= 0; i--) {
+                const cifra1 = parseInt(cifreNumero1[i]) || 0;
+                const cifra2 = parseInt(cifreNumero2[i]) || 0;
+                const somma = cifra1 + cifra2 + riporto;
+                
+                // Il riporto che ESCE da questa colonna (va a i-1)
+                riporto = Math.floor(somma / 10);
+                
+                // Il riporto che ENTRA in questa colonna (da i+1)
+                // Lo abbiamo già in 'riporto' dal ciclo precedente
+                if (i < numCifre - 1) {
+                    // Calcola il riporto che dovrebbe entrare in questa colonna
+                    const cifra1Destra = parseInt(cifreNumero1[i+1]) || 0;
+                    const cifra2Destra = parseInt(cifreNumero2[i+1]) || 0;
+                    const sommaDestra = cifra1Destra + cifra2Destra + (i+1 < numCifre - 1 ? riportiCorretti[i+2] : 0);
+                    riportiCorretti[i+1] = Math.floor(sommaDestra / 10);
+                }
+            }
+            
+            // Per la prima colonna a sinistra, se c'è riporto è già incluso nel numero di cifre
+        }
+
+        // ====================================================
+        // VISUALIZZAZIONE
+        // ====================================================
+        function aggiornaUI() {
+            document.getElementById("punteggio").textContent = punteggio;
+            document.getElementById("vite").textContent = vite;
+        }
+
+        function aggiornaBruco() {
+            document.getElementById("segmento1").querySelector(".segmento-numero").textContent = numero1;
+            document.getElementById("segmento3").querySelector(".segmento-numero").textContent = numero2;
+            document.getElementById("segmento5").querySelector(".segmento-numero").textContent = "?";
+            
+            // Animazione
+            const segmento = document.getElementById("segmento5");
+            segmento.classList.add("cella-evidenziata");
+            setTimeout(() => segmento.classList.remove("cella-evidenziata"), 1000);
+        }
+
+        function aggiornaColonna() {
+            const colonnaContainer = document.getElementById("colonna-container");
+            colonnaContainer.innerHTML = "";
+            
+            // Crea righe per la colonna
+            const righe = {
+                riporti: document.createElement("div"),
+                numero1: document.createElement("div"),
+                numero2: document.createElement("div"),
+                linea: document.createElement("div"),
+                risultato: document.createElement("div"),
+                etichette: document.createElement("div")
+            };
+            
+            // Aggiungi classi
+            righe.riporti.className = "riga-colonna riga-riporti";
+            righe.numero1.className = "riga-colonna";
+            righe.numero2.className = "riga-colonna";
+            righe.linea.className = "linea-divisione";
+            righe.risultato.className = "riga-colonna";
+            righe.etichette.className = "etichette-colonna";
+            
+            // Aggiungi spazio per il segno alla riga del secondo numero
+            righe.numero2.innerHTML = '<div class="spazio-segno">+</div>';
+            
+            // Crea le celle per ogni colonna (da sinistra a destra)
+            for (let i = 0; i < numCifre; i++) {
+                // RIPORTI: CORREZIONE - mostriamo i riporti sopra la colonna a cui SI APPLICANO
+                // Il riporto sulla colonna i viene dalla colonna i+1 (più a destra)
+                let valoreRiporto = "";
+                let isRiportoAttivo = false;
+                let riportoColonna = i; // La colonna SOPRA cui mettiamo il riporto
+                
+                // NON mostriamo riporto sopra le unità (colonna più a destra)
+                if (i < numCifre) {
+                    // Mostra solo se l'utente ha inserito un riporto PER QUESTA colonna
+                    // I riporti sono memorizzati per la colonna a cui si applicano
+                    if (cifreRiporto[i] !== "") {
+                        valoreRiporto = cifreRiporto[i];
+                        isRiportoAttivo = (colonnaAttiva === i && modalitaRiporto);
+                    }
+                }
+                
+                const riportoHTML = 
+                    `<div class="cella-riporto ${isRiportoAttivo ? 'attivo' : ''}" 
+                          id="riporto-${i}"
+                          onclick="selezionaRiporto(${i})">
+                        ${valoreRiporto}
+                     </div>`;
+                righe.riporti.innerHTML += riportoHTML;
+                
+                // Primo numero (mostra sempre tutte le cifre, anche zeri iniziali)
+                righe.numero1.innerHTML += 
+                    `<div class="cella-numero">${cifreNumero1[i]}</div>`;
+                
+                // Secondo numero
+                righe.numero2.innerHTML += 
+                    `<div class="cella-numero">${cifreNumero2[i]}</div>`;
+                
+                // Risultato (input utente)
+                const isAttiva = colonnaAttiva === i && !modalitaRiporto;
+                const cellaRisultato = 
+                    `<div class="cella-risultato ${isAttiva ? 'cella-evidenziata' : ''}" 
+                          id="risultato-${i}"
+                          onclick="selezionaColonna(${i})">
+                        ${cifreRisultato[i] || ""}
+                     </div>`;
+                righe.risultato.innerHTML += cellaRisultato;
+                
+                // Etichette (mostra sempre U, D, C, M correttamente)
+                righe.etichette.innerHTML += 
+                    `<div class="etichetta">${getEtichettaColonna(i)}</div>`;
+            }
+            
+            // Aggiungi tutte le righe al container
+            colonnaContainer.appendChild(righe.riporti);
+            colonnaContainer.appendChild(righe.numero1);
+            colonnaContainer.appendChild(righe.numero2);
+            colonnaContainer.appendChild(righe.linea);
+            colonnaContainer.appendChild(righe.risultato);
+            colonnaContainer.appendChild(righe.etichette);
+            
+            // Imposta la larghezza corretta della linea del bruco
+            const lineaBruco = document.getElementById("linea-bruco");
+            const numSegmenti = document.querySelectorAll('.segmento-bruco').length;
+            const larghezzaLinea = numSegmenti * 85;
+            lineaBruco.style.width = `${larghezzaLinea}px`;
+            lineaBruco.style.left = `calc(50% - ${larghezzaLinea/2}px)`;
+        }
+
+        function aggiornaMessaggio(testo, tipo = "normale") {
+            const container = document.getElementById("messaggio-container");
+            const messaggio = document.getElementById("messaggio-testo");
+            
+            messaggio.textContent = testo;
+            
+            // Rimuovi tutte le classi di tipo
+            container.classList.remove("messaggio-corretto", "messaggio-errato");
+            
+            // Aggiungi classe appropriata
+            if (tipo === "corretto") {
+                container.classList.add("messaggio-corretto");
+            } else if (tipo === "errato") {
+                container.classList.add("messaggio-errato");
+            }
+        }
+
+        function creaTastiera() {
+            const tastiera = document.getElementById("tastiera-numerica");
+            tastiera.innerHTML = "";
+            
+            // Crea tasti numerici da 1 a 9 in ordine telefonico
+            const numeri = [7, 8, 9, 4, 5, 6, 1, 2, 3];
+            
+            for (let i = 0; i < numeri.length; i++) {
+                const tasto = document.createElement("button");
+                tasto.className = "tasto-numero";
+                tasto.textContent = numeri[i];
+                tasto.onclick = () => inserisciCifra(numeri[i]);
+                tastiera.appendChild(tasto);
+            }
+            
+            // Tasto 0
+            const tasto0 = document.createElement("button");
+            tasto0.className = "tasto-numero";
+            tasto0.textContent = "0";
+            tasto0.onclick = () => inserisciCifra(0);
+            tastiera.appendChild(tasto0);
+            
+            // Tasto cancella
+            const tastoCancella = document.createElement("button");
+            tastoCancella.className = "tasto-numero tasto-cancella";
+            tastoCancella.textContent = "⌫";
+            tastoCancella.onclick = cancellaCifra;
+            tastiera.appendChild(tastoCancella);
+            
+            // Tasto OK
+            const tastoOK = document.createElement("button");
+            tastoOK.className = "tasto-numero tasto-ok";
+            tastoOK.textContent = "OK";
+            tastoOK.onclick = confermaColonna;
+            tastiera.appendChild(tastoOK);
+        }
+
+        // ====================================================
+        // LOGICA DI GIOCO - CORRETTA
+        // ====================================================
+        function selezionaColonna(indice) {
+            colonnaAttiva = indice;
+            modalitaRiporto = false;
+            aggiornaColonna();
+            aggiornaMessaggio(`Inserisci la cifra delle ${getNomeColonna(indice)} (${getEtichettaColonna(indice)}) nel risultato!`);
+        }
+
+        function selezionaRiporto(indice) {
+            // Permetti di selezionare il riporto solo se è una colonna valida
+            // NON si può selezionare riporto per le unità (ultima colonna a destra)
+            if (indice < numCifre) {
+                colonnaAttiva = indice;
+                modalitaRiporto = true;
+                aggiornaColonna();
+                aggiornaMessaggio(`Inserisci il riporto per le ${getNomeColonna(indice)} (viene dalle ${getNomeColonna(indice+1)})!`);
+            }
+        }
+
+        function inserisciCifra(cifra) {
+            if (colonnaAttiva < 0 || colonnaAttiva >= numCifre) {
+                aggiornaMessaggio("Prima seleziona una casella!", "errato");
+                return;
+            }
+            
+            // Controlla se stiamo inserendo un riporto o un risultato
+            if (modalitaRiporto) {
+                // Inserimento riporto - CORREZIONE: riporto può essere solo 0 o 1
+                if (cifra === 0 || cifra === 1) {
+                    cifreRiporto[colonnaAttiva] = cifra.toString();
+                    aggiornaColonna();
+                    
+                    // Dopo aver inserito un riporto, passa alla cifra del risultato della stessa colonna
+                    modalitaRiporto = false;
+                    aggiornaMessaggio(`Riporto inserito! Ora inserisci il risultato per le ${getNomeColonna(colonnaAttiva)}.`);
+                } else {
+                    aggiornaMessaggio("Il riporto può essere solo 0 o 1!", "errato");
+                }
+            } else {
+                // Inserimento risultato
+                // Controlla che sia una cifra valida (0-9)
+                if (cifra >= 0 && cifra <= 9) {
+                    cifreRisultato[colonnaAttiva] = cifra.toString();
+                    aggiornaColonna();
+                    
+                    // Calcola se dovrebbe esserci un riporto per la prossima colonna
+                    const cifra1 = parseInt(cifreNumero1[colonnaAttiva]) || 0;
+                    const cifra2 = parseInt(cifreNumero2[colonnaAttiva]) || 0;
+                    const riportoIn = parseInt(cifreRiporto[colonnaAttiva]) || 0;
+                    const somma = cifra1 + cifra2 + riportoIn;
+                    
+                    // Se non siamo nella colonna più a sinistra, passa alla colonna precedente
+                    if (colonnaAttiva > 0) {
+                        colonnaAttiva--;
+                        
+                        // Se la somma della colonna appena completata era >= 10, 
+                        // dobbiamo inserire un riporto nella nuova colonna
+                        if (somma >= 10) {
+                            modalitaRiporto = true;
+                            aggiornaMessaggio(`Ora inserisci il riporto per le ${getNomeColonna(colonnaAttiva)} (viene dalle ${getNomeColonna(colonnaAttiva+1)})!`);
+                        } else {
+                            modalitaRiporto = false;
+                            aggiornaMessaggio(`Ora inserisci il risultato per le ${getNomeColonna(colonnaAttiva)}.`);
+                        }
+                    } else {
+                        // Siamo nella colonna più a sinistra
+                        if (somma >= 10) {
+                            // Se c'è un riporto finale, è già incluso nel risultato
+                            aggiornaMessaggio("Tutte le colonne completate! Premi VERIFICA per controllare.", "corretto");
+                        } else {
+                            aggiornaMessaggio("Tutte le colonne completate! Premi VERIFICA per controllare.", "corretto");
+                        }
+                    }
+                } else {
+                    aggiornaMessaggio("Inserisci una cifra da 0 a 9!", "errato");
+                }
+            }
+            
+            aggiornaColonna();
+        }
+
+        function cancellaCifra() {
+            if (colonnaAttiva < 0 || colonnaAttiva >= numCifre) {
+                aggiornaMessaggio("Prima seleziona una casella!", "errato");
+                return;
+            }
+            
+            if (modalitaRiporto) {
+                cifreRiporto[colonnaAttiva] = "";
+            } else {
+                cifreRisultato[colonnaAttiva] = "";
+            }
+            
+            aggiornaColonna();
+            aggiornaMessaggio(`Cifra cancellata. Seleziona una nuova casella.`);
+        }
+
+        function confermaColonna() {
+            if (colonnaAttiva < 0 || colonnaAttiva >= numCifre) {
+                aggiornaMessaggio("Prima seleziona una casella!", "errato");
+                return;
+            }
+            
+            // Se stiamo inserendo un riporto, passa al risultato
+            if (modalitaRiporto) {
+                if (cifreRiporto[colonnaAttiva] === "") {
+                    aggiornaMessaggio("Inserisci un riporto prima di confermare!", "errato");
+                    return;
+                }
+                
+                modalitaRiporto = false;
+                aggiornaMessaggio(`Riporto confermato! Ora inserisci il risultato per le ${getNomeColonna(colonnaAttiva)}.`);
+            } else {
+                if (cifreRisultato[colonnaAttiva] === "") {
+                    aggiornaMessaggio("Inserisci un risultato prima di confermare!", "errato");
+                    return;
+                }
+                
+                // Se non siamo nella colonna più a sinistra, passa alla colonna precedente
+                if (colonnaAttiva > 0) {
+                    colonnaAttiva--;
+                    
+                    // Verifica se c'è un riporto da inserire per questa colonna
+                    const cifra1Destra = parseInt(cifreNumero1[colonnaAttiva+1]) || 0;
+                    const cifra2Destra = parseInt(cifreNumero2[colonnaAttiva+1]) || 0;
+                    const riportoDestra = parseInt(cifreRiporto[colonnaAttiva+1]) || 0;
+                    const sommaDestra = cifra1Destra + cifra2Destra + riportoDestra;
+                    
+                    // Se la somma è >= 10, deve esserci un riporto
+                    if (sommaDestra >= 10) {
+                        modalitaRiporto = true;
+                        aggiornaMessaggio(`Ora inserisci il riporto per le ${getNomeColonna(colonnaAttiva)} (viene dalle ${getNomeColonna(colonnaAttiva+1)})!`);
+                    } else {
+                        aggiornaMessaggio(`Ora inserisci il risultato per le ${getNomeColonna(colonnaAttiva)}.`);
+                    }
+                } else {
+                    aggiornaMessaggio("Tutte le colonne completate! Premi VERIFICA per controllare l'operazione.", "corretto");
+                }
+            }
+            
+            aggiornaColonna();
+        }
+
+        function verificaOperazione() {
+            let tuttoCorretto = true;
+            let messaggioDettaglio = "";
+            
+            // Prima ricalcoliamo i risultati corretti con i riporti inseriti dall'utente
+            calcolaRisultatiCorretti();
+            
+            // Verifica risultati colonna per colonna
+            for (let i = 0; i < numCifre; i++) {
+                const risultatoUtente = parseInt(cifreRisultato[i]) || 0;
+                const risultatoCorrettoColonna = risultatiCorretti[i];
+                
+                // Evidenzia le celle corrette/errate
+                const cellaRisultato = document.getElementById(`risultato-${i}`);
+                if (cellaRisultato) {
+                    if (risultatoUtente === risultatoCorrettoColonna) {
+                        cellaRisultato.classList.add("cella-corretta");
+                        cellaRisultato.classList.remove("cella-errata");
+                    } else {
+                        cellaRisultato.classList.add("cella-errata");
+                        cellaRisultato.classList.remove("cella-corretta");
+                        tuttoCorretto = false;
+                        messaggioDettaglio += `${getNomeColonna(i)}: ${risultatoUtente} invece di ${risultatoCorrettoColonna}. `;
+                    }
+                }
+                
+                // Verifica riporti (solo per colonne che possono avere riporto in ingresso)
+                // Il riporto per la colonna i viene dalla colonna i+1
+                if (i < numCifre) {
+                    const riportoUtente = parseInt(cifreRiporto[i]) || 0;
+                    let riportoCorretto = 0;
+                    
+                    // Calcola il riporto corretto che DOVREBBE entrare in questa colonna
+                    if (i < numCifre - 1) {
+                        // Per la colonna i, il riporto viene dalla somma della colonna i+1
+                        const cifra1Destra = parseInt(cifreNumero1[i+1]) || 0;
+                        const cifra2Destra = parseInt(cifreNumero2[i+1]) || 0;
+                        const riportoPrecedente = i+1 < numCifre - 1 ? parseInt(cifreRiporto[i+1]) || 0 : 0;
+                        const sommaDestra = cifra1Destra + cifra2Destra + riportoPrecedente;
+                        riportoCorretto = Math.floor(sommaDestra / 10);
+                    }
+                    
+                    const cellaRiporto = document.getElementById(`riporto-${i}`);
+                    if (cellaRiporto) {
+                        if (riportoUtente === riportoCorretto) {
+                            cellaRiporto.classList.add("cella-corretta");
+                            cellaRiporto.classList.remove("cella-errata");
+                        } else {
+                            cellaRiporto.classList.add("cella-errata");
+                            cellaRiporto.classList.remove("cella-corretta");
+                            tuttoCorretto = false;
+                            messaggioDettaglio += `Riporto ${getEtichettaColonna(i)}: ${riportoUtente} invece di ${riportoCorretto}. `;
+                        }
+                    }
+                }
+            }
+            
+            // Aggiorna il bruco con il risultato
+            const segmentoRisultato = document.getElementById("segmento5");
+            segmentoRisultato.querySelector(".segmento-numero").textContent = risultatoCorretto;
+            segmentoRisultato.classList.add("cella-corretta");
+            
+            // Gestisci punteggio e vite
+            if (tuttoCorretto) {
+                punteggio += 10;
+                aggiornaMessaggio(`BRAVISSIMO! ${numero1} + ${numero2} = ${risultatoCorretto}. +10 punti!`, "corretto");
+                
+                // Animazione vittoria
+                setTimeout(() => {
+                    aggiornaMessaggio("Premi 'NUOVA' per un'altra operazione!", "corretto");
+                }, 2000);
+            } else {
+                vite--;
+                if (vite <= 0) {
+                    aggiornaMessaggio(`GAME OVER! Il risultato corretto era: ${risultatoCorretto}. Premi 'NUOVA' per ricominciare.`, "errato");
+                    document.getElementById("bottone-verifica").disabled = true;
+                } else {
+                    aggiornaMessaggio(`Attenzione! Errori: ${messaggioDettaglio}. -1 vita.`, "errato");
+                }
+            }
+            
+            aggiornaUI();
+        }
+
+        function mostraAiuto() {
+            if (punteggio <= 0) {
+                aggiornaMessaggio("Non hai abbastanza punti per usare l'aiuto!", "errato");
+                return;
+            }
+            
+            punteggio--;
+            aggiornaUI();
+            
+            // Mostra il risultato della colonna corrente
+            if (modalitaRiporto) {
+                // Calcola il riporto corretto per questa colonna
+                let riportoCorretto = 0;
+                if (colonnaAttiva < numCifre - 1) {
+                    const cifra1Destra = parseInt(cifreNumero1[colonnaAttiva+1]) || 0;
+                    const cifra2Destra = parseInt(cifreNumero2[colonnaAttiva+1]) || 0;
+                    const riportoPrecedente = colonnaAttiva+1 < numCifre - 1 ? parseInt(cifreRiporto[colonnaAttiva+1]) || 0 : 0;
+                    const sommaDestra = cifra1Destra + cifra2Destra + riportoPrecedente;
+                    riportoCorretto = Math.floor(sommaDestra / 10);
+                }
+                aggiornaMessaggio(`AIUTO: Il riporto per le ${getNomeColonna(colonnaAttiva)} è ${riportoCorretto}.`, "corretto");
+            } else {
+                // Calcola il risultato corretto per questa colonna
+                const cifra1 = parseInt(cifreNumero1[colonnaAttiva]) || 0;
+                const cifra2 = parseInt(cifreNumero2[colonnaAttiva]) || 0;
+                const riportoIn = parseInt(cifreRiporto[colonnaAttiva]) || 0;
+                const risultatoCorrettoColonna = (cifra1 + cifra2 + riportoIn) % 10;
+                aggiornaMessaggio(`AIUTO: Il risultato per le ${getNomeColonna(colonnaAttiva)} è ${risultatoCorrettoColonna}.`, "corretto");
+            }
+        }
+
+        // ====================================================
+        // INIZIALIZZAZIONE
+        // ====================================================
+        window.onload = inizializzaGioco;
+    </script>
+</body>
+</html>
