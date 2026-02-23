@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>INVALSI - Spazio e Figure - Quinta Primaria</title>
+    <title>INVALSI - Space and Figures - 5th Grade</title>
     <style>
         /* STILI IDENTICI ALL'ORIGINALE (non modificati) */
         * {
@@ -1332,20 +1332,20 @@
 <body>
     <div class="game-container">
         <div class="game-header">
-            <h1>SPAZIO E FIGURE - INVALSI Quinta Primaria</h1>
+            <h1>SPACE AND FIGURES - INVALSI 5th Grade</h1>
             
             <div class="tipo-domanda-container">
                 <button class="tipo-domanda-btn attiva" id="tipo-base">
-                    Figure Piane
+                    2D Shapes
                 </button>
                 <button class="tipo-domanda-btn" id="tipo-confronti">
-                    Solidi e proprietà
+                    3D Shapes & Properties
                 </button>
                 <button class="tipo-domanda-btn" id="tipo-operazioni">
-                    Perimetri e aree
+                    Perimeter & Area
                 </button>
                 <button class="tipo-domanda-btn" id="tipo-problemi">
-                    Problemi geometrici
+                    Geometry Problems
                 </button>
             </div>
             
@@ -1354,12 +1354,12 @@
                     <div class="display-container">
                         <div class="display-7segmenti giallo" id="punteggio-display">0</div>
                     </div>
-                    <div class="display-title">PUNTEGGIO</div>
+                    <div class="display-title">SCORE</div>
                 </div>
                 
                 <div class="istruzioni-container">
-                    <button class="istruzioni-btn" id="istruzioni-btn" title="Istruzioni del gioco">
-                        📚 Istruzioni
+                    <button class="istruzioni-btn" id="istruzioni-btn" title="Game instructions">
+                        📚 Instructions
                     </button>
                 </div>
                 
@@ -1367,13 +1367,14 @@
                     <div class="display-container">
                         <div class="display-7segmenti verde tempo" id="tempo-display">10:00</div>
                     </div>
-                    <div class="display-title">TEMPO</div>
+                    <div class="display-title">TIME</div>
                 </div>
 
+                <!-- EXIT BUTTON (points to English home) -->
                 <div class="indicatore-cruscotto">
                     <button class="btn-exit" id="esciBtn">
                         <span class="exit-icon">🚪</span>
-                        <span>Esci</span>
+                        <span>Exit</span>
                     </button>
                 </div>
             </div>
@@ -1381,38 +1382,38 @@
             <div class="vite-container" id="vite-container"></div>
             
             <div class="errori-indicatore" id="errori-indicatore">
-                <span>Errori consecutivi:</span>
+                <span>Consecutive mistakes:</span>
                 <div class="pallino-errore" id="errore-1"></div>
                 <div class="pallino-errore" id="errore-2"></div>
                 <div class="pallino-errore" id="errore-3"></div>
-                <span>(perdi 1 vita al 3° errore)</span>
+                <span>(lose 1 life at 3rd mistake)</span>
             </div>
             
             <div class="risposte-consecutive" id="risposte-consecutive">
-                <span>Risposte consecutive corrette:</span>
+                <span>Correct answers in a row:</span>
                 <span id="contatore-consecutive">0</span>
                 <span class="cuore-consecutivo">❤️</span>
             </div>
             
             <div class="aiuti-utilizzati" id="aiuti-utilizzati">
-                <span>Aiuti utilizzati in questa domanda:</span>
+                <span>Hints used in this question:</span>
                 <span id="contatore-aiuti">0</span>
                 <span class="icona-aiuto">🧠</span>
-                <span>(costo: -2 punti ciascuno)</span>
+                <span>(cost: -2 points each)</span>
             </div>
         </div>
         
         <div class="sezione-gioco">
             <div class="messaggio-avvio" id="messaggio-avvio">
                 <div class="icona-play">📐</div>
-                <h2>Pronti per esplorare lo spazio e le figure?</h2>
-                <p>Scopri le proprietà di figure piane, solidi, perimetri, aree e simmetrie!</p>
-                <p>Domande stile INVALSI per la quinta primaria.</p>
+                <h2>Ready to explore space and figures?</h2>
+                <p>Discover properties of 2D shapes, 3D solids, perimeters, areas and symmetry!</p>
+                <p>INVALSI-style questions for 5th grade.</p>
                 <div class="istruzione-gioco">
-                    Alcune domande hanno più risposte corrette!<br>
-                    Clicca su tutte le opzioni che ritieni corrette.
+                    Some questions have multiple correct answers!<br>
+                    Click on ALL the options you think are correct.
                 </div>
-                <p class="istruzione-principale">Clicca qui per iniziare a giocare!</p>
+                <p class="istruzione-principale">Click here to start playing!</p>
             </div>
             
             <div class="area-domanda" id="area-domanda"></div>
@@ -1422,16 +1423,16 @@
         
         <div class="controlli" id="controlli-gioco">
             <button class="bottone bottone-aiuto" id="bottone-aiuto">
-                🧠 Aiuto (-2)
+                🧠 Hint (-2)
             </button>
             <button class="bottone bottone-verifica" id="bottone-verifica">
-                ✓ Verifica
+                ✓ Check
             </button>
             <button class="bottone bottone-prossima" id="bottone-prossima" style="display: none;">
-                ⏭️ Prossima
+                ⏭️ Next
             </button>
             <button class="bottone bottone-nuova" id="bottone-nuova">
-                🔄 Nuova Partita
+                🔄 New Game
             </button>
         </div>
         
@@ -1444,95 +1445,95 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">
-                    📚 Istruzioni del Gioco - Spazio e Figure INVALSI
+                    📚 Game Instructions - Space and Figures INVALSI
                 </div>
                 <button class="close-modal" id="close-modal">✕</button>
             </div>
             
             <div class="modal-section">
-                <h3>🎯 Come Giocare</h3>
-                <p>Mettiti alla prova con la geometria:</p>
+                <h3>🎯 How to Play</h3>
+                <p>Test your geometry skills:</p>
                 <ol class="modal-list">
-                    <li>Scegli il tipo di domanda (Figure Piane, Solidi, Perimetri/Aree, Problemi)</li>
-                    <li>Leggi attentamente la domanda e osserva le eventuali figure mentali</li>
-                    <li>Per domande a scelta multipla: clicca sulla risposta corretta</li>
-                    <li>Per domande con più risposte: clicca su TUTTE le risposte corrette</li>
-                    <li>Per vero/falso: clicca su VERO o FALSO</li>
-                    <li>Per risposte aperte: scrivi il numero (ad es. per il perimetro)</li>
-                    <li>Premi "Verifica" per controllare la risposta</li>
-                    <li>Dopo la verifica, premi "Prossima" per passare alla domanda successiva</li>
+                    <li>Choose the question type (2D Shapes, 3D Shapes, Perimeter/Area, Problems)</li>
+                    <li>Read the question carefully and visualize the figures</li>
+                    <li>For multiple-choice questions: click on the correct answer</li>
+                    <li>For questions with multiple answers: click on ALL correct answers</li>
+                    <li>For true/false: click on TRUE or FALSE</li>
+                    <li>For open-ended answers: type the number (e.g., for perimeter)</li>
+                    <li>Press "Check" to verify your answer</li>
+                    <li>After checking, press "Next" to go to the next question</li>
                 </ol>
             </div>
             
             <div class="modal-section">
-                <h3>📐 Tipi di Domande</h3>
-                <p><strong>Figure Piane:</strong> Riconoscimento di figure (quadrato, triangolo, cerchio...), proprietà (lati, angoli, diagonali)</p>
-                <p><strong>Solidi e proprietà:</strong> Cubo, parallelepipedo, sfere, vertici, spigoli, facce</p>
-                <p><strong>Perimetri e aree:</strong> Calcolo del perimetro e dell'area di figure semplici</p>
-                <p><strong>Problemi geometrici:</strong> Applicazioni a situazioni reali (piastrelle, giardini, ecc.)</p>
-                <p><strong>Vero/Falso:</strong> Affermazioni da valutare come vere o false</p>
-                <p><strong>Scelta Multipla:</strong> 4 opzioni, una sola corretta</p>
-                <p><strong>Scelta Multipla Multipla:</strong> 4 opzioni, più risposte corrette possibili</p>
+                <h3>📐 Question Types</h3>
+                <p><strong>2D Shapes:</strong> Recognize figures (square, triangle, circle...), properties (sides, angles, diagonals)</p>
+                <p><strong>3D Shapes & Properties:</strong> Cube, cuboid, spheres, vertices, edges, faces</p>
+                <p><strong>Perimeter & Area:</strong> Calculate perimeter and area of simple figures</p>
+                <p><strong>Geometry Problems:</strong> Applications to real-life situations (tiles, gardens, etc.)</p>
+                <p><strong>True/False:</strong> Statements to evaluate as true or false</p>
+                <p><strong>Multiple Choice:</strong> 4 options, only one correct</p>
+                <p><strong>Multiple Multiple Choice:</strong> 4 options, multiple correct possible</p>
             </div>
             
             <div class="modal-section">
-                <h3>📏 Concetti chiave</h3>
+                <h3>📏 Key Concepts</h3>
                 <ul class="modal-list">
-                    <li><strong>Figure piane:</strong> quadrato (4 lati uguali, 4 angoli retti), rettangolo (lati opposti uguali), triangolo (3 lati), cerchio</li>
-                    <li><strong>Solidi:</strong> cubo (6 facce quadrate, 8 vertici, 12 spigoli), parallelepipedo, piramide</li>
-                    <li><strong>Perimetro:</strong> somma dei lati</li>
-                    <li><strong>Area:</strong> misura della superficie (quadrato: lato×lato; rettangolo: base×altezza)</li>
-                    <li><strong>Simmetria:</strong> una figura è simmetrica se può essere divisa in due parti uguali da una linea (asse)</li>
+                    <li><strong>2D shapes:</strong> square (4 equal sides, 4 right angles), rectangle (opposite sides equal), triangle (3 sides), circle</li>
+                    <li><strong>3D solids:</strong> cube (6 square faces, 8 vertices, 12 edges), cuboid, pyramid</li>
+                    <li><strong>Perimeter:</strong> sum of sides</li>
+                    <li><strong>Area:</strong> surface measurement (square: side×side; rectangle: base×height)</li>
+                    <li><strong>Symmetry:</strong> a figure is symmetrical if it can be divided into two equal parts by a line (axis)</li>
                 </ul>
             </div>
             
             <div class="modal-section">
-                <h3>🏆 Sistema dei Punteggi e Vite</h3>
+                <h3>🏆 Scoring and Lives System</h3>
                 <div class="punteggio-info">
                     <div class="punteggio-item">
-                        <div>Risposta corretta:</div>
-                        <div class="value">+2 punti</div>
+                        <div>Correct answer:</div>
+                        <div class="value">+2 points</div>
                     </div>
                     <div class="punteggio-item">
-                        <div>Aiuto utilizzato:</div>
-                        <div class="value">-2 punti ciascuno</div>
+                        <div>Hint used:</div>
+                        <div class="value">-2 points each</div>
                     </div>
                     <div class="punteggio-item">
-                        <div>Domande con più risposte:</div>
-                        <div class="value">+3 punti se tutte corrette</div>
+                        <div>Questions with multiple answers:</div>
+                        <div class="value">+3 points if all correct</div>
                     </div>
                     <div class="punteggio-item">
-                        <div>5 risposte corrette consecutive:</div>
-                        <div class="value">+1 vita</div>
+                        <div>5 correct answers in a row:</div>
+                        <div class="value">+1 life</div>
                     </div>
                 </div>
-                <p><strong>⚠️ Attenzione:</strong> Se usi troppi aiuti, potresti finire con 0 punti per quella domanda!</p>
-                <p><strong>✨ Bonus Vita:</strong> Ogni 5 risposte consecutive corrette, recuperi una vita (massimo 3 vite).</p>
-                <p><strong>🔄 Sistema Errori:</strong> Perdi una vita solo dopo 3 errori consecutivi. Ogni risposta corretta resetta il contatore errori.</p>
+                <p><strong>⚠️ Attention:</strong> If you use too many hints, you might end up with 0 points for that question!</p>
+                <p><strong>✨ Life Bonus:</strong> Every 5 correct answers in a row, you recover a life (maximum 3 lives).</p>
+                <p><strong>🔄 Mistake System:</strong> You lose a life only after 3 consecutive mistakes. Each correct answer resets the mistake counter.</p>
             </div>
             
             <div class="modal-section">
-                <h3>⏱️ Tempo</h3>
-                <p>Hai 10 minuti per rispondere a quante più domande possibili!</p>
-                <p>Il timer diventa rosso quando mancano meno di 60 secondi.</p>
+                <h3>⏱️ Time</h3>
+                <p>You have 10 minutes to answer as many questions as possible!</p>
+                <p>The timer turns red when less than 60 seconds remain.</p>
             </div>
             
             <div class="modal-section">
-                <h3>🎓 Obiettivo Didattico</h3>
-                <p>Questo gioco aiuta a prepararsi alle prove INVALSI di matematica per la quinta classe della scuola primaria, sviluppando:</p>
+                <h3>🎓 Educational Goal</h3>
+                <p>This game helps prepare for the INVALSI math tests for the 5th grade of primary school, developing:</p>
                 <ul class="modal-list">
-                    <li>Riconoscimento e proprietà delle principali figure geometriche</li>
-                    <li>Calcolo di perimetri e aree</li>
-                    <li>Comprensione dei solidi e delle loro caratteristiche</li>
-                    <li>Risoluzione di problemi geometrici tratti da situazioni reali</li>
-                    <li>Capacità di individuare assi di simmetria</li>
+                    <li>Recognition and properties of main geometric figures</li>
+                    <li>Calculation of perimeters and areas</li>
+                    <li>Understanding of 3D solids and their characteristics</li>
+                    <li>Solving geometry problems from real-life situations</li>
+                    <li>Ability to identify axes of symmetry</li>
                 </ul>
             </div>
         </div>
     </div>
 
     <script>
-        // VARIABILI DEL GIOCO (identiche all'originale)
+        // GAME VARIABLES (same structure, translated questions below)
         let punteggio = 0;
         let vite = 3;
         let tipoGioco = 'base';
@@ -1560,329 +1561,329 @@
         let haMostratoSuggerimentoCambioSezione = false;
         const LIMITE_DOMANDE_PRIMA_SUGGERIMENTO = 5;
         
-        // DOMANDE SULLA GEOMETRIA (SPAZIO E FIGURE) - Ispirate a INVALSI quinta primaria
+        // GEOMETRY QUESTIONS (TRANSLATED) - Inspired by INVALSI 5th grade
         const tutteLeDomande = {
-            base: [ // Figure piane
+            base: [ // 2D Shapes
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Quale di queste figure ha tutti i lati uguali e tutti gli angoli retti?",
-                    opzioni: ["Triangolo", "Quadrato", "Rettangolo", "Cerchio"],
+                    domanda: "Which of these figures has all sides equal and all angles right?",
+                    opzioni: ["Triangle", "Square", "Rectangle", "Circle"],
                     risposta: 1,
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali di queste figure hanno almeno un angolo retto? (Scegli tutte quelle corrette)",
-                    opzioni: ["Quadrato", "Triangolo rettangolo", "Cerchio", "Rettangolo"],
+                    domanda: "Which of these figures have at least one right angle? (Choose all correct ones)",
+                    opzioni: ["Square", "Right triangle", "Circle", "Rectangle"],
                     risposte: [0, 1, 3],
                     difficolta: 2
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "Un triangolo equilatero ha tutti i lati uguali.",
+                    domanda: "An equilateral triangle has all sides equal.",
                     risposta: true,
-                    spiegazione: "Nel triangolo equilatero tutti e tre i lati sono uguali.",
+                    spiegazione: "In an equilateral triangle all three sides are equal.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali di queste figure hanno 4 lati? (Scegli tutte quelle corrette)",
-                    opzioni: ["Quadrato", "Triangolo", "Rettangolo", "Pentagono"],
+                    domanda: "Which of these figures have 4 sides? (Choose all correct ones)",
+                    opzioni: ["Square", "Triangle", "Rectangle", "Pentagon"],
                     risposte: [0, 2],
-                    spiegazione: "Quadrato e rettangolo hanno 4 lati, il triangolo ne ha 3, il pentagono 5.",
+                    spiegazione: "Square and rectangle have 4 sides, triangle has 3, pentagon has 5.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Come si chiama un poligono con 5 lati?",
-                    opzioni: ["Quadrilatero", "Pentagono", "Esagono", "Triangolo"],
+                    domanda: "What do you call a polygon with 5 sides?",
+                    opzioni: ["Quadrilateral", "Pentagon", "Hexagon", "Triangle"],
                     risposta: 1,
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali di queste affermazioni sul quadrato sono vere? (Scegli tutte quelle corrette)",
-                    opzioni: ["Ha 4 lati", "Ha tutti i lati uguali", "Ha 4 angoli retti", "Ha 2 diagonali perpendicolari"],
+                    domanda: "Which statements about a square are true? (Choose all correct ones)",
+                    opzioni: ["It has 4 sides", "All sides are equal", "It has 4 right angles", "Its diagonals are perpendicular"],
                     risposte: [0, 1, 2, 3],
-                    spiegazione: "Tutte le proprietà elencate sono vere per un quadrato.",
+                    spiegazione: "All listed properties are true for a square.",
                     difficolta: 2
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "Un cerchio è un poligono.",
+                    domanda: "A circle is a polygon.",
                     risposta: false,
-                    spiegazione: "Il cerchio non è un poligono perché non ha lati, è una figura curva.",
+                    spiegazione: "A circle is not a polygon because it has no sides; it is a curved figure.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Quanti assi di simmetria ha un quadrato?",
+                    domanda: "How many axes of symmetry does a square have?",
                     opzioni: ["2", "4", "8", "0"],
                     risposta: 1,
-                    spiegazione: "Il quadrato ha 4 assi di simmetria: due passanti per i punti medi dei lati opposti e due passanti per i vertici opposti (diagonali).",
+                    spiegazione: "A square has 4 axes of symmetry: two through midpoints of opposite sides and two through opposite vertices (diagonals).",
                     difficolta: 3
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali figure hanno almeno un asse di simmetria? (Scegli tutte quelle corrette)",
-                    opzioni: ["Quadrato", "Triangolo isoscele", "Triangolo scaleno", "Cerchio"],
+                    domanda: "Which figures have at least one axis of symmetry? (Choose all correct ones)",
+                    opzioni: ["Square", "Isosceles triangle", "Scalene triangle", "Circle"],
                     risposte: [0, 1, 3],
-                    spiegazione: "Il triangolo scaleno non ha assi di simmetria, gli altri sì.",
+                    spiegazione: "A scalene triangle has no axes of symmetry, the others do.",
                     difficolta: 3
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "Un triangolo rettangolo ha sempre un angolo retto.",
+                    domanda: "A right triangle always has a right angle.",
                     risposta: true,
-                    spiegazione: "Per definizione, il triangolo rettangolo ha un angolo di 90°.",
+                    spiegazione: "By definition, a right triangle has one 90° angle.",
                     difficolta: 1
                 }
             ],
             
-            confronti: [ // Solidi e proprietà
+            confronti: [ // 3D Shapes & Properties
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Quante facce ha un cubo?",
+                    domanda: "How many faces does a cube have?",
                     opzioni: ["4", "6", "8", "12"],
                     risposta: 1,
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali di questi sono solidi? (Scegli tutte quelle corrette)",
-                    opzioni: ["Cubo", "Quadrato", "Sfera", "Piramide"],
+                    domanda: "Which of these are solids? (Choose all correct ones)",
+                    opzioni: ["Cube", "Square", "Sphere", "Pyramid"],
                     risposte: [0, 2, 3],
-                    spiegazione: "Il quadrato è una figura piana, gli altri sono solidi.",
+                    spiegazione: "A square is a 2D shape, the others are solids.",
                     difficolta: 1
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "Un parallelepipedo ha tutte le facce quadrate.",
+                    domanda: "A cuboid has all square faces.",
                     risposta: false,
-                    spiegazione: "Un parallelepipedo può avere facce rettangolari, non necessariamente quadrate (il cubo è un caso particolare).",
+                    spiegazione: "A cuboid can have rectangular faces, not necessarily square (a cube is a special case).",
                     difficolta: 2
                 },
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Quanti spigoli ha un cubo?",
+                    domanda: "How many edges does a cube have?",
                     opzioni: ["6", "8", "12", "10"],
                     risposta: 2,
                     difficolta: 2
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali solidi hanno almeno una faccia triangolare? (Scegli tutte quelle corrette)",
-                    opzioni: ["Piramide a base quadrata", "Cubo", "Tetraedro", "Sfera"],
+                    domanda: "Which solids have at least one triangular face? (Choose all correct ones)",
+                    opzioni: ["Square-based pyramid", "Cube", "Tetrahedron", "Sphere"],
                     risposte: [0, 2],
-                    spiegazione: "La piramide a base quadrata ha facce triangolari laterali, il tetraedro ha tutte facce triangolari; cubo e sfera no.",
+                    spiegazione: "A square-based pyramid has triangular lateral faces; a tetrahedron has all triangular faces; cube and sphere have none.",
                     difficolta: 2
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "Una sfera non ha vertici né spigoli.",
+                    domanda: "A sphere has no vertices or edges.",
                     risposta: true,
-                    spiegazione: "La sfera è un solido rotondo senza vertici né spigoli.",
+                    spiegazione: "A sphere is a round solid with no vertices or edges.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali di questi solidi hanno 8 vertici? (Scegli tutte quelle corrette)",
-                    opzioni: ["Cubo", "Parallelepipedo", "Piramide a base quadrata", "Tetraedro"],
+                    domanda: "Which of these solids have 8 vertices? (Choose all correct ones)",
+                    opzioni: ["Cube", "Cuboid", "Square-based pyramid", "Tetrahedron"],
                     risposte: [0, 1],
-                    spiegazione: "Cubo e parallelepipedo hanno 8 vertici; la piramide a base quadrata ne ha 5, il tetraedro 4.",
+                    spiegazione: "Cube and cuboid have 8 vertices; square-based pyramid has 5, tetrahedron has 4.",
                     difficolta: 3
                 },
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Quante facce ha una piramide a base quadrata?",
+                    domanda: "How many faces does a square-based pyramid have?",
                     opzioni: ["4", "5", "6", "8"],
                     risposta: 1,
-                    spiegazione: "Ha 4 facce laterali triangolari + la base quadrata = 5 facce.",
+                    spiegazione: "It has 4 triangular lateral faces + the square base = 5 faces.",
                     difficolta: 2
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali caratteristiche ha il cubo? (Scegli tutte quelle corrette)",
-                    opzioni: ["6 facce quadrate", "8 vertici", "12 spigoli", "Tutte le facce uguali"],
+                    domanda: "Which characteristics does a cube have? (Choose all correct ones)",
+                    opzioni: ["6 square faces", "8 vertices", "12 edges", "All faces equal"],
                     risposte: [0, 1, 2, 3],
-                    spiegazione: "Tutte le proprietà sono corrette per il cubo.",
+                    spiegazione: "All properties are correct for a cube.",
                     difficolta: 2
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "Un cono ha due basi circolari.",
+                    domanda: "A cone has two circular bases.",
                     risposta: false,
-                    spiegazione: "Il cono ha una sola base circolare, l'altra estremità è un vertice.",
+                    spiegazione: "A cone has one circular base; the other end is a vertex.",
                     difficolta: 2
                 }
             ],
             
-            operazioni: [ // Perimetri e aree
+            operazioni: [ // Perimeter and Area
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Qual è il perimetro di un quadrato con lato di 5 cm?",
+                    domanda: "What is the perimeter of a square with side 5 cm?",
                     opzioni: ["10 cm", "15 cm", "20 cm", "25 cm"],
                     risposta: 2,
-                    spiegazione: "Perimetro = 4 × lato = 4 × 5 = 20 cm.",
+                    spiegazione: "Perimeter = 4 × side = 4 × 5 = 20 cm.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali di queste formule sono corrette per calcolare l'area? (Scegli tutte quelle corrette)",
-                    opzioni: ["Quadrato: lato × lato", "Rettangolo: base × altezza", "Triangolo: (base × altezza) : 2", "Cerchio: raggio × 2"],
+                    domanda: "Which of these formulas for area are correct? (Choose all correct ones)",
+                    opzioni: ["Square: side × side", "Rectangle: base × height", "Triangle: (base × height) ÷ 2", "Circle: radius × 2"],
                     risposte: [0, 1, 2],
-                    spiegazione: "Le prime tre sono corrette; per il cerchio l'area è π × r² (non raggio×2).",
+                    spiegazione: "The first three are correct; for a circle, area = π × r² (not radius×2).",
                     difficolta: 2
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "L'area di un rettangolo di base 4 m e altezza 3 m è 12 m².",
+                    domanda: "The area of a rectangle with base 4 m and height 3 m is 12 m².",
                     risposta: true,
-                    spiegazione: "Area = base × altezza = 4 × 3 = 12 m².",
+                    spiegazione: "Area = base × height = 4 × 3 = 12 m².",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Un triangolo ha base 6 cm e altezza 4 cm. Qual è la sua area?",
+                    domanda: "A triangle has base 6 cm and height 4 cm. What is its area?",
                     opzioni: ["12 cm²", "24 cm²", "10 cm²", "20 cm²"],
                     risposta: 0,
-                    spiegazione: "Area triangolo = (base × altezza)/2 = (6×4)/2 = 12 cm².",
+                    spiegazione: "Triangle area = (base × height)/2 = (6×4)/2 = 12 cm².",
                     difficolta: 2
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali figure hanno lo stesso perimetro di un quadrato di lato 3? (Scegli tutte quelle corrette)",
-                    opzioni: ["Rettangolo 2×4", "Triangolo equilatero lato 4", "Quadrato lato 3", "Rettangolo 3×3"],
+                    domanda: "Which figures have the same perimeter as a square of side 3? (Choose all correct ones)",
+                    opzioni: ["Rectangle 2×4", "Equilateral triangle side 4", "Square side 3", "Rectangle 3×3"],
                     risposte: [0, 1, 2, 3],
-                    spiegazione: "Perimetro quadrato = 12. Rettangolo 2×4 ha perimetro 12, triangolo equilatero lato 4 ha perimetro 12, quadrato lato 3 ha 12, rettangolo 3×3 è un quadrato (perimetro 12). Tutti hanno perimetro 12.",
+                    spiegazione: "Square perimeter = 12. Rectangle 2×4 has perimeter 12, equilateral triangle side 4 has perimeter 12, square side 3 has 12, rectangle 3×3 is a square (perimeter 12). All have perimeter 12.",
                     difficolta: 3
                 },
                 {
                     tipo: "risposta_aperta",
-                    domanda: "Un quadrato ha il lato di 7 cm. Quanto misura il suo perimetro? (Scrivi solo il numero)",
+                    domanda: "A square has side 7 cm. What is its perimeter? (Write only the number)",
                     risposta: "28",
-                    spiegazione: "Perimetro = 4 × 7 = 28 cm.",
+                    spiegazione: "Perimeter = 4 × 7 = 28 cm.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Qual è l'area di un quadrato con lato di 9 cm?",
+                    domanda: "What is the area of a square with side 9 cm?",
                     opzioni: ["18 cm²", "36 cm²", "81 cm²", "9 cm²"],
                     risposta: 2,
-                    spiegazione: "Area = lato × lato = 9×9 = 81 cm².",
+                    spiegazione: "Area = side × side = 9×9 = 81 cm².",
                     difficolta: 1
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "Il perimetro di un rettangolo di lati 5 e 3 è 16.",
+                    domanda: "The perimeter of a rectangle with sides 5 and 3 is 16.",
                     risposta: true,
-                    spiegazione: "Perimetro = 2×(5+3) = 16.",
+                    spiegazione: "Perimeter = 2×(5+3) = 16.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali di queste misure possono essere aree? (Scegli tutte quelle corrette)",
+                    domanda: "Which of these measures can be areas? (Choose all correct ones)",
                     opzioni: ["12 m", "15 cm²", "20 km²", "8 m"],
                     risposte: [1, 2],
-                    spiegazione: "L'area si esprime in unità quadrate (m², cm², km²).",
+                    spiegazione: "Area is expressed in square units (m², cm², km²).",
                     difficolta: 2
                 },
                 {
                     tipo: "risposta_aperta",
-                    domanda: "Un rettangolo ha base 8 m e altezza 3 m. Quanto misura la sua area? (Scrivi solo il numero, senza unità)",
+                    domanda: "A rectangle has base 8 m and height 3 m. What is its area? (Write only the number, no units)",
                     risposta: "24",
-                    spiegazione: "Area = base × altezza = 8 × 3 = 24 m².",
+                    spiegazione: "Area = base × height = 8 × 3 = 24 m².",
                     difficolta: 1
                 }
             ],
             
-            problemi: [ // Problemi geometrici
+            problemi: [ // Geometry Problems
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Un giardino a forma di quadrato ha il lato di 10 m. Quanto misura la recinzione intorno?",
+                    domanda: "A square garden has side 10 m. How long is the fence around it?",
                     opzioni: ["40 m", "100 m", "20 m", "10 m"],
                     risposta: 0,
-                    spiegazione: "La recinzione è il perimetro: 4 × 10 = 40 m.",
+                    spiegazione: "The fence is the perimeter: 4 × 10 = 40 m.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Per rivestire il pavimento di una stanza rettangolare di 5 m × 4 m con piastrelle quadrate da 1 m², quante piastrelle servono?",
+                    domanda: "To tile a rectangular floor 5 m × 4 m with square tiles of 1 m², how many tiles are needed?",
                     opzioni: ["20", "5×4=20", "18", "25"],
                     risposte: [0, 1],
-                    spiegazione: "L'area della stanza è 20 m², quindi servono 20 piastrelle. Le opzioni 0 e 1 sono equivalenti (20 e 5×4=20).",
+                    spiegazione: "The floor area is 20 m², so 20 tiles are needed. Options 0 and 1 are equivalent (20 and 5×4=20).",
                     difficolta: 2
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "Una pizza circolare di diametro 30 cm ha un raggio di 15 cm.",
+                    domanda: "A circular pizza with diameter 30 cm has a radius of 15 cm.",
                     risposta: true,
-                    spiegazione: "Il raggio è la metà del diametro: 30/2 = 15 cm.",
+                    spiegazione: "Radius is half the diameter: 30/2 = 15 cm.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Un triangolo ha i lati di 7 cm, 8 cm e 9 cm. Quanto misura il suo perimetro?",
+                    domanda: "A triangle has sides 7 cm, 8 cm, and 9 cm. What is its perimeter?",
                     opzioni: ["24 cm", "25 cm", "23 cm", "26 cm"],
                     risposta: 0,
-                    spiegazione: "Perimetro = 7+8+9 = 24 cm.",
+                    spiegazione: "Perimeter = 7+8+9 = 24 cm.",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Marco ha un foglio rettangolare di 30 cm × 20 cm. Vuole ritagliare dei quadrati di lato 5 cm. Quanti quadrati può ottenere al massimo? (Scegli tutte le affermazioni corrette)",
-                    opzioni: ["6 quadrati per riga", "4 quadrati per colonna", "24 quadrati in tutto", "30 quadrati in tutto"],
+                    domanda: "Marco has a rectangular sheet 30 cm × 20 cm. He wants to cut squares of side 5 cm. How many squares can he get at most? (Choose all correct statements)",
+                    opzioni: ["6 squares per row", "4 squares per column", "24 squares total", "30 squares total"],
                     risposte: [0, 1, 2],
-                    spiegazione: "Sul lato lungo 30 cm ci stanno 30/5=6 quadrati; sul lato corto 20/5=4; totale 6×4=24 quadrati.",
+                    spiegazione: "On the long side (30 cm) he can fit 30/5=6 squares; on the short side 20/5=4; total 6×4=24 squares.",
                     difficolta: 3
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "Se raddoppio il lato di un quadrato, la sua area raddoppia.",
+                    domanda: "If I double the side of a square, its area doubles.",
                     risposta: false,
-                    spiegazione: "L'area diventa 4 volte più grande (es: lato 2 → area 4; lato 4 → area 16).",
+                    spiegazione: "The area becomes 4 times larger (e.g., side 2 → area 4; side 4 → area 16).",
                     difficolta: 2
                 },
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Una scatola a forma di cubo ha lo spigolo di 5 cm. Quanto misura il volume?",
+                    domanda: "A cube-shaped box has edge 5 cm. What is its volume?",
                     opzioni: ["15 cm³", "25 cm³", "125 cm³", "30 cm³"],
                     risposta: 2,
-                    spiegazione: "Volume cubo = spigolo³ = 5×5×5 = 125 cm³.",
+                    spiegazione: "Volume of a cube = edge³ = 5×5×5 = 125 cm³.",
                     difficolta: 2
                 },
                 {
                     tipo: "scelta_multipla_multi",
-                    domanda: "Quali di queste affermazioni sono vere per un parallelepipedo di dimensioni 3 cm, 4 cm, 5 cm? (Scegli tutte quelle corrette)",
-                    opzioni: ["Volume = 60 cm³", "Ha 6 facce", "Ha 8 vertici", "Tutte le facce sono quadrate"],
+                    domanda: "Which statements are true for a cuboid of dimensions 3 cm, 4 cm, 5 cm? (Choose all correct ones)",
+                    opzioni: ["Volume = 60 cm³", "It has 6 faces", "It has 8 vertices", "All faces are squares"],
                     risposte: [0, 1, 2],
-                    spiegazione: "Volume = 3×4×5 = 60 cm³; ha 6 facce, 8 vertici; le facce sono rettangolari, non quadrate.",
+                    spiegazione: "Volume = 3×4×5 = 60 cm³; it has 6 faces, 8 vertices; faces are rectangular, not square.",
                     difficolta: 3
                 },
                 {
                     tipo: "vero_falso",
-                    domanda: "L'area di un rettangolo di base 12 m e altezza 5 m è 60 m.",
+                    domanda: "The area of a rectangle with base 12 m and height 5 m is 60 m.",
                     risposta: false,
-                    spiegazione: "L'area è 60 m², non 60 m (il metro è unità di lunghezza).",
+                    spiegazione: "Area is 60 m², not 60 m (meters are units of length).",
                     difficolta: 1
                 },
                 {
                     tipo: "scelta_multipla",
-                    domanda: "Un pavimento rettangolare è lungo 8 m e largo 6 m. Quante mattonelle quadrate di lato 2 m servono per coprirlo?",
+                    domanda: "A rectangular floor is 8 m long and 6 m wide. How many square tiles of side 2 m are needed to cover it?",
                     opzioni: ["12", "24", "48", "14"],
                     risposta: 0,
-                    spiegazione: "Area pavimento = 48 m²; area mattonella = 4 m²; numero = 48/4 = 12.",
+                    spiegazione: "Floor area = 48 m²; tile area = 4 m²; number = 48/4 = 12.",
                     difficolta: 3
                 }
             ]
         };
         
-        // Funzione per normalizzare le frazioni (non serve più, ma la lasciamo per compatibilità)
+        // Function to normalize fractions (unused, kept for compatibility)
         function normalizzaFrazione(frazione) {
-            return frazione; // Non usata, ma mantenuta per evitare errori
+            return frazione;
         }
         
-        // Funzione per mescolare array
+        // Function to shuffle array
         function mescolaArray(array) {
             let arrayMescolato = [...array];
             for (let i = arrayMescolato.length - 1; i > 0; i--) {
@@ -1892,12 +1893,12 @@
             return arrayMescolato;
         }
         
-        // Funzione per rimuovere opzioni equivalenti (non serve, ma mantenuta)
+        // Function to remove equivalent options (unused, kept for compatibility)
         function rimuoviOpzioniEquivalenti(opzioni) {
-            return opzioni; // Nessuna equivalenza da gestire
+            return opzioni;
         }
         
-        // Creiamo copie mescolate delle domande
+        // Create shuffled copies of questions
         let domande = {
             base: mescolaArray(tutteLeDomande.base),
             confronti: mescolaArray(tutteLeDomande.confronti),
@@ -1909,31 +1910,31 @@
         let domandeDisponibili = [...domande.base];
         let indiceDomandaCorrente = 0;
         
-        // AUDIO CONTEXT (identico all'originale)
+        // AUDIO CONTEXT (identical to original)
         let audioContext;
         let audioInizializzato = false;
         
-        // SUONI
+        // SOUNDS
         let wowSound = null;
         let ahiSound = null;
         let successSound = null;
         let clickSound = null;
         let startSound = null;
 
-        // INIZIALIZZAZIONE AUDIO
+        // AUDIO INITIALIZATION (identical)
         function inizializzaAudio() {
             try {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 creaSuoni();
                 audioInizializzato = true;
             } catch (e) {
-                console.log("Audio non supportato:", e);
+                console.log("Audio not supported:", e);
                 audioInizializzato = false;
             }
         }
         
         function creaSuoni() {
-            // SUONO WOW
+            // WOW sound (same)
             try {
                 const durata = 1.5;
                 const buffer = audioContext.createBuffer(1, audioContext.sampleRate * durata, audioContext.sampleRate);
@@ -1962,10 +1963,10 @@
                 
                 wowSound = buffer;
             } catch (e) {
-                console.log("Errore creazione suono wow:", e);
+                console.log("Error creating wow sound:", e);
             }
             
-            // SUONO AHI
+            // AHI sound (same)
             try {
                 const durata = 0.8;
                 const buffer = audioContext.createBuffer(1, audioContext.sampleRate * durata, audioContext.sampleRate);
@@ -1989,10 +1990,10 @@
                 
                 ahiSound = buffer;
             } catch (e) {
-                console.log("Errore creazione suono ahi:", e);
+                console.log("Error creating ahi sound:", e);
             }
             
-            // SUONO DI SUCCESSO
+            // SUCCESS sound (same)
             try {
                 const durata = 1.0;
                 const buffer = audioContext.createBuffer(1, audioContext.sampleRate * durata, audioContext.sampleRate);
@@ -2016,10 +2017,10 @@
                 
                 successSound = buffer;
             } catch (e) {
-                console.log("Errore creazione suono successo:", e);
+                console.log("Error creating success sound:", e);
             }
             
-            // SUONO DI CLICK
+            // CLICK sound (same)
             try {
                 const durata = 0.1;
                 const buffer = audioContext.createBuffer(1, audioContext.sampleRate * durata, audioContext.sampleRate);
@@ -2036,10 +2037,10 @@
                 
                 clickSound = buffer;
             } catch (e) {
-                console.log("Errore creazione suono click:", e);
+                console.log("Error creating click sound:", e);
             }
             
-            // SUONO DI INIZIO GIOCO
+            // START sound (same)
             try {
                 const durata = 1.2;
                 const buffer = audioContext.createBuffer(1, audioContext.sampleRate * durata, audioContext.sampleRate);
@@ -2064,7 +2065,7 @@
                 
                 startSound = buffer;
             } catch (e) {
-                console.log("Errore creazione suono inizio:", e);
+                console.log("Error creating start sound:", e);
             }
         }
         
@@ -2087,7 +2088,7 @@
                 gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + durata);
             } catch (e) {
-                console.log("Errore riproduzione suono:", e);
+                console.log("Error playing sound:", e);
             }
         }
         
@@ -2111,7 +2112,7 @@
             playSound(startSound, 0.7);
         }
 
-        // FUNZIONI PER I DISPLAY (identiche)
+        // DISPLAY FUNCTIONS (identical to original)
         function aggiornaDisplayPunteggio() {
             const punteggioDisplay = document.getElementById('punteggio-display');
             
@@ -2226,7 +2227,7 @@
                     fermaTimer();
                     tempoRimanente = 0;
                     gameOver = true;
-                    mostraMessaggio(`TEMPO SCADUTO! Punteggio finale: ${punteggio}. Clicca "Nuova Partita" per ricominciare`, "game-over");
+                    mostraMessaggio(`TIME'S UP! Final score: ${punteggio}. Click "New Game" to restart`, "game-over");
                     document.getElementById("bottone-verifica").disabled = true;
                     document.getElementById("bottone-aiuto").disabled = true;
                     aggiornaUI();
@@ -2248,7 +2249,7 @@
             }
         }
 
-        // FUNZIONI DI GIOCO (identiche, ma aggiornano le sezioni con i nuovi nomi)
+        // GAME FUNCTIONS (adapted with translated texts)
         function inizializzaGioco() {
             punteggio = 0;
             vite = 3;
@@ -2460,19 +2461,19 @@
 
         function mostraSuggerimentoCambioSezione() {
             const nomiSezioni = {
-                'base': 'Figure Piane',
-                'confronti': 'Solidi e proprietà',
-                'operazioni': 'Perimetri e aree',
-                'problemi': 'Problemi geometrici'
+                'base': '2D Shapes',
+                'confronti': '3D Shapes',
+                'operazioni': 'Perimeter & Area',
+                'problemi': 'Problems'
             };
             
             const sezioneAttuale = nomiSezioni[tipoGioco];
             
-            const messaggio = `Hai giocato ${domandeConsecutiveStessaSezione} volte con "${sezioneAttuale}". Prova a cambiare sezione per variare le domande!`;
+            const messaggio = `You've played ${domandeConsecutiveStessaSezione} times in "${sezioneAttuale}". Try changing sections to vary the questions!`;
             
             const bottoneCambia = document.createElement('button');
             bottoneCambia.className = 'bottone bottone-cambia-sezione';
-            bottoneCambia.textContent = '🔀 Cambia Sezione';
+            bottoneCambia.textContent = '🔀 Change Section';
             bottoneCambia.style.marginTop = '10px';
             
             bottoneCambia.onclick = function() {
@@ -2487,7 +2488,7 @@
             
             const bottoneChiudi = document.createElement('button');
             bottoneChiudi.className = 'bottone';
-            bottoneChiudi.textContent = 'Chiudi';
+            bottoneChiudi.textContent = 'Close';
             bottoneChiudi.style.marginTop = '5px';
             bottoneChiudi.style.marginLeft = '10px';
             bottoneChiudi.style.backgroundColor = '#6c757d';
@@ -2565,14 +2566,14 @@
             if (domanda.tipo === "scelta_multipla_multi") {
                 const infoMulti = document.createElement("div");
                 infoMulti.className = "multi-selezione-info";
-                infoMulti.textContent = "⚠️ Questa domanda ha più risposte corrette! Seleziona tutte quelle che ritieni giuste.";
+                infoMulti.textContent = "⚠️ This question has multiple correct answers! Select all that you think are correct.";
                 areaDomanda.appendChild(infoMulti);
             }
             
             if (domanda.tipo === "risposta_aperta") {
                 const avviso = document.createElement("div");
                 avviso.className = "multi-selezione-info";
-                avviso.textContent = "⚠️ Scrivi solo il numero (ad esempio 24) senza unità di misura.";
+                avviso.textContent = "⚠️ Write only the number (e.g., 24) without units.";
                 areaDomanda.appendChild(avviso);
             }
             
@@ -2668,7 +2669,7 @@
             if (invertiOrdine) {
                 const falsoBtn = document.createElement("button");
                 falsoBtn.className = "opzione-btn";
-                falsoBtn.textContent = "FALSO";
+                falsoBtn.textContent = "FALSE";
                 falsoBtn.dataset.valore = "false";
                 
                 falsoBtn.onclick = () => {
@@ -2682,7 +2683,7 @@
                 
                 const veroBtn = document.createElement("button");
                 veroBtn.className = "opzione-btn";
-                veroBtn.textContent = "VERO";
+                veroBtn.textContent = "TRUE";
                 veroBtn.dataset.valore = "true";
                 
                 veroBtn.onclick = () => {
@@ -2699,7 +2700,7 @@
             } else {
                 const veroBtn = document.createElement("button");
                 veroBtn.className = "opzione-btn";
-                veroBtn.textContent = "VERO";
+                veroBtn.textContent = "TRUE";
                 veroBtn.dataset.valore = "true";
                 
                 veroBtn.onclick = () => {
@@ -2713,7 +2714,7 @@
                 
                 const falsoBtn = document.createElement("button");
                 falsoBtn.className = "opzione-btn";
-                falsoBtn.textContent = "FALSO";
+                falsoBtn.textContent = "FALSE";
                 falsoBtn.dataset.valore = "false";
                 
                 falsoBtn.onclick = () => {
@@ -2742,7 +2743,7 @@
             const casella = document.createElement("input");
             casella.className = "casella-risposta";
             casella.type = "text";
-            casella.placeholder = "Scrivi numero";
+            casella.placeholder = "Enter number";
             casella.inputmode = "numeric";
             
             casella.addEventListener('input', (e) => {
@@ -2814,7 +2815,7 @@
             const tastieraContainer = document.getElementById("tastiera-container");
             
             if (tipoDomanda === "risposta_aperta") {
-                // La tastiera viene creata al momento
+                // Keyboard created when needed
             } else {
                 tastieraContainer.style.display = "none";
             }
@@ -2874,12 +2875,12 @@
             
             if (domandaCorrente.tipo === "scelta_multipla" || domandaCorrente.tipo === "scelta_multipla_multi" || domandaCorrente.tipo === "vero_falso") {
                 if (opzioniSelezionate.length === 0) {
-                    mostraMessaggio("Seleziona almeno una risposta prima di verificare!", "errato");
+                    mostraMessaggio("Select at least one answer before checking!", "errato");
                     return;
                 }
             } else if (domandaCorrente.tipo === "risposta_aperta") {
                 if (rispostaAperta.trim() === "") {
-                    mostraMessaggio("Inserisci una risposta prima di verificare!", "errato");
+                    mostraMessaggio("Enter an answer before checking!", "errato");
                     return;
                 }
             }
@@ -2915,13 +2916,12 @@
                 corretta = opzioniSelezionate[0] === domandaCorrente.risposta;
                 
             } else if (domandaCorrente.tipo === "risposta_aperta") {
-                // Confronto numerico
+                // Numerical comparison
                 const rispostaUtente = rispostaAperta.trim();
                 const rispostaCorretta = domandaCorrente.risposta.toString().trim();
                 
                 corretta = rispostaUtente === rispostaCorretta;
                 
-                // Se non corrisponde esattamente, proviamo a confrontare numericamente
                 if (!corretta) {
                     const numUtente = parseInt(rispostaUtente, 10);
                     const numCorretto = parseInt(rispostaCorretta, 10);
@@ -2955,14 +2955,14 @@
                     if (vite < 3) {
                         vite++;
                         aggiornaViteUI();
-                        mostraMessaggio(`Fantastico! 5 risposte corrette consecutive! Hai guadagnato una vita extra!`, "wow", true);
+                        mostraMessaggio(`Awesome! 5 correct answers in a row! You earned an extra life!`, "wow", true);
                         playWowSound();
                     } else {
-                        mostraMessaggio(`Fantastico! 5 risposte corrette consecutive! Ma hai già il massimo di vite.`, "corretto");
+                        mostraMessaggio(`Awesome! 5 correct answers in a row! But you already have maximum lives.`, "corretto");
                     }
                     operazioniCorretteConsecutive = 0;
                 } else {
-                    mostraMessaggio(`Corretto! +${puntiDomanda} punti`, "corretto");
+                    mostraMessaggio(`Correct! +${puntiDomanda} points`, "corretto");
                 }
                 
                 if (domandaCorrente.spiegazione) {
@@ -2978,7 +2978,7 @@
                 
             } else if (rispostaParziale) {
                 playAhiSound();
-                mostraMessaggio(`Hai selezionato alcune risposte corrette, ma non tutte. Riprova!`, "parziale");
+                mostraMessaggio(`You selected some correct answers, but not all. Try again!`, "parziale");
                 haSbagliatoQuestaDomanda = true;
                 
                 erroriConsecutivi++;
@@ -2988,11 +2988,11 @@
                     erroriConsecutivi = 0;
                     vite--;
                     aggiornaViteUI();
-                    mostraMessaggio(`Tre errori consecutivi! Perdi una vita.`, "errato");
+                    mostraMessaggio(`Three consecutive mistakes! You lose a life.`, "errato");
                     
                     if (vite <= 0) {
                         gameOver = true;
-                        mostraMessaggio(`GAME OVER! Punteggio finale: ${punteggio}. Clicca "Nuova Partita" per ricominciare`, "game-over");
+                        mostraMessaggio(`GAME OVER! Final score: ${punteggio}. Click "New Game" to restart`, "game-over");
                         document.getElementById("bottone-verifica").disabled = true;
                         document.getElementById("bottone-aiuto").disabled = true;
                         document.getElementById("bottone-prossima").style.display = 'none';
@@ -3004,7 +3004,7 @@
                 
             } else {
                 playAhiSound();
-                mostraMessaggio(`Risposta errata. Riprova!`, "errato");
+                mostraMessaggio(`Wrong answer. Try again!`, "errato");
                 haSbagliatoQuestaDomanda = true;
                 
                 erroriConsecutivi++;
@@ -3014,11 +3014,11 @@
                     erroriConsecutivi = 0;
                     vite--;
                     aggiornaViteUI();
-                    mostraMessaggio(`Tre errori consecutivi! Perdi una vita.`, "errato");
+                    mostraMessaggio(`Three consecutive mistakes! You lose a life.`, "errato");
                     
                     if (vite <= 0) {
                         gameOver = true;
-                        mostraMessaggio(`GAME OVER! Punteggio finale: ${punteggio}. Clicca "Nuova Partita" per ricominciare`, "game-over");
+                        mostraMessaggio(`GAME OVER! Final score: ${punteggio}. Click "New Game" to restart`, "game-over");
                         document.getElementById("bottone-verifica").disabled = true;
                         document.getElementById("bottone-aiuto").disabled = true;
                         document.getElementById("bottone-prossima").style.display = 'none';
@@ -3039,7 +3039,7 @@
             aggiornaUI();
         }
         
-        // FUNZIONE AIUTO
+        // HINT FUNCTION
         function aiuto() {
             if (gameOver || !giocoIniziato || !domandaCorrente) return;
             
@@ -3051,13 +3051,13 @@
             let messaggioAiuto = "";
             
             if (domandaCorrente.tipo === "scelta_multipla") {
-                messaggioAiuto = "Ripensa alle proprietà della figura. Ad esempio: numero di lati, angoli, simmetrie.";
+                messaggioAiuto = "Think about the properties of the figure. For example: number of sides, angles, symmetry.";
             } else if (domandaCorrente.tipo === "scelta_multipla_multi") {
-                messaggioAiuto = "Controlla ogni affermazione: alcune potrebbero essere vere, altre false. Seleziona solo quelle corrette.";
+                messaggioAiuto = "Check each statement: some may be true, others false. Select only those that are correct.";
             } else if (domandaCorrente.tipo === "vero_falso") {
-                messaggioAiuto = "Leggi attentamente: se l'affermazione è sempre vera, allora è vera; se c'è almeno un caso in cui non lo è, allora è falsa.";
+                messaggioAiuto = "Read carefully: if the statement is always true, then it's true; if there's at least one case where it's false, then it's false.";
             } else if (domandaCorrente.tipo === "risposta_aperta") {
-                messaggioAiuto = "Ricorda la formula corretta. Per il perimetro somma i lati; per l'area moltiplica base per altezza (e dividi per 2 se è un triangolo).";
+                messaggioAiuto = "Remember the correct formula. For perimeter, add the sides; for area, multiply base by height (and divide by 2 if it's a triangle).";
             }
             
             if (domandaCorrente.spiegazione) {
@@ -3067,13 +3067,13 @@
             mostraMessaggio(messaggioAiuto, "info");
         }
         
-        // FUNZIONE PROSSIMA DOMANDA
+        // NEXT QUESTION FUNCTION
         function prossimaDomanda() {
             playClickSound();
             nuovaDomanda();
         }
         
-        // FUNZIONI PER LE ISTRUZIONI
+        // INSTRUCTION FUNCTIONS
         function apriIstruzioni() {
             document.getElementById('modal-overlay').style.display = 'flex';
             playClickSound();
@@ -3084,15 +3084,15 @@
             playClickSound();
         }
 
-        // FUNZIONE PER ESCI (DIRETTA)
+        // EXIT FUNCTION (points to English home)
         function esciDalGioco() {
-            if (confirm("Vuoi davvero uscire dal gioco?")) {
+            if (confirm("Do you really want to exit the game?")) {
                 fermaTimer();
-                window.location.href = "https://oragioca.github.io/matematica/";
+                window.location.href = "https://oragioca.github.io/matematica/en/";
             }
         }
         
-        // INIZIALIZZAZIONE EVENT LISTENER
+        // INITIALIZE EVENT LISTENERS
         document.addEventListener('DOMContentLoaded', function() {
             inizializzaGioco();
             
@@ -3116,6 +3116,7 @@
             
             document.getElementById('messaggio-avvio').addEventListener('click', iniziaGioco);
             
+            // EXIT BUTTON
             document.getElementById('esciBtn').addEventListener('click', esciDalGioco);
             
             inizializzaAudio();
