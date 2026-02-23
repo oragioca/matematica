@@ -53,10 +53,12 @@
             margin: 0 auto;
         }
         
-        /* HEADER GAMER STYLE */
+        /* HEADER GAMER STYLE - MODIFICATO PER OSPITARE IL PULSANTE LINGUA */
         .header {
-            text-align: center;
-            padding: 30px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 30px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             border-radius: 20px;
             margin-bottom: 30px;
@@ -64,6 +66,8 @@
             border: 3px solid var(--accent);
             position: relative;
             overflow: hidden;
+            flex-wrap: wrap;
+            gap: 20px;
         }
         
         .header::before {
@@ -81,6 +85,12 @@
         @keyframes moveGrid {
             0% { transform: translate(0, 0); }
             100% { transform: translate(20px, 20px); }
+        }
+        
+        .title-container {
+            flex: 1;
+            text-align: center;
+            z-index: 1;
         }
         
         .title {
@@ -103,7 +113,34 @@
             line-height: 1.5;
         }
         
-        /* GAMES GRID */
+        /* PULSANTE PER VERSIONE INGLESE */
+        .lang-btn {
+            background-color: var(--dark);
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .lang-btn:hover {
+            background-color: var(--accent);
+            color: var(--dark);
+            transform: translateY(-3px);
+            border-color: white;
+        }
+        .lang-icon {
+            font-size: 1.5em;
+        }
+        
+        /* GAMES GRID (invariata) */
         .games-section {
             background: rgba(45, 48, 71, 0.7);
             backdrop-filter: blur(10px);
@@ -121,7 +158,6 @@
             text-shadow: 2px 2px 0 #000;
         }
         
-        /* Griglia principale: 5 colonne fisse su schermi grandi */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -182,7 +218,6 @@
             color: var(--light);
         }
         
-        /* Riga finale: commenti a tutta larghezza */
         .final-row {
             display: grid;
             grid-template-columns: 1fr;
@@ -190,7 +225,6 @@
             margin-top: 0;
         }
         
-        /* Card commenti - adattata a tutta larghezza */
         .comment-card {
             background: linear-gradient(145deg, #3a3d5d, #2d3047);
             border-radius: 20px;
@@ -277,7 +311,6 @@
             margin-top: 10px;
         }
         
-        /* FOOTER */
         footer {
             text-align: center;
             padding: 20px;
@@ -300,6 +333,16 @@
             }
         }
         
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .title {
+                font-size: 2.5rem;
+            }
+        }
+        
         @media (max-width: 480px) {
             .games-grid {
                 grid-template-columns: 1fr;
@@ -309,15 +352,22 @@
 </head>
 <body>
     <div class="container">
-        <!-- HEADER -->
+        <!-- HEADER MODIFICATO con pulsante lingua -->
         <header class="header">
-            <h1 class="title">GIOCHI PER LA SCUOLA PRIMARIA</h1>
-            <p class="subtitle">🎮Scegli un gioco e batti il record!🎮</p>
+            <div class="title-container">
+                <h1 class="title">GIOCHI PER LA SCUOLA PRIMARIA</h1>
+                <p class="subtitle">🎮Scegli un gioco e batti il record!🎮</p>
+            </div>
+            <!-- PULSANTE PER VERSIONE INGLESE -->
+            <a href="en/" class="lang-btn" title="English version">
+                <span class="lang-icon">🇬🇧</span>
+                <span>ENG</span>
+            </a>
         </header>
+        
         <!-- GAMES SECTION -->
         <section class="games-section">
-            
-            <!-- Griglia principale con 15 card → 3 righe da 5 (su desktop) -->
+            <!-- Griglia principale -->
             <div class="games-grid">
                 <a href="addizione%20in%20colonna.html" class="game-card"><span class="game-icon">➕</span><div class="game-name">Addizione in Colonna</div></a>
                 <a href="divisioni%20con%20virgola.html" class="game-card"><span class="game-icon">➗</span><div class="game-name">Divisioni con Virgola</div></a>
@@ -332,7 +382,7 @@
                 <a href="problem solving.html" class="game-card"><span class="game-icon">🤔</span><div class="game-name">Tabelle e Grafici'</div></a>
                 <a href="problemi.html" class="game-card"><span class="game-icon">💡</span><div class="game-name">Problemi</div></a>
                 <a href="operazioni in colonna.html" class="game-card"> <span class="game-icon">🧩</span><div class="game-name">Operazioni in colonna</div></a>
-                <!-- GEOMETRIA ora nella griglia -->
+                <!-- GEOMETRIA -->
                 <a href="area%20e%20perimetro.html" class="game-card">
                     <span class="game-icon">📐</span>
                     <div class="game-name">GEOMETRIA</div>
@@ -340,7 +390,7 @@
                 <a href="Geometria 2.html" class="game-card"> <span class="game-icon">🧊</span><div class="game-name">Geometria 2</div></a>
             </div>
             
-            <!-- Riga finale con solo la card commenti (occupa tutta la riga) -->
+            <!-- Riga finale con commenti -->
             <div class="final-row">
                 <div class="comment-card">
                     <h3>✍️ Lascia un commento</h3>
