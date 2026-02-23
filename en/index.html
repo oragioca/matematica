@@ -309,25 +309,26 @@
     <hr>
 
     <!-- SEZIONE COMMENTI IN INGLESE - FUNZIONANTE CON FORMSUBMIT -->
-    <div class="comment-section">
-        <h2>✍️ Leave a comment</h2>
-        <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
-            <!-- Reindirizzamento alla pagina di ringraziamento -->
-            <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/en/thank-you.html">
-            <!-- Disabilita captcha (opzionale) -->
-            <input type="hidden" name="_captcha" value="false">
-            <!-- Formatta la mail come tabella -->
-            <input type="hidden" name="_template" value="table">
-            
-            <!-- Campi del form -->
-            <input type="text" name="name" placeholder="Your name" required>
-            <textarea name="message" placeholder="Your comment..." rows="3" required></textarea>
-            
-            <!-- Bottone di invio -->
-            <button type="submit">Send comment</button>
-        </form>
-        <p class="comment-note">Comments are anonymous</p>
-    </div>
+  <!-- SEZIONE COMMENTI IN INGLESE - FUNZIONANTE CON FORMSUBMIT -->
+<div class="comment-section">
+    <h2>✍️ Leave a comment</h2>
+    <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
+        <!-- Reindirizzamento alla pagina di ringraziamento -->
+        <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/en/thank-you.html">
+        <!-- Disabilita captcha -->
+        <input type="hidden" name="_captcha" value="false">
+        <!-- Formatta la mail come tabella -->
+        <input type="hidden" name="_template" value="table">
+
+        <!-- Campi del form -->
+        <input type="text" name="name" placeholder="Your name" required>
+        <textarea name="message" placeholder="Your comment..." rows="3" required></textarea>
+
+        <!-- Bottone di invio -->
+        <button type="submit">Send comment</button>
+    </form>
+    <p class="comment-note">Comments are anonymous</p>
+</div>
 
 </body>
 </html>
