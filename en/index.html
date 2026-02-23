@@ -19,15 +19,52 @@
             background-color: #f9f9f9;
             color: #333;
         }
+        
+        /* Intestazione con titolo e pulsante lingua */
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
         h1 {
             color: #2c3e50;
             text-align: center;
+            margin: 0;
+            flex: 1;
         }
+        
+        /* Pulsante per tornare alla versione italiana */
+        .lang-btn {
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+            margin-left: 15px;
+        }
+        .lang-btn:hover {
+            background-color: #2980b9;
+        }
+        .lang-icon {
+            font-size: 1.3em;
+        }
+        
         .sottotitolo {
             text-align: center;
             font-size: 1.2em;
             margin-bottom: 30px;
+            clear: both;
         }
+        
         .giochi-lista {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -119,12 +156,30 @@
             position: relative;
             z-index: 1;
         }
+        
+        /* Responsive: su mobile il pulsante va sotto il titolo */
+        @media (max-width: 600px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .lang-btn {
+                margin-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- H1 IN INGLESE -->
-    <h1>🎮 MATH GAMES FOR PRIMARY SCHOOL 🎮</h1>
+    <!-- HEADER CON TITOLO E PULSANTE LINGUA -->
+    <div class="header-container">
+        <h1>🎮 MATH GAMES FOR PRIMARY SCHOOL 🎮</h1>
+        <a href="../" class="lang-btn" title="Torna alla versione italiana">
+            <span class="lang-icon">🇮🇹</span>
+            <span>ITA</span>
+        </a>
+    </div>
+    
     <p class="sottotitolo">Choose a game and beat the record!</p>
 
     <!-- SEZIONE GIOCHI DI ARITMETICA -->
@@ -167,7 +222,7 @@
                 Sequences 1
             </a>
         </div>
-        <!-- CARD FRAZIONI CORRETTA (stessa struttura delle altre) -->
+        <!-- CARD FRAZIONI -->
         <div class="gioco-card">
             <a href="fractions-game.html">
                 <span class="emoji-grande">½</span><br>
@@ -231,7 +286,7 @@
 
     <hr>
 
-    <!-- SEZIONE COMMENTI IN INGLESE (OPZIONALE) -->
+    <!-- SEZIONE COMMENTI IN INGLESE -->
     <h2>✍️ Leave a comment</h2>
     <form action="#" method="post">
         <textarea name="commento" rows="4" placeholder="Write your comment here..."></textarea><br>
