@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="alternate" hreflang="en" href="https://oragioca.github.io/matematica/en/column-addition.html" />
+    <link rel="alternate" hreflang="en" href="https://oragioca.github.io/matematica/en/column-addition.html" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -9,25 +9,8 @@
     <title>Math Games for Primary School | Free Online</title>
     <meta name="description" content="Free and fun math games for kids: column addition, divisions, multiplications, fractions, geometry and more. Choose a game and beat the record!">
     
-    <!-- Stili (puoi copiarli dal tuo index italiano, o tenerli uguali) -->
     <style>
-        /* Metti qui i tuoi stili, uguali a quelli italiani */
-      .gioco-card {
-    position: relative;
-}
-
-.gioco-card a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-    color: inherit;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 15px; /* per mantenere lo spazio interno */
-    box-sizing: border-box;
-}
+        /* STILI COMPLETI - OTTIMIZZATI PER CARD CLICCABILI */
         body {
             font-family: Arial, sans-serif;
             max-width: 800px;
@@ -51,6 +34,8 @@
             gap: 15px;
             margin-top: 20px;
         }
+        
+        /* STILE DELLE CARD - LINK CLICCABILE SU TUTTA L'AREA */
         .gioco-card {
             background-color: white;
             border-radius: 10px;
@@ -58,20 +43,41 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-align: center;
             transition: transform 0.2s;
+            position: relative;  /* Necessario per il posizionamento assoluto del link */
+            min-height: 120px;   /* Altezza minima uniforme */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .gioco-card:hover {
             transform: scale(1.02);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
+        
+        /* Il link copre l'intera card */
         .gioco-card a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
             text-decoration: none;
             color: #3498db;
             font-weight: bold;
             font-size: 1.1em;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 15px;
+            box-sizing: border-box;
+            border-radius: 10px; /* Mantiene gli angoli arrotondati */
         }
         .gioco-card a:hover {
             color: #2980b9;
+            background-color: rgba(52, 152, 219, 0.05); /* Leggero effetto hover */
         }
+        
         .emoji-grande {
             font-size: 2.5em;
             display: block;
@@ -107,6 +113,12 @@
         input[type="submit"]:hover {
             background-color: #2980b9;
         }
+
+        /* Assicura che il testo all'interno del link rimanga visibile */
+        .gioco-card a span, .gioco-card a br {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -118,7 +130,7 @@
     <!-- SEZIONE GIOCHI DI ARITMETICA -->
     <h2>🔢 Arithmetic Games</h2>
     <div class="giochi-lista">
-        <!-- Ogni link punta al file inglese corrispondente (da creare dopo) -->
+        <!-- Ogni link punta al file inglese corrispondente -->
         <div class="gioco-card">
             <a href="column-addition.html">
                 <span class="emoji-grande">➕</span><br>
@@ -155,9 +167,12 @@
                 Sequences 1
             </a>
         </div>
-       <div class="gioco-card">
-    <a href="fractions-game.html">½ Fractions-game</a>
-           <span class="game-icon">½</span>
+        <!-- CARD FRAZIONI CORRETTA (stessa struttura delle altre) -->
+        <div class="gioco-card">
+            <a href="fractions-game.html">
+                <span class="emoji-grande">½</span><br>
+                Fractions-game
+            </a>
         </div>
         <div class="gioco-card">
             <a href="average-calculator.html">
