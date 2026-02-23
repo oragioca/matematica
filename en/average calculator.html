@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Media Aritmetica</title>
+    <title>The Arithmetic Mean</title>
     <style>
         * {
             margin: 0;
@@ -859,20 +859,20 @@
 <body>
     <div class="game-container">
         <div class="titolo-container">
-            <h1>📊 CALCOLA LA MEDIA - INVALSI STYLE 📊</h1>
-            <p class="sottotitolo">Gioco di matematica con diagrammi per la scuola primaria</p>
+            <h1>📊 CALCULATE THE MEAN - INVALSI STYLE 📊</h1>
+            <p class="sottotitolo">Math game with diagrams for primary school</p>
             <div class="autore">RG PNRR 2026</div>
         </div>
         
-        <div class="tipo-domanda" id="tipo-domanda">MEDIA SEMPLICE</div>
+        <div class="tipo-domanda" id="tipo-domanda">SIMPLE MEAN</div>
         
         <div class="game-info">
-            <div class="punteggio">Punti: <span id="punteggio">0</span></div>
-            <div class="vite">Vite: <span id="vite">❤️❤️❤️</span></div>
-            <div class="livello">Livello: <span id="livello">1</span></div>
-            <!-- NUOVO PULSANTE ESCI -->
+            <div class="punteggio">Score: <span id="punteggio">0</span></div>
+            <div class="vite">Lives: <span id="vite">❤️❤️❤️</span></div>
+            <div class="livello">Level: <span id="livello">1</span></div>
+            <!-- EXIT BUTTON (points to English home) -->
             <div class="esci-item">
-                <button class="btn-exit" id="esciBtn">🚪 Esci</button>
+                <button class="btn-exit" id="esciBtn">🚪 Exit</button>
             </div>
         </div>
         
@@ -881,72 +881,72 @@
         </div>
         
         <div class="avviso-arrotondamento" id="avviso-arrotondamento">
-            ⚠️ La media va ARROTONDATA all'unità intera!
+            ⚠️ The mean must be ROUNDED to the nearest whole number!
         </div>
         
-        <!-- AREA DOMANDE MULTIFORMA -->
+        <!-- QUESTION AREA -->
         <div class="area-domanda">
-            <!-- TABELLA NUMERI (media semplice) -->
+            <!-- NUMBER TABLE (simple mean) -->
             <div class="tabella-numeri" id="tabella-numeri">
                 <div class="riga-tabella" id="riga-numeri">
-                    <!-- I numeri verranno aggiunti con JavaScript -->
+                    <!-- Numbers will be added via JavaScript -->
                 </div>
             </div>
             
-            <!-- DIAGRAMMA A BARRE -->
+            <!-- BAR CHART -->
             <div class="diagramma-barre" id="diagramma-barre">
-                <div class="titolo-diagramma" id="titolo-barre">Diagramma a barre</div>
+                <div class="titolo-diagramma" id="titolo-barre">Bar chart</div>
                 <div class="contenitore-barre" id="contenitore-barre">
-                    <!-- Le barre verranno aggiunte con JavaScript -->
+                    <!-- Bars will be added via JavaScript -->
                 </div>
             </div>
             
-            <!-- TABELLA DATI -->
+            <!-- DATA TABLE -->
             <div class="tabella-dati" id="tabella-dati">
                 <div class="riga-dati intestazione-dati" id="intestazione-dati">
-                    <!-- Intestazione tabella -->
+                    <!-- Table header -->
                 </div>
-                <!-- Righe dati verranno aggiunte con JavaScript -->
+                <!-- Data rows will be added via JavaScript -->
             </div>
             
-            <!-- DIAGRAMMA A TORTA -->
+            <!-- PIE CHART -->
             <div class="diagramma-torta" id="diagramma-torta">
-                <div class="titolo-diagramma" id="titolo-torta">Diagramma a torta</div>
+                <div class="titolo-diagramma" id="titolo-torta">Pie chart</div>
                 <div class="contenitore-torta">
                     <div class="torta-grafico" id="torta-grafico"></div>
                     <div class="legenda-torta" id="legenda-torta">
-                        <!-- Legenda verrà aggiunta con JavaScript -->
+                        <!-- Legend will be added via JavaScript -->
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="formula-compatta" id="formula">
-            Media = (Somma dei valori) ÷ (Numero di valori)
+            Mean = (Sum of values) ÷ (Number of values)
         </div>
         
         <div class="area-risposta">
             <div class="istruzione-risposta">
-                ✍️ SCRIVI LA MEDIA (NUMERO INTERO):
+                ✍️ ENTER THE MEAN (WHOLE NUMBER):
             </div>
             <div class="input-container">
                 <input type="number" class="input-risposta" id="input-risposta" 
                        placeholder="???" step="1" min="0" max="100" autofocus>
                 <button class="bottone-invia" id="bottone-invia" onclick="inviaRisposta()">
-                    INVIA
+                    SUBMIT
                 </button>
             </div>
             <div class="suggerimento-tasto">
-                (Premi INVIO per inviare)
+                (Press ENTER to submit)
             </div>
         </div>
         
         <div class="controlli-gioco">
             <button class="bottone-aiuto" id="bottone-aiuto" onclick="mostraAiuto()">
-                🧠 AIUTINO (-5 punti)
+                🧠 HINT (-5 points)
             </button>
             <button class="bottone-istruzioni" id="bottone-istruzioni" onclick="mostraIstruzioni()">
-                📚 ISTRUZIONI
+                📚 INSTRUCTIONS
             </button>
         </div>
         
@@ -957,79 +957,79 @@
         </div>
         
         <div class="messaggio" id="messaggio">
-            Calcola la media dei dati presentati
+            Calculate the mean of the presented data
         </div>
     </div>
     
-    <!-- AVVISO PER SCROLL (solo se necessario) -->
+    <!-- SCROLL WARNING (if needed) -->
     <div class="avviso-scroll" id="avviso-scroll">
-        ↓ Scorri per vedere tutto il gioco ↓
+        ↓ Scroll to see the whole game ↓
     </div>
     
-    <!-- MODALE ISTRUZIONI -->
+    <!-- INSTRUCTION MODAL -->
     <div class="modale" id="modale-istruzioni">
         <div class="modale-content">
-            <h2 class="modale-title">📚 COME SI GIOCA</h2>
+            <h2 class="modale-title">📚 HOW TO PLAY</h2>
             
             <div class="sezione-istruzioni">
-                <h3 class="sezione-title"><span class="icona-istruzione">🎯</span> OBIETTIVO</h3>
-                <p class="sezione-text">Calcolare la media aritmetica dei dati presentati in diversi formati.</p>
+                <h3 class="sezione-title"><span class="icona-istruzione">🎯</span> OBJECTIVE</h3>
+                <p class="sezione-text">Calculate the arithmetic mean of the data presented in different formats.</p>
             </div>
             
             <div class="sezione-istruzioni">
-                <h3 class="sezione-title"><span class="icona-istruzione">📝</span> COME GIOCARE</h3>
+                <h3 class="sezione-title"><span class="icona-istruzione">📝</span> HOW TO PLAY</h3>
                 <ol class="lista-istruzioni">
-                    <li><strong>Osserva</strong> i dati nel grafico o tabella</li>
-                    <li><strong>Estrai</strong> i valori numerici</li>
-                    <li><strong>Calcola</strong> la somma di tutti i valori</li>
-                    <li><strong>Dividi</strong> la somma per il numero di valori</li>
-                    <li><strong>Arrotonda</strong> all'unità intera se necessario</li>
-                    <li><strong>Scrivi</strong> il numero intero</li>
-                    <li><strong>Premi INVIA</strong> o clicca INVIA</li>
+                    <li><strong>Observe</strong> the data in the chart or table</li>
+                    <li><strong>Extract</strong> the numerical values</li>
+                    <li><strong>Calculate</strong> the sum of all values</li>
+                    <li><strong>Divide</strong> the sum by the number of values</li>
+                    <li><strong>Round</strong> to the nearest whole number if needed</li>
+                    <li><strong>Write</strong> the whole number</li>
+                    <li><strong>Press SUBMIT</strong> or click the submit button</li>
                 </ol>
             </div>
             
             <div class="sezione-istruzioni">
-                <h3 class="sezione-title"><span class="icona-istruzione">📊</span> TIPI DI DOMANDE</h3>
+                <h3 class="sezione-title"><span class="icona-istruzione">📊</span> QUESTION TYPES</h3>
                 <ul class="lista-istruzioni">
-                    <li><strong>Media semplice:</strong> Numeri in una tabella</li>
-                    <li><strong>Diagramma a barre:</strong> Valori come barre verticali</li>
-                    <li><strong>Tabella di dati:</strong> Informazioni organizzate</li>
-                    <li><strong>Diagramma a torta:</strong> Valori come fette di torta</li>
+                    <li><strong>Simple mean:</strong> Numbers in a table</li>
+                    <li><strong>Bar chart:</strong> Values as vertical bars</li>
+                    <li><strong>Data table:</strong> Organized information</li>
+                    <li><strong>Pie chart:</strong> Values as slices of a pie</li>
                 </ul>
             </div>
             
             <div class="sezione-istruzioni">
-                <h3 class="sezione-title"><span class="icona-istruzione">🏆</span> SISTEMA BONUS</h3>
+                <h3 class="sezione-title"><span class="icona-istruzione">🏆</span> BONUS SYSTEM</h3>
                 <ul class="lista-istruzioni">
-                    <li><strong>+10 punti</strong> per risposta corretta</li>
-                    <li><strong>+5 punti bonus</strong> ogni 3 risposte consecutive corrette</li>
-                    <li><strong>Vita extra</strong> ogni 5 risposte consecutive corrette</li>
-                    <li><strong>Scudo protettivo</strong> dopo 7 risposte consecutive corrette</li>
+                    <li><strong>+10 points</strong> for correct answer</li>
+                    <li><strong>+5 bonus points</strong> every 3 consecutive correct answers</li>
+                    <li><strong>Extra life</strong> every 5 consecutive correct answers</li>
+                    <li><strong>Protective shield</strong> after 7 consecutive correct answers</li>
                 </ul>
             </div>
             
             <div class="sezione-istruzioni">
-                <h3 class="sezione-title"><span class="icona-istruzione">🔄</span> PROGRESSIONE</h3>
+                <h3 class="sezione-title"><span class="icona-istruzione">🔄</span> PROGRESSION</h3>
                 <ul class="lista-istruzioni">
-                    <li><strong>Prime 2 domande:</strong> Solo numeri semplici</li>
-                    <li><strong>Domande 3-5:</strong> Diagrammi a barre</li>
-                    <li><strong>Domande 6-9:</strong> Tabelle di dati</li>
-                    <li><strong>Dalla 10a:</strong> Tutti i tipi inclusi diagrammi a torta</li>
+                    <li><strong>First 2 questions:</strong> Only simple numbers</li>
+                    <li><strong>Questions 3-5:</strong> Bar charts</li>
+                    <li><strong>Questions 6-9:</strong> Data tables</li>
+                    <li><strong>From 10th:</strong> All types including pie charts</li>
                 </ul>
             </div>
             
             <div class="sezione-istruzioni">
-                <h3 class="sezione-title"><span class="icona-istruzione">❓</span> AIUTI</h3>
-                <p class="sezione-text">3 livelli di aiuto disponibili. Ogni aiuto costa 5 punti.</p>
+                <h3 class="sezione-title"><span class="icona-istruzione">❓</span> HINTS</h3>
+                <p class="sezione-text">3 hint levels available. Each hint costs 5 points.</p>
             </div>
             
             <div class="sezione-istruzioni">
-                <h3 class="sezione-title"><span class="icona-istruzione">👤</span> AUTORE</h3>
-                <p class="sezione-text">Gioco realizzato da: <strong>RG PNRR 2026</strong></p>
+                <h3 class="sezione-title"><span class="icona-istruzione">👤</span> AUTHOR</h3>
+                <p class="sezione-text">Game created by: <strong>RG PNRR 2026</strong></p>
             </div>
             
-            <button class="bottone-chiudi" onclick="chiudiIstruzioni()">CHIUDI ISTRUZIONI</button>
+            <button class="bottone-chiudi" onclick="chiudiIstruzioni()">CLOSE INSTRUCTIONS</button>
         </div>
     </div>
     
@@ -1037,17 +1037,17 @@
     <div class="game-over" id="game-over">
         <div class="game-over-content">
             <h2 class="game-over-title">GAME OVER!</h2>
-            <p class="game-over-punteggio">Il tuo punteggio: <span id="punteggio-finale">0</span></p>
+            <p class="game-over-punteggio">Your score: <span id="punteggio-finale">0</span></p>
             <p style="font-size: 0.9rem; margin-bottom: 4px;">
-                Livello raggiunto: <span id="livello-finale">1</span>
+                Level reached: <span id="livello-finale">1</span>
             </p>
             <div class="stelle-valutazione" id="stelle-valutazione"></div>
-            <button class="bottone-rigioca" onclick="rigioca()">🔄 RIGIOCA</button>
+            <button class="bottone-rigioca" onclick="rigioca()">🔄 PLAY AGAIN</button>
         </div>
     </div>
 
     <script>
-        // VARIABILI DEL GIOCO
+        // GAME VARIABLES
         let punteggio = 0;
         let vite = 3;
         let livello = 1;
@@ -1061,7 +1061,7 @@
         let descrizioneDomanda = '';
         let domandeFatte = 0;
         
-        // ELEMENTI DOM
+        // DOM ELEMENTS
         const elemPunteggio = document.getElementById('punteggio');
         const elemVite = document.getElementById('vite');
         const elemLivello = document.getElementById('livello');
@@ -1077,7 +1077,7 @@
         const gameOverScreen = document.getElementById('game-over');
         const avvisoScroll = document.getElementById('avviso-scroll');
         
-        // ELEMENTI PER I VARI TIPI DI DOMANDE
+        // ELEMENTS FOR DIFFERENT QUESTION TYPES
         const tabellaNumeri = document.getElementById('tabella-numeri');
         const rigaNumeri = document.getElementById('riga-numeri');
         const diagrammaBarre = document.getElementById('diagramma-barre');
@@ -1085,7 +1085,7 @@
         const diagrammaTorta = document.getElementById('diagramma-torta');
         const tortaGrafico = document.getElementById('torta-grafico');
         
-        // FUNZIONI BASE
+        // BASIC FUNCTIONS
         function aggiornaAiutiVisual() {
             for (let i = 1; i <= 3; i++) {
                 const elem = document.getElementById(`aiuto${i}`);
@@ -1105,7 +1105,7 @@
             }, 3000);
         }
         
-        // CONTROLLA SE SERVE SCROLL
+        // CHECK IF SCROLL IS NEEDED
         function controllaScrollNecessario() {
             const windowHeight = window.innerHeight;
             const gameHeight = document.querySelector('.game-container').offsetHeight;
@@ -1117,7 +1117,7 @@
             }
         }
         
-        // MODALE ISTRUZIONI
+        // INSTRUCTION MODAL
         function mostraIstruzioni() {
             modaleIstruzioni.style.display = 'flex';
         }
@@ -1126,19 +1126,19 @@
             modaleIstruzioni.style.display = 'none';
         }
         
-        // GENERA UNA NUOVA DOMANDA
+        // GENERATE A NEW QUESTION
         function generaDomanda() {
             domandeFatte++;
             aiutoLivello = 0;
             aggiornaAiutiVisual();
             
-            // Nascondi tutti i tipi di domanda
+            // Hide all question types
             tabellaNumeri.style.display = 'none';
             diagrammaBarre.style.display = 'none';
             tabellaDati.style.display = 'none';
             diagrammaTorta.style.display = 'none';
             
-            // SISTEMA DI PROGRESSIONE
+            // PROGRESSION SYSTEM
             let tipiDisponibili = [];
             
             if (domandeFatte <= 2) {
@@ -1151,39 +1151,39 @@
                 tipiDisponibili = ['numeri', 'barre', 'tabella', 'torta'];
             }
             
-            // Aggiusta in base al livello
+            // Adjust based on level
             if (livello >= 2) tipiDisponibili.push('barre');
             if (livello >= 3) tipiDisponibili.push('tabella');
             if (livello >= 4) tipiDisponibili.push('torta');
             
-            // Rimuovi duplicati
+            // Remove duplicates
             tipiDisponibili = [...new Set(tipiDisponibili)];
             
-            // Scegli tipo di domanda
+            // Choose question type
             const tipoScelto = tipiDisponibili[Math.floor(Math.random() * tipiDisponibili.length)];
             tipoDomandaCorrente = tipoScelto;
             
-            // Genera la domanda
+            // Generate the question
             switch(tipoScelto) {
                 case 'numeri':
                     generaDomandaNumeri();
-                    elemTipoDomanda.textContent = 'MEDIA SEMPLICE';
+                    elemTipoDomanda.textContent = 'SIMPLE MEAN';
                     break;
                 case 'barre':
                     generaDomandaBarre();
-                    elemTipoDomanda.textContent = 'DIAGRAMMA A BARRE';
+                    elemTipoDomanda.textContent = 'BAR CHART';
                     break;
                 case 'tabella':
                     generaDomandaTabella();
-                    elemTipoDomanda.textContent = 'TABELLA DI DATI';
+                    elemTipoDomanda.textContent = 'DATA TABLE';
                     break;
                 case 'torta':
                     generaDomandaTorta();
-                    elemTipoDomanda.textContent = 'DIAGRAMMA A TORTA';
+                    elemTipoDomanda.textContent = 'PIE CHART';
                     break;
             }
             
-            // Avviso arrotondamento
+            // Rounding warning
             const mostraArrotondamento = (domandeFatte > 2) && (Math.random() > 0.6);
             elemAvviso.style.display = (mostraArrotondamento && deveArrotondare) ? 'block' : 'none';
             
@@ -1192,24 +1192,24 @@
             inputRisposta.disabled = false;
             bottoneInvia.disabled = false;
             bottoneAiuto.disabled = false;
-            bottoneAiuto.textContent = '🧠 AIUTINO (-5 punti)';
+            bottoneAiuto.textContent = '🧠 HINT (-5 points)';
             
-            // Focus sull'input
+            // Focus on input
             setTimeout(() => {
                 inputRisposta.focus();
             }, 100);
             
-            // Messaggio iniziale
+            // Initial message
             elemMessaggio.innerHTML = deveArrotondare ? 
-                `${descrizioneDomanda}<br>ARROTONDA all'unità!` : 
+                `${descrizioneDomanda}<br>ROUND to the nearest whole number!` : 
                 descrizioneDomanda;
             elemMessaggio.className = 'messaggio';
             
-            // Controlla se serve scroll
+            // Check if scroll is needed
             setTimeout(controllaScrollNecessario, 100);
         }
         
-        // 1. DOMANDA CON NUMERI SEMPLICI
+        // 1. QUESTION WITH SIMPLE NUMBERS
         function generaDomandaNumeri() {
             tabellaNumeri.style.display = 'block';
             rigaNumeri.innerHTML = '';
@@ -1230,13 +1230,13 @@
                 deveArrotondare = Math.random() > 0.5;
             }
             
-            // Genera numeri
+            // Generate numbers
             datiCorrente = [];
             for (let i = 0; i < quantita; i++) {
                 datiCorrente.push(Math.floor(Math.random() * maxNumero) + 1);
             }
             
-            // Se deve arrotondare, assicuriamoci che la media abbia decimali
+            // If rounding needed, ensure mean has decimals
             if (deveArrotondare) {
                 const sommaTemp = datiCorrente.reduce((a, b) => a + b, 0);
                 if (sommaTemp % quantita === 0) {
@@ -1244,12 +1244,12 @@
                 }
             }
             
-            // Calcola media
+            // Calculate mean
             const somma = datiCorrente.reduce((a, b) => a + b, 0);
             const mediaEsatta = somma / quantita;
             mediaCorretta = deveArrotondare ? arrotondaAllUnita(mediaEsatta) : Math.round(mediaEsatta);
             
-            // Mostra i numeri nella tabella
+            // Display numbers in table
             datiCorrente.forEach(numero => {
                 const cella = document.createElement('div');
                 cella.className = 'numero-cella';
@@ -1257,20 +1257,20 @@
                 rigaNumeri.appendChild(cella);
             });
             
-            descrizioneDomanda = 'Calcola la media dei numeri nella tabella';
+            descrizioneDomanda = 'Calculate the mean of the numbers in the table';
         }
         
-        // 2. DOMANDA CON DIAGRAMMA A BARRE (ULTERIORMENTE MIGLIORATO)
+        // 2. QUESTION WITH BAR CHART (FURTHER IMPROVED)
         function generaDomandaBarre() {
             diagrammaBarre.style.display = 'block';
             
-            // Temi con etichette ultra-corte
+            // Themes with ultra-short labels
             const temi = [
-                { titolo: "Voti", etichette: ["6", "7", "8", "9", "10"] },
-                { titolo: "Libri", etichette: ["1-2", "3-4", "5-6", "7-8", "9+"] },
-                { titolo: "Frutta", etichette: ["M", "P", "U", "B", "F"] },
-                { titolo: "Temp.", etichette: ["G", "F", "M", "A", "M"] },
-                { titolo: "Sport", etichette: ["C", "B", "N", "T", "B"] }
+                { titolo: "Scores", etichette: ["6", "7", "8", "9", "10"] },
+                { titolo: "Books", etichette: ["1-2", "3-4", "5-6", "7-8", "9+"] },
+                { titolo: "Fruit", etichette: ["A", "P", "G", "B", "C"] },
+                { titolo: "Temp.", etichette: ["J", "F", "M", "A", "M"] },
+                { titolo: "Sport", etichette: ["S", "R", "T", "V", "B"] }
             ];
             
             const tema = temi[Math.floor(Math.random() * temi.length)];
@@ -1279,7 +1279,7 @@
             const numBarre = tema.etichette.length;
             datiCorrente = [];
             
-            // Genera valori - assicura differenza minima di 2 tra valori consecutivi
+            // Generate values - ensure minimum difference of 2 between consecutive values
             for (let i = 0; i < numBarre; i++) {
                 let valore;
                 do {
@@ -1288,13 +1288,13 @@
                 datiCorrente.push(valore);
             }
             
-            // Calcola media
+            // Calculate mean
             const somma = datiCorrente.reduce((a, b) => a + b, 0);
             const mediaEsatta = somma / numBarre;
             deveArrotondare = mediaEsatta % 1 !== 0;
             mediaCorretta = arrotondaAllUnita(mediaEsatta);
             
-            // Disegna le barre
+            // Draw bars
             const contenitore = document.getElementById('contenitore-barre');
             contenitore.innerHTML = '';
             
@@ -1305,19 +1305,19 @@
                 const barraItem = document.createElement('div');
                 barraItem.className = 'barra-item';
                 
-                // Calcola altezza proporzionale
+                // Calculate proportional height
                 const altezza = (valore / maxValore) * altezzaMax;
                 
                 const barra = document.createElement('div');
                 barra.className = 'barra';
                 barra.style.height = `${altezza}px`;
                 
-                // Valore sopra la barra
+                // Value above the bar
                 const valoreElem = document.createElement('div');
                 valoreElem.className = 'valore-barra';
                 valoreElem.textContent = valore;
                 
-                // Etichetta sotto la barra
+                // Label below the bar
                 const etichetta = document.createElement('div');
                 etichetta.className = 'etichetta-barra';
                 etichetta.textContent = tema.etichette[idx];
@@ -1329,40 +1329,40 @@
                 contenitore.appendChild(barraItem);
             });
             
-            descrizioneDomanda = `Osserva il diagramma. Calcola il valore medio.`;
+            descrizioneDomanda = `Observe the chart. Calculate the mean value.`;
         }
         
-        // 3. DOMANDA CON TABELLA DI DATI
+        // 3. QUESTION WITH DATA TABLE
         function generaDomandaTabella() {
             tabellaDati.style.display = 'block';
             
             const temi = [
-                { intestazione: ["Giorno", "Temp"], desc: "temperature" },
-                { intestazione: ["Nome", "Voto"], desc: "voti" },
-                { intestazione: ["Mese", "Pioggia"], desc: "precipitazioni" },
-                { intestazione: ["Frutto", "Qtà"], desc: "quantità" }
+                { intestazione: ["Day", "Temp"], desc: "temperatures" },
+                { intestazione: ["Name", "Score"], desc: "scores" },
+                { intestazione: ["Month", "Rain"], desc: "precipitation" },
+                { intestazione: ["Fruit", "Qty"], desc: "quantities" }
             ];
             
             const tema = temi[Math.floor(Math.random() * temi.length)];
             const numRighe = 4;
             
-            // Genera dati
+            // Generate data
             datiCorrente = [];
             for (let i = 0; i < numRighe; i++) {
                 datiCorrente.push(Math.floor(Math.random() * 15) + 5);
             }
             
-            // Calcola media
+            // Calculate mean
             const somma = datiCorrente.reduce((a, b) => a + b, 0);
             const mediaEsatta = somma / numRighe;
             deveArrotondare = mediaEsatta % 1 !== 0;
             mediaCorretta = arrotondaAllUnita(mediaEsatta);
             
-            // Crea la tabella
+            // Create the table
             const tabella = document.getElementById('tabella-dati');
             tabella.innerHTML = '';
             
-            // Intestazione
+            // Header
             const intestazione = document.createElement('div');
             intestazione.className = 'riga-dati intestazione-dati';
             
@@ -1374,8 +1374,8 @@
             });
             tabella.appendChild(intestazione);
             
-            // Righe dati
-            const nomiRighe = ["Lun", "Mar", "Mer", "Gio", "Ven", "Mrc", "Ann", "Luc"];
+            // Data rows
+            const nomiRighe = ["Mon", "Tue", "Wed", "Thu", "Fri", "Mar", "Ann", "Luc"];
             
             for (let i = 0; i < numRighe; i++) {
                 const riga = document.createElement('div');
@@ -1394,17 +1394,17 @@
                 tabella.appendChild(riga);
             }
             
-            descrizioneDomanda = `Osserva la tabella. Calcola il valore medio.`;
+            descrizioneDomanda = `Observe the table. Calculate the mean value.`;
         }
         
-        // 4. DOMANDA CON DIAGRAMMA A TORTA
+        // 4. QUESTION WITH PIE CHART
         function generaDomandaTorta() {
             diagrammaTorta.style.display = 'block';
             
             const temi = [
-                { titolo: "Preferenze colori", categorie: ["Rosso", "Blu", "Verde", "Giallo"] },
-                { titolo: "Attività tempo libero", categorie: ["Sport", "Lettura", "TV", "PC"] },
-                { titolo: "Frutta preferita", categorie: ["Mele", "Banane", "Pere", "Uva"] }
+                { titolo: "Color preferences", categorie: ["Red", "Blue", "Green", "Yellow"] },
+                { titolo: "Free time activities", categorie: ["Sports", "Reading", "TV", "PC"] },
+                { titolo: "Favorite fruits", categorie: ["Apples", "Bananas", "Pears", "Grapes"] }
             ];
             
             const tema = temi[Math.floor(Math.random() * temi.length)];
@@ -1416,13 +1416,13 @@
                 datiCorrente.push(Math.floor(Math.random() * 10) + 5);
             }
             
-            // Calcola media
+            // Calculate mean
             const somma = datiCorrente.reduce((a, b) => a + b, 0);
             const mediaEsatta = somma / numFette;
             deveArrotondare = mediaEsatta % 1 !== 0;
             mediaCorretta = arrotondaAllUnita(mediaEsatta);
             
-            // Crea la legenda
+            // Create legend
             const legenda = document.getElementById('legenda-torta');
             legenda.innerHTML = '';
             
@@ -1444,7 +1444,7 @@
                 legenda.appendChild(item);
             });
             
-            // Crea il grafico a torta
+            // Create pie chart
             let gradientString = '';
             let accumulo = 0;
             
@@ -1464,30 +1464,30 @@
             
             tortaGrafico.style.background = `conic-gradient(${gradientString})`;
             
-            descrizioneDomanda = `Osserva il diagramma a torta. Calcola il valore medio.`;
+            descrizioneDomanda = `Observe the pie chart. Calculate the mean value.`;
         }
         
-        // APPLICA BONUS
+        // APPLY BONUS
         function applicaBonus() {
             if (risposteConsecutiveCorrette > 0 && risposteConsecutiveCorrette % 3 === 0) {
                 punteggio += 5;
                 elemPunteggio.textContent = punteggio;
-                mostraBonusTesto(`🎁 +5 punti per 3 risposte di fila!`);
+                mostraBonusTesto(`🎁 +5 points for 3 in a row!`);
             }
             
             if (risposteConsecutiveCorrette > 0 && risposteConsecutiveCorrette % 5 === 0 && vite < 5) {
                 vite++;
                 aggiornaViteVisual();
-                mostraBonusTesto(`💖 VITA EXTRA! Ora hai ${vite} vite!`);
+                mostraBonusTesto(`💖 EXTRA LIFE! You now have ${vite} lives!`);
             }
             
             if (risposteConsecutiveCorrette === 7 && !scudoAttivo) {
                 scudoAttivo = true;
-                mostraBonusTesto(`🛡️ SCUDO ATTIVO! Il prossimo errore non toglierà vita!`);
+                mostraBonusTesto(`🛡️ SHIELD ACTIVE! Next mistake won't lose a life!`);
             }
         }
         
-        // AGGIORNA VITE VISUAL
+        // UPDATE LIVES VISUAL
         function aggiornaViteVisual() {
             let viteCuori = '';
             for (let i = 0; i < 5; i++) {
@@ -1496,12 +1496,12 @@
             elemVite.textContent = viteCuori;
         }
         
-        // INVIA RISPOSTA
+        // SUBMIT ANSWER
         function inviaRisposta() {
             const valoreInput = inputRisposta.value.trim();
             
             if (valoreInput === '') {
-                elemMessaggio.innerHTML = '✏️ Scrivi un numero!';
+                elemMessaggio.innerHTML = '✏️ Write a number!';
                 elemMessaggio.className = 'messaggio errato';
                 inputRisposta.focus();
                 return;
@@ -1509,23 +1509,23 @@
             
             const valore = parseInt(valoreInput);
             if (isNaN(valore)) {
-                elemMessaggio.innerHTML = '🔢 Scrivi un numero valido!';
+                elemMessaggio.innerHTML = '🔢 Write a valid number!';
                 elemMessaggio.className = 'messaggio errato';
                 inputRisposta.value = '';
                 inputRisposta.focus();
                 return;
             }
             
-            // Disabilita input
+            // Disable input
             inputRisposta.disabled = true;
             bottoneInvia.disabled = true;
             bottoneAiuto.disabled = true;
             
             if (valore === mediaCorretta) {
-                // RISPOSTA CORRETTA
+                // CORRECT ANSWER
                 risposteConsecutiveCorrette++;
                 
-                // Punti base
+                // Base points
                 let punti = 10;
                 if (tipoDomandaCorrente === 'barre' || tipoDomandaCorrente === 'tabella') punti = 12;
                 if (tipoDomandaCorrente === 'torta') punti = 15;
@@ -1533,11 +1533,11 @@
                 punteggio += punti;
                 elemPunteggio.textContent = punteggio;
                 
-                // Applica bonus
+                // Apply bonuses
                 applicaBonus();
                 
-                // Messaggio di successo
-                let messaggio = `✅ BRAVISSIMO! ${valore} è giusto! +${punti} punti`;
+                // Success message
+                let messaggio = `✅ GREAT! ${valore} is correct! +${punti} points`;
                 
                 if (datiCorrente.length > 0) {
                     const somma = datiCorrente.reduce((a, b) => a + b, 0);
@@ -1553,57 +1553,57 @@
                 elemMessaggio.innerHTML = messaggio;
                 elemMessaggio.className = 'messaggio corretto';
                 
-                // Aumenta livello
+                // Level up
                 const nuovoLivello = Math.floor(punteggio / 30) + 1;
                 if (nuovoLivello > livello) {
                     livello = nuovoLivello;
                     elemLivello.textContent = livello;
-                    elemMessaggio.innerHTML += `<br>🎉 SEI PASSATO AL LIVELLO ${livello}!`;
+                    elemMessaggio.innerHTML += `<br>🎉 YOU REACHED LEVEL ${livello}!`;
                 }
                 
-                // Nuova domanda dopo 2 secondi
+                // New question after 2 seconds
                 setTimeout(generaDomanda, 2000);
                 
             } else {
-                // RISPOSTA ERRATA
+                // WRONG ANSWER
                 risposteConsecutiveCorrette = 0;
                 
-                // Usa scudo se attivo
+                // Use shield if active
                 let vitaPersa = true;
                 if (scudoAttivo) {
                     scudoAttivo = false;
                     vitaPersa = false;
-                    mostraBonusTesto('🛡️ Scudo utilizzato!');
+                    mostraBonusTesto('🛡️ Shield used!');
                 } else {
                     vite--;
                 }
                 
-                // Messaggio di errore EDUCATIVO
+                // EDUCATIONAL error message
                 const somma = datiCorrente.reduce((a, b) => a + b, 0);
                 const mediaEsatta = somma / datiCorrente.length;
                 
-                let messaggioErrore = `❌ OH NO! La risposta corretta era ${mediaCorretta}.`;
+                let messaggioErrore = `❌ OH NO! The correct answer was ${mediaCorretta}.`;
                 if (vitaPersa) {
-                    messaggioErrore += ` -1 vita`;
+                    messaggioErrore += ` -1 life`;
                 }
                 
-                messaggioErrore += `<br><br>📝 CALCOLO CORRETTO:`;
-                messaggioErrore += `<br>Somma: ${datiCorrente.join(' + ')} = ${somma}`;
+                messaggioErrore += `<br><br>📝 CORRECT CALCULATION:`;
+                messaggioErrore += `<br>Sum: ${datiCorrente.join(' + ')} = ${somma}`;
                 messaggioErrore += `<br>${somma} ÷ ${datiCorrente.length} = ${mediaEsatta.toFixed(2)}`;
                 
                 if (deveArrotondare) {
-                    messaggioErrore += `<br>→ Arrotondato a ${mediaCorretta}`;
+                    messaggioErrore += `<br>→ Rounded to ${mediaCorretta}`;
                 }
                 
                 elemMessaggio.innerHTML = messaggioErrore;
                 elemMessaggio.className = 'messaggio errato';
                 
-                // Aggiorna vite
+                // Update lives
                 if (vitaPersa) {
                     aggiornaViteVisual();
                 }
                 
-                // Controlla game over
+                // Check game over
                 if (vite <= 0) {
                     setTimeout(gameOver, 3500);
                 } else {
@@ -1612,11 +1612,11 @@
             }
         }
         
-        // MOSTRA AIUTO
+        // SHOW HINT
         function mostraAiuto() {
             if (aiutoLivello >= 3) return;
             
-            // Penalità punti
+            // Point penalty
             punteggio = Math.max(0, punteggio - 5);
             elemPunteggio.textContent = punteggio;
             
@@ -1629,21 +1629,21 @@
             let aiutoTesto = "";
             
             if (aiutoLivello === 1) {
-                aiutoTesto = `💡 PRIMO AIUTO (-5 punti):<br>`;
-                aiutoTesto += `Valori: ${datiCorrente.join(', ')}`;
+                aiutoTesto = `💡 FIRST HINT (-5 points):<br>`;
+                aiutoTesto += `Values: ${datiCorrente.join(', ')}`;
             } else if (aiutoLivello === 2) {
-                aiutoTesto = `💡 SECONDO AIUTO (-5 punti aggiuntivi):<br>`;
-                aiutoTesto += `Somma = ${somma}<br>`;
-                aiutoTesto += `Numero valori = ${datiCorrente.length}`;
+                aiutoTesto = `💡 SECOND HINT (-5 additional points):<br>`;
+                aiutoTesto += `Sum = ${somma}<br>`;
+                aiutoTesto += `Number of values = ${datiCorrente.length}`;
             } else {
-                aiutoTesto = `💡 RISPOSTA (-5 punti aggiuntivi):<br>`;
-                aiutoTesto += `<strong>Risposta: ${mediaCorretta}</strong><br>`;
-                aiutoTesto += `Perché: ${somma} ÷ ${datiCorrente.length} = ${mediaEsatta.toFixed(2)}`;
+                aiutoTesto = `💡 ANSWER (-5 additional points):<br>`;
+                aiutoTesto += `<strong>Answer: ${mediaCorretta}</strong><br>`;
+                aiutoTesto += `Because: ${somma} ÷ ${datiCorrente.length} = ${mediaEsatta.toFixed(2)}`;
                 if (deveArrotondare) {
                     aiutoTesto += ` → ${mediaCorretta}`;
                 }
                 
-                // Auto-invia dopo 2.5 secondi
+                // Auto-submit after 2.5 seconds
                 setTimeout(() => {
                     if (!inputRisposta.disabled) {
                         inputRisposta.value = mediaCorretta;
@@ -1657,9 +1657,9 @@
             
             if (aiutoLivello >= 3) {
                 bottoneAiuto.disabled = true;
-                bottoneAiuto.textContent = '❌ AIUTINO ESAURITO';
+                bottoneAiuto.textContent = '❌ HINTS EXHAUSTED';
             } else {
-                bottoneAiuto.textContent = `🧠 AIUTINO (-5 punti)`;
+                bottoneAiuto.textContent = `🧠 HINT (-5 points)`;
             }
         }
         
@@ -1668,7 +1668,7 @@
             document.getElementById('punteggio-finale').textContent = punteggio;
             document.getElementById('livello-finale').textContent = livello;
             
-            // Calcola stelle
+            // Calculate stars
             let stelle = 0;
             if (punteggio >= 80) stelle = 5;
             else if (punteggio >= 50) stelle = 4;
@@ -1682,7 +1682,7 @@
             gameOverScreen.style.display = 'flex';
         }
         
-        // RIGIOCA
+        // PLAY AGAIN
         function rigioca() {
             punteggio = 0;
             vite = 3;
@@ -1695,7 +1695,7 @@
             elemPunteggio.textContent = punteggio;
             aggiornaViteVisual();
             elemLivello.textContent = livello;
-            elemMessaggio.innerHTML = 'Pronto per una nuova partita!';
+            elemMessaggio.innerHTML = 'Ready for a new game!';
             elemMessaggio.className = 'messaggio';
             elemBonusInfo.style.display = 'none';
             elemAvviso.style.display = 'none';
@@ -1707,36 +1707,35 @@
             generaDomanda();
         }
         
-        // ==================== FUNZIONE PER ESCI (DIRETTA) ====================
+        // ==================== EXIT FUNCTION (points to English home) ====================
         function esciDalGioco() {
-            if (confirm("Vuoi davvero uscire dal gioco?")) {
-                window.location.href = "https://oragioca.github.io/matematica/";
-                // In alternativa, per una pagina vuota: window.location.href = "about:blank";
+            if (confirm("Do you really want to exit the game?")) {
+                window.location.href = "https://oragioca.github.io/matematica/en/";
             }
         }
         
-        // INIZIALIZZA
+        // INITIALIZE
         window.onload = function() {
             generaDomanda();
             
-            // Aggiungi event listener per il pulsante esci
+            // Add event listener for exit button
             document.getElementById('esciBtn').addEventListener('click', esciDalGioco);
             
-            // Controlla se serve scroll
+            // Check if scroll is needed
             setTimeout(controllaScrollNecessario, 300);
             
-            // Controlla anche al resize
+            // Also check on resize
             window.addEventListener('resize', controllaScrollNecessario);
         };
         
-        // ENTER PER INVIARE
+        // ENTER TO SUBMIT
         inputRisposta.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 inviaRisposta();
             }
         });
         
-        // CHIUDI MODALE CON ESC
+        // CLOSE MODAL WITH ESC
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 chiudiIstruzioni();
