@@ -20,7 +20,7 @@
             color: #333;
         }
         
-        /* Intestazione con titolo e pulsante lingua */
+        /* Intestazione con titolo e selettore lingua */
         .header-container {
             display: flex;
             align-items: center;
@@ -36,12 +36,18 @@
             flex: 1;
         }
         
-        /* Pulsante per tornare alla versione italiana */
-        .lang-btn {
+        /* Selettore lingua a due pulsanti */
+        .lang-selector {
+            display: flex;
+            gap: 8px;
+            margin-left: 15px;
+        }
+        
+        .lang-option {
             background-color: #3498db;
             color: white;
             text-decoration: none;
-            padding: 8px 15px;
+            padding: 8px 12px;
             border-radius: 20px;
             font-weight: bold;
             display: inline-flex;
@@ -49,11 +55,24 @@
             gap: 5px;
             transition: background-color 0.2s;
             white-space: nowrap;
-            margin-left: 15px;
+            border: 2px solid transparent;
         }
-        .lang-btn:hover {
+        
+        .lang-option:hover {
             background-color: #2980b9;
         }
+        
+        .lang-option.active {
+            background-color: #2c3e50;
+            border-color: #f1c40f;
+            cursor: default;
+            pointer-events: none;  /* Rende il link non cliccabile (lingua corrente) */
+        }
+        
+        .lang-option.active:hover {
+            background-color: #2c3e50; /* Mantiene lo stesso colore */
+        }
+        
         .lang-icon {
             font-size: 1.3em;
         }
@@ -178,13 +197,13 @@
             z-index: 1;
         }
         
-        /* Responsive: su mobile il pulsante va sotto il titolo */
+        /* Responsive: su mobile il selettore va sotto il titolo */
         @media (max-width: 600px) {
             .header-container {
                 flex-direction: column;
                 gap: 15px;
             }
-            .lang-btn {
+            .lang-selector {
                 margin-left: 0;
             }
         }
@@ -192,12 +211,19 @@
 </head>
 <body>
 
-    <!-- HEADER CON TITOLO E PULSANTE LINGUA -->
+    <!-- HEADER CON TITOLO E SELETTORE LINGUA (IT/EN) -->
     <div class="header-container">
         <h1>🎮 MATH GAMES FOR PRIMARY SCHOOL 🎮</h1>
-        <a href="../" class="lang-btn" title="Torna alla versione italiana">
-            <span class="lang-icon">🇮🇹</span>
-        </a>
+        <div class="lang-selector">
+            <a href="../" class="lang-option" title="Versione italiana">
+                <span class="lang-icon">🇮🇹</span>
+                <span>IT</span>
+            </a>
+            <a href="./" class="lang-option active" title="English version">
+                <span class="lang-icon">🇬🇧</span>
+                <span>EN</span>
+            </a>
+        </div>
     </div>
     
     <p class="sottotitolo">Choose a game and beat the record!</p>
@@ -279,7 +305,7 @@
 
         <!-- Average Calculator -->
         <div class="gioco-card">
-            <a href="average calculator.html">
+            <a href="average-calculator.html">
                 <span class="emoji-grande">🧮</span><br>
                 Average Calculator
             </a>
@@ -300,15 +326,17 @@
                 Percentages
             </a>
         </div>
-   <div class="gioco-card">
-            <a href="Percentuale e problemi.html">
+
+        <div class="gioco-card">
+            <a href="percentuali2.html">
                 <span class="emoji-grande">🤔</span><br>
                 Percentages 2
             </a>
         </div>
+
         <!-- Probability -->
         <div class="gioco-card">
-            <a href="probabilità.html">
+            <a href="probability.html">
                 <span class="emoji-grande">🎲</span><br>
                 Probability
             </a>
@@ -338,6 +366,7 @@
             </a>
         </div>
     </div>
+    
     <hr>
 
     <!-- SEZIONE COMMENTI IN INGLESE - CORRETTA E FUNZIONANTE -->
@@ -362,7 +391,6 @@
     </div>
 
 </body>
-
 </html>
 
 
