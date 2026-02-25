@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sort the Caterpillar - Number Ordering Game</title>
+    <meta name="description" content="Sort numbers (integers and decimals) in increasing order. A fun drag-and-drop game for primary school children to practice ordering numbers.">
+    <meta name="keywords" content="number ordering, decimals, integers, math game, educational, primary school">
+    <meta name="author" content="oragioca">
+    <!-- Open Graph / social media -->
+    <meta property="og:title" content="Sort the Caterpillar - Number Ordering Game">
+    <meta property="og:description" content="Drag and drop numbers to sort them from smallest to largest. Includes decimals between integers.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oragioca.github.io/matematica/en/sort-caterpillar.html">
+    <meta property="og:image" content="https://oragioca.github.io/matematica/en/sort-preview.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #add8e6, #87ceeb);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .game-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 100, 0.2);
+            padding: 20px;
+            max-width: 1100px;
+            width: 100%;
+            text-align: center;
+            border: 5px solid #4a90e2;
+            position: relative;
+        }
+        
+        h1 {
+            color: #000080;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 0 #ffd700;
+        }
+        
+        .sottotitolo {
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            background: #f0f8ff;
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 3px solid #4a90e2;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .punteggio, .vite, .livello, .criterio-container {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .punteggio { color: #000080; }
+        .vite { color: #ff0000; }
+        .livello { color: #008000; }
+        .criterio { color: #8b4513; }
+        
+        .criterio-container {
+            background: #fffacd;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 2px solid #d2691e;
+            cursor: help;
+            position: relative;
+            min-width: 180px;
+        }
+        
+        .criterio-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #8b4513;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            width: 250px;
+            z-index: 100;
+            margin-top: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .criterio-container:hover .criterio-tooltip {
+            display: block;
+        }
+        
+        /* Game area for sorting */
+        .area-gioco {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .area-numeri {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            min-height: 100px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 15px;
+            border: 3px dashed #4a90e2;
+        }
+        
+        .numero-draggable {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #ff69b4, #ff1493);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            cursor: grab;
+            user-select: none;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+            transition: all 0.3s;
+            border: 4px solid #c71585;
+        }
+        
+        .numero-draggable.intero {
+            background: linear-gradient(145deg, #9370db, #8a2be2);
+            border: 4px solid #4b0082;
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        .numero-draggable.decimale {
+            background: linear-gradient(145deg, #32cd32, #228b22);
+            border: 4px solid #006400;
+            box-shadow: 0 5px 15px rgba(34, 139, 34, 0.3);
+        }
+        
+        .numero-draggable:hover {
+            transform: scale(1.1);
+        }
+        
+        .numero-draggable.dragging {
+            opacity: 0.7;
+            transform: scale(1.05);
+            cursor: grabbing;
+        }
+        
+        .area-ordinamento {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            min-height: 120px;
+            padding: 15px;
+            background: #f0f8ff;
+            border-radius: 15px;
+            border: 3px solid #32cd32;
+            position: relative;
+        }
+        
+        .slot-ordinamento {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(145deg, #e8f5e8, #d4eed4);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px dashed #228b22;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .slot-ordinamento.riempito {
+            border: 4px solid #228b22;
+            background: linear-gradient(145deg, #d4f7d4, #b8e6b8);
+        }
+        
+        .slot-ordinamento.over {
+            background: linear-gradient(145deg, #fffacd, #ffeaa7);
+            border-color: #ffa500;
+        }
+        
+        .slot-numero {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #006400;
+        }
+        
+        .slot-indice {
+            position: absolute;
+            top: -25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000080;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 2px solid #4a90e2;
+        }
+        
+        .freccia {
+            font-size: 2rem;
+            color: #4a90e2;
+            align-self: center;
+            margin: 0 5px;
+        }
+        
+        .bottone-controllo {
+            background: linear-gradient(145deg, #4a90e2, #357ae8);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #1a5bb8;
+            margin: 5px;
+        }
+        
+        .bottone-controllo:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 0 #1a5bb8;
+        }
+        
+        .bottone-controllo:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 0 #1a5bb8;
+        }
+        
+        .bottone-controllo:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 3px 0 #999999;
+        }
+        
+        .bottone-aiuto {
+            background: linear-gradient(145deg, #ffa500, #ff8c00);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #cc7000;
+        }
+        
+        .bottone-aiuto:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 0 #cc7000;
+        }
+        
+        .bottone-aiuto:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 3px 0 #999999;
+        }
+        
+        /* Style for Exit button */
+        .bottone-esci {
+            background: linear-gradient(145deg, #6c757d, #5a6268);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #495057;
+            margin: 5px;
+        }
+        .bottone-esci:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 0 #343a40;
+        }
+        .bottone-esci:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 0 #343a40;
+        }
+        .bottone-esci:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 3px 0 #999999;
+        }
+        
+        /* NEW Info button */
+        .bottone-info {
+            background: linear-gradient(145deg, #17a2b8, #138496);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #117a8b;
+            margin: 5px;
+        }
+        .bottone-info:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 0 #0e6675;
+        }
+        
+        .messaggio {
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 12px 0;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .corretto {
+            background-color: #90ee90;
+            color: #006400;
+            border: 3px solid #006400;
+        }
+        
+        .errato {
+            background-color: #ffcccc;
+            color: #8b0000;
+            border: 3px solid #8b0000;
+        }
+        
+        .aiuto {
+            background-color: #fffacd;
+            color: #b8860b;
+            border: 3px dashed #b8860b;
+        }
+        
+        .info-ordinamento {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f0f8ff;
+            border-radius: 10px;
+            border: 2px solid #4a90e2;
+        }
+        
+        .controlli {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        /* MODAL styles for game info */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 5px solid #4a90e2;
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .modal-title {
+            color: #000080;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .close-modal {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .modal-section {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .modal-section h3 {
+            color: #228b22;
+            margin-bottom: 5px;
+            border-left: 4px solid #ffa500;
+            padding-left: 8px;
+        }
+        .modal-section p, .modal-section li {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.4;
+        }
+        .modal-list {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        
+        .esempio-ordinamento {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+        
+        .tipo-numero {
+            font-size: 0.9rem;
+            position: absolute;
+            bottom: -20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2px 6px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        
+        .legenda {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        
+        .item-legenda {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .pallino-legenda {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+        
+        .pallino-intero {
+            background: linear-gradient(145deg, #9370db, #8a2be2);
+            border-color: #4b0082;
+        }
+        
+        .pallino-decimale {
+            background: linear-gradient(145deg, #32cd32, #228b22);
+            border-color: #006400;
+        }
+        
+        @media (max-width: 900px) {
+            .area-numeri, .area-ordinamento {
+                gap: 10px;
+            }
+            
+            .numero-draggable {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+            
+            .slot-ordinamento {
+                width: 75px;
+                height: 75px;
+            }
+            
+            .slot-numero {
+                font-size: 1.8rem;
+            }
+            
+            .tipo-numero {
+                font-size: 0.8rem;
+                bottom: -18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .area-gioco {
+                gap: 10px;
+            }
+            
+            .numero-draggable {
+                width: 65px;
+                height: 65px;
+                font-size: 1.6rem;
+            }
+            
+            .slot-ordinamento {
+                width: 65px;
+                height: 65px;
+            }
+            
+            .slot-numero {
+                font-size: 1.6rem;
+            }
+            
+            .slot-indice {
+                font-size: 1rem;
+                top: -20px;
+            }
+            
+            .bottone-controllo, .bottone-aiuto, .bottone-esci, .bottone-info {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+            
+            .messaggio {
+                font-size: 1.1rem;
+                padding: 10px;
+            }
+            
+            .tipo-numero {
+                font-size: 0.7rem;
+                bottom: -16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-info {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .area-numeri, .area-ordinamento {
+                gap: 8px;
+            }
+            
+            .numero-draggable {
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
+            }
+            
+            .slot-ordinamento {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .slot-numero {
+                font-size: 1.4rem;
+            }
+            
+            .slot-indice {
+                font-size: 0.9rem;
+                top: -18px;
+                padding: 1px 6px;
+            }
+            
+            .controlli {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .bottone-controllo, .bottone-aiuto, .bottone-esci, .bottone-info {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .tipo-numero {
+                display: none; /* Hide on very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🐛 SORT THE CATERPILLAR 🐛</h1>
+        <p class="sottotitolo">Drag the numbers to put them in increasing order!</p>
+        
+        <div class="game-info">
+            <div class="punteggio">Points: <span id="punteggio">0</span></div>
+            <div class="vite">Lives: <span id="vite">❤️❤️❤️</span></div>
+            <div class="livello">Level: <span id="livello">1</span></div>
+            <div class="criterio-container">
+                <span class="criterio">Type: <span id="criterio-attuale">Mixed</span></span>
+                <div class="criterio-tooltip" id="criterio-descrizione">
+                    <strong>Number type:</strong><br>
+                    <span id="criterio-dettaglio">Integers and decimals between consecutive integers</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legenda">
+            <div class="item-legenda">
+                <div class="pallino-legenda pallino-intero"></div>
+                <span>Integer number</span>
+            </div>
+            <div class="item-legenda">
+                <div class="pallino-legenda pallino-decimale"></div>
+                <span>Decimal number</span>
+            </div>
+        </div>
+        
+        <div class="info-ordinamento">
+            <div class="passo-corrente">Correct order: from smallest <span class="freccia">→</span> to largest</div>
+            <div id="timer">Time: <span id="tempo-rimanente">60</span>s</div>
+        </div>
+        
+        <div class="area-gioco">
+            <!-- Numbers area to drag from -->
+            <div class="area-numeri" id="area-numeri">
+                <!-- Draggable numbers will be inserted here -->
+            </div>
+            
+            <!-- Sorting area with slots -->
+            <div class="area-ordinamento" id="area-ordinamento">
+                <div class="slot-ordinamento" data-indice="1">
+                    <div class="slot-indice">1st (smallest)</div>
+                    <div class="slot-numero"></div>
+                </div>
+                <span class="freccia">→</span>
+                <div class="slot-ordinamento" data-indice="2">
+                    <div class="slot-indice">2nd</div>
+                    <div class="slot-numero"></div>
+                </div>
+                <span class="freccia">→</span>
+                <div class="slot-ordinamento" data-indice="3">
+                    <div class="slot-indice">3rd</div>
+                    <div class="slot-numero"></div>
+                </div>
+                <span class="freccia">→</span>
+                <div class="slot-ordinamento" data-indice="4">
+                    <div class="slot-indice">4th</div>
+                    <div class="slot-numero"></div>
+                </div>
+                <span class="freccia">→</span>
+                <div class="slot-ordinamento" data-indice="5">
+                    <div class="slot-indice">5th (largest)</div>
+                    <div class="slot-numero"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controlli">
+            <button class="bottone-controllo" id="bottone-verifica" onclick="verificaOrdinamento()">
+                ✅ CHECK ORDER
+            </button>
+            <button class="bottone-aiuto" id="bottone-aiuto" onclick="mostraAiuto()">
+                🧠 HINT (-2 points)
+            </button>
+            <button class="bottone-controllo" id="bottone-reset" onclick="resetOrdinamento()">
+                🔄 RESTART
+            </button>
+            <!-- NEW INFO BUTTON -->
+            <button class="bottone-info" onclick="apriInfo()">ℹ️ Info</button>
+            <!-- EXIT BUTTON (updated to English home) -->
+            <button class="bottone-esci" id="esciBtn">🚪 Exit</button>
+        </div>
+        
+        <div class="messaggio" id="messaggio">
+            Drag the numbers to order them from smallest to largest. Watch out: there are decimals between integers!
+        </div>
+        
+        <div class="esempio-ordinamento">
+            <strong>Example with decimals between integers:</strong> 
+            <span class="numero-spiegazione">3</span> 
+            <span class="freccia">→</span>
+            <span class="numero-spiegazione">3.5</span> 
+            <span class="freccia">→</span>
+            <span class="numero-spiegazione">4</span> 
+            <span class="freccia">→</span>
+            <span class="numero-spiegazione">4.2</span> 
+            <span class="freccia">→</span>
+            <span class="numero-spiegazione">5</span>
+        </div>
+        
+        <!-- Original instructions div removed – now in modal -->
+    </div>
+    
+    <!-- Game Over Screen (hidden at start) -->
+    <div class="game-over" id="game-over" style="display: none;">
+        <div class="game-over-content">
+            <h2 class="game-over-title">GAME OVER!</h2>
+            <p class="game-over-punteggio">Your score: <span id="punteggio-finale">0</span></p>
+            <p style="font-size: 1.1rem; margin-bottom: 15px;">You did great! Want to play again?</p>
+            <button class="bottone-rigioca" onclick="rigioca()">🔄 PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <!-- NEW INFO MODAL (game description and instructions) -->
+    <div class="modal-overlay" id="info-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">ℹ️ About the game</div>
+                <button class="close-modal" onclick="chiudiInfo()">&times;</button>
+            </div>
+            <div class="modal-section">
+                <h3>🐛 What is Sort the Caterpillar?</h3>
+                <p>A fun drag‑and‑drop game to practice ordering numbers. You'll see a mix of integers and decimals, and you must place them in the correct order from smallest to largest.</p>
+            </div>
+            <div class="modal-section">
+                <h3>🎯 Skills you will develop</h3>
+                <ul class="modal-list">
+                    <li>✔ Comparing numbers (integers and decimals)</li>
+                    <li>✔ Understanding that decimals lie between whole numbers</li>
+                    <li>✔ Logical thinking and sequencing</li>
+                    <li>✔ Working under time pressure</li>
+                </ul>
+            </div>
+            <div class="modal-section">
+                <h3>📋 How to play</h3>
+                <ol class="modal-list">
+                    <li>Drag the coloured numbers from the top area into the green slots.</li>
+                    <li>Arrange them from the smallest (1st slot) to the largest (5th slot).</li>
+                    <li>Check the colour: purple = integer, green = decimal.</li>
+                    <li>Click <strong>CHECK ORDER</strong> to verify. A correct order gives you +25 points plus a time bonus.</li>
+                    <li>You have 3 lives. Wrong order or timeout costs 1 life.</li>
+                    <li>Use <strong>HINT</strong> to see the correct order (-2 points).</li>
+                    <li><strong>RESTART</strong> clears the slots and lets you try again.</li>
+                </ol>
+            </div>
+            <div class="modal-section">
+                <h3>🏆 Scoring system</h3>
+                <p>+25 points for a correct order, plus a time bonus (half the remaining seconds).<br>
+                -2 points if you use a hint.<br>
+                +1 level every 150 points (new, more challenging numbers).<br>
+                Lose 1 life for each wrong answer or when time runs out.</p>
+            </div>
+            <div class="modal-section">
+                <h3>👨‍🏫 For parents and teachers</h3>
+                <p>This game helps children grasp the concept of numerical order, especially with decimals – a common hurdle in elementary math. Suitable for ages 7+.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Level configuration (unchanged)
+        const configurazioneLivelli = {
+            1: { name: "Basic", min: 1, max: 8, decimals: 2, time: 70, 
+                 description: "2 decimals between consecutive integers" },
+            2: { name: "Intermediate", min: 3, max: 10, decimals: 2, time: 65,
+                 description: "2 decimals between consecutive integers" },
+            3: { name: "Advanced", min: 2, max: 12, decimals: 2, time: 60,
+                 description: "2 decimals between consecutive integers" },
+            4: { name: "Challenge 1", min: 4, max: 15, decimals: 2, time: 60,
+                 description: "2 decimals between consecutive integers" },
+            5: { name: "Challenge 2", min: 5, max: 18, decimals: 2, time: 55,
+                 description: "2 decimals between consecutive integers" },
+            6: { name: "Expert", min: 6, max: 20, decimals: 2, time: 50,
+                 description: "2 decimals between consecutive integers" }
+        };
+        
+        // Game variables
+        let punteggio = 0;
+        let vite = 3;
+        let livello = 1;
+        let aiutoUsato = false;
+        let tempoRimanente = 60;
+        let timer;
+        let numeriOriginali = [];
+        let numeriOrdinati = [];
+        let configurazioneCorrente = {};
+        let numeriPosizionati = [null, null, null, null, null];
+        let draggableInMovimento = null;
+        let giocoInCorso = true;
+        
+        // DOM elements
+        const elemPunteggio = document.getElementById('punteggio');
+        const elemVite = document.getElementById('vite');
+        const elemLivello = document.getElementById('livello');
+        const elemCriterio = document.getElementById('criterio-attuale');
+        const elemCriterioDettaglio = document.getElementById('criterio-dettaglio');
+        const elemMessaggio = document.getElementById('messaggio');
+        const bottoneAiuto = document.getElementById('bottone-aiuto');
+        const bottoneVerifica = document.getElementById('bottone-verifica');
+        const bottoneReset = document.getElementById('bottone-reset');
+        const gameOverScreen = document.getElementById('game-over');
+        const areaNumeri = document.getElementById('area-numeri');
+        const areaOrdinamento = document.getElementById('area-ordinamento');
+        const tempoRimanenteSpan = document.getElementById('tempo-rimanente');
+        
+        // Generate a sequence of 5 numbers with 2 decimals between consecutive integers
+        function generaSequenzaConDecimali() {
+            // Get configuration for current level
+            const livelloEffettivo = Math.min(livello, 6);
+            configurazioneCorrente = configurazioneLivelli[livelloEffettivo];
+            
+            // Update display
+            elemCriterio.textContent = configurazioneCorrente.name;
+            elemCriterioDettaglio.textContent = configurazioneCorrente.description;
+            
+            // Generate 3 integers in sequence
+            let interoBase = Math.floor(Math.random() * 
+                (configurazioneCorrente.max - configurazioneCorrente.min - 2)) + 
+                configurazioneCorrente.min;
+            
+            const interi = [
+                interoBase,
+                interoBase + 1,
+                interoBase + 2
+            ];
+            
+            // Generate 2 decimals between consecutive integers
+            const decimali = [];
+            
+            // Decimal between first and second integer
+            const decimale1 = interi[0] + Math.random() * 0.9 + 0.1; // Between n.1 and n.2
+            decimali.push(Math.round(decimale1 * 10) / 10); // Round to 1 decimal
+            
+            // Decimal between second and third integer
+            const decimale2 = interi[1] + Math.random() * 0.9 + 0.1; // Between n.2 and n.3
+            decimali.push(Math.round(decimale2 * 10) / 10); // Round to 1 decimal
+            
+            // Combine integers and decimals
+            numeriOriginali = [...interi, ...decimali];
+            
+            // Sort numbers for the solution
+            numeriOrdinati = [...numeriOriginali].sort((a, b) => a - b);
+            
+            // Reset number positions
+            numeriPosizionati = [null, null, null, null, null];
+            
+            // Start timer
+            tempoRimanente = configurazioneCorrente.time;
+            tempoRimanenteSpan.textContent = tempoRimanente;
+            clearInterval(timer);
+            timer = setInterval(aggiornaTimer, 1000);
+            
+            // Create the interface
+            creaInterfaccia();
+            
+            // Reset hint
+            aiutoUsato = false;
+            bottoneAiuto.disabled = false;
+            bottoneAiuto.textContent = '🧠 HINT (-2 points)';
+            
+            // Enable game
+            giocoInCorso = true;
+            
+            // Update message
+            elemMessaggio.innerHTML = `Sort the numbers! There are 2 decimals between integers. You have ${tempoRimanente} seconds.`;
+            elemMessaggio.className = 'messaggio';
+            
+            // Debug log (can remove in production)
+            console.log("Generated numbers:", numeriOriginali);
+            console.log("Correct order:", numeriOrdinati);
+        }
+        
+        // Create game interface with draggable elements
+        function creaInterfaccia() {
+            // Clear areas
+            areaNumeri.innerHTML = '';
+            areaOrdinamento.querySelectorAll('.slot-numero').forEach(slot => slot.textContent = '');
+            areaOrdinamento.querySelectorAll('.slot-ordinamento').forEach(slot => {
+                slot.classList.remove('riempito', 'over');
+                slot.style.background = '';
+                slot.style.border = '';
+            });
+            
+            // Shuffle numbers
+            const numeriMescolati = [...numeriOriginali].sort(() => Math.random() - 0.5);
+            
+            // Create draggable elements for each number
+            numeriMescolati.forEach((numero, index) => {
+                const draggable = document.createElement('div');
+                draggable.className = 'numero-draggable';
+                draggable.textContent = numero;
+                draggable.dataset.valore = numero;
+                draggable.dataset.id = `num-${index}`;
+                draggable.draggable = true;
+                
+                // Add class for integer or decimal
+                if (numero % 1 === 0) {
+                    draggable.classList.add('intero');
+                } else {
+                    draggable.classList.add('decimale');
+                }
+                
+                // Add type label
+                const tipoLabel = document.createElement('div');
+                tipoLabel.className = 'tipo-numero';
+                tipoLabel.textContent = numero % 1 === 0 ? 'integer' : 'decimal';
+                draggable.appendChild(tipoLabel);
+                
+                // Add event listeners for drag & drop
+                draggable.addEventListener('dragstart', handleDragStart);
+                draggable.addEventListener('dragend', handleDragEnd);
+                
+                areaNumeri.appendChild(draggable);
+            });
+            
+            // Add event listeners to slots
+            const slots = document.querySelectorAll('.slot-ordinamento');
+            slots.forEach(slot => {
+                slot.addEventListener('dragover', handleDragOver);
+                slot.addEventListener('dragenter', handleDragEnter);
+                slot.addEventListener('dragleave', handleDragLeave);
+                slot.addEventListener('drop', handleDrop);
+            });
+        }
+        
+        // Drag & drop handlers
+        function handleDragStart(e) {
+            draggableInMovimento = this;
+            this.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', this.dataset.valore);
+            e.dataTransfer.effectAllowed = 'move';
+        }
+        
+        function handleDragEnd() {
+            this.classList.remove('dragging');
+            draggableInMovimento = null;
+            
+            // Remove 'over' class from all slots
+            document.querySelectorAll('.slot-ordinamento').forEach(slot => {
+                slot.classList.remove('over');
+            });
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+        
+        function handleDragEnter(e) {
+            e.preventDefault();
+            this.classList.add('over');
+        }
+        
+        function handleDragLeave() {
+            this.classList.remove('over');
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            this.classList.remove('over');
+            
+            if (!giocoInCorso) return;
+            
+            const slotIndex = parseInt(this.dataset.indice) - 1;
+            const valore = draggableInMovimento ? 
+                parseFloat(draggableInMovimento.dataset.valore) : 
+                parseFloat(e.dataTransfer.getData('text/plain'));
+            
+            // If slot is already occupied, remove the previous number
+            if (numeriPosizionati[slotIndex] !== null) {
+                // Bring previous number back to the numbers area
+                const vecchioNumero = numeriPosizionati[slotIndex];
+                const nuovoDraggable = creaElementoDraggable(vecchioNumero);
+                areaNumeri.appendChild(nuovoDraggable);
+            }
+            
+            // Place the new number in the slot
+            numeriPosizionati[slotIndex] = valore;
+            this.querySelector('.slot-numero').textContent = valore;
+            this.classList.add('riempito');
+            
+            // Remove the draggable element from the numbers area if it exists
+            if (draggableInMovimento) {
+                draggableInMovimento.remove();
+            }
+            
+            // Check if all slots are filled
+            controllaCompletamento();
+        }
+        
+        // Create a draggable element
+        function creaElementoDraggable(numero) {
+            const draggable = document.createElement('div');
+            draggable.className = 'numero-draggable';
+            draggable.textContent = numero;
+            draggable.dataset.valore = numero;
+            draggable.dataset.id = `num-${Date.now()}`;
+            draggable.draggable = true;
+            
+            // Add class for integer or decimal
+            if (numero % 1 === 0) {
+                draggable.classList.add('intero');
+            } else {
+                draggable.classList.add('decimale');
+            }
+            
+            // Add type label
+            const tipoLabel = document.createElement('div');
+            tipoLabel.className = 'tipo-numero';
+            tipoLabel.textContent = numero % 1 === 0 ? 'integer' : 'decimal';
+            draggable.appendChild(tipoLabel);
+            
+            // Add event listeners
+            draggable.addEventListener('dragstart', handleDragStart);
+            draggable.addEventListener('dragend', handleDragEnd);
+            
+            return draggable;
+        }
+        
+        // Check if all slots are filled
+        function controllaCompletamento() {
+            const tuttiPieni = numeriPosizionati.every(num => num !== null);
+            if (tuttiPieni) {
+                bottoneVerifica.disabled = false;
+                elemMessaggio.innerHTML = 'All slots are filled! Click CHECK to verify.';
+            } else {
+                bottoneVerifica.disabled = true;
+            }
+        }
+        
+        // Verify sorting
+        function verificaOrdinamento() {
+            if (!giocoInCorso) return;
+            
+            // Check if sorting is correct
+            let corretto = true;
+            for (let i = 0; i < numeriPosizionati.length; i++) {
+                if (Math.abs(numeriPosizionati[i] - numeriOrdinati[i]) > 0.01) {
+                    corretto = false;
+                    break;
+                }
+            }
+            
+            if (corretto) {
+                // Correct sorting
+                const bonusTempo = Math.floor(tempoRimanente / 2);
+                punteggio += 25 + bonusTempo;
+                elemMessaggio.innerHTML = `PERFECT! Correct order! +25 points + ${bonusTempo} time bonus`;
+                elemMessaggio.className = 'messaggio corretto';
+                
+                // Update display
+                elemPunteggio.textContent = punteggio;
+                
+                // Highlight all slots in green
+                document.querySelectorAll('.slot-ordinamento').forEach(slot => {
+                    slot.style.background = 'linear-gradient(145deg, #90ee90, #32cd32)';
+                    slot.style.border = '4px solid #006400';
+                });
+                
+                // Increase level every 150 points
+                const nuovoLivello = Math.floor(punteggio / 150) + 1;
+                if (nuovoLivello > livello) {
+                    livello = nuovoLivello;
+                    elemLivello.textContent = livello;
+                    elemMessaggio.innerHTML += `<br>🎉 LEVEL ${livello} COMPLETED! 🎉`;
+                }
+                
+                // Stop timer
+                clearInterval(timer);
+                
+                // Disable further interactions
+                giocoInCorso = false;
+                bottoneVerifica.disabled = true;
+                
+                // New level after 3 seconds
+                setTimeout(() => {
+                    generaSequenzaConDecimali();
+                }, 3000);
+            } else {
+                // Wrong sorting
+                vite--;
+                elemMessaggio.innerHTML = `WRONG ORDER! -1 life`;
+                elemMessaggio.className = 'messaggio errato';
+                
+                // Highlight errors
+                document.querySelectorAll('.slot-ordinamento').forEach((slot, index) => {
+                    if (Math.abs(numeriPosizionati[index] - numeriOrdinati[index]) > 0.01) {
+                        slot.style.background = 'linear-gradient(145deg, #ff6b6b, #ff4757)';
+                        slot.style.border = '4px solid #c70000';
+                    }
+                });
+                
+                // Update lives
+                let viteCuori = '';
+                for (let i = 0; i < 3; i++) {
+                    viteCuori += i < vite ? '❤️' : '🤍';
+                }
+                elemVite.textContent = viteCuori;
+                
+                // Check if game is over
+                if (vite <= 0) {
+                    clearInterval(timer);
+                    setTimeout(gameOver, 2000);
+                } else {
+                    // Allow to try again
+                    bottoneReset.disabled = false;
+                }
+            }
+        }
+        
+        // Reset current sorting
+        function resetOrdinamento() {
+            if (!giocoInCorso) return;
+            
+            // Bring all numbers back to the numbers area
+            numeriPosizionati = [null, null, null, null, null];
+            
+            // Clear and recreate interface
+            creaInterfaccia();
+            
+            // Update message
+            elemMessaggio.innerHTML = `Let's start over! Drag the numbers into the correct order.`;
+            elemMessaggio.className = 'messaggio';
+            
+            // Disable check button
+            bottoneVerifica.disabled = true;
+        }
+        
+        // Show hint
+        function mostraAiuto() {
+            if (aiutoUsato || !giocoInCorso) return;
+            
+            aiutoUsato = true;
+            punteggio = Math.max(0, punteggio - 2);
+            
+            elemMessaggio.innerHTML = `<strong>HINT:</strong> The correct order is: ${numeriOrdinati.join(' → ')}`;
+            elemMessaggio.className = 'messaggio aiuto';
+            elemPunteggio.textContent = punteggio;
+            
+            bottoneAiuto.disabled = true;
+            bottoneAiuto.textContent = '❌ HINT USED';
+            
+            // Briefly highlight the correct order
+            const slots = document.querySelectorAll('.slot-ordinamento');
+            numeriOrdinati.forEach((num, index) => {
+                setTimeout(() => {
+                    slots[index].style.background = 'linear-gradient(145deg, #ffd700, #ffa500)';
+                    slots[index].style.border = '4px solid #b8860b';
+                    slots[index].querySelector('.slot-numero').textContent = num;
+                    
+                    setTimeout(() => {
+                        if (numeriPosizionati[index] === null) {
+                            slots[index].style.background = '';
+                            slots[index].style.border = '';
+                            slots[index].querySelector('.slot-numero').textContent = '';
+                        }
+                    }, 1500);
+                }, index * 500);
+            });
+        }
+        
+        // Update timer
+        function aggiornaTimer() {
+            if (!giocoInCorso) return;
+            
+            tempoRimanente--;
+            tempoRimanenteSpan.textContent = tempoRimanente;
+            
+            // Change color when time is running out
+            if (tempoRimanente <= 10) {
+                tempoRimanenteSpan.style.color = '#ff0000';
+                tempoRimanenteSpan.style.fontWeight = 'bold';
+                
+                if (tempoRimanente <= 5) {
+                    elemMessaggio.innerHTML = `WARNING! Only ${tempoRimanente} seconds left!`;
+                    elemMessaggio.className = 'messaggio errato';
+                }
+            }
+            
+            // Time's up
+            if (tempoRimanente <= 0) {
+                clearInterval(timer);
+                vite--;
+                
+                elemMessaggio.innerHTML = `TIME'S UP! -1 life`;
+                elemMessaggio.className = 'messaggio errato';
+                
+                // Update lives
+                let viteCuori = '';
+                for (let i = 0; i < 3; i++) {
+                    viteCuori += i < vite ? '❤️' : '🤍';
+                }
+                elemVite.textContent = viteCuori;
+                
+                // Show the solution
+                const slots = document.querySelectorAll('.slot-ordinamento');
+                numeriOrdinati.forEach((num, index) => {
+                    slots[index].querySelector('.slot-numero').textContent = num;
+                    slots[index].style.background = 'linear-gradient(145deg, #ff6b6b, #ff4757)';
+                    slots[index].style.border = '4px solid #c70000';
+                });
+                
+                // Check if game is over
+                if (vite <= 0) {
+                    setTimeout(gameOver, 2000);
+                } else {
+                    // New level after 3 seconds
+                    setTimeout(() => {
+                        generaSequenzaConDecimali();
+                    }, 3000);
+                }
+            }
+        }
+        
+        // Game over
+        function gameOver() {
+            clearInterval(timer);
+            document.getElementById('punteggio-finale').textContent = punteggio;
+            gameOverScreen.style.display = 'flex';
+            giocoInCorso = false;
+        }
+        
+        // Play again
+        function rigioca() {
+            // Reset game variables
+            punteggio = 0;
+            vite = 3;
+            livello = 1;
+            giocoInCorso = true;
+            
+            // Update display
+            elemPunteggio.textContent = punteggio;
+            elemVite.textContent = '❤️❤️❤️';
+            elemLivello.textContent = livello;
+            elemMessaggio.innerHTML = 'Ready for a new game!';
+            elemMessaggio.className = 'messaggio';
+            
+            // Hide game over screen
+            gameOverScreen.style.display = 'none';
+            
+            // Generate a new sequence
+            generaSequenzaConDecimali();
+        }
+        
+        // ==================== INFO FUNCTIONS ====================
+        function apriInfo() {
+            document.getElementById('info-modal').style.display = 'flex';
+        }
+        function chiudiInfo() {
+            document.getElementById('info-modal').style.display = 'none';
+        }
+        // Close modal if clicked outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('info-modal');
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // ==================== EXIT FUNCTION ====================
+        function esciDalGioco() {
+            if (confirm("Do you really want to exit the game?")) {
+                window.location.href = "https://oragioca.github.io/matematica/en/";
+            }
+        }
+        
+        // Initialize game when page is loaded
+        window.onload = function() {
+            generaSequenzaConDecimali();
+            
+            // Add event listener for Exit button
+            document.getElementById('esciBtn').addEventListener('click', esciDalGioco);
+        };
+    </script>
+</body>
+</html>
