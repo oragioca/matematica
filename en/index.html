@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="alternate" hreflang="en" href="https://oragioca.github.io/matematica/en/column-addition.html" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- TITOLO E DESCRIZIONE IN INGLESE (FONDAMENTALI PER SEO) -->
+    <title>Math Games for Primary School | Free Online</title>
+    <meta name="description" content="Free and fun math games for kids: column addition, divisions, multiplications, fractions, geometry and more. Choose a game and beat the record!">
+    
+    <style>
+        /* STILI COMPLETI - CARD 3D, COMMENTI ULTRA COMPATTI */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        
+        .header-title {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 1.6rem;
+            line-height: 1.2;
+            word-break: break-word;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+        }
+        
+        .subheader {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .sottotitolo-container {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .sottotitolo {
+            font-size: 0.95rem;
+            color: #555;
+            margin: 0;
+        }
+        
+        .lang-selector {
+            display: flex;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 3px;
+            border-radius: 8px;
+            backdrop-filter: blur(2px);
+        }
+
+        .lang-option {
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            border: 2px solid transparent;
+            min-width: 36px;
+            font-size: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .lang-option:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+        /* Pulsante attivo per EN (verde) */
+        .lang-option.active[href="./"] {
+            background-color: #2ecc71;
+            border-color: #27ae60;
+            cursor: default;
+            pointer-events: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Pulsante attivo per IT (rosso) - non usato qui, ma per coerenza */
+        .lang-option.active[href="https://oragioca.github.io/matematica/"] {
+            background-color: #e74c3c;
+            border-color: #c0392b;
+            cursor: default;
+            pointer-events: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .lang-option:not(.active) {
+            background-color: #3498db;
+        }
+        
+        .giochi-lista {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .gioco-card {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 8px;
+            padding: 6px;
+            box-shadow: 
+                0 3px 0 #b0b0b0,
+                0 6px 10px rgba(0,0,0,0.15),
+                inset 0 -1px 0 rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.7);
+            text-align: center;
+            transition: transform 0.1s, box-shadow 0.1s;
+            position: relative;
+            min-height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .gioco-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 5px 0 #a0a0a0,
+                0 10px 15px rgba(0,0,0,0.2),
+                inset 0 -1px 0 rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.7);
+        }
+        
+        .gioco-card a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 0.8em;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 6px;
+            box-sizing: border-box;
+            border-radius: 8px;
+        }
+        .gioco-card a:hover {
+            color: #1f2b38;
+            background-color: rgba(52, 152, 219, 0.03);
+        }
+        
+        .emoji-grande {
+            font-size: 1.6em;
+            display: block;
+            margin-bottom: 2px;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2));
+        }
+        hr {
+            margin: 15px 0;
+            border: 0;
+            border-top: 1px solid #ccc;
+        }
+        
+        /* COMMENTI ULTRA COMPATTI */
+        .comment-section {
+            background-color: white;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .comment-section h2 {
+            color: #2c3e50;
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+        .comment-section input,
+        .comment-section textarea {
+            width: 100%;
+            padding: 4px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            box-sizing: border-box;
+            font-size: 0.75rem;
+        }
+        .comment-section textarea {
+            resize: vertical;
+            min-height: 32px;
+        }
+        .comment-section button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            width: 100%;
+        }
+        .comment-section button:hover {
+            background-color: #2980b9;
+        }
+        .comment-note {
+            font-size: 0.65rem;
+            color: #888;
+            margin-top: 4px;
+            text-align: center;
+        }
+        
+        @media (max-width: 600px) {
+            .subheader {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .sottotitolo-container {
+                width: 100%;
+            }
+            h1 {
+                font-size: 1.4rem;
+            }
+            .giochi-lista {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 6px;
+            }
+            .gioco-card {
+                min-height: 70px;
+                padding: 5px;
+            }
+            .emoji-grande {
+                font-size: 1.5em;
+            }
+            .comment-section {
+                padding: 6px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .giochi-lista {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-title">
+        <h1>🎮 MATH GAMES FOR PRIMARY SCHOOL 🎮</h1>
+    </div>
+
+    <div class="subheader">
+        <div class="sottotitolo-container">
+            <p class="sottotitolo">Choose a game and beat the record!</p>
+        </div>
+        <div class="lang-selector">
+            <!-- Link IT: punta alla versione italiana (root) -->
+            <a href="https://oragioca.github.io/matematica/" class="lang-option" title="Versione italiana">
+                <span>IT</span>
+            </a>
+            <!-- Link EN: punta alla cartella corrente (inglese) -->
+            <a href="./" class="lang-option active" title="English version">
+                <span>EN</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ELENCO GIOCHI -->
+    <div class="giochi-lista">
+        <div class="gioco-card"><a href="column-addition.html"><span class="emoji-grande">➕</span><br>Column Addition</a></div>
+        <div class="gioco-card"><a href="column-divisions.html"><span class="emoji-grande">➗</span><br>Column-divisions</a></div>
+        <div class="gioco-card"><a href="divisions-comma.html"><span class="emoji-grande">➗,</span><br>Divisions with the comma</a></div>
+        <div class="gioco-card"><a href="divisions-with-decimals.html"><span class="emoji-grande">➗</span><br>Divisions with Decimals</a></div>
+        <div class="gioco-card"><a href="phone-divisions.html"><span class="emoji-grande">🎯</span><br>Phone Divisions</a></div>
+        <div class="gioco-card"><a href="column-multiplication.html"><span class="emoji-grande">✖️</span><br>Multiplications</a></div>
+        <div class="gioco-card"><a href="sorting.html"><span class="emoji-grande">📊</span><br>Sorting</a></div>
+        <div class="gioco-card"><a href="sequences1.html"><span class="emoji-grande">🔁</span><br>Sequences 1</a></div>
+        <div class="gioco-card"><a href="fractions.html"><span class="emoji-grande">½</span><br>Fractions-game</a></div>
+        <div class="gioco-card"><a href="average-calculator.html"><span class="emoji-grande">🧮</span><br>Average Calculator</a></div>
+        <div class="gioco-card"><a href="sequences2.html"><span class="emoji-grande">🔢</span><br>Sequences 2</a></div>
+        <div class="gioco-card"><a href="problems-percentages.html"><span class="emoji-grande">🤔</span><br>Percentages and problems</a></div>
+        <div class="gioco-card"><a href="percentages.html"><span class="emoji-grande">🤔</span><br>Percentages</a></div>
+        <div class="gioco-card"><a href="probability.html"><span class="emoji-grande">🎲</span><br>Probability</a></div>
+        <div class="gioco-card"><a href="tables.html"><span class="emoji-grande">🤔</span><br>Tables and Charts</a></div>
+        <div class="gioco-card"><a href="problems.html"><span class="emoji-grande">💡</span><br>Problems</a></div>
+        <div class="gioco-card"><a href="column-operations.html"><span class="emoji-grande">🧩</span><br>Column Operations</a></div>
+        <div class="gioco-card"><a href="Geometry 1.html"><span class="emoji-grande">📐</span>Geometry 1</a></div>
+    </div>
+    
+    <hr>
+
+    <!-- COMMENTI COMPATTISSIMI -->
+    <div class="comment-section">
+        <h2>✍️ Leave a comment</h2>
+        <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
+            <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/en/thanks.html">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+
+            <input type="text" name="name" placeholder="Your name" required>
+            <textarea name="message" placeholder="Your comment..." rows="1" required></textarea>
+
+            <button type="submit">Send comment</button>
+        </form>
+        <p class="comment-note">Comments are anonymous</p>
+    </div>
+
+</body>
+</html>
