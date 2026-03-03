@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn the Comma in Divisions | Decimal Point Game</title>
+    <meta name="description" content="Learn to place the decimal point correctly in divisions. Guided and autonomous phases with drag & drop. Master remainders and decimal quotients.">
+    <meta property="og:title" content="Learn the Comma in Divisions">
+    <meta property="og:description" content="Interactive game to master decimal placement in division. Two progressive phases with drag & drop.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oragioca.github.io/matematica/en/">
+    <!-- Se hai un'anteprima, aggiungi:
+    <meta property="og:image" content="https://oragioca.github.io/matematica/en/preview.png">
+    -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .header-with-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 3px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .info-btn {
+            background: #ffd966;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #1e3c72;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-btn:hover {
+            background: #ffe083;
+            transform: scale(1.05);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 4px;
+            font-size: 0.7rem;
+            font-style: italic;
+        }
+
+        .mode-indicator {
+            text-align: center;
+            padding: 4px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.7rem;
+        }
+
+        .mode-guided {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .mode-autonomous {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 5px;
+            padding: 4px;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            border-radius: 10px;
+            color: white;
+        }
+
+        .score-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .score-label {
+            font-size: 0.6rem;
+            opacity: 0.9;
+        }
+
+        .score-value {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .btn-exit {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            width: 100%;
+            padding: 2px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .btn-exit:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .exit-icon {
+            font-size: 1rem;
+        }
+
+        .lesson-box {
+            background: #fff3cd;
+            padding: 5px 8px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            border-left: 3px solid #ffc107;
+        }
+
+        .lesson-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 2px;
+            font-size: 0.8rem;
+        }
+
+        .lesson-content {
+            color: #856404;
+            font-size: 0.7rem;
+            line-height: 1.3;
+        }
+
+        .lesson-content strong {
+            color: #d63384;
+        }
+
+        .example {
+            background: white;
+            padding: 3px 5px;
+            margin-top: 3px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .exercise-area {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+        }
+
+        .exercise-title {
+            text-align: center;
+            font-size: 1rem;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .division-steps {
+            background: #f0f4ff;
+            padding: 6px 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 2px solid #667eea;
+        }
+
+        .steps-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .steps-content {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .step-line {
+            margin: 3px 0;
+        }
+
+        .step-line .highlight-integer,
+        .step-line .highlight-comma,
+        .step-line .highlight-decimal {
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+
+        .division-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            text-align: center;
+            margin: 6px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .quotient-builder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            min-height: 50px;
+            position: relative;
+            padding-top: 22px;
+            margin-top: 5px;
+        }
+
+        .section-label {
+            position: absolute;
+            top: 0;
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #666;
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .label-integer {
+            color: #2196F3;
+            left: 0;
+        }
+
+        .label-decimal {
+            color: #4CAF50;
+            right: 0;
+        }
+
+        .digit-slot {
+            width: 32px;
+            height: 38px;
+            border: 2px dashed #667eea;
+            border-radius: 6px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .digit-slot.integer {
+            border-color: #2196F3;
+            background: #e3f2fd;
+        }
+
+        .digit-slot.decimal {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+
+        .digit-slot.comma {
+            width: 26px;
+            border-color: #f5576c;
+            border-width: 3px;
+            background: #ffe5ea;
+        }
+
+        .digit-slot.neutral {
+            border-color: #9e9e9e;
+            background: #f5f5f5;
+        }
+
+        .digit-slot.filled {
+            border-style: solid;
+        }
+
+        .digit-slot.drag-over {
+            background: #e3f2fd;
+            transform: scale(1.05);
+        }
+
+        .digit-slot.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            animation: success 0.5s;
+        }
+
+        .digit-slot.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            animation: shake 0.3s;
+        }
+
+        @keyframes success {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .tiles-panel {
+            background: #e3f2fd;
+            padding: 6px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        .tiles-title {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .tiles-container {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tile {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: move;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+        }
+
+        .tile.comma {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            font-size: 1.6rem;
+        }
+
+        .tile:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .tile.dragging {
+            opacity: 0.5;
+        }
+
+        .tile.used {
+            display: none;
+        }
+
+        .hint-box {
+            background: #d1ecf1;
+            padding: 6px 8px;
+            border-radius: 6px;
+            margin: 8px 0 4px;
+            border-left: 4px solid #0c5460;
+            display: none;
+        }
+
+        .hint-box.show {
+            display: block;
+        }
+
+        .hint-text {
+            color: #0c5460;
+            font-size: 0.8rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-hint {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            text-align: center;
+            padding: 4px;
+            margin-top: 5px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            min-height: 28px;
+        }
+
+        .message.show {
+            opacity: 1;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            transition: width 0.4s;
+        }
+
+        /* MODALE INFO */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .modal-content h3 {
+            color: #1e3c72;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #ff9800;
+            padding-bottom: 5px;
+        }
+
+        .modal-content ul {
+            margin-left: 20px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+
+        .modal-content p {
+            margin: 8px 0;
+            color: #1e3c72;
+            font-weight: bold;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-with-info">
+            <h1>🎯 Learn the Comma in Divisions 🎯</h1>
+            <button class="info-btn" id="infoBtn" aria-label="Informazioni sul gioco">i</button>
+        </div>
+        <p class="subtitle">First learn, then test yourself!</p>
+
+        <!-- MODALE INFO -->
+        <div class="modal-overlay" id="infoModal">
+            <div class="modal-content">
+                <span class="close-modal" id="closeModal">&times;</span>
+                <h3>📘 About this game</h3>
+                <p>Learn to correctly place the <strong>decimal point (comma)</strong> when performing divisions. Two progressive phases:</p>
+                <ul>
+                    <li><span style="color:#1976d2;">🔵 Guided</span> – coloured slots and step‑by‑step hints</li>
+                    <li><span style="color:#2e7d32;">🟢 Autonomous</span> – you decide where the comma goes</li>
+                </ul>
+                <p><strong>🎯 Skills you will acquire:</strong></p>
+                <ul>
+                    <li>✔ Recognising when to insert a decimal point in the quotient</li>
+                    <li>✔ Handling remainders by “bringing down zeros”</li>
+                    <li>✔ Understanding the relationship between dividend, divisor and decimal quotient</li>
+                    <li>✔ Building decimal numbers step by step with drag & drop</li>
+                    <li>✔ Strengthening mental arithmetic and place value</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mode-indicator" id="modeIndicator"></div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div class="score-board">
+            <div class="score-item">
+                <span class="score-label">Correct</span>
+                <span class="score-value" id="correct">0</span>
+            </div>
+            <div class="score-item">
+                <span class="score-label">Phase</span>
+                <span class="score-value" id="phase">Guided</span>
+            </div>
+            <div class="score-item">
+                <span class="score-label">Exercise</span>
+                <span class="score-value"><span id="current">1</span>/<span id="total">10</span></span>
+            </div>
+            <div class="score-item">
+                <button class="btn-exit" id="esciBtn">
+                    <span class="exit-icon">🚪</span>
+                    <span>Exit</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Lezione: uso di h2 per il titolo -->
+        <section class="lesson-box">
+            <h2 class="lesson-title">📚 Comma Rule:</h2>
+            <div class="lesson-content">
+                When doing division with decimals, the <strong>comma in the quotient</strong> is placed when:
+                <br>• Finished the whole part of dividend
+                <br>• Need to "bring down a 0" to continue
+                <br>• Remainder not zero and you want to continue
+                <div class="example">
+                    25 ÷ 2 = 12<strong style="color: #f5576c;">.</strong>5
+                </div>
+            </div>
+        </section>
+
+        <div class="exercise-area">
+            <h3 class="exercise-title" id="exerciseTitle">Exercise 1</h3>
+            
+            <div id="divisionStepsContainer"></div>
+
+            <div class="division-display">
+                <span id="dividend">245</span>
+                <span>÷</span>
+                <span id="divisor">2</span>
+                <span>=</span>
+            </div>
+
+            <div class="quotient-builder" id="quotientBuilder"></div>
+
+            <div class="tiles-panel">
+                <h4 class="tiles-title" id="tilesTitle">🎲 Drag here:</h4>
+                <div class="tiles-container" id="tilesContainer"></div>
+            </div>
+
+            <div class="hint-box" id="hintBox">
+                <div class="hint-text" id="hintText"></div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-check" id="checkBtn">Check</button>
+            <button class="btn-hint" id="hintBtn">Hint</button>
+            <button class="btn-reset" id="resetBtn">Reset</button>
+            <button class="btn-next" id="nextBtn" disabled>Next ➜</button>
+        </div>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        let currentExercise = 0;
+        let correctCount = 0;
+        let draggedTile = null;
+
+        const exercises = [
+            { dividend: 25, divisor: 2, quotient: "12.5", hint: "25 ÷ 2: 25÷2=12 remainder 1. Add decimal point and bring down 0: 10÷2=5", guided: true },
+            { dividend: 45, divisor: 2, quotient: "22.5", hint: "45 ÷ 2: 45÷2=22 remainder 1. Add decimal point and bring down 0: 10÷2=5", guided: true },
+            { dividend: 15, divisor: 4, quotient: "3.75", hint: "15 ÷ 4: 15÷4=3 remainder 3. Decimal point! 30÷4=7 remainder 2, then 20÷4=5", guided: true },
+            { dividend: 125, divisor: 5, quotient: "25.0", hint: "125 ÷ 5: 125÷5=25 remainder 0. Add decimal point and zero!", guided: true },
+            { dividend: 175, divisor: 5, quotient: "35.0", hint: "175 ÷ 5: 175÷5=35 remainder 0. Add decimal point and zero!", guided: true },
+            { dividend: 65, divisor: 4, quotient: "16.25", hint: "65 ÷ 4: 65÷4=16 remainder 1. Decimal point! 10÷4=2 remainder 2, then 20÷4=5", guided: false },
+            { dividend: 225, divisor: 4, quotient: "56.25", hint: "225 ÷ 4: 225÷4=56 remainder 1. Decimal point! 10÷4=2 remainder 2, then 20÷4=5", guided: false },
+            { dividend: 145, divisor: 4, quotient: "36.25", hint: "145 ÷ 4: 145÷4=36 remainder 1. Decimal point! 10÷4=2 remainder 2, then 20÷4=5", guided: false },
+            { dividend: 157, divisor: 4, quotient: "39.25", hint: "157 ÷ 4: 157÷4=39 remainder 1. Decimal point! 10÷4=2 remainder 2, then 20÷4=5", guided: false },
+            { dividend: 365, divisor: 8, quotient: "45.625", hint: "365 ÷ 8: 365÷8=45 remainder 5. Decimal point! 50÷8=6 remainder 2, 20÷8=2 remainder 4, 40÷8=5", guided: false }
+        ];
+
+        function startExercise() {
+            const ex = exercises[currentExercise];
+            const isGuided = ex.guided;
+            
+            const modeIndicator = document.getElementById('modeIndicator');
+            const phaseDisplay = document.getElementById('phase');
+            
+            if (isGuided) {
+                modeIndicator.className = 'mode-indicator mode-guided';
+                modeIndicator.innerHTML = '👨‍🏫 GUIDED PHASE: I help you with colors!';
+                phaseDisplay.textContent = 'Guided';
+            } else {
+                modeIndicator.className = 'mode-indicator mode-autonomous';
+                modeIndicator.innerHTML = '🎯 AUTONOMOUS PHASE: You decide where the comma goes!';
+                phaseDisplay.textContent = 'Autonomous';
+            }
+            
+            document.getElementById('exerciseTitle').textContent = `Exercise ${currentExercise + 1} of ${exercises.length}`;
+            document.getElementById('dividend').textContent = ex.dividend;
+            document.getElementById('divisor').textContent = ex.divisor;
+            document.getElementById('current').textContent = currentExercise + 1;
+            document.getElementById('total').textContent = exercises.length;
+            document.getElementById('correct').textContent = correctCount;
+            
+            updateProgressBar();
+            
+            const stepsContainer = document.getElementById('divisionStepsContainer');
+            if (isGuided) {
+                stepsContainer.innerHTML = showDivisionSteps(ex.dividend, ex.divisor, ex.quotient);
+            } else {
+                stepsContainer.innerHTML = '<div class="division-steps"><div class="steps-title">🤔 Now it\'s your turn! Where does the comma go?</div></div>';
+            }
+            
+            const tilesTitle = document.getElementById('tilesTitle');
+            tilesTitle.textContent = isGuided ? '🎲 Drag here:' : '🔀 Drag in order (shuffled):';
+            
+            createQuotientSlots(ex.quotient, isGuided);
+            createTiles(ex.quotient);
+            
+            document.getElementById('hintBox').classList.remove('show');
+            document.getElementById('nextBtn').disabled = true;
+            showMessage('');
+        }
+
+        function showDivisionSteps(dividend, divisor, quotient) {
+            const parts = quotient.split('.');
+            const integerPart = parts[0];
+            const decimalPart = parts[1] || '';
+            
+            let html = '<div class="division-steps"><div class="steps-title">📖 Watch the steps:</div><div class="steps-content">';
+            html += `<div class="step-line">1. ${dividend} ÷ ${divisor} = <span class="highlight-integer">${integerPart}</span> (whole)</div>`;
+            if (decimalPart) {
+                html += `<div class="step-line">2. Remainder → put <span class="highlight-comma">decimal point ,</span></div>`;
+                html += `<div class="step-line">3. Bring down 0 → <span class="highlight-decimal">${decimalPart}</span> (decimal)</div>`;
+                html += `<div class="step-line"><strong>Result:</strong> <span class="highlight-integer">${integerPart}</span><span class="highlight-comma">.</span><span class="highlight-decimal">${decimalPart}</span></div>`;
+            }
+            html += '</div></div>';
+            return html;
+        }
+
+        function createQuotientSlots(quotient, isGuided) {
+            const builder = document.getElementById('quotientBuilder');
+            builder.innerHTML = '';
+            const decimalIndex = quotient.indexOf('.');
+            
+            if (isGuided) {
+                const labelInteger = document.createElement('div');
+                labelInteger.className = 'section-label label-integer';
+                labelInteger.textContent = '🔵 WHOLE';
+                builder.appendChild(labelInteger);
+                if (decimalIndex !== -1) {
+                    const labelDecimal = document.createElement('div');
+                    labelDecimal.className = 'section-label label-decimal';
+                    labelDecimal.textContent = '🟢 DECIMAL';
+                    builder.appendChild(labelDecimal);
+                }
+            }
+            
+            for (let i = 0; i < quotient.length; i++) {
+                const char = quotient[i];
+                const slot = document.createElement('div');
+                
+                if (isGuided) {
+                    if (char === '.') slot.className = 'digit-slot comma';
+                    else if (i < decimalIndex || decimalIndex === -1) slot.className = 'digit-slot integer';
+                    else slot.className = 'digit-slot decimal';
+                } else {
+                    slot.className = 'digit-slot neutral';
+                }
+                
+                slot.dataset.expected = char;
+                slot.addEventListener('dragover', handleDragOver);
+                slot.addEventListener('dragenter', handleDragEnter);
+                slot.addEventListener('dragleave', handleDragLeave);
+                slot.addEventListener('drop', handleDrop);
+                builder.appendChild(slot);
+            }
+        }
+
+        function createTiles(quotient) {
+            const container = document.getElementById('tilesContainer');
+            container.innerHTML = '';
+            let chars = quotient.split('');
+            const ex = exercises[currentExercise];
+            
+            if (!ex.guided) {
+                for (let i = chars.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [chars[i], chars[j]] = [chars[j], chars[i]];
+                }
+            }
+            
+            chars.forEach((char, index) => {
+                const tile = document.createElement('div');
+                tile.className = char === '.' ? 'tile comma' : 'tile';
+                tile.textContent = char;
+                tile.draggable = true;
+                tile.dataset.char = char;
+                tile.dataset.id = `tile-${index}`;
+                tile.addEventListener('dragstart', handleDragStart);
+                tile.addEventListener('dragend', handleDragEnd);
+                container.appendChild(tile);
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedTile = e.target;
+            e.target.classList.add('dragging');
+            e.dataTransfer.setData('char', e.target.dataset.char);
+            e.dataTransfer.setData('id', e.target.dataset.id);
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDragEnter(e) {
+            if (e.target.classList.contains('digit-slot')) e.target.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            if (e.target.classList.contains('digit-slot')) e.target.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.target.classList.remove('drag-over');
+            const char = e.dataTransfer.getData('char');
+            const tileId = e.dataTransfer.getData('id');
+            
+            if (e.target.classList.contains('digit-slot')) {
+                if (e.target.dataset.tileId) {
+                    const oldTile = document.querySelector(`[data-id="${e.target.dataset.tileId}"]`);
+                    if (oldTile) oldTile.classList.remove('used');
+                }
+                e.target.textContent = char;
+                e.target.classList.add('filled');
+                e.target.dataset.value = char;
+                e.target.dataset.tileId = tileId;
+                draggedTile.classList.add('used');
+            }
+        }
+
+        function checkAnswer() {
+            const slots = document.querySelectorAll('.digit-slot');
+            let allCorrect = true, emptySlots = false;
+            
+            slots.forEach(slot => {
+                const expected = slot.dataset.expected;
+                const value = slot.dataset.value;
+                if (!value) emptySlots = true;
+                else if (value === expected) {
+                    slot.classList.add('correct');
+                    slot.classList.remove('incorrect');
+                } else {
+                    slot.classList.add('incorrect');
+                    slot.classList.remove('correct');
+                    allCorrect = false;
+                }
+            });
+            
+            if (emptySlots) {
+                showMessage('📝 Fill in all the boxes!', 'error');
+                return;
+            }
+            
+            if (allCorrect) {
+                correctCount++;
+                document.getElementById('correct').textContent = correctCount;
+                const ex = exercises[currentExercise];
+                showMessage(ex.guided ? '🎉 Perfect! 🌟' : '🏆 Excellent! You decided on your own! 🎯', 'success');
+                document.getElementById('nextBtn').disabled = false;
+                if (currentExercise === exercises.length - 1) {
+                    setTimeout(() => showMessage(`🏆 FINISHED! Score: ${correctCount}/${exercises.length}`, 'success'), 1500);
+                }
+            } else {
+                showMessage('❌ Check the position of the comma!', 'error');
+            }
+        }
+
+        function showHint() {
+            const ex = exercises[currentExercise];
+            document.getElementById('hintText').innerHTML = `<strong>💡 Hint:</strong><br>${ex.hint}`;
+            document.getElementById('hintBox').classList.add('show');
+        }
+
+        function resetExercise() {
+            const slots = document.querySelectorAll('.digit-slot');
+            slots.forEach(slot => {
+                if (slot.dataset.tileId) {
+                    const tile = document.querySelector(`[data-id="${slot.dataset.tileId}"]`);
+                    if (tile) tile.classList.remove('used');
+                }
+                slot.textContent = '';
+                slot.classList.remove('filled', 'correct', 'incorrect');
+                delete slot.dataset.value;
+                delete slot.dataset.tileId;
+            });
+            document.getElementById('hintBox').classList.remove('show');
+            showMessage('');
+        }
+
+        function nextExercise() {
+            if (currentExercise < exercises.length - 1) {
+                currentExercise++;
+                startExercise();
+            }
+        }
+
+        function updateProgressBar() {
+            document.getElementById('progressBar').style.width = ((currentExercise + 1) / exercises.length * 100) + '%';
+        }
+
+        function showMessage(text, type = '') {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = 'message';
+            if (type) msg.classList.add(type);
+            if (text) msg.classList.add('show');
+            if (text && type !== 'error') setTimeout(() => msg.classList.remove('show'), 4000);
+        }
+
+        function esciDalGioco() {
+            if (confirm("Do you really want to exit the game? You'll be redirected to the English site.")) {
+                window.location.href = "https://oragioca.github.io/matematica/en/";
+            }
+        }
+
+        // Modale
+        const modal = document.getElementById('infoModal');
+        document.getElementById('infoBtn').addEventListener('click', () => modal.style.display = 'flex');
+        document.getElementById('closeModal').addEventListener('click', () => modal.style.display = 'none');
+        window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
+        document.getElementById('checkBtn').addEventListener('click', checkAnswer);
+        document.getElementById('hintBtn').addEventListener('click', showHint);
+        document.getElementById('resetBtn').addEventListener('click', resetExercise);
+        document.getElementById('nextBtn').addEventListener('click', nextExercise);
+        document.getElementById('esciBtn').addEventListener('click', esciDalGioco);
+
+        startExercise();
+    </script>
+</body>
+</html>
