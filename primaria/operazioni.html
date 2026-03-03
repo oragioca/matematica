@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Bruco Matematico - Operazioni con Decimali</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #add8e6, #87ceeb);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .game-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 100, 0.2);
+            padding: 20px;
+            max-width: 1100px;
+            width: 100%;
+            text-align: center;
+            border: 5px solid #4a90e2;
+            position: relative;
+        }
+        
+        h1 {
+            color: #000080;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 0 #ffd700;
+        }
+        
+        .sottotitolo {
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            background: #f0f8ff;
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 3px solid #4a90e2;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .punteggio, .vite, .livello, .operazione-container {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .punteggio { color: #000080; }
+        .vite { color: #ff0000; }
+        .livello { color: #008000; }
+        .operazione { color: #8b4513; }
+        
+        .operazione-container {
+            background: #fffacd;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 2px solid #d2691e;
+            cursor: help;
+            position: relative;
+            min-width: 180px;
+        }
+        
+        .operazione-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #8b4513;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            width: 250px;
+            z-index: 100;
+            margin-top: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .operazione-container:hover .operazione-tooltip {
+            display: block;
+        }
+        
+        .bruco-container {
+            position: relative;
+            height: 160px;
+            margin: 5px 0 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Testa del bruco (cerchietto iniziale) */
+        .testa-bruco {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, #32cd32, #228b22);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2rem;
+            margin: 0 15px 0 0;
+            border: 4px solid #006400;
+            box-shadow: 0 4px 10px rgba(0, 100, 0, 0.3);
+            z-index: 3;
+            position: relative;
+        }
+        
+        .faccia-bruco {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            z-index: 4;
+        }
+        
+        .occhio {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            top: 20px;
+        }
+        
+        .occhio-sinistro { left: 18px; }
+        .occhio-destro { right: 18px; }
+        
+        .pupilla {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: black;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+        }
+        
+        .sorriso {
+            position: absolute;
+            width: 35px;
+            height: 18px;
+            border-bottom: 3px solid black;
+            border-radius: 0 0 35px 35px;
+            bottom: 15px;
+            left: 17px;
+        }
+        
+        .segmento-bruco {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(145deg, #32cd32, #228b22);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            margin: 0 10px;
+            border: 4px solid #006400;
+            box-shadow: 0 4px 10px rgba(0, 100, 0, 0.3);
+            z-index: 2;
+            position: relative;
+        }
+        
+        .segmento-numero {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.3s;
+        }
+        
+        .segmento-numero:hover {
+            transform: scale(1.2);
+        }
+        
+        .linea-bruco {
+            position: absolute;
+            height: 18px;
+            background: linear-gradient(to right, #228b22, #32cd32, #228b22);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            border-radius: 9px;
+            width: 450px !important;
+            left: calc(50% - 225px) !important;
+        }
+        
+        .domanda {
+            font-size: 1.4rem;
+            color: #000080;
+            margin: 8px 0 12px 0;
+            background: #f0f8ff;
+            padding: 8px;
+            border-radius: 12px;
+            border: 3px dashed #4a90e2;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .opzioni-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .bottone-opzione {
+            background: linear-gradient(145deg, #ff69b4, #ff1493);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #c71585;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 75px;
+            color: white;
+        }
+        
+        .bottone-opzione:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 0 #c71585;
+            background: linear-gradient(145deg, #ff1493, #ff69b4);
+        }
+        
+        .bottone-opzione:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 0 #c71585;
+        }
+        
+        .bottone-aiuto {
+            background: linear-gradient(145deg, #ffa500, #ff8c00);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #cc7000;
+        }
+        
+        .bottone-aiuto:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 0 #cc7000;
+        }
+        
+        .bottone-aiuto:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 3px 0 #999999;
+        }
+        
+        .messaggio {
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 8px;
+            border-radius: 12px;
+            margin: 12px 0;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .corretto {
+            background-color: #90ee90;
+            color: #006400;
+            border: 3px solid #006400;
+        }
+        
+        .errato {
+            background-color: #ffcccc;
+            color: #8b0000;
+            border: 3px solid #8b0000;
+        }
+        
+        .aiuto {
+            background-color: #fffacd;
+            color: #b8860b;
+            border: 3px dashed #b8860b;
+        }
+        
+        .game-over {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .game-over-content {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 5px solid #ff0000;
+        }
+        
+        .game-over-title {
+            color: #ff0000;
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        
+        .game-over-punteggio {
+            font-size: 1.5rem;
+            color: #000080;
+            margin-bottom: 15px;
+        }
+        
+        .bottone-rigioca {
+            background: linear-gradient(145deg, #32cd32, #228b22);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 25px;
+            font-size: 1.3rem;
+            color: white;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+        
+        .istruzioni {
+            background: #f0f8ff;
+            padding: 8px;
+            border-radius: 12px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #333;
+            border: 2px solid #4a90e2;
+        }
+        
+        .operazione-spiegazione {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #f0f8ff;
+            border-radius: 6px;
+            margin: 0 5px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            line-height: 35px;
+            border: 2px solid #4a90e2;
+        }
+        
+        .controlli-extra {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 12px 0;
+        }
+        
+        .bottone-mostra-operazione {
+            background: linear-gradient(145deg, #9370db, #8a2be2);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bottone-mostra-operazione:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .espressione {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #000080;
+            margin: 5px 0;
+        }
+        
+        .tipo-operazione {
+            font-size: 1.1rem;
+            color: #8b4513;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 900px) {
+            .opzioni-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .game-info {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .operazione-container {
+                min-width: 160px;
+                order: 4;
+                width: 100%;
+            }
+            
+            .linea-bruco {
+                width: 400px !important;
+                left: calc(50% - 200px) !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 12px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .sottotitolo {
+                font-size: 0.9rem;
+            }
+            
+            .bruco-container {
+                height: 140px;
+                margin: 5px 0 8px 0;
+            }
+            
+            .testa-bruco {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+                margin: 0 12px 0 0;
+            }
+            
+            .segmento-bruco {
+                width: 55px;
+                height: 55px;
+                font-size: 1.8rem;
+                margin: 0 8px;
+            }
+            
+            .segmento-numero {
+                font-size: 1.6rem;
+            }
+            
+            .linea-bruco {
+                width: 350px !important;
+                left: calc(50% - 175px) !important;
+                height: 15px;
+            }
+            
+            .occhio {
+                width: 10px;
+                height: 10px;
+                top: 16px;
+            }
+            
+            .occhio-sinistro { left: 15px; }
+            .occhio-destro { right: 15px; }
+            
+            .pupilla {
+                width: 5px;
+                height: 5px;
+            }
+            
+            .sorriso {
+                width: 30px;
+                height: 15px;
+                bottom: 12px;
+                left: 15px;
+            }
+            
+            .bottone-opzione {
+                font-size: 1.6rem;
+                min-height: 65px;
+                padding: 10px;
+            }
+            
+            .punteggio, .vite, .livello, .operazione-container {
+                font-size: 1.1rem;
+            }
+            
+            .domanda {
+                font-size: 1.2rem;
+                padding: 6px;
+                margin: 6px 0 8px 0;
+                min-height: 50px;
+            }
+            
+            .espressione {
+                font-size: 1.5rem;
+            }
+            
+            .messaggio {
+                font-size: 1.1rem;
+                min-height: 40px;
+                margin: 10px 0;
+            }
+            
+            .bottone-aiuto, .bottone-mostra-operazione {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+            
+            .istruzioni {
+                font-size: 0.8rem;
+            }
+            
+            .operazione-spiegazione {
+                width: 30px;
+                height: 30px;
+                font-size: 1.1rem;
+                line-height: 30px;
+            }
+            
+            .game-over-content {
+                padding: 20px;
+            }
+            
+            .game-over-title {
+                font-size: 1.8rem;
+            }
+            
+            .game-over-punteggio {
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+            
+            .game-container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.4rem;
+            }
+            
+            .game-info {
+                padding: 6px;
+                gap: 6px;
+            }
+            
+            .opzioni-container {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            
+            .bruco-container {
+                height: 120px;
+            }
+            
+            .testa-bruco {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                margin: 0 8px 0 0;
+            }
+            
+            .segmento-bruco {
+                width: 45px;
+                height: 45px;
+                font-size: 1.5rem;
+                margin: 0 6px;
+            }
+            
+            .segmento-numero {
+                font-size: 1.4rem;
+            }
+            
+            .linea-bruco {
+                width: 300px !important;
+                left: calc(50% - 150px) !important;
+                height: 12px;
+            }
+            
+            .occhio {
+                width: 8px;
+                height: 8px;
+                top: 13px;
+            }
+            
+            .occhio-sinistro { left: 12px; }
+            .occhio-destro { right: 12px; }
+            
+            .pupilla {
+                width: 4px;
+                height: 4px;
+            }
+            
+            .sorriso {
+                width: 25px;
+                height: 12px;
+                bottom: 10px;
+                left: 12px;
+            }
+            
+            .bottone-opzione {
+                font-size: 1.4rem;
+                min-height: 60px;
+                padding: 8px;
+            }
+            
+            .controlli-extra {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .bottone-aiuto, .bottone-mostra-operazione {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .espressione {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+    
+    <!-- Font Awesome per le icone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🐛 IL BRUCO MATEMATICO 🐛</h1>
+        <p class="sottotitolo">Operazioni con numeri interi e decimali!</p>
+        
+        <div class="game-info">
+            <div class="punteggio">Punti: <span id="punteggio">0</span></div>
+            <div class="vite">Vite: <span id="vite">❤️❤️❤️</span></div>
+            <div class="livello">Livello: <span id="livello">1</span></div>
+            <div class="operazione-container">
+                <span class="operazione">Tipo: <span id="operazione-attuale">Interi</span></span>
+                <div class="operazione-tooltip" id="operazione-descrizione">
+                    <strong>Tipo di numeri:</strong><br>
+                    <span id="operazione-dettaglio">Numeri interi</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bruco-container">
+            <div class="linea-bruco" id="linea-bruco"></div>
+            <!-- Testa del bruco con faccia -->
+            <div class="testa-bruco">
+                <div class="faccia-bruco">
+                    <div class="occhio occhio-sinistro"><div class="pupilla"></div></div>
+                    <div class="occhio occhio-destro"><div class="pupilla"></div></div>
+                    <div class="sorriso"></div>
+                </div>
+            </div>
+            <!-- I segmenti con numeri verranno aggiornati da JavaScript -->
+            <div class="segmento-bruco" id="segmento0"><span class="segmento-numero">5</span></div>
+            <div class="segmento-bruco" id="segmento1"><span class="segmento-numero">+</span></div>
+            <div class="segmento-bruco" id="segmento2"><span class="segmento-numero">3</span></div>
+            <div class="segmento-bruco" id="segmento3"><span class="segmento-numero">=</span></div>
+            <div class="segmento-bruco" id="segmento4"><span class="segmento-numero">❓</span></div>
+        </div>
+        
+        <div class="domanda" id="domanda">
+            <div id="espressione-matematica">5 + 3 = ?</div>
+            <div id="tipo-operazione" class="tipo-operazione">Numeri interi - Addizione</div>
+        </div>
+        
+        <div class="opzioni-container" id="opzioni-container">
+            <!-- I bottoni con risultati verranno generati qui da JavaScript -->
+        </div>
+        
+        <div class="controlli-extra">
+            <button class="bottone-aiuto" id="bottone-aiuto" onclick="mostraAiuto()">
+                🧠 AIUTINO (-2 punti)
+            </button>
+            <button class="bottone-mostra-operazione" onclick="mostraOperazioneCompleta()">
+                📋 Suggerimento Calcolo
+            </button>
+        </div>
+        
+        <div class="messaggio" id="messaggio">
+            Risolvi l'operazione e clicca sul risultato corretto!
+        </div>
+        
+        <div class="istruzioni">
+            <strong>COME SI GIOCA:</strong> Risolvi l'operazione matematica e clicca sul risultato corretto. 
+            Hai 3 vite! Le operazioni diventano più difficili salendo di livello.
+            <br><br>
+            <strong>TIPI DI OPERAZIONI:</strong>
+            <span class="operazione-spiegazione">+</span> Addizione
+            <span class="operazione-spiegazione">−</span> Sottrazione  
+            <span class="operazione-spiegazione">×</span> Moltiplicazione
+            <span class="operazione-spiegazione">÷</span> Divisione
+            <br><br>
+            <strong>LIVELLI E TIPI DI NUMERI:</strong><br>
+            • Livelli 1-2: Operazioni con numeri interi (fino a 20)<br>
+            • Livelli 3-4: Operazioni con numeri interi (fino a 100)<br>
+            • Livelli 5-6: Operazioni con decimali (1 cifra decimale)<br>
+            • Livelli 7+: Operazioni con decimali (2 cifre decimali)
+        </div>
+    </div>
+    
+    <!-- Schermata Game Over (nascosta all'inizio) -->
+    <div class="game-over" id="game-over" style="display: none;">
+        <div class="game-over-content">
+            <h2 class="game-over-title">GAME OVER!</h2>
+            <p class="game-over-punteggio">Il tuo punteggio: <span id="punteggio-finale">0</span></p>
+            <p style="font-size: 1.1rem; margin-bottom: 15px;">Hai fatto un ottimo lavoro! Vuoi rigiocare?</p>
+            <button class="bottone-rigioca" onclick="rigioca()">🔄 RIGIOCA</button>
+        </div>
+    </div>
+
+    <script>
+        // Database delle operazioni matematiche
+        const operazioniMatematiche = {
+            addizione: {
+                nome: "Addizione",
+                descrizione: "Somma tra due numeri",
+                simbolo: "+",
+                difficolta: 1
+            },
+            sottrazione: {
+                nome: "Sottrazione",
+                descrizione: "Differenza tra due numeri",
+                simbolo: "−",
+                difficolta: 1
+            },
+            moltiplicazione: {
+                nome: "Moltiplicazione",
+                descrizione: "Prodotto tra due numeri",
+                simbolo: "×",
+                difficolta: 2
+            },
+            divisione: {
+                nome: "Divisione",
+                descrizione: "Quoziente tra due numeri",
+                simbolo: "÷",
+                difficolta: 3
+            }
+        };
+        
+        // Variabili di gioco
+        let punteggio = 0;
+        let vite = 3;
+        let livello = 1;
+        let aiutoUsato = false;
+        let operazioneCorrente = '';
+        let tipoNumeri = '';
+        let risultatoCorretto = 0;
+        let numero1 = 0;
+        let numero2 = 0;
+        let operatore = '';
+        
+        // Elementi DOM
+        const elemPunteggio = document.getElementById('punteggio');
+        const elemVite = document.getElementById('vite');
+        const elemLivello = document.getElementById('livello');
+        const elemOperazione = document.getElementById('operazione-attuale');
+        const elemOperazioneDettaglio = document.getElementById('operazione-dettaglio');
+        const elemMessaggio = document.getElementById('messaggio');
+        const elemEspressione = document.getElementById('espressione-matematica');
+        const elemTipoOperazione = document.getElementById('tipo-operazione');
+        const opzioniContainer = document.getElementById('opzioni-container');
+        const bottoneAiuto = document.getElementById('bottone-aiuto');
+        const gameOverScreen = document.getElementById('game-over');
+        
+        // Genera un'operazione matematica
+        function generaOperazione() {
+            // Scegli tipo di numeri in base al livello
+            if (livello <= 4) {
+                tipoNumeri = "interi";
+            } else if (livello <= 6) {
+                tipoNumeri = "decimali1";
+            } else {
+                tipoNumeri = "decimali2";
+            }
+            
+            // Scegli operazione in base al livello
+            let operazioneScelta;
+            let operazioniDisponibili;
+            
+            if (livello <= 2) {
+                // Livelli 1-2: solo addizioni e sottrazioni
+                operazioniDisponibili = ['addizione', 'sottrazione'];
+            } else if (livello <= 4) {
+                // Livelli 3-4: tutte le operazioni tranne divisione complessa
+                operazioniDisponibili = ['addizione', 'sottrazione', 'moltiplicazione', 'divisione'];
+            } else {
+                // Livelli 5+: tutte le operazioni
+                operazioniDisponibili = ['addizione', 'sottrazione', 'moltiplicazione', 'divisione'];
+            }
+            
+            operazioneScelta = operazioniDisponibili[Math.floor(Math.random() * operazioniDisponibili.length)];
+            const operazioneInfo = operazioniMatematiche[operazioneScelta];
+            
+            operazioneCorrente = operazioneInfo.nome;
+            operatore = operazioneInfo.simbolo;
+            
+            // Aggiorna display
+            elemOperazione.textContent = tipoNumeri === "interi" ? "Interi" : "Decimali";
+            elemOperazioneDettaglio.textContent = tipoNumeri === "interi" ? "Numeri interi" : 
+                                                 tipoNumeri === "decimali1" ? "Numeri con 1 decimale" : 
+                                                 "Numeri con 2 decimali";
+            
+            // Genera numeri in base al livello e tipo - CORRETTO per divisioni decimali
+            generaNumeriCorretti(operazioneScelta, tipoNumeri);
+            
+            // Calcola il risultato corretto
+            risultatoCorretto = calcolaRisultato(numero1, numero2, operazioneScelta);
+            
+            // Aggiorna la visualizzazione del bruco
+            aggiornaBruco();
+            
+            // Aggiorna l'espressione matematica
+            const num1Formattato = formattaNumero(numero1);
+            const num2Formattato = formattaNumero(numero2);
+            elemEspressione.innerHTML = `${num1Formattato} ${operatore} ${num2Formattato} = <span style="color: #ff0000;">?</span>`;
+            elemTipoOperazione.textContent = `${tipoNumeri === "interi" ? "Numeri interi" : "Numeri decimali"} - ${operazioneCorrente}`;
+            
+            // Genera opzioni di risposta
+            generaOpzioniCorrette(risultatoCorretto, operazioneScelta, tipoNumeri);
+            
+            // Resetta aiuto
+            aiutoUsato = false;
+            bottoneAiuto.disabled = false;
+            bottoneAiuto.textContent = '🧠 AIUTINO (-2 punti)';
+            
+            // Aggiorna la linea del bruco
+            const linea = document.getElementById('linea-bruco');
+            linea.style.width = '450px';
+            linea.style.left = 'calc(50% - 225px)';
+        }
+        
+        // Formatta numero per la visualizzazione
+        function formattaNumero(num) {
+            if (Number.isInteger(num)) {
+                return num.toString();
+            } else {
+                return num.toFixed(tipoNumeri === "decimali1" ? 1 : 2);
+            }
+        }
+        
+        // Genera numeri corretti per le operazioni con decimali
+        function generaNumeriCorretti(operazione, tipo) {
+            let decimali = tipo === "decimali1" ? 1 : (tipo === "decimali2" ? 2 : 0);
+            
+            switch(operazione) {
+                case 'addizione':
+                    if (tipo === "interi") {
+                        numero1 = Math.floor(Math.random() * 50) + 1;
+                        numero2 = Math.floor(Math.random() * 50) + 1;
+                    } else {
+                        // Decimali con addizione
+                        const maxVal = 30;
+                        numero1 = Math.round((Math.random() * maxVal + 1) * Math.pow(10, decimali)) / Math.pow(10, decimali);
+                        numero2 = Math.round((Math.random() * maxVal + 1) * Math.pow(10, decimali)) / Math.pow(10, decimali);
+                    }
+                    break;
+                    
+                case 'sottrazione':
+                    if (tipo === "interi") {
+                        numero1 = Math.floor(Math.random() * 100) + 20;
+                        numero2 = Math.floor(Math.random() * (numero1 - 10)) + 1;
+                    } else {
+                        // Decimali con sottrazione (assicura risultato positivo)
+                        const maxVal = 50;
+                        numero1 = Math.round((Math.random() * maxVal + 10) * Math.pow(10, decimali)) / Math.pow(10, decimali);
+                        numero2 = Math.round((Math.random() * (numero1 - 0.1)) * Math.pow(10, decimali)) / Math.pow(10, decimali);
+                    }
+                    break;
+                    
+                case 'moltiplicazione':
+                    if (tipo === "interi") {
+                        // Tabelline semplici per i primi livelli
+                        if (livello <= 4) {
+                            numero1 = Math.floor(Math.random() * 10) + 1;
+                            numero2 = Math.floor(Math.random() * 10) + 1;
+                        } else {
+                            numero1 = Math.floor(Math.random() * 12) + 1;
+                            numero2 = Math.floor(Math.random() * 12) + 1;
+                        }
+                    } else {
+                        // Moltiplicazioni con decimali
+                        if (decimali === 1) {
+                            // Esempi: 2,5 × 3, 4 × 1,5
+                            if (Math.random() > 0.5) {
+                                numero1 = Math.round((Math.random() * 9 + 1) * 10) / 10; // 1.0 - 10.0
+                                numero2 = Math.floor(Math.random() * 10) + 1;
+                            } else {
+                                numero1 = Math.floor(Math.random() * 10) + 1;
+                                numero2 = Math.round((Math.random() * 9 + 1) * 10) / 10;
+                            }
+                        } else {
+                            // 2 decimali: più semplici
+                            numero1 = Math.round((Math.random() * 4 + 1) * 100) / 100; // 1.00 - 5.00
+                            numero2 = Math.floor(Math.random() * 5) + 1;
+                        }
+                    }
+                    break;
+                    
+                case 'divisione':
+                    // CORREZIONE PRINCIPALE: divisioni con decimali che danno risultati decimali
+                    if (tipo === "interi") {
+                        // Divisioni intere esatte
+                        numero2 = Math.floor(Math.random() * 10) + 1;
+                        const moltiplicatore = Math.floor(Math.random() * 10) + 1;
+                        numero1 = numero2 * moltiplicatore;
+                    } else if (decimali === 1) {
+                        // Divisioni con 1 decimale nel risultato
+                        // Esempi: 7,5 ÷ 2,5 = 3,0 (intero) oppure 6,5 ÷ 2 = 3,25 (ma arrotondiamo a 3,2 o 3,3)
+                        if (Math.random() > 0.3) {
+                            // Risultato con 1 decimale
+                            const risultatoDecimale = Math.round((Math.random() * 9 + 1) * 10) / 10; // 1.0 - 10.0
+                            numero2 = Math.round((Math.random() * 9 + 1) * 10) / 10; // 1.0 - 10.0
+                            numero1 = Math.round((risultatoDecimale * numero2) * 10) / 10;
+                            
+                            // Assicuriamoci che non sia esattamente intero
+                            if (risultatoDecimale % 1 === 0) {
+                                risultatoDecimale += 0.5; // Aggiungiamo 0.5 per avere un decimale
+                                numero1 = Math.round((risultatoDecimale * numero2) * 10) / 10;
+                            }
+                        } else {
+                            // Risultato intero con decimali nella divisione
+                            const risultatoIntero = Math.floor(Math.random() * 10) + 1;
+                            numero2 = Math.round((Math.random() * 9 + 1) * 10) / 10;
+                            numero1 = Math.round((risultatoIntero * numero2) * 10) / 10;
+                        }
+                    } else {
+                        // Divisioni con 2 decimali nel risultato
+                        const risultatoDecimale2 = Math.round((Math.random() * 9 + 1) * 100) / 100; // 1.00 - 10.00
+                        numero2 = Math.round((Math.random() * 4 + 1) * 100) / 100; // 1.00 - 5.00
+                        numero1 = Math.round((risultatoDecimale2 * numero2) * 100) / 100;
+                    }
+                    break;
+            }
+            
+            // Per divisioni decimali, assicuriamoci che i numeri abbiano i decimali corretti
+            if (operazione === 'divisione' && tipo !== "interi") {
+                numero1 = parseFloat(numero1.toFixed(decimali));
+                numero2 = parseFloat(numero2.toFixed(decimali));
+            }
+        }
+        
+        // Calcola il risultato corretto
+        function calcolaRisultato(num1, num2, operazione) {
+            let risultato;
+            switch(operazione) {
+                case 'addizione':
+                    risultato = num1 + num2;
+                    break;
+                case 'sottrazione':
+                    risultato = num1 - num2;
+                    break;
+                case 'moltiplicazione':
+                    risultato = num1 * num2;
+                    break;
+                case 'divisione':
+                    risultato = num1 / num2;
+                    break;
+                default:
+                    risultato = 0;
+            }
+            
+            // Arrotonda al numero corretto di decimali
+            if (tipoNumeri === "decimali1") {
+                return parseFloat(risultato.toFixed(1));
+            } else if (tipoNumeri === "decimali2") {
+                return parseFloat(risultato.toFixed(2));
+            }
+            return risultato;
+        }
+        
+        // Aggiorna la visualizzazione del bruco
+        function aggiornaBruco() {
+            const segmenti = [
+                { id: 'segmento0', valore: formattaNumero(numero1) },
+                { id: 'segmento1', valore: operatore },
+                { id: 'segmento2', valore: formattaNumero(numero2) },
+                { id: 'segmento3', valore: '=' },
+                { id: 'segmento4', valore: '❓' }
+            ];
+            
+            segmenti.forEach((seg, index) => {
+                const segmento = document.getElementById(seg.id);
+                const numero = document.querySelector(`#${seg.id} .segmento-numero`);
+                
+                if (index === 4) {
+                    // Segmento del risultato (sempre rosso)
+                    numero.textContent = seg.valore;
+                    segmento.style.background = 'linear-gradient(145deg, #ff6b6b, #ff4757)';
+                } else {
+                    numero.textContent = seg.valore;
+                    segmento.style.background = 'linear-gradient(145deg, #32cd32, #228b22)';
+                }
+            });
+        }
+        
+        // Genera opzioni di risposta corrette
+        function generaOpzioniCorrette(corretta, operazione, tipo) {
+            // Svuota il container
+            opzioniContainer.innerHTML = '';
+            
+            // Crea opzioni: 1 corretta + 3 distrattori
+            let opzioni = [corretta];
+            const decimali = tipo === "decimali1" ? 1 : (tipo === "decimali2" ? 2 : 0);
+            
+            while (opzioni.length < 4) {
+                let distrattore;
+                const tipoErrore = Math.random();
+                
+                // Genera errori plausibili in base all'operazione
+                if (operazione === 'divisione' && tipo !== "interi") {
+                    // Errori specifici per divisioni decimali
+                    if (tipoErrore < 0.3) {
+                        // Sbaglia posizione decimale
+                        distrattore = corretta * 10;
+                    } else if (tipoErrore < 0.6) {
+                        // Sbaglia posizione decimale nell'altro senso
+                        distrattore = corretta / 10;
+                    } else if (tipoErrore < 0.8) {
+                        // Dimentica i decimali
+                        distrattore = Math.round(corretta);
+                    } else {
+                        // Errore di calcolo semplice
+                        distrattore = corretta + (Math.random() > 0.5 ? 0.1 : -0.1);
+                    }
+                } else if (operazione === 'moltiplicazione' && tipo !== "interi") {
+                    // Errori per moltiplicazioni decimali
+                    if (tipoErrore < 0.4) {
+                        // Sbaglia conteggio decimali
+                        distrattore = corretta * Math.pow(10, decimali);
+                    } else if (tipoErrore < 0.7) {
+                        // Errore di arrotondamento
+                        distrattore = Math.round(corretta * Math.pow(10, decimali - 1)) / Math.pow(10, decimali - 1);
+                    } else {
+                        // Errore semplice
+                        distrattore = corretta + (Math.random() > 0.5 ? 0.5 : -0.5);
+                    }
+                } else {
+                    // Errori generici
+                    if (tipoErrore < 0.3) {
+                        distrattore = corretta + (Math.random() > 0.5 ? 1 : -1);
+                    } else if (tipoErrore < 0.6) {
+                        distrattore = corretta + (Math.random() > 0.5 ? 2 : -2);
+                    } else if (tipoErrore < 0.8) {
+                        distrattore = corretta * 2;
+                    } else {
+                        distrattore = corretta / 2;
+                    }
+                }
+                
+                // Arrotonda al numero corretto di decimali
+                distrattore = parseFloat(distrattore.toFixed(decimali));
+                
+                // Evita duplicati e valori impossibili
+                const giaPresente = opzioni.some(op => Math.abs(op - distrattore) < 0.0001);
+                const troppoLontano = Math.abs(distrattore - corretta) > 10;
+                const negativo = distrattore < 0;
+                
+                if (!giaPresente && !troppoLontano && !negativo) {
+                    opzioni.push(distrattore);
+                }
+            }
+            
+            // Mescola le opzioni
+            opzioni = opzioni.sort(() => Math.random() - 0.5);
+            
+            // Crea i bottoni
+            opzioni.forEach((opzione) => {
+                const bottone = document.createElement('button');
+                bottone.className = 'bottone-opzione';
+                
+                // Formatta il numero per la visualizzazione
+                let testoOpzione;
+                if (tipo === "interi") {
+                    testoOpzione = Math.round(opzione).toString();
+                } else if (tipo === "decimali1") {
+                    testoOpzione = opzione.toFixed(1);
+                } else {
+                    testoOpzione = opzione.toFixed(2);
+                }
+                
+                bottone.innerHTML = testoOpzione;
+                bottone.onclick = () => verificaRisposta(opzione);
+                opzioniContainer.appendChild(bottone);
+            });
+        }
+        
+        // Verifica la risposta selezionata (con tolleranza per decimali)
+        function verificaRisposta(risposta) {
+            // Disabilita temporaneamente i bottoni per evitare click multipli
+            const bottoni = document.querySelectorAll('.bottone-opzione');
+            bottoni.forEach(b => b.disabled = true);
+            
+            // Calcola tolleranza in base al tipo di numeri
+            const tolleranza = tipoNumeri === "interi" ? 0.01 : (tipoNumeri === "decimali1" ? 0.05 : 0.01);
+            const correttaArrotondata = parseFloat(risultatoCorretto.toFixed(tipoNumeri === "decimali1" ? 1 : (tipoNumeri === "decimali2" ? 2 : 0)));
+            const rispostaArrotondata = parseFloat(risposta.toFixed(tipoNumeri === "decimali1" ? 1 : (tipoNumeri === "decimali2" ? 2 : 0)));
+            
+            if (Math.abs(rispostaArrotondata - correttaArrotondata) < tolleranza) {
+                // Risposta corretta
+                punteggio += 10;
+                elemMessaggio.innerHTML = `BRAVISSIMO! <span style="font-size: 1.5rem;">${rispostaArrotondata}</span> è giusto! +10 punti`;
+                elemMessaggio.className = 'messaggio corretto';
+                
+                // Aggiorna display
+                elemPunteggio.textContent = punteggio;
+                
+                // Aumenta livello ogni 30 punti
+                const nuovoLivello = Math.floor(punteggio / 30) + 1;
+                if (nuovoLivello > livello) {
+                    livello = nuovoLivello;
+                    elemLivello.textContent = livello;
+                    elemMessaggio.innerHTML = `🎉 LIVELLO ${livello} SUPERATO! 🎉 +10 punti`;
+                    
+                    // Mostra nuovo tipo di numeri disponibile
+                    setTimeout(() => {
+                        if (livello === 5) {
+                            elemMessaggio.innerHTML += `<br><small>Nuovo: operazioni con 1 decimale!</small>`;
+                        } else if (livello === 7) {
+                            elemMessaggio.innerHTML += `<br><small>Nuovo: operazioni con 2 decimali!</small>`;
+                        }
+                    }, 500);
+                }
+                
+                // Nuova domanda dopo 1.5 secondi
+                setTimeout(() => {
+                    generaOperazione();
+                    elemMessaggio.innerHTML = 'Continua così! Risolvi la prossima operazione.';
+                    elemMessaggio.className = 'messaggio';
+                    bottoni.forEach(b => b.disabled = false);
+                }, 1500);
+            } else {
+                // Risposta errata
+                vite--;
+                elemMessaggio.innerHTML = `OH NO! Era <span style="font-size: 1.5rem;">${correttaArrotondata}</span>. -1 vita`;
+                elemMessaggio.className = 'messaggio errato';
+                
+                // Aggiorna le vite
+                let viteCuori = '';
+                for (let i = 0; i < 3; i++) {
+                    viteCuori += i < vite ? '❤️' : '🤍';
+                }
+                elemVite.textContent = viteCuori;
+                
+                // Controlla se il gioco è finito
+                if (vite <= 0) {
+                    setTimeout(gameOver, 1500);
+                } else {
+                    // Nuova domanda dopo 1.5 secondi
+                    setTimeout(() => {
+                        generaOperazione();
+                        elemMessaggio.innerHTML = 'Riprova! Calcola con attenzione.';
+                        elemMessaggio.className = 'messaggio';
+                        bottoni.forEach(b => b.disabled = false);
+                    }, 1500);
+                }
+            }
+        }
+        
+        // Mostra l'aiuto
+        function mostraAiuto() {
+            if (aiutoUsato) return;
+            
+            aiutoUsato = true;
+            punteggio = Math.max(0, punteggio - 2); // -2 punti, ma non sotto zero
+            
+            // Suggerimento specifico per l'operazione e tipo di numeri
+            let suggerimento = '';
+            const num1 = formattaNumero(numero1);
+            const num2 = formattaNumero(numero2);
+            
+            switch(operazioneCorrente) {
+                case 'Addizione':
+                    if (tipoNumeri === "interi") {
+                        suggerimento = `Somma ${num1} e ${num2}`;
+                    } else {
+                        suggerimento = `Allinea le virgole: ${num1} + ${num2}`;
+                    }
+                    break;
+                case 'Sottrazione':
+                    if (tipoNumeri === "interi") {
+                        suggerimento = `Sottrai ${num2} da ${num1}`;
+                    } else {
+                        suggerimento = `Allinea le virgole: ${num1} - ${num2}`;
+                    }
+                    break;
+                case 'Moltiplicazione':
+                    if (tipoNumeri === "interi") {
+                        suggerimento = `Moltiplica ${num1} × ${num2}`;
+                    } else {
+                        suggerimento = `Moltiplica come numeri interi, poi conta le cifre decimali`;
+                        if (decimali === 1) {
+                            suggerimento += ` (${num1} ha ${num1.includes('.') ? 1 : 0} decimale, ${num2} ha ${num2.includes('.') ? 1 : 0} decimale)`;
+                        }
+                    }
+                    break;
+                case 'Divisione':
+                    if (tipoNumeri === "interi") {
+                        suggerimento = `Quante volte sta ${num2} in ${num1}?`;
+                    } else {
+                        suggerimento = `Per dividere con decimali, puoi moltiplicare entrambi i numeri per 10, 100... fino ad avere numeri interi`;
+                        if (decimali === 1) {
+                            suggerimento += `<br>Es: ${num1} ÷ ${num2} = (${num1 * 10} ÷ ${num2 * 10}) ÷ 10`;
+                        }
+                    }
+                    break;
+            }
+            
+            elemMessaggio.innerHTML = `<strong>AIUTO:</strong> ${suggerimento}`;
+            elemMessaggio.className = 'messaggio aiuto';
+            elemPunteggio.textContent = punteggio;
+            
+            bottoneAiuto.disabled = true;
+            bottoneAiuto.textContent = '❌ AIUTINO USATO';
+        }
+        
+        // Mostra suggerimento di calcolo
+        function mostraOperazioneCompleta() {
+            // Mostra la sequenza di calcolo
+            let esempio = '';
+            const num1 = formattaNumero(numero1);
+            const num2 = formattaNumero(numero2);
+            
+            if (operazioneCorrente === 'Moltiplicazione' && tipoNumeri !== "interi") {
+                esempio = `Es: ${num1} × ${num2} = (${(num1 * 10).toFixed(0)} × ${(num2 * 10).toFixed(0)}) ÷ 100`;
+            } else if (operazioneCorrente === 'Divisione' && tipoNumeri !== "interi") {
+                esempio = `Es: ${num1} ÷ ${num2} = (${num1 * 100} ÷ ${num2 * 100})`;
+            } else if (operazioneCorrente === 'Addizione' && tipoNumeri !== "interi") {
+                esempio = `Allinea le virgole: ${num1}<br>+ ${num2}<br>────────`;
+            } else if (operazioneCorrente === 'Sottrazione' && tipoNumeri !== "interi") {
+                esempio = `Allinea le virgole: ${num1}<br>- ${num2}<br>────────`;
+            } else {
+                esempio = `Calcola attentamente ${num1} ${operatore} ${num2}`;
+            }
+            
+            elemMessaggio.innerHTML = `
+                <strong>SUGGERIMENTO:</strong><br>
+                <small>${operazioneCorrente} con ${tipoNumeri === "interi" ? "numeri interi" : "decimali"}</small><br>
+                <small><em>${esempio}</em></small>
+            `;
+            elemMessaggio.className = 'messaggio aiuto';
+            
+            // Torna al messaggio normale dopo 5 secondi
+            setTimeout(() => {
+                elemMessaggio.innerHTML = 'Continua a giocare!';
+                elemMessaggio.className = 'messaggio';
+            }, 5000);
+        }
+        
+        // Fine del gioco
+        function gameOver() {
+            document.getElementById('punteggio-finale').textContent = punteggio;
+            gameOverScreen.style.display = 'flex';
+        }
+        
+        // Rigioca
+        function rigioca() {
+            // Resetta le variabili di gioco
+            punteggio = 0;
+            vite = 3;
+            livello = 1;
+            
+            // Aggiorna il display
+            elemPunteggio.textContent = punteggio;
+            elemVite.textContent = '❤️❤️❤️';
+            elemLivello.textContent = livello;
+            elemMessaggio.innerHTML = 'Pronto per una nuova partita!';
+            elemMessaggio.className = 'messaggio';
+            
+            // Nascondi schermata game over
+            gameOverScreen.style.display = 'none';
+            
+            // Genera una nuova operazione
+            generaOperazione();
+        }
+        
+        // Inizializza il gioco quando la pagina è caricata
+        window.onload = function() {
+            generaOperazione();
+        };
+    </script>
+</body>
+</html>
