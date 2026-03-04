@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giochi di Matematica | Oragioca</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .scelta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            width: 250px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        .card p {
+            color: #666;
+        }
+        .emoji {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 600px) {
+            .scelta {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 Giochi di Matematica</h1>
+        <p>Scegli il livello scolastico</p>
+        <div class="scelta">
+            <div class="card" onclick="location.href='primaria/index.html'">
+                <div class="emoji">📚</div>
+                <h2>Scuola Primaria</h2>
+                <p>Giochi per le classe 5ª</p>
+                <small>Clicca per giocare</small>
+            </div>
+            <div class="card" onclick="location.href='secondaria/index.html'">
+                <div class="emoji">🧑‍🎓</div>
+                <h2>Scuola Secondaria</h2>
+                <p>Giochi di preparazione alle Prove Invalsi</p>
+                <small>Clicca per giocare</small>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
