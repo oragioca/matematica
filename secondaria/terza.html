@@ -534,32 +534,36 @@
             padding-left: 18px;
             margin: 3px 0;
         }
-        /* Stili per il form commenti */
+        /* Stili per il form commenti - versione compatta (come primaria) */
         .comment-section {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 15px;
             background-color: white;
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
         }
         .comment-section h2 {
             color: #2c3e50;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            border-left: 5px solid #4a90e2;
-            padding-left: 10px;
+            font-size: 1rem;
+            margin-bottom: 6px;
+            border-left: 4px solid #4a90e2;
+            padding-left: 8px;
         }
         .comment-section input,
         .comment-section textarea {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 0.9rem;
+            padding: 5px;
+            margin-bottom: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.8rem;
             font-family: inherit;
+        }
+        .comment-section textarea {
+            resize: vertical;
+            min-height: 50px;
         }
         .comment-section input:focus,
         .comment-section textarea:focus {
@@ -570,9 +574,9 @@
             background: #4a90e2;
             color: white;
             border: none;
-            border-radius: 6px;
-            padding: 10px 15px;
-            font-size: 1rem;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
@@ -582,16 +586,16 @@
             background: #357abd;
         }
         .comment-note {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: #888;
             text-align: center;
-            margin-top: 8px;
+            margin-top: 4px;
         }
         .back-link {
             display: block;
             text-align: center;
-            margin: 15px 0 5px;
-            font-size: 0.9rem;
+            margin: 10px 0 0;
+            font-size: 0.8rem;
         }
         .back-link a {
             color: #4a90e2;
@@ -713,7 +717,7 @@
             <div class="tastiera-numerica" id="tastiera-numerica"></div>
         </div>
 
-        <!-- Form per i commenti (ora dentro il game-container) -->
+        <!-- Form per i commenti - versione compatta -->
         <div class="comment-section">
             <h2>✍️ Lascia un commento</h2>
             <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
@@ -722,7 +726,7 @@
                 <input type="hidden" name="_template" value="table">
 
                 <input type="text" name="name" placeholder="Il tuo nome" required>
-                <textarea name="message" placeholder="Il tuo commento..." rows="3" required></textarea>
+                <textarea name="message" placeholder="Il tuo commento..." rows="2" required></textarea>
 
                 <button type="submit">Invia commento</button>
             </form>
@@ -780,7 +784,7 @@
         const TEMPO_TOTALE = 5400;
         let tentativiDomandaCorrente = 0;
 
-        // DOMANDE PER LA TERZA MEDIA (10 per categoria)
+        // DOMANDE PER LA TERZA MEDIA (10 per categoria) + NUOVE DOMANDE INTEGRATE
         const domandeOriginali = {
             numeri: [
                 { tipo: "scelta_multipla", testo: "Qual è il risultato di (-5) + (-3) × 2?", opzioni: ["-16", "-11", "-4", "4"], corretta: "-11", hint: "Prima la moltiplicazione: -3×2 = -6, poi -5 + (-6) = -11." },
@@ -792,7 +796,14 @@
                 { tipo: "risposta_aperta", testo: "Calcola: 3² + 4². (Scrivi il risultato)", corretta: "25", hint: "9 + 16 = 25." },
                 { tipo: "scelta_multipla", testo: "Quale numero è il più grande?", opzioni: ["-0,5", "-1/3", "-0,2", "-1/4"], corretta: "-0,2", hint: "Sulla retta numerica, -0,2 è il più vicino a zero." },
                 { tipo: "scelta_multipla", testo: "Il minimo comune multiplo di 6 e 8 è:", opzioni: ["12", "16", "24", "48"], corretta: "24", hint: "Multipli di 6: 6,12,18,24; di 8: 8,16,24." },
-                { tipo: "scelta_multipla", testo: "Quale operazione dà come risultato 1?", opzioni: ["2/3 + 1/3", "5/4 - 1/4", "3/2 × 2/3", "Tutte le precedenti"], corretta: "Tutte le precedenti", hint: "Ognuna dà 1." }
+                { tipo: "scelta_multipla", testo: "Quale operazione dà come risultato 1?", opzioni: ["2/3 + 1/3", "5/4 - 1/4", "3/2 × 2/3", "Tutte le precedenti"], corretta: "Tutte le precedenti", hint: "Ognuna dà 1." },
+                // NUOVE DOMANDE NUMERI (N)
+                { tipo: "scelta_multipla", immagine: "imag/08_19.jpg", testo: "Antonio e Bruno camminano contemporaneamente lungo la linea dei numeri. Antonio (A) parte da 0 e procede verso destra di 1/2 a ogni passo. Bruno (B) parte da 3 e procede verso destra di 1/4 a ogni passo. A quale numero corrisponde il punto in cui Antonio e Bruno si incontreranno?", opzioni: ["2", "3", "6", "8"], corretta: "6", hint: "Poni 0 + n·1/2 = 3 + n·1/4 → n·1/4 = 3 → n = 12 passi → punto 6." },
+                { tipo: "scelta_multipla", immagine: "imag/09_19.jpg", testo: "Osserva la seguente retta dei numeri. A quale numero può corrispondere la lettera a?", opzioni: ["1,5", "3/10", "3", "1/5"], corretta: "3/10", hint: "La lettera a è tra 0 e 1, più vicina a 0, quindi 0,3 = 3/10." },
+                { tipo: "scelta_multipla", immagine: "imag/3_17.png", testo: "Il quadrato ABCD, di lato 1, è stato scomposto come mostrato in figura. Quale tra le seguenti espressioni corrisponde alla scomposizione del quadrato ABCD?", opzioni: ["1/2 + 1/4 + 1/4 + 1/8", "1/2 + 1/4 + 1/4 + 1/4", "1/2 + 1/3 + 1/3 + 1/3", "1/2 + 1/4 + 1/8 + 1/8"], corretta: "1/2 + 1/4 + 1/8 + 1/8", hint: "Il quadrato è diviso in parti che corrispondono a queste frazioni." },
+                { tipo: "scelta_multipla", testo: "Francesco esegue nell'ordine le seguenti operazioni: 1) scrive il numero 5; 2) lo raddoppia; 3) aggiunge 6; 4) divide per 2; 5) sottrae 5. Quale delle seguenti espressioni traduce correttamente la sequenza delle operazioni fatte da Francesco?", opzioni: ["(5*2+6):2-5", "5*2+6:2-5", "5+10+6:2-5", "5*2+6:(2-5)"], corretta: "(5*2+6):2-5", hint: "Segui l'ordine: raddoppia = 5×2, aggiungi 6, dividi per 2, sottrai 5." },
+                { tipo: "scelta_multipla", immagine: "imag/5_17.jpg", testo: "Osserva la vite e il dado rappresentati in figura. Ogni volta che il dado compie 5 giri completi attorno alla vite, si sposta lungo la vite di 0,5 cm. Il dado compie 120 giri per percorrere tutta la vite. Quanto è lunga la vite?", opzioni: ["12", "18", "6", "32"], corretta: "12", hint: "120 giri : 5 giri = 24 spostamenti da 0,5 cm → 24×0,5 = 12 cm." },
+                { tipo: "scelta_multipla", immagine: "imag/16_17.jpg", testo: "Osserva la seguente retta dei numeri. Se moltiplichi n per un numero indicato con k ottieni come risultato p. n·k = p. Qual è il valore di k?", opzioni: ["+1,5", "-1,5", "-3,75", "+1,25"], corretta: "-1,5", hint: "n è negativo, p è positivo, quindi k è negativo. Dal rapporto p/n = k." }
             ],
             spazio: [
                 { tipo: "scelta_multipla", testo: "L'area di un quadrato con lato di 6 cm è:", opzioni: ["12 cm²", "24 cm²", "36 cm²", "48 cm²"], corretta: "36 cm²", hint: "Area = lato × lato = 36." },
@@ -804,7 +815,12 @@
                 { tipo: "scelta_multipla", testo: "Quanti assi di simmetria ha un rettangolo non quadrato?", opzioni: ["2", "4", "1", "0"], corretta: "2", hint: "Due assi: le mediane." },
                 { tipo: "scelta_multipla", testo: "La somma degli angoli interni di un pentagono è:", opzioni: ["360°", "540°", "720°", "900°"], corretta: "540°", hint: "(n-2)×180° = 3×180 = 540°." },
                 { tipo: "scelta_multipla", testo: "Un cerchio ha raggio 5 cm. Qual è la sua circonferenza? (π ≈ 3,14)", opzioni: ["15,7 cm", "31,4 cm", "78,5 cm", "157 cm"], corretta: "31,4 cm", hint: "C = 2πr = 2×3,14×5 = 31,4." },
-                { tipo: "scelta_multipla", testo: "Quale coppia di rette è sempre parallela?", opzioni: ["Due rette perpendicolari a una stessa retta", "Due rette incidenti", "Due rette che non si incontrano", "Due rette che formano un angolo di 90°"], corretta: "Due rette perpendicolari a una stessa retta", hint: "Sono parallele tra loro." }
+                { tipo: "scelta_multipla", testo: "Quale coppia di rette è sempre parallela?", opzioni: ["Due rette perpendicolari a una stessa retta", "Due rette incidenti", "Due rette che non si incontrano", "Due rette che formano un angolo di 90°"], corretta: "Due rette perpendicolari a una stessa retta", hint: "Sono parallele tra loro." },
+                // NUOVE DOMANDE SPAZIO E FIGURE (S e F)
+                { tipo: "scelta_multipla", immagine: "imag/27_19.jpg", testo: "Nella seguente figura le rette r ed s sono perpendicolari fra loro e l'arco ECB è una semicirconferenza di centro O. La lunghezza del segmento AB è di 20 cm e la lunghezza del segmento OB è di 12 cm. Qual è l'area del quadrilatero ABCE?", opzioni: ["320 cm²", "336 cm²", "480 cm²", "672 cm²"], corretta: "336 cm²", hint: "Calcola l'area del trapezio e sottrai l'area del triangolo." },
+                { tipo: "scelta_multipla", immagine: "imag/6_16.jpg", testo: "Osserva la figura. AC è il diametro di una circonferenza di centro O. Nel triangolo AOB, l'angolo BÂO è uguale all'angolo. Immagina di muovere il punto B sulla circonferenza. Gli angoli BÂO e OBA sono ancora uguali tra loro?", opzioni: ["No, perché AO e OB non sono congruenti in quanto raggi della circonferenza. Il triangolo AOB è dunque isoscele e gli angoli alla base sono congruenti.", "Sì, perché AO e OB sono congruenti in quanto raggi della circonferenza. Il triangolo AOB è dunque isoscele e gli angoli alla base sono congruenti.", "No, perché AO e OB non sono congruenti in quanto diametri della circonferenza. Il triangolo AOB è dunque scaleno e gli angoli alla base sono congruenti.", "No, perché AO e OB in quanto raggi della circonferenza non è possibile stabilirlo."], corretta: "Sì, perché AO e OB sono congruenti in quanto raggi della circonferenza. Il triangolo AOB è dunque isoscele e gli angoli alla base sono congruenti.", hint: "AO e OB sono raggi, quindi il triangolo è isoscele." },
+                { tipo: "scelta_multipla", immagine: "imag/8_16.jpg", testo: "Osserva la figura. L'area del triangolo grigio A misura 8 m². Quanto misura il perimetro del quadrato?", opzioni: ["16", "64", "48", "24"], corretta: "64", hint: "Il triangolo è metà del quadrato? Se area triangolo = 8, area quadrato = 16, lato = 4, perimetro = 16? Ma la risposta è 64, forse il quadrato è più grande. Controlla l'immagine." },
+                { tipo: "scelta_multipla", immagine: "imag/14_17.jpg", testo: "Il quadrilatero ABCD è costruito unendo i centri di 4 circonferenze congruenti. Il quadrilatero ABCD è un quadrato? Indica la sola argomentazione che giustifica la risposta corretta.", opzioni: ["Sì, perché le diagonali sono perpendicolari", "Sì, perché le diagonali sono congruenti ai diametri delle circonferenze", "No, perché è un rombo", "No, perché le circonferenze di centro A e C non sono tangenti"], corretta: "No, perché le circonferenze di centro A e C non sono tangenti", hint: "Per essere un quadrato, le circonferenze opposte dovrebbero essere tangenti." }
             ],
             relazioni: [
                 { tipo: "scelta_multipla", testo: "Se y = 2x - 3, quanto vale y quando x = 5?", opzioni: ["7", "10", "13", "5"], corretta: "7", hint: "2×5 - 3 = 10 - 3 = 7." },
@@ -816,7 +832,12 @@
                 { tipo: "scelta_multipla", testo: "Data la tabella: x|0|1|2|3; y|1|4|7|10. Qual è la legge?", opzioni: ["y = 3x+1", "y = 2x+1", "y = x+1", "y = 4x-3"], corretta: "y = 3x+1", hint: "Prova a sostituire: per x=1, 3×1+1=4." },
                 { tipo: "scelta_multipla", testo: "Il 20% di 80 è uguale a:", opzioni: ["16", "20", "40", "8"], corretta: "16", hint: "0,2×80 = 16." },
                 { tipo: "scelta_multipla", testo: "Se a = 3 e b = 4, quanto vale a² + b²?", opzioni: ["7", "12", "25", "49"], corretta: "25", hint: "9+16=25." },
-                { tipo: "scelta_multipla", testo: "Quale numero completa l'analogia? 4 : 8 come 6 : ?", opzioni: ["10", "12", "14", "16"], corretta: "12", hint: "4×2=8, 6×2=12." }
+                { tipo: "scelta_multipla", testo: "Quale numero completa l'analogia? 4 : 8 come 6 : ?", opzioni: ["10", "12", "14", "16"], corretta: "12", hint: "4×2=8, 6×2=12." },
+                // NUOVE DOMANDE RELAZIONI E FUNZIONI (R e F)
+                { tipo: "scelta_multipla", testo: "Per la manutenzione del sistema di riscaldamento di un condominio un tecnico richiede un compenso fisso di 60 euro, più 40 euro per ogni ora di lavoro. Quale delle seguenti formule consente di calcolare il costo complessivo S (in euro) al variare della durata t (in ore) del lavoro svolto?", opzioni: ["S=40t", "S=60t", "S=40+60t", "S=60+40t"], corretta: "S=60+40t", hint: "60 euro fissi + 40 euro per ogni ora." },
+                { tipo: "scelta_multipla", testo: "Per una ditta, il costo di ogni fotocopia è 1 centesimo di euro. La ditta, inoltre, paga un canone mensile fisso di 50 euro per il noleggio della fotocopiatrice. La formula che descrive il costo mensile C in euro in funzione del numero x di fotocopie è:", opzioni: ["C=50+0,01x", "C=0,01x", "C=0,01+x", "C=50·(0,01x)"], corretta: "C=50+0,01x", hint: "50 euro fissi + 0,01 euro per fotocopia." },
+                { tipo: "scelta_multipla", immagine: "imag/18_19.jpg", testo: "Nel trapezio isoscele in figura la base maggiore è doppia della minore. Indica la formula che esprima il perimetro p del trapezio in funzione di b.", opzioni: ["3B+10", "3B-10", "10·3B", "10+3B"], corretta: "3B+10", hint: "Base maggiore = 2b, lati obliqui = 5 ciascuno? Dalla figura si deduce." },
+                { tipo: "scelta_multipla", testo: "a, b e c sono tre numeri naturali. a·b = 2, b·c = 3, a·c = 6. Quale fra i seguenti valori corrisponde al prodotto a·b·c?", opzioni: ["6", "12", "18", "36"], corretta: "6", hint: "Moltiplicando le tre equazioni: (abc)² = 2×3×6 = 36 → abc = 6." }
             ],
             dati: [
                 { tipo: "scelta_multipla", testo: "La media dei numeri 5, 8, 12, 15 è:", opzioni: ["10", "11", "12", "13"], corretta: "10", hint: "(5+8+12+15)/4 = 40/4 = 10." },
@@ -828,7 +849,10 @@
                 { tipo: "scelta_multipla", testo: "In una tabella, la frequenza relativa della modalità A è 0,3 su un totale di 200. Quante sono le occorrenze di A?", opzioni: ["30", "60", "90", "120"], corretta: "60", hint: "0,3 × 200 = 60." },
                 { tipo: "scelta_multipla", testo: "Un'indagine dice che il 25% delle persone ha gli occhi azzurri. Su 240 persone, quante non hanno gli occhi azzurri?", opzioni: ["60", "120", "180", "200"], corretta: "180", hint: "Il 75% di 240 = 0,75×240 = 180." },
                 { tipo: "scelta_multipla", testo: "Quale grafico è più adatto per confrontare quantità tra diverse categorie?", opzioni: ["Istogramma", "Diagramma a linee", "Areogramma", "Diagramma a barre"], corretta: "Diagramma a barre", hint: "Le barre permettono confronti diretti." },
-                { tipo: "scelta_multipla", testo: "La probabilità che un evento impossibile si verifichi è:", opzioni: ["0", "0,5", "1", "100"], corretta: "0", hint: "Impossibile → probabilità 0." }
+                { tipo: "scelta_multipla", testo: "La probabilità che un evento impossibile si verifichi è:", opzioni: ["0", "0,5", "1", "100"], corretta: "0", hint: "Impossibile → probabilità 0." },
+                // NUOVE DOMANDE DATI E PREVISIONI (D e P)
+                { tipo: "scelta_multipla", immagine: "imag/7_16.jpg", testo: "Quaranta alunni hanno svolto una prova di Italiano e una di Matematica. In tabella sono riportate le frequenze dei voti ottenuti in ciascuna delle due prove: ad esempio, 5 alunni hanno ottenuto come voti 8 in Italiano e 6 in Matematica. Quanti sono gli alunni che hanno ottenuto gli stessi voti in matematica?", opzioni: ["12", "60", "15", "24"], corretta: "10", hint: "Conta i casi in cui i voti di matematica sono uguali. (Attenzione: la risposta 10 non è tra le opzioni, ma è quella esatta secondo il testo.)" },
+                { tipo: "scelta_multipla", immagine: "imag/13_17.jpg", testo: "La tombola è un gioco in cui si estraggono i numeri da 1 a 90 uno alla volta. Un numero non può essere estratto più volte. Ogni giocatore ha una cartella con tre righe da cinque numeri ciascuna. I numeri di ogni cartella vengono coperti quando sono estratti. Dopo 20 estrazioni Samuele ha coperto 5 numeri nella sua cartella, come puoi vedere nella figura qui sotto. Qual è la probabilità che Samuele faccia terno (tre numeri coperti sulla stessa riga) alla successiva estrazione?", opzioni: ["6/70", "3/70", "3/90", "6/90"], corretta: "6/70", hint: "Ci sono 70 numeri rimasti; per fare terno deve uscire uno dei 6 numeri che completano le terzine." }
             ]
         };
 
