@@ -987,8 +987,8 @@
                 { tipo: "scelta_multipla", testo: "Il minimo comune multiplo di 6 e 8 è:", opzioni: ["12", "16", "24", "48"], corretta: "24", hint: "Multipli di 6: 6,12,18,24; di 8: 8,16,24." },
                 { tipo: "scelta_multipla", testo: "Quale operazione dà come risultato 1?", opzioni: ["2/3 + 1/3", "5/4 - 1/4", "3/2 × 2/3", "Tutte le precedenti"], corretta: "Tutte le precedenti", hint: "Ognuna dà 1." },
                 // NUOVE DOMANDE NUMERI (N)
-                { tipo: "scelta_multipla", immagine: "imag/08_19.jpg", testo: "Antonio e Bruno camminano contemporaneamente lungo la linea dei numeri. Antonio (A) parte da 0 e procede verso destra di 1/2 a ogni passo. Bruno (B) parte da 3 e procede verso destra di 1/4 a ogni passo. A quale numero corrisponde il punto in cui Antonio e Bruno si incontreranno?", opzioni: ["2", "3", "6", "8"], corretta: "6", hint: "Poni 0 + n·1/2 = 3 + n·1/4 → n·1/4 = 3 → n = 12 passi → punto 6." },
-                { tipo: "scelta_multipla", immagine: "imag/09_19.jpg", testo: "Osserva la seguente retta dei numeri. A quale numero può corrispondere la lettera a?", opzioni: ["1,5", "3/10", "3", "1/5"], corretta: "3/10", hint: "La lettera a è tra 0 e 1, più vicina a 0, quindi 0,3 = 3/10." },
+                { tipo: "scelta_multipla", immagine: "imag/8_19.jpg", testo: "Antonio e Bruno camminano contemporaneamente lungo la linea dei numeri. Antonio (A) parte da 0 e procede verso destra di 1/2 a ogni passo. Bruno (B) parte da 3 e procede verso destra di 1/4 a ogni passo. A quale numero corrisponde il punto in cui Antonio e Bruno si incontreranno?", opzioni: ["2", "3", "6", "8"], corretta: "6", hint: "Poni 0 + n·1/2 = 3 + n·1/4 → n·1/4 = 3 → n = 12 passi → punto 6." },
+                { tipo: "scelta_multipla", immagine: "imag/9_19.jpg", testo: "Osserva la seguente retta dei numeri. A quale numero può corrispondere la lettera a?", opzioni: ["1,5", "3/10", "3", "1/5"], corretta: "3/10", hint: "La lettera a è tra 0 e 1, più vicina a 0, quindi 0,3 = 3/10." },
                 { tipo: "scelta_multipla", immagine: "imag/3_17.jpg", testo: "Il quadrato ABCD, di lato 1, è stato scomposto come mostrato in figura. Quale tra le seguenti espressioni corrisponde alla scomposizione del quadrato ABCD?", opzioni: ["1/2 + 1/4 + 1/4 + 1/8", "1/2 + 1/4 + 1/8 + 1/8", "1/2 + 1/3 + 1/3 + 1/3", "1/2 + 1/4 + 1/4 + 1/4"], corretta: "1/2 + 1/4 + 1/8 + 1/8", hint: "Il quadrato è diviso in parti che corrispondono a queste frazioni." },
                 { tipo: "scelta_multipla", testo: "Francesco esegue nell'ordine le seguenti operazioni: 1) scrive il numero 5; 2) lo raddoppia; 3) aggiunge 6; 4) divide per 2; 5) sottrae 5. Quale delle seguenti espressioni traduce correttamente la sequenza delle operazioni fatte da Francesco?", opzioni: ["(5*2+6):2-5", "5*2+6:2-5", "5+10+6:2-5", "5*2+6:(2-5)"], corretta: "(5*2+6):2-5", hint: "Segui l'ordine: raddoppia = 5×2, aggiungi 6, dividi per 2, sottrai 5." },
                 { tipo: "scelta_multipla", immagine: "imag/5_17.jpg", testo: "Osserva la vite e il dado rappresentati in figura. Ogni volta che il dado compie 5 giri completi attorno alla vite, si sposta lungo la vite di 0,5 cm. Il dado compie 120 giri per percorrere tutta la vite. Quanto è lunga la vite?", opzioni: ["12", "18", "6", "32"], corretta: "12", hint: "120 giri : 5 giri = 24 spostamenti da 0,5 cm → 24×0,5 = 12 cm." },
@@ -1179,7 +1179,7 @@
                 if (classe === 'wow') messaggioVerifica.classList.add('messaggio-wow');
                 else if (classe === 'ahi') messaggioVerifica.classList.add('messaggio-ahi');
             }
-            setTimeout(() => messaggioVerifica.classList.remove('mostra'), 3000);
+            setTimeout(() => messaggioVerifica.classList.remove('mostra'), 6000);
         }
 
         function aggiornaPulsantiCategoria() {
