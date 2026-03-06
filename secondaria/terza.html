@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title> Math Game - Classe Terza - </title>
+    <title>INVALSI Terza Media - Math Game</title>
     <!-- Font più moderni e leggibili su mobile -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -20,7 +20,7 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center; /* centrato verticalmente */
             padding: 8px;
         }
         .game-container {
@@ -430,6 +430,19 @@
         .bottone-salta {
             background: linear-gradient(145deg, #ff9800, #f57c00);
         }
+        /* Nuovo pulsante commenti con lo stesso stile 3D */
+        .bottone-commenti {
+            background: linear-gradient(145deg, #ff9800, #e68900);
+            box-shadow: 0 3px 0 #cc7a00;
+            max-width: 100%;
+            margin: 10px 0 0;
+            flex: 0 0 auto;
+            width: 100%;
+        }
+        .bottone-commenti:hover {
+            background: linear-gradient(145deg, #e68900, #cc7a00);
+            box-shadow: 0 4px 0 #b36a00;
+        }
         .messaggio-avvio {
             background: linear-gradient(145deg, #3498db, #2980b9);
             border-radius: 16px;
@@ -609,27 +622,6 @@
         .back-link a:hover {
             text-decoration: underline;
         }
-        /* Pulsante per aprire i commenti */
-        .btn-comments {
-            background-color: #ff9800;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 0 #e68900;
-            transition: all 0.1s;
-            font-size: 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            margin-left: 5px;
-        }
-        .btn-comments:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 0 #cc7a00;
-        }
         .comment-close {
             background: #ff4757;
             color: white;
@@ -661,7 +653,7 @@
             .info-item .value {
                 font-size: 0.9rem;
             }
-            .btn-exit, .btn-info, .btn-comments {
+            .btn-exit, .btn-info {
                 padding: 4px 6px;
                 font-size: 0.75rem;
             }
@@ -669,6 +661,9 @@
                 max-width: 100px;
                 font-size: 0.8rem;
                 padding: 6px 10px;
+            }
+            .bottone-commenti {
+                max-width: 100%;
             }
         }
         /* Stili per messaggi wow/ahi */
@@ -708,10 +703,10 @@
 <body>
     <div class="game-container">
         <div class="header-title">
-            <h1>🧮  Math Game - Classe Terza  🧮</h1>
+            <h1>🧮 INVALSI Terza Media - Math Game 🧮</h1>
         </div>
 
-        <!-- Barra informazioni con nuovo pulsante commenti -->
+        <!-- Barra informazioni -->
         <div class="game-info">
             <button class="btn-info" onclick="apriIstruzioni()">❓ Info</button>
             <div class="info-item">
@@ -727,7 +722,6 @@
                 <div class="value" id="tempo-display">90:00</div>
             </div>
             <button class="btn-exit" id="esciBtn" onclick="esciDalGioco()">🚪 Esci</button>
-            <button class="btn-comments" onclick="apriCommenti()">💬 Commenti</button>
         </div>
 
         <!-- Pulsanti categorie abbreviati -->
@@ -780,7 +774,7 @@
             <div class="messaggio-verifica" id="messaggio-verifica"></div>
         </div>
 
-        <!-- Pulsanti di controllo (ora senza Prossima) -->
+        <!-- Pulsanti di controllo (senza Prossima) -->
         <div class="controlli" id="controlli-gioco">
             <button class="bottone bottone-aiuto" id="bottone-aiuto" onclick="mostraAiuto()">🧠 Aiuto (-2)</button>
             <button class="bottone bottone-verifica" id="bottone-verifica" onclick="verificaRisposta()">✓ Verifica</button>
@@ -792,6 +786,11 @@
         <div class="tastiera-container" id="tastiera-container">
             <div class="tastiera-numerica" id="tastiera-numerica"></div>
         </div>
+
+        <!-- Nuovo pulsante commenti integrato nel gioco, stile 3D -->
+        <button class="bottone bottone-commenti" onclick="apriCommenti()">
+            <span>💬</span> Lascia un commento
+        </button>
 
         <!-- Overlay per i commenti (inizialmente nascosto) -->
         <div class="comment-overlay" id="comment-overlay">
@@ -1613,6 +1612,4 @@
         };
     </script>
 </body>
-
 </html>
-
