@@ -31,6 +31,7 @@
             box-shadow: 0 8px 20px rgba(0, 40, 80, 0.2);
             padding: 12px;
             margin: 0 auto;
+            position: relative;
         }
         .header-title {
             text-align: center;
@@ -477,7 +478,7 @@
             0%,100%{transform:translateY(0)}
             50%{transform:translateY(-8px)}
         }
-        .modal-overlay {
+        .modal-overlay, .comment-overlay {
             position: fixed;
             top:0; left:0; width:100%; height:100%;
             background: rgba(0,0,0,0.7);
@@ -487,15 +488,16 @@
             z-index: 1000;
             padding: 8px;
         }
-        .modal-content {
+        .modal-content, .comment-content {
             background: white;
             border-radius: 12px;
-            padding: 15px;
+            padding: 20px;
             max-width: 400px;
             width: 100%;
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            position: relative;
         }
         .modal-header {
             display: flex;
@@ -536,36 +538,36 @@
             padding-left: 18px;
             margin: 3px 0;
         }
-        /* Stili per il form commenti - versione compatta (come primaria) */
+        /* Stili per il form commenti in overlay */
         .comment-section {
             width: 100%;
-            margin-top: 15px;
+            margin-top: 0;
             background-color: white;
             border-radius: 8px;
-            padding: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border: 1px solid #e0e0e0;
+            padding: 0;
+            box-shadow: none;
+            border: none;
         }
         .comment-section h2 {
             color: #2c3e50;
-            font-size: 1rem;
-            margin-bottom: 6px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
             border-left: 4px solid #4a90e2;
-            padding-left: 8px;
+            padding-left: 10px;
         }
         .comment-section input,
         .comment-section textarea {
             width: 100%;
-            padding: 5px;
-            margin-bottom: 6px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.9rem;
             font-family: inherit;
         }
         .comment-section textarea {
             resize: vertical;
-            min-height: 50px;
+            min-height: 80px;
         }
         .comment-section input:focus,
         .comment-section textarea:focus {
@@ -576,9 +578,9 @@
             background: #4a90e2;
             color: white;
             border: none;
-            border-radius: 4px;
-            padding: 6px 10px;
-            font-size: 0.8rem;
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
@@ -588,15 +590,15 @@
             background: #357abd;
         }
         .comment-note {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #888;
             text-align: center;
-            margin-top: 4px;
+            margin-top: 10px;
         }
         .back-link {
             display: block;
             text-align: center;
-            margin: 10px 0 0;
+            margin: 15px 0 0;
             font-size: 0.8rem;
         }
         .back-link a {
@@ -606,6 +608,46 @@
         }
         .back-link a:hover {
             text-decoration: underline;
+        }
+        /* Pulsante per aprire i commenti */
+        .btn-comments {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #e68900;
+            transition: all 0.1s;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 5px;
+        }
+        .btn-comments:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 0 #cc7a00;
+        }
+        .comment-close {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .comment-close:hover {
+            background: #e63946;
         }
         @media (max-width: 480px) {
             .tipo-domanda-btn {
@@ -619,7 +661,7 @@
             .info-item .value {
                 font-size: 0.9rem;
             }
-            .btn-exit, .btn-info {
+            .btn-exit, .btn-info, .btn-comments {
                 padding: 4px 6px;
                 font-size: 0.75rem;
             }
@@ -669,7 +711,7 @@
             <h1>🧮 INVALSI Terza Media - Math Game 🧮</h1>
         </div>
 
-        <!-- Barra informazioni -->
+        <!-- Barra informazioni con nuovo pulsante commenti -->
         <div class="game-info">
             <button class="btn-info" onclick="apriIstruzioni()">❓ Info</button>
             <div class="info-item">
@@ -685,6 +727,7 @@
                 <div class="value" id="tempo-display">90:00</div>
             </div>
             <button class="btn-exit" id="esciBtn" onclick="esciDalGioco()">🚪 Esci</button>
+            <button class="btn-comments" onclick="apriCommenti()">💬 Commenti</button>
         </div>
 
         <!-- Pulsanti categorie abbreviati -->
@@ -750,22 +793,27 @@
             <div class="tastiera-numerica" id="tastiera-numerica"></div>
         </div>
 
-        <!-- Form per i commenti - versione compatta -->
-        <div class="comment-section">
-            <h2>✍️ Lascia un commento</h2>
-            <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
-                <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/secondaria/grazie.html">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_template" value="table">
+        <!-- Overlay per i commenti (inizialmente nascosto) -->
+        <div class="comment-overlay" id="comment-overlay">
+            <div class="comment-content">
+                <button class="comment-close" onclick="chiudiCommenti()">✕</button>
+                <div class="comment-section">
+                    <h2>✍️ Lascia un commento</h2>
+                    <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
+                        <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/secondaria/grazie.html">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
 
-                <input type="text" name="name" placeholder="Il tuo nome" required>
-                <textarea name="message" placeholder="Il tuo commento..." rows="2" required></textarea>
+                        <input type="text" name="name" placeholder="Il tuo nome" required>
+                        <textarea name="message" placeholder="Il tuo commento..." rows="4" required></textarea>
 
-                <button type="submit">Invia commento</button>
-            </form>
-            <p class="comment-note">I commenti sono anonimi e verranno inviati via email.</p>
-            <div class="back-link">
-                <a href="index.html">← Torna alla pagina della secondaria</a>
+                        <button type="submit">Invia commento</button>
+                    </form>
+                    <p class="comment-note">I commenti sono anonimi e verranno inviati via email.</p>
+                    <div class="back-link">
+                        <a href="index.html">← Torna alla pagina della secondaria</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1420,7 +1468,7 @@
                 }
                 erroriConsecutivi = 0;
                 aggiornaDisplayPunteggio();
-                aggrnaViteUI();
+                aggiornaViteUI();  // CORRETTO: era "aggrnaViteUI()"
                 aggiornaIndicatoreErrori();
                 aggiornaUI();
 
@@ -1532,6 +1580,14 @@
             document.getElementById('modal-overlay').style.display = 'none';
             playClickSound();
         };
+        window.apriCommenti = function() {
+            document.getElementById('comment-overlay').style.display = 'flex';
+            playClickSound();
+        };
+        window.chiudiCommenti = function() {
+            document.getElementById('comment-overlay').style.display = 'none';
+            playClickSound();
+        };
         window.esciDalGioco = function() {
             if (confirm("Vuoi davvero uscire dal gioco?")) {
                 fermaTimer();
@@ -1550,6 +1606,9 @@
 
             document.getElementById('modal-overlay').addEventListener('click', (e) => {
                 if (e.target === e.currentTarget) chiudiIstruzioni();
+            });
+            document.getElementById('comment-overlay').addEventListener('click', (e) => {
+                if (e.target === e.currentTarget) chiudiCommenti();
             });
         };
     </script>
