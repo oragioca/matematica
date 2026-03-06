@@ -22,14 +22,21 @@
         }
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: normal;
+            opacity: 0.9;
         }
         .scelta {
             display: flex;
             justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
+            margin-bottom: 40px;
         }
         .card {
             background: white;
@@ -48,26 +55,46 @@
         .card h2 {
             margin-top: 0;
             color: #667eea;
+            font-size: 1.5rem;
         }
         .card p {
             color: #666;
+            margin: 10px 0;
         }
         .emoji {
             font-size: 4rem;
             margin-bottom: 15px;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            text-decoration: underline;
         }
         @media (max-width: 600px) {
             .scelta {
                 flex-direction: column;
                 align-items: center;
             }
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🧮 Giochi di Matematica 🧮 </h1>
-		<h2>Ottimizzato per il desktop</h2>
+        <h1>🧮 Giochi di Matematica 🧮</h1>
+        <h2>Ottimizzato per il desktop</h2>
         <p>Scegli il livello scolastico</p>
         <div class="scelta">
             <div class="card" onclick="location.href='primaria/index.html'">
@@ -82,6 +109,11 @@
                 <p>Giochi di preparazione alle Prove Invalsi</p>
                 <small>Clicca per giocare</small>
             </div>
+        </div>
+        <!-- Footer con copyright -->
+        <div class="footer">
+            © RG 2026 Oragioca - Tutti i diritti riservati. | 
+            <a href="https://oragioca.github.io/matematica/">Home</a>
         </div>
     </div>
 </body>
