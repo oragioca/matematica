@@ -1399,15 +1399,15 @@
             if (categoriaAttuale === 'numeri' && progressoCategoria.numeri >= 10 && !categorieSbloccate.includes('spazio')) {
                 categorieSbloccate.push('spazio');
                 aggiornaPulsantiCategoria();
-                mostraMessaggio('🔓 Spazio e figure sbloccato!', 'messaggio-info');
+                mostraMessaggio('🔓 Spazio e figure superato!'clicca su R e F per andare avanti, 'messaggio-info');
             } else if (categoriaAttuale === 'spazio' && progressoCategoria.spazio >= 10 && !categorieSbloccate.includes('relazioni')) {
                 categorieSbloccate.push('relazioni');
                 aggiornaPulsantiCategoria();
-                mostraMessaggio('🔓 Relazioni e funzioni sbloccato!', 'messaggio-info');
+                mostraMessaggio('🔓 Relazioni e funzioni superato!'clicca su D e P per andare avanti, 'messaggio-info');
             } else if (categoriaAttuale === 'relazioni' && progressoCategoria.relazioni >= 10 && !categorieSbloccate.includes('dati')) {
                 categorieSbloccate.push('dati');
                 aggiornaPulsantiCategoria();
-                mostraMessaggio('🔓 Dati e previsioni sbloccato!', 'messaggio-info');
+                mostraMessaggio('🔓 Dati e previsioni superato!', 'messaggio-info');
             }
         }
 
