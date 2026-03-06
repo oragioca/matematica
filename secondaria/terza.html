@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>INVALSI Terza Media - Math Game</title>
+    <title>Math Game Classe Terza</title>
     <!-- Font più moderni e leggibili su mobile -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -703,7 +703,7 @@
 <body>
     <div class="game-container">
         <div class="header-title">
-            <h1>🧮 INVALSI Terza Media - Math Game 🧮</h1>
+            <h1>🧮 Math Game - Classe Terza 🧮</h1>
         </div>
 
         <!-- Barra informazioni -->
@@ -747,7 +747,7 @@
         <div class="risposte-consecutive" id="risposte-consecutive">
             <span>Serie:</span>
             <span id="contatore-consecutive">0</span>
-            <span class="cuore-consecutivo">❤️</span>
+            <span class="cuore-consecutivo">😊</span>
         </div>
 
         <div class="aiuti-utilizzati" id="aiuti-utilizzati">
@@ -761,11 +761,11 @@
         <div class="sezione-gioco">
             <div class="messaggio-avvio" id="messaggio-avvio" onclick="iniziaGioco()">
                 <div class="icona-play">📚</div>
-                <h2>Pronto per la sfida INVALSI di terza media?</h2>
-                <p>90 minuti di tempo, 10 domande per ogni ambito.</p>
+                <h2>Pronto per battere il record?</h2>
+                <p>Hai 90 minuti di tempo, per le domande dei quattro ambiti. </p>
                 <div class="istruzione-gioco">
                     Rispondi correttamente al primo tentativo per ottenere punti base + bonus tempo.<br>
-                    Sblocca le categorie una dopo l'altra.
+                    Sblocca le categorie una dopo l'altra e vai avanti.
                 </div>
                 <p class="istruzione-principale">Clicca qui per iniziare!</p>
             </div>
@@ -789,7 +789,7 @@
 
         <!-- Nuovo pulsante commenti integrato nel gioco, stile 3D -->
         <button class="bottone bottone-commenti" onclick="apriCommenti()">
-            <span>💬</span> Lascia un commento
+            <span>💬</span> Lascia un commento o invia un suggerimento, lo leggerà solo l'autore.
         </button>
 
         <!-- Overlay per i commenti (inizialmente nascosto) -->
@@ -797,7 +797,7 @@
             <div class="comment-content">
                 <button class="comment-close" onclick="chiudiCommenti()">✕</button>
                 <div class="comment-section">
-                    <h2>✍️ Lascia un commento</h2>
+                    <h2>✍️ Scrivi il tuo nome e sotto il msg</h2>
                     <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
                         <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/secondaria/grazie.html">
                         <input type="hidden" name="_captcha" value="false">
@@ -806,7 +806,7 @@
                         <input type="text" name="name" placeholder="Il tuo nome" required>
                         <textarea name="message" placeholder="Il tuo commento..." rows="4" required></textarea>
 
-                        <button type="submit">Invia commento</button>
+                        <button type="submit">Invia</button>
                     </form>
                     <p class="comment-note">I commenti sono anonimi e verranno inviati via email.</p>
                     <div class="back-link">
@@ -821,7 +821,7 @@
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title">📚 Istruzioni - Terza Media</div>
+                <div class="modal-title">📚 Istruzioni </div>
                 <button class="close-modal" id="close-modal" onclick="chiudiIstruzioni()">✕</button>
             </div>
             <div class="modal-section">
