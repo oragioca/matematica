@@ -1139,7 +1139,7 @@
             timerInterval = null;
         }
 
-        function mostraMessaggio(testo, classe, speciale = false, durata = 9000) {
+        function mostraMessaggio(testo, classe, speciale = false, durata = 8000) {
             // Pulisce il timeout precedente per evitare conflitti
             if (messaggioTimeout) {
                 clearTimeout(messaggioTimeout);
@@ -1157,7 +1157,7 @@
             }, durata);
         }
 
-        function mostraMessaggioSpeciale(testo, durata = 8000) {
+        function mostraMessaggioSpeciale(testo, durata = 7000) {
             // Pulisce il timeout precedente
             if (messaggioSpecialeTimeout) {
                 clearTimeout(messaggioSpecialeTimeout);
