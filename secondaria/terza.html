@@ -93,7 +93,7 @@
             display: inline-block;
         }
         .vita.piena {
-            color: #ff4757;
+            color: #ffaa00; /* colore caldo per le faccine felici */
         }
         .vita.persa {
             color: #b0b0b0;
@@ -812,7 +812,7 @@
             </div>
             <div class="modal-section">
                 <h3>🏆 Punteggio e vite</h3>
-                <p>+2 punti base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>5 corrette di fila → +1 vita.</p>
+                <p>+2 punti base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>5 corrette di fila → +1 vita.<br>Ogni 10 punti raggiunti un premio speciale! 🏆</p>
             </div>
         </div>
     </div>
@@ -939,8 +939,9 @@
         let tentativiDomandaCorrente = 0;
         let timeoutProssima = null;
         let indiceDomandaCorrente = 0;
+        let messaggioTimeout = null; // Per gestire il timeout del messaggio
 
-        // Unico array con tutte le domande (copiate da tutte le categorie) - per brevità ho accorciato i testi, ma puoi reinserire quelli originali
+        // Unico array con tutte le domande (copiate da tutte le categorie)
         const domandeTotali = [
             // Numeri
             { tipo: "scelta_multipla", testo: "Qual è il risultato di (-5) + (-3) × 2?", opzioni: ["-16", "-11", "-4", "4"], corretta: "-11", hint: "Prima la moltiplicazione: -3×2 = -6, poi -5 + (-6) = -11." },
@@ -1051,7 +1052,7 @@
             for (let i = 0; i < 3; i++) {
                 const vita = document.createElement('span');
                 vita.className = `vita ${i < vite ? 'piena' : 'persa'}`;
-                vita.textContent = '❤️';
+                vita.textContent = i < vite ? '😊' : '😐';
                 viteContainer.appendChild(vita);
             }
         }
@@ -1104,13 +1105,21 @@
         }
 
         function mostraMessaggio(testo, classe, speciale = false, durata = 9000) {
+            // Pulisce il timeout precedente per evitare conflitti
+            if (messaggioTimeout) {
+                clearTimeout(messaggioTimeout);
+                messaggioTimeout = null;
+            }
             messaggioVerifica.textContent = testo;
             messaggioVerifica.className = 'messaggio-verifica mostra ' + classe;
             if (speciale) {
                 if (classe === 'wow') messaggioVerifica.classList.add('messaggio-wow');
                 else if (classe === 'ahi') messaggioVerifica.classList.add('messaggio-ahi');
             }
-            setTimeout(() => messaggioVerifica.classList.remove('mostra'), durata);
+            messaggioTimeout = setTimeout(() => {
+                messaggioVerifica.classList.remove('mostra');
+                messaggioTimeout = null;
+            }, durata);
         }
 
         // ==================== GESTIONE GIOCO ====================
@@ -1130,7 +1139,11 @@
         };
 
         function mostraDomanda() {
-            // Nascondi eventuale messaggio di verifica precedente
+            // Nasconde il messaggio precedente e pulisce il timeout
+            if (messaggioTimeout) {
+                clearTimeout(messaggioTimeout);
+                messaggioTimeout = null;
+            }
             messaggioVerifica.classList.remove('mostra');
 
             if (indiceDomandaCorrente >= domande.length) {
@@ -1293,15 +1306,23 @@
                     let puntiTotali = 2 + bonus;
                     punteggio += puntiTotali;
                     operazioniCorretteConsecutive++;
+                    
+                    // Controlla se si è raggiunto un traguardo di punteggio (multiplo di 10)
+                    let sogliaPunteggio = (punteggio % 10 === 0 && punteggio > 0);
+                    
                     if (operazioniCorretteConsecutive % 5 === 0 && vite < 3) {
                         vite++;
                         playWowSound();
                         mostraMessaggio('🎉 WOW! 5 risposte corrette consecutive! +1 vita!', 'wow', true);
+                    } else if (sogliaPunteggio) {
+                        playWowSound();
+                        mostraMessaggio(`🏆 CORRETTO! +${puntiTotali} punti (2 + ${bonus} bonus tempo) 🏆 HAI RAGGIUNTO ${punteggio} PUNTI! 🏆`, 'messaggio-corretto');
                     } else {
                         playSuccessSound();
+                        mostraMessaggio(`CORRETTO! +${puntiTotali} punti (2 + ${bonus} bonus tempo)`, 'messaggio-corretto');
                     }
+                    
                     indiceDomandaCorrente++;
-                    mostraMessaggio(`CORRETTO! +${puntiTotali} punti (2 + ${bonus} bonus tempo)`, 'messaggio-corretto');
                 } else {
                     operazioniCorretteConsecutive = 0;
                     indiceDomandaCorrente++;
@@ -1423,7 +1444,7 @@
             aggiornaViteUI();
             aggiornaDisplayPunteggio();
             aggiornaDisplayTempo();
-            aggrnaIndicatoreErrori(); // ERRORE: dovrebbe essere aggiornaIndicatoreErrori()
+            aggiornaIndicatoreErrori(); // Corretto l'errore di battitura
             aggiornaUI();
             inizializzaAudio();
 
