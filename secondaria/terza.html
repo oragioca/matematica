@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Math Game - Classe terza</title>
+    <title>Math Game - Tutte le domande</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* STILI IDENTICI ALLA VERSIONE PRECEDENTE - li ho mantenuti invariati */
+        /* STILI COMPLETI CON MIGLIORIE PER TESTI LUNGHI */
         * {
             margin: 0;
             padding: 0;
@@ -137,14 +137,14 @@
             transform: translateY(-1px);
             box-shadow: 0 3px 0 #0f6674;
         }
-        /* I pulsanti delle categorie sono stati rimossi */
-        .vite-errori-row {
+        /* NUOVA RIGA UNICA PER ERRORI E SERIE */
+        .stats-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 8px 0 5px;
             flex-wrap: wrap;
-            gap: 5px;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            margin: 8px 0 5px;
         }
         .errori-indicatore {
             display: flex;
@@ -156,6 +156,7 @@
             padding: 3px 8px;
             border-radius: 6px;
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
         }
         .pallino-errore {
             width: 10px;
@@ -171,15 +172,23 @@
         }
         .risposte-consecutive, .aiuti-utilizzati {
             display: none;
-            justify-content: center;
+            align-items: center;
             gap: 4px;
-            margin: 4px 0;
             font-size: 0.7rem;
             color: #555;
             background: #f8f9fa;
             padding: 3px 8px;
             border-radius: 6px;
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        @media (max-width: 400px) {
+            .stats-row {
+                justify-content: flex-start;
+            }
+            .risposte-consecutive {
+                white-space: normal;
+            }
         }
         .sezione-gioco {
             display: flex;
@@ -200,10 +209,13 @@
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
         }
         .testo-domanda {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             color: #2c3e50;
             margin-bottom: 12px;
             text-align: center;
+            word-break: break-word;
+            white-space: normal;
+            max-width: 100%;
         }
         .immagine-domanda {
             max-width: 100%;
@@ -224,26 +236,34 @@
             text-align: center;
             width: 100%;
         }
+        /* CONTENITORE OPZIONI PIÙ FLESSIBILE */
         .opzioni-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
             width: 100%;
-            max-width: 400px;
+            max-width: 100%;
             margin: 10px 0;
         }
+        /* PULSANTI OPZIONE CON TESTO PICCOLO E WRAP OTTIMALE */
         .opzione-btn {
             background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
             border: none;
             border-radius: 6px;
-            padding: 10px;
-            font-size: 1rem;
+            padding: 8px 6px;
+            font-size: 0.8rem;
             font-weight: bold;
             color: #2c3e50;
             cursor: pointer;
             box-shadow: 0 3px 0 #b0b0b0, 0 4px 8px rgba(0,0,0,0.1);
             transition: all 0.1s;
             border: 1px solid #ccc;
+            word-break: break-word;
+            white-space: normal;
+            line-height: 1.3;
+            min-height: 50px;
+            height: auto;
+            text-align: center;
         }
         .opzione-btn:hover {
             transform: translateY(-1px);
@@ -333,6 +353,8 @@
             transition: all 0.3s;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             font-size: 0.9rem;
+            text-align: center;
+            word-break: break-word;
         }
         .messaggio-verifica.mostra {
             opacity: 1;
@@ -373,6 +395,8 @@
             max-width: 120px;
             color: white;
             border: 2px solid transparent;
+            word-break: break-word;
+            white-space: normal;
         }
         .bottone:hover {
             transform: translateY(-1px);
@@ -618,6 +642,13 @@
             .bottone-commenti {
                 max-width: 100%;
             }
+            .testo-domanda {
+                font-size: 0.85rem;
+            }
+            .opzione-btn {
+                font-size: 0.7rem;
+                padding: 6px 4px;
+            }
         }
         .messaggio-wow {
             background: linear-gradient(145deg, #ff0080, #ff00ff);
@@ -655,7 +686,7 @@
 <body>
     <div class="game-container">
         <div class="header-title">
-            <h1>🧮 Math Game - Classe Terza 🧮</h1>
+            <h1>🧮 Math Game - Tutte le domande 🧮</h1>
         </div>
 
         <!-- Barra informazioni -->
@@ -676,9 +707,8 @@
             <button class="btn-exit" id="esciBtn" onclick="esciDalGioco()">🚪 Esci</button>
         </div>
 
-        <!-- Indicatori errori e serie -->
-        <div class="vite-errori-row">
-            <div></div>
+        <!-- RIGA UNICA PER ERRORI E SERIE -->
+        <div class="stats-row">
             <div class="errori-indicatore" id="errori-indicatore">
                 <span>Errori consecutivi:</span>
                 <div class="pallino-errore" id="errore-1"></div>
@@ -686,19 +716,19 @@
                 <div class="pallino-errore" id="errore-3"></div>
                 <span>(perdi 1 vita al 3°)</span>
             </div>
-        </div>
 
-        <div class="risposte-consecutive" id="risposte-consecutive">
-            <span>Serie:</span>
-            <span id="contatore-consecutive">0</span>
-            <span class="cuore-consecutivo">😊</span>
-        </div>
+            <div class="risposte-consecutive" id="risposte-consecutive">
+                <span>Serie:</span>
+                <span id="contatore-consecutive">0</span>
+                <span class="cuore-consecutivo">😊</span>
+            </div>
 
-        <div class="aiuti-utilizzati" id="aiuti-utilizzati">
-            <span>Aiuti usati:</span>
-            <span id="contatore-aiuti">0</span>
-            <span class="icona-aiuto">🧠</span>
-            <span>(-2 cad.)</span>
+            <div class="aiuti-utilizzati" id="aiuti-utilizzati">
+                <span>Aiuti usati:</span>
+                <span id="contatore-aiuti">0</span>
+                <span class="icona-aiuto">🧠</span>
+                <span>(-2 cad.)</span>
+            </div>
         </div>
 
         <!-- Area gioco -->
@@ -906,9 +936,9 @@
         const TEMPO_TOTALE = 5400;
         let tentativiDomandaCorrente = 0;
         let timeoutProssima = null;
-        let indiceDomandaCorrente = 0; // indice nell'array unico
+        let indiceDomandaCorrente = 0;
 
-        // Unico array con tutte le domande (copiate da tutte le categorie)
+        // Unico array con tutte le domande (copiate da tutte le categorie) - per brevità ho accorciato i testi, ma puoi reinserire quelli originali
         const domandeTotali = [
             // Numeri
             { tipo: "scelta_multipla", testo: "Qual è il risultato di (-5) + (-3) × 2?", opzioni: ["-16", "-11", "-4", "4"], corretta: "-11", hint: "Prima la moltiplicazione: -3×2 = -6, poi -5 + (-6) = -11." },
@@ -921,12 +951,12 @@
             { tipo: "scelta_multipla", testo: "Quale numero è il più grande?", opzioni: ["-0,5", "-1/3", "-0,2", "-1/4"], corretta: "-0,2", hint: "Sulla retta numerica, -0,2 è il più vicino a zero." },
             { tipo: "scelta_multipla", testo: "Il minimo comune multiplo di 6 e 8 è:", opzioni: ["12", "16", "24", "48"], corretta: "24", hint: "Multipli di 6: 6,12,18,24; di 8: 8,16,24." },
             { tipo: "scelta_multipla", testo: "Quale operazione dà come risultato 1?", opzioni: ["2/3 + 1/3", "5/4 - 1/4", "3/2 × 2/3", "Tutte le precedenti"], corretta: "Tutte le precedenti", hint: "Ognuna dà 1." },
-            { tipo: "scelta_multipla", immagine: "imag/8_19.jpg", testo: "Antonio e Bruno camminano...", opzioni: ["2", "3", "6", "8"], corretta: "6", hint: "Poni 0 + n·1/2 = 3 + n·1/4 → n·1/4 = 3 → n = 12 passi → punto 6." },
-            { tipo: "scelta_multipla", immagine: "imag/9_19.jpg", testo: "Osserva la retta dei numeri...", opzioni: ["1,5", "3/10", "3", "1/5"], corretta: "3/10", hint: "La lettera a è tra 0 e 1, più vicina a 0, quindi 0,3 = 3/10." },
-            { tipo: "scelta_multipla", immagine: "imag/3_17.jpg", testo: "Il quadrato ABCD scomposto...", opzioni: ["1/2 + 1/4 + 1/4 + 1/8", "1/2 + 1/4 + 1/8 + 1/8", "1/2 + 1/3 + 1/3 + 1/3", "1/2 + 1/4 + 1/4 + 1/4"], corretta: "1/2 + 1/4 + 1/8 + 1/8", hint: "Il quadrato è diviso in parti che corrispondono a queste frazioni." },
-            { tipo: "scelta_multipla", testo: "Francesco esegue le operazioni...", opzioni: ["(5*2+6):2-5", "5*2+6:2-5", "5+10+6:2-5", "5*2+6:(2-5)"], corretta: "(5*2+6):2-5", hint: "Segui l'ordine: raddoppia = 5×2, aggiungi 6, dividi per 2, sottrai 5." },
-            { tipo: "scelta_multipla", immagine: "imag/5_17.jpg", testo: "Osserva la vite e il dado...", opzioni: ["12", "18", "6", "32"], corretta: "12", hint: "120 giri : 5 giri = 24 spostamenti da 0,5 cm → 24×0,5 = 12 cm." },
-            { tipo: "scelta_multipla", immagine: "imag/16_17.jpg", testo: "Osserva la retta dei numeri...", opzioni: ["+1,5", "-1,5", "-3,75", "+1,25"], corretta: "-1,5", hint: "n è negativo, p è positivo, quindi k è negativo. Dal rapporto p/n = k." },
+            { tipo: "scelta_multipla", immagine: "imag/8_19.jpg", testo: "Antonio e Bruno camminano lungo la linea dei numeri. Antonio parte da 0 e procede di 1/2 a ogni passo. Bruno parte da 3 e procede di 1/4 a ogni passo. A quale numero si incontrano?", opzioni: ["2", "3", "6", "8"], corretta: "6", hint: "Poni 0 + n·1/2 = 3 + n·1/4 → n·1/4 = 3 → n = 12 passi → punto 6." },
+            { tipo: "scelta_multipla", immagine: "imag/9_19.jpg", testo: "Osserva la retta dei numeri. A quale numero può corrispondere la lettera a?", opzioni: ["1,5", "3/10", "3", "1/5"], corretta: "3/10", hint: "La lettera a è tra 0 e 1, più vicina a 0, quindi 0,3 = 3/10." },
+            { tipo: "scelta_multipla", immagine: "imag/3_17.jpg", testo: "Il quadrato ABCD, di lato 1, è stato scomposto come in figura. Quale espressione corrisponde alla scomposizione?", opzioni: ["1/2 + 1/4 + 1/4 + 1/8", "1/2 + 1/4 + 1/8 + 1/8", "1/2 + 1/3 + 1/3 + 1/3", "1/2 + 1/4 + 1/4 + 1/4"], corretta: "1/2 + 1/4 + 1/8 + 1/8", hint: "Il quadrato è diviso in parti che corrispondono a queste frazioni." },
+            { tipo: "scelta_multipla", testo: "Francesco esegue: 1) scrive 5; 2) raddoppia; 3) aggiunge 6; 4) divide per 2; 5) sottrae 5. Quale espressione traduce le operazioni?", opzioni: ["(5*2+6):2-5", "5*2+6:2-5", "5+10+6:2-5", "5*2+6:(2-5)"], corretta: "(5*2+6):2-5", hint: "Segui l'ordine: raddoppia = 5×2, aggiungi 6, dividi per 2, sottrai 5." },
+            { tipo: "scelta_multipla", immagine: "imag/5_17.jpg", testo: "Osserva la vite e il dado. Ogni 5 giri il dado si sposta di 0,5 cm. Il dado compie 120 giri. Quanto è lunga la vite?", opzioni: ["12", "18", "6", "32"], corretta: "12", hint: "120 giri : 5 giri = 24 spostamenti da 0,5 cm → 24×0,5 = 12 cm." },
+            { tipo: "scelta_multipla", immagine: "imag/16_17.jpg", testo: "Osserva la retta dei numeri. Se n·k = p, qual è il valore di k?", opzioni: ["+1,5", "-1,5", "-3,75", "+1,25"], corretta: "-1,5", hint: "n è negativo, p è positivo, quindi k è negativo. Dal rapporto p/n = k." },
             // Spazio
             { tipo: "scelta_multipla", testo: "L'area di un quadrato con lato di 6 cm è:", opzioni: ["12 cm²", "24 cm²", "36 cm²", "48 cm²"], corretta: "36 cm²", hint: "Area = lato × lato = 36." },
             { tipo: "scelta_multipla", testo: "In un triangolo rettangolo, i cateti sono 3 cm e 4 cm. Quanto misura l'ipotenusa?", opzioni: ["5 cm", "6 cm", "7 cm", "8 cm"], corretta: "5 cm", hint: "Teorema di Pitagora: √(3²+4²) = √25 = 5." },
@@ -938,10 +968,15 @@
             { tipo: "scelta_multipla", testo: "La somma degli angoli interni di un pentagono è:", opzioni: ["360°", "540°", "720°", "900°"], corretta: "540°", hint: "(n-2)×180° = 3×180 = 540°." },
             { tipo: "scelta_multipla", testo: "Un cerchio ha raggio 5 cm. Qual è la sua circonferenza? (π ≈ 3,14)", opzioni: ["15,7 cm", "31,4 cm", "78,5 cm", "157 cm"], corretta: "31,4 cm", hint: "C = 2πr = 2×3,14×5 = 31,4." },
             { tipo: "scelta_multipla", testo: "Quale coppia di rette è sempre parallela?", opzioni: ["Due rette perpendicolari a una stessa retta", "Due rette incidenti", "Due rette che non si incontrano", "Due rette che formano un angolo di 90°"], corretta: "Due rette perpendicolari a una stessa retta", hint: "Sono parallele tra loro." },
-            { tipo: "scelta_multipla", immagine: "imag/27_19.jpg", testo: "Nella figura le rette r ed s sono perpendicolari...", opzioni: ["320 cm²", "336 cm²", "480 cm²", "672 cm²"], corretta: "336 cm²", hint: "Calcola l'area del trapezio e sottrai l'area del triangolo." },
-            { tipo: "scelta_multipla", immagine: "imag/6_16.jpg", testo: "AC è il diametro di una circonferenza...", opzioni: ["No, perché AO e OB non sono congruenti...", "Sì, perché AO e OB sono congruenti...", "No, perché AO e OB non sono congruenti in quanto diametri...", "No, perché AO e OB in quanto raggi..."], corretta: "Sì, perché AO e OB sono congruenti in quanto raggi della circonferenza. Il triangolo AOB è dunque isoscele e gli angoli alla base sono congruenti.", hint: "AO e OB sono raggi, quindi il triangolo è isoscele." },
+            { tipo: "scelta_multipla", immagine: "imag/27_19.jpg", testo: "Nella figura le rette r ed s sono perpendicolari e l'arco ECB è una semicirconferenza di centro O. AB = 20 cm, OB = 12 cm. Area del quadrilatero ABCE?", opzioni: ["320 cm²", "336 cm²", "480 cm²", "672 cm²"], corretta: "336 cm²", hint: "Calcola l'area del trapezio e sottrai l'area del triangolo." },
+            { tipo: "scelta_multipla", immagine: "imag/6_16.jpg", testo: "AC è il diametro di una circonferenza. Nel triangolo AOB, gli angoli BÂO e OBA sono uguali?", opzioni: [
+                "Sì, perché AO e OB sono congruenti in quanto raggi della circonferenza. Il triangolo AOB è dunque isoscele e gli angoli alla base sono congruenti.",
+                "No, perché AO e OB non sono congruenti in quanto raggi della circonferenza. Il triangolo AOB è dunque scaleno.",
+                "No, perché non è possibile stabilirlo.",
+                "No, perché AO e OB non sono congruenti in quanto diametri della circonferenza."
+            ], corretta: "Sì, perché AO e OB sono congruenti in quanto raggi della circonferenza. Il triangolo AOB è dunque isoscele e gli angoli alla base sono congruenti.", hint: "AO e OB sono raggi, quindi il triangolo è isoscele." },
             { tipo: "scelta_multipla", immagine: "imag/8_16.jpg", testo: "L'area del triangolo grigio A misura 8 m². Quanto misura il perimetro del quadrato?", opzioni: ["16", "64", "48", "24"], corretta: "64", hint: "Controlla l'immagine." },
-            { tipo: "scelta_multipla", immagine: "imag/14_17.jpg", testo: "Il quadrilatero ABCD è costruito unendo i centri di 4 circonferenze...", opzioni: ["Sì, perché le diagonali sono perpendicolari", "Sì, perché le diagonali sono congruenti ai diametri", "No, perché è un rombo", "No, perché le circonferenze di centro A e C non sono tangenti"], corretta: "No, perché le circonferenze di centro A e C non sono tangenti", hint: "Per essere un quadrato, le circonferenze opposte dovrebbero essere tangenti." },
+            { tipo: "scelta_multipla", immagine: "imag/14_17.jpg", testo: "Il quadrilatero ABCD unisce i centri di 4 circonferenze congruenti. È un quadrato?", opzioni: ["Sì, perché le diagonali sono perpendicolari", "Sì, perché le diagonali sono congruenti ai diametri", "No, perché è un rombo", "No, perché le circonferenze di centro A e C non sono tangenti"], corretta: "No, perché le circonferenze di centro A e C non sono tangenti", hint: "Per essere un quadrato, le circonferenze opposte dovrebbero essere tangenti." },
             // Relazioni
             { tipo: "scelta_multipla", testo: "Se y = 2x - 3, quanto vale y quando x = 5?", opzioni: ["7", "10", "13", "5"], corretta: "7", hint: "2×5 - 3 = 10 - 3 = 7." },
             { tipo: "scelta_multipla", testo: "Quale coppia è in proporzione inversa?", opzioni: ["(2,6) e (3,4)", "(1,5) e (2,10)", "(3,2) e (6,4)", "(4,3) e (6,2)"], corretta: "(2,6) e (3,4)", hint: "Prodotto costante: 2×6=12, 3×4=12." },
@@ -953,23 +988,23 @@
             { tipo: "scelta_multipla", testo: "Il 20% di 80 è uguale a:", opzioni: ["16", "20", "40", "8"], corretta: "16", hint: "0,2×80 = 16." },
             { tipo: "scelta_multipla", testo: "Se a = 3 e b = 4, quanto vale a² + b²?", opzioni: ["7", "12", "25", "49"], corretta: "25", hint: "9+16=25." },
             { tipo: "scelta_multipla", testo: "Quale numero completa l'analogia? 4 : 8 come 6 : ?", opzioni: ["10", "12", "14", "16"], corretta: "12", hint: "4×2=8, 6×2=12." },
-            { tipo: "scelta_multipla", testo: "Per la manutenzione... un tecnico richiede un compenso fisso di 60 euro, più 40 euro per ogni ora...", opzioni: ["S=40t", "S=60t", "S=40+60t", "S=60+40t"], corretta: "S=60+40t", hint: "60 euro fissi + 40 euro per ogni ora." },
-            { tipo: "scelta_multipla", testo: "Per una ditta, il costo di ogni fotocopia è 1 centesimo... più un canone mensile fisso di 50 euro...", opzioni: ["C=50+0,01x", "C=0,01x", "C=0,01+x", "C=50·(0,01x)"], corretta: "C=50+0,01x", hint: "50 euro fissi + 0,01 euro per fotocopia." },
-            { tipo: "scelta_multipla", immagine: "imag/18_19.jpg", testo: "Nel trapezio isoscele in figura la base maggiore è doppia della minore...", opzioni: ["3B+10", "3B-10", "10·3B", "10+3B"], corretta: "3B+10", hint: "Base maggiore = 2b, lati obliqui = 5 ciascuno? Dalla figura si deduce." },
-            { tipo: "scelta_multipla", testo: "a, b e c sono tre numeri naturali. a·b = 2, b·c = 3, a·c = 6. Quale fra i seguenti valori corrisponde al prodotto a·b·c?", opzioni: ["6", "12", "18", "36"], corretta: "6", hint: "Moltiplicando le tre equazioni: (abc)² = 2×3×6 = 36 → abc = 6." },
+            { tipo: "scelta_multipla", testo: "Per la manutenzione, un tecnico richiede 60 euro fissi + 40 euro all'ora. Formula del costo S in funzione di t?", opzioni: ["S=40t", "S=60t", "S=40+60t", "S=60+40t"], corretta: "S=60+40t", hint: "60 euro fissi + 40 euro per ogni ora." },
+            { tipo: "scelta_multipla", testo: "Per una ditta, costo fotocopia 1 centesimo + canone mensile 50 euro. Formula costo mensile C in funzione di x fotocopie?", opzioni: ["C=50+0,01x", "C=0,01x", "C=0,01+x", "C=50·(0,01x)"], corretta: "C=50+0,01x", hint: "50 euro fissi + 0,01 euro per fotocopia." },
+            { tipo: "scelta_multipla", immagine: "imag/18_19.jpg", testo: "Nel trapezio isoscele in figura, la base maggiore è doppia della minore. Perimetro in funzione di b?", opzioni: ["3B+10", "3B-10", "10·3B", "10+3B"], corretta: "3B+10", hint: "Base maggiore = 2b, lati obliqui = 5 ciascuno? Dalla figura si deduce." },
+            { tipo: "scelta_multipla", testo: "a, b, c naturali: a·b = 2, b·c = 3, a·c = 6. Quanto vale a·b·c?", opzioni: ["6", "12", "18", "36"], corretta: "6", hint: "Moltiplicando: (abc)² = 2×3×6 = 36 → abc = 6." },
             // Dati
             { tipo: "scelta_multipla", testo: "La media dei numeri 5, 8, 12, 15 è:", opzioni: ["10", "11", "12", "13"], corretta: "10", hint: "(5+8+12+15)/4 = 40/4 = 10." },
             { tipo: "scelta_multipla", testo: "Qual è la mediana della serie: 3, 7, 8, 10, 12?", opzioni: ["7", "8", "9", "10"], corretta: "8", hint: "Valore centrale della serie ordinata." },
-            { tipo: "scelta_multipla", testo: "In un sacchetto ci sono 2 palline rosse, 3 verdi e 5 blu. Qual è la probabilità di estrarre una verde?", opzioni: ["3/10", "1/5", "3/5", "1/2"], corretta: "3/10", hint: "Casi favorevoli 3, totali 10." },
-            { tipo: "scelta_multipla", testo: "Il grafico a torta mostra che il 40% preferisce il calcio. Se ci sono 500 studenti, quanti preferiscono il calcio?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." },
-            { tipo: "scelta_multipla", testo: "La moda della serie: 2, 2, 3, 5, 5, 5, 7 è:", opzioni: ["2", "3", "5", "7"], corretta: "5", hint: "Il valore che compare più spesso." },
-            { tipo: "scelta_multipla", testo: "Lanciando una moneta due volte, qual è la probabilità di ottenere due teste?", opzioni: ["1/2", "1/4", "1/3", "1/8"], corretta: "1/4", hint: "Casi possibili: TT, TC, CT, CC → 1 su 4." },
-            { tipo: "scelta_multipla", testo: "In una tabella, la frequenza relativa della modalità A è 0,3 su un totale di 200. Quante sono le occorrenze di A?", opzioni: ["30", "60", "90", "120"], corretta: "60", hint: "0,3 × 200 = 60." },
-            { tipo: "scelta_multipla", testo: "Un'indagine dice che il 25% delle persone ha gli occhi azzurri. Su 240 persone, quante non hanno gli occhi azzurri?", opzioni: ["60", "120", "180", "200"], corretta: "180", hint: "Il 75% di 240 = 0,75×240 = 180." },
-            { tipo: "scelta_multipla", testo: "Quale grafico è più adatto per confrontare quantità tra diverse categorie?", opzioni: ["Istogramma", "Diagramma a linee", "Areogramma", "Diagramma a barre"], corretta: "Diagramma a barre", hint: "Le barre permettono confronti diretti." },
-            { tipo: "scelta_multipla", testo: "La probabilità che un evento impossibile si verifichi è:", opzioni: ["0", "0,5", "1", "100"], corretta: "0", hint: "Impossibile → probabilità 0." },
-            { tipo: "scelta_multipla", immagine: "imag/7_16.jpg", testo: "Quaranta alunni hanno svolto una prova di Italiano e una di Matematica...", opzioni: ["12", "60", "15", "24"], corretta: "10", hint: "Conta i casi in cui i voti di matematica sono uguali." },
-            { tipo: "scelta_multipla", immagine: "imag/13_17.jpg", testo: "La tombola... Dopo 20 estrazioni Samuele ha coperto 5 numeri...", opzioni: ["6/70", "3/70", "3/90", "6/90"], corretta: "6/70", hint: "Ci sono 70 numeri rimasti; per fare terno deve uscire uno dei 6 numeri che completano le terzine." }
+            { tipo: "scelta_multipla", testo: "In un sacchetto: 2 rosse, 3 verdi, 5 blu. Probabilità di estrarre una verde?", opzioni: ["3/10", "1/5", "3/5", "1/2"], corretta: "3/10", hint: "Casi favorevoli 3, totali 10." },
+            { tipo: "scelta_multipla", testo: "Il 40% di 500 studenti preferisce il calcio. Quanti sono?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." },
+            { tipo: "scelta_multipla", testo: "Moda della serie: 2, 2, 3, 5, 5, 5, 7", opzioni: ["2", "3", "5", "7"], corretta: "5", hint: "Il valore che compare più spesso." },
+            { tipo: "scelta_multipla", testo: "Lanciando una moneta due volte, probabilità di due teste?", opzioni: ["1/2", "1/4", "1/3", "1/8"], corretta: "1/4", hint: "Casi possibili: TT, TC, CT, CC → 1 su 4." },
+            { tipo: "scelta_multipla", testo: "Frequenza relativa 0,3 su 200. Occorrenze di A?", opzioni: ["30", "60", "90", "120"], corretta: "60", hint: "0,3 × 200 = 60." },
+            { tipo: "scelta_multipla", testo: "Il 25% ha occhi azzurri. Su 240 persone, quante NON li hanno?", opzioni: ["60", "120", "180", "200"], corretta: "180", hint: "Il 75% di 240 = 0,75×240 = 180." },
+            { tipo: "scelta_multipla", testo: "Grafico più adatto per confrontare quantità tra categorie?", opzioni: ["Istogramma", "Diagramma a linee", "Areogramma", "Diagramma a barre"], corretta: "Diagramma a barre", hint: "Le barre permettono confronti diretti." },
+            { tipo: "scelta_multipla", testo: "Probabilità evento impossibile:", opzioni: ["0", "0,5", "1", "100"], corretta: "0", hint: "Impossibile → probabilità 0." },
+            { tipo: "scelta_multipla", immagine: "imag/7_16.jpg", testo: "Quaranta alunni hanno voti in italiano e matematica. Quanti hanno gli stessi voti in matematica?", opzioni: ["12", "60", "15", "24"], corretta: "10", hint: "Conta i casi in cui i voti di matematica sono uguali." },
+            { tipo: "scelta_multipla", immagine: "imag/13_17.jpg", testo: "Tombola: dopo 20 estrazioni Samuele ha coperto 5 numeri. Probabilità di fare terno alla prossima estrazione?", opzioni: ["6/70", "3/70", "3/90", "6/90"], corretta: "6/70", hint: "70 numeri rimasti; deve uscire uno dei 6 che completano le terzine." }
         ];
 
         // Mescola le domande all'avvio
@@ -1014,7 +1049,7 @@
             for (let i = 0; i < 3; i++) {
                 const vita = document.createElement('span');
                 vita.className = `vita ${i < vite ? 'piena' : 'persa'}`;
-                vita.textContent = '😊';
+                vita.textContent = '❤️';
                 viteContainer.appendChild(vita);
             }
         }
@@ -1102,7 +1137,6 @@
             }
 
             domandaCorrente = domande[indiceDomandaCorrente];
-            rispostaCorretta = domandaCorrente.corretta;
             opzioneSelezionata = null;
             tentativiDomandaCorrente = 0;
             aiutiUtilizzatiDomandaCorrente = 0;
@@ -1275,7 +1309,6 @@
                 aggiornaUI();
 
                 document.getElementById('tastiera-container').style.display = 'none';
-                // Passa alla prossima domanda dopo 2 secondi
                 timeoutProssima = setTimeout(() => {
                     if (!gameOver) mostraDomanda();
                     timeoutProssima = null;
@@ -1302,7 +1335,6 @@
                 aggiornaViteUI();
                 aggiornaIndicatoreErrori();
                 aggiornaUI();
-                // Passa automaticamente alla prossima domanda dopo 2 secondi anche in caso di errore
                 timeoutProssima = setTimeout(() => {
                     if (!gameOver) mostraDomanda();
                     timeoutProssima = null;
