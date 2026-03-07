@@ -377,6 +377,35 @@
             border-color: #17a2b8;
             color: #0c5460;
         }
+        /* Stile per il messaggio speciale (traguardi) */
+        .messaggio-speciale {
+            background: linear-gradient(145deg, #ff0080, #ff00ff);
+            border: 3px solid #ff00ff;
+            border-radius: 12px;
+            padding: 15px 20px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #ffffff;
+            width: 95%;
+            max-width: 450px;
+            margin: 10px auto;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s ease-in-out;
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.7);
+            font-size: 1.5rem;
+            text-align: center;
+            word-break: break-word;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: rainbow 3s infinite;
+        }
+        .messaggio-speciale.mostra {
+            opacity: 1;
+            transform: scale(1);
+        }
         .controlli {
             display: none;
             justify-content: center;
@@ -748,6 +777,8 @@
 
             <div class="area-domanda" id="area-domanda"></div>
             <div class="messaggio-verifica" id="messaggio-verifica"></div>
+            <!-- Nuovo contenitore per i messaggi speciali (traguardi) -->
+            <div class="messaggio-speciale" id="messaggio-speciale"></div>
         </div>
 
         <!-- Pulsanti di controllo -->
@@ -812,7 +843,7 @@
             </div>
             <div class="modal-section">
                 <h3>🏆 Punteggio e vite</h3>
-                <p>+2 punti base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>5 corrette di fila → +1 vita.<br>Ogni 10 punti raggiunti un premio speciale! 🏆</p>
+                <p>+2 punti base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>5 corrette di fila → +1 vita.<br>Ogni 100 punti raggiunti un premio speciale! 🏆</p>
             </div>
         </div>
     </div>
@@ -920,6 +951,7 @@
             } catch (e) {}
         }
         function playWowSound() { playSound(wowSound, 0.8); }
+        function playTraguardoWowSound() { playSound(wowSound, 1.0); } // volume più alto per i traguardi
         function playAhiSound() { playSound(ahiSound, 0.6); }
         function playSuccessSound() { playSound(successSound, 0.5); }
         function playClickSound() { playSound(clickSound, 0.3); }
@@ -939,7 +971,8 @@
         let tentativiDomandaCorrente = 0;
         let timeoutProssima = null;
         let indiceDomandaCorrente = 0;
-        let messaggioTimeout = null; // Per gestire il timeout del messaggio
+        let messaggioTimeout = null; // Per gestire il timeout del messaggio di verifica
+        let messaggioSpecialeTimeout = null; // Per gestire il timeout del messaggio speciale
 
         // Unico array con tutte le domande (copiate da tutte le categorie)
         const domandeTotali = [
@@ -999,13 +1032,14 @@
             { tipo: "scelta_multipla", testo: "La media dei numeri 5, 8, 12, 15 è:", opzioni: ["10", "11", "12", "13"], corretta: "10", hint: "(5+8+12+15)/4 = 40/4 = 10." },
             { tipo: "scelta_multipla", testo: "Qual è la mediana della serie: 3, 7, 8, 10, 12?", opzioni: ["7", "8", "9", "10"], corretta: "8", hint: "Valore centrale della serie ordinata." },
             { tipo: "scelta_multipla", testo: "In un sacchetto ci sono 2 palline rosse, 3 verdi e 5 blu. Qual è la probabilità di estrarre una verde?", opzioni: ["3/10", "1/5", "3/5", "1/2"], corretta: "3/10", hint: "Casi favorevoli 3, totali 10." },
+            { tipo: "scelta_multipla", testo: "Il grafico a torta mostra che il 40% preferisce il calcio. Se ci sono 500 studenti, quanti preferiscono il calcio?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." },
             { tipo: "scelta_multipla", testo: "La moda della serie: 2, 2, 3, 5, 5, 5, 7 è:", opzioni: ["2", "3", "5", "7"], corretta: "5", hint: "Il valore che compare più spesso." },
             { tipo: "scelta_multipla", testo: "Lanciando una moneta due volte, qual è la probabilità di ottenere due teste?", opzioni: ["1/2", "1/4", "1/3", "1/8"], corretta: "1/4", hint: "Casi possibili: TT, TC, CT, CC → 1 su 4." },
             { tipo: "scelta_multipla", testo: "In una tabella, la frequenza relativa della modalità A è 0,3 su un totale di 200. Quante sono le occorrenze di A?", opzioni: ["30", "60", "90", "120"], corretta: "60", hint: "0,3 × 200 = 60." },
             { tipo: "scelta_multipla", testo: "Un'indagine dice che il 25% delle persone ha gli occhi azzurri. Su 240 persone, quante non hanno gli occhi azzurri?", opzioni: ["60", "120", "180", "200"], corretta: "180", hint: "Il 75% di 240 = 0,75×240 = 180." },
             { tipo: "scelta_multipla", testo: "Quale grafico è più adatto per confrontare quantità tra diverse categorie?", opzioni: ["Istogramma", "Diagramma a linee", "Areogramma", "Diagramma a barre"], corretta: "Diagramma a barre", hint: "Le barre permettono confronti diretti." },
             { tipo: "scelta_multipla", testo: "La probabilità che un evento impossibile si verifichi è:", opzioni: ["0", "0,5", "1", "100"], corretta: "0", hint: "Impossibile → probabilità 0." },
-            { tipo: "scelta_multipla", immagine: "imag/7_16.jpg", testo: "Quaranta alunni hanno svolto una prova di Italiano e una di Matematica. In tabella sono riportate le frequenze dei voti ottenuti in ciascuna delle due prove: ad esempio, 5 alunni hanno ottenuto come voti 8 in Italiano e 6 in Matematica. Quanti alunni hanno preso gli stessi voti in Italiano e in Matematica?", opzioni: ["12", "60", "10", "24"], corretta: "10", hint: "Conta i casi in cui i voti di matematica sono uguali. (Attenzione: la risposta 10 non è tra le opzioni, ma è quella esatta secondo il testo.)" },
+            { tipo: "scelta_multipla", immagine: "imag/7_16.jpg", testo: "Quaranta alunni hanno svolto una prova di Italiano e una di Matematica. In tabella sono riportate le frequenze dei voti ottenuti in ciascuna delle due prove: ad esempio, 5 alunni hanno ottenuto come voti 8 in Italiano e 6 in Matematica. Quanti sono gli alunni che hanno ottenuto gli stessi voti in matematica?", opzioni: ["12", "60", "15", "24"], corretta: "10", hint: "Conta i casi in cui i voti di matematica sono uguali. (Attenzione: la risposta 10 non è tra le opzioni, ma è quella esatta secondo il testo.)" },
             { tipo: "scelta_multipla", immagine: "imag/13_17.jpg", testo: "La tombola è un gioco in cui si estraggono i numeri da 1 a 90 uno alla volta. Un numero non può essere estratto più volte. Ogni giocatore ha una cartella con tre righe da cinque numeri ciascuna. I numeri di ogni cartella vengono coperti quando sono estratti. Dopo 20 estrazioni Samuele ha coperto 5 numeri nella sua cartella, come puoi vedere nella figura qui sotto. Qual è la probabilità che Samuele faccia terno (tre numeri coperti sulla stessa riga) alla successiva estrazione?", opzioni: ["6/70", "3/70", "3/90", "6/90"], corretta: "6/70", hint: "Ci sono 70 numeri rimasti; per fare terno deve uscire uno dei 6 numeri che completano le terzine." }
         ];
 
@@ -1039,6 +1073,7 @@
         const rispConsecutiveDiv = document.getElementById('risposte-consecutive');
         const aiutiDiv = document.getElementById('aiuti-utilizzati');
         const messaggioVerifica = document.getElementById('messaggio-verifica');
+        const messaggioSpeciale = document.getElementById('messaggio-speciale');
 
         // Variabili per la domanda corrente
         let domandaCorrente = null;
@@ -1121,6 +1156,20 @@
             }, durata);
         }
 
+        function mostraMessaggioSpeciale(testo, durata = 12000) {
+            // Pulisce il timeout precedente
+            if (messaggioSpecialeTimeout) {
+                clearTimeout(messaggioSpecialeTimeout);
+                messaggioSpecialeTimeout = null;
+            }
+            messaggioSpeciale.textContent = testo;
+            messaggioSpeciale.classList.add('mostra');
+            messaggioSpecialeTimeout = setTimeout(() => {
+                messaggioSpeciale.classList.remove('mostra');
+                messaggioSpecialeTimeout = null;
+            }, durata);
+        }
+
         // ==================== GESTIONE GIOCO ====================
         window.iniziaGioco = function() {
             if (giocoIniziato) return;
@@ -1144,6 +1193,13 @@
                 messaggioTimeout = null;
             }
             messaggioVerifica.classList.remove('mostra');
+
+            // Nasconde anche il messaggio speciale
+            if (messaggioSpecialeTimeout) {
+                clearTimeout(messaggioSpecialeTimeout);
+                messaggioSpecialeTimeout = null;
+            }
+            messaggioSpeciale.classList.remove('mostra');
 
             if (indiceDomandaCorrente >= domande.length) {
                 // Fine delle domande
@@ -1306,19 +1362,20 @@
                     punteggio += puntiTotali;
                     operazioniCorretteConsecutive++;
                     
-                    // Controlla se si è raggiunto un traguardo di punteggio (multiplo di 10)
-                    let sogliaPunteggio = (punteggio % 10 === 0 && punteggio > 0);
+                    // Mostra SEMPRE il messaggio di verifica standard
+                    mostraMessaggio(`CORRETTO! +${puntiTotali} punti (2 + ${bonus} bonus tempo)`, 'messaggio-corretto');
                     
+                    // Messaggio speciale per 5 risposte consecutive (se applicabile)
                     if (operazioniCorretteConsecutive % 5 === 0 && vite < 3) {
                         vite++;
                         playWowSound();
-                        mostraMessaggio('🎉 WOW! 5 risposte corrette consecutive! +1 vita!', 'wow', true);
-                    } else if (sogliaPunteggio) {
-                        playWowSound();
-                        mostraMessaggio(`🏆 CORRETTO! +${puntiTotali} punti (2 + ${bonus} bonus tempo) 🏆 HAI RAGGIUNTO ${punteggio} PUNTI! 🏆`, 'messaggio-corretto');
-                    } else {
-                        playSuccessSound();
-                        mostraMessaggio(`CORRETTO! +${puntiTotali} punti (2 + ${bonus} bonus tempo)`, 'messaggio-corretto');
+                        mostraMessaggioSpeciale('🎉 WOW! 5 risposte corrette consecutive! +1 vita! 🎉', 12000);
+                    }
+                    
+                    // Messaggio speciale per traguardo di punteggio (multiplo di 100)
+                    if (punteggio % 100 === 0 && punteggio > 0) {
+                        playTraguardoWowSound(); // audio più forte
+                        mostraMessaggioSpeciale(`🏆 COMPLIMENTI! HAI RAGGIUNTO ${punteggio} PUNTI! 🏆`, 12000);
                     }
                     
                     indiceDomandaCorrente++;
@@ -1413,6 +1470,12 @@
                 clearTimeout(timeoutProssima);
                 timeoutProssima = null;
             }
+            // Nasconde eventuali messaggi speciali
+            if (messaggioSpecialeTimeout) {
+                clearTimeout(messaggioSpecialeTimeout);
+                messaggioSpecialeTimeout = null;
+            }
+            messaggioSpeciale.classList.remove('mostra');
             playClickSound();
         };
 
@@ -1443,7 +1506,7 @@
             aggiornaViteUI();
             aggiornaDisplayPunteggio();
             aggiornaDisplayTempo();
-            aggiornaIndicatoreErrori(); // Corretto l'errore di battitura
+            aggiornaIndicatoreErrori();
             aggiornaUI();
             inizializzaAudio();
 
@@ -1456,5 +1519,4 @@
         };
     </script>
 </body>
-
 </html>
