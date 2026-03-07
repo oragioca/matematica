@@ -7,7 +7,7 @@
     <title>Math Game - Classe Terza </title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* STILI COMPLETI CON MIGLIORIE PER TESTI LUNGHI */
+        /* (stili invariati - identici al tuo) */
         * {
             margin: 0;
             padding: 0;
@@ -93,7 +93,7 @@
             display: inline-block;
         }
         .vita.piena {
-            color: #ffaa00; /* colore caldo per le faccine felici */
+            color: #ffaa00;
         }
         .vita.persa {
             color: #b0b0b0;
@@ -137,7 +137,6 @@
             transform: translateY(-1px);
             box-shadow: 0 3px 0 #0f6674;
         }
-        /* NUOVA RIGA UNICA PER ERRORI E SERIE */
         .stats-row {
             display: flex;
             flex-wrap: wrap;
@@ -208,7 +207,6 @@
             width: 100%;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
         }
-        /* TESTO DOMANDA PIÙ PICCOLO E CON MIGLIOR WRAP */
         .testo-domanda {
             font-size: 0.85rem;
             color: #2c3e50;
@@ -238,7 +236,6 @@
             text-align: center;
             width: 100%;
         }
-        /* CONTENITORE OPZIONI PIÙ FLESSIBILE */
         .opzioni-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -247,7 +244,6 @@
             max-width: 100%;
             margin: 10px 0;
         }
-        /* PULSANTI OPZIONE CON TESTO PICCOLO E WRAP OTTIMALE */
         .opzione-btn {
             background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
             border: none;
@@ -377,7 +373,6 @@
             border-color: #17a2b8;
             color: #0c5460;
         }
-        /* Stile per il messaggio speciale (traguardi) */
         .messaggio-speciale {
             background: linear-gradient(145deg, #ff0080, #ff00ff);
             border: 3px solid #ff00ff;
@@ -770,7 +765,6 @@
                 <p>Hai 90 minuti di tempo per rispondere a tutte le domande di matematica (classe terza).</p>
                 <div class="istruzione-gioco">
                     Rispondi correttamente al primo tentativo per ottenere punti base + bonus tempo.<br>
-                    Le domande sono mescolate da tutti e quattro gli ambiti.
                 </div>
                 <p class="istruzione-principale">Clicca qui per iniziare!</p>
             </div>
@@ -951,7 +945,7 @@
             } catch (e) {}
         }
         function playWowSound() { playSound(wowSound, 0.8); }
-        function playTraguardoWowSound() { playSound(wowSound, 1.0); } // volume più alto per i traguardi
+        function playTraguardoWowSound() { playSound(wowSound, 1.0); }
         function playAhiSound() { playSound(ahiSound, 0.6); }
         function playSuccessSound() { playSound(successSound, 0.5); }
         function playClickSound() { playSound(clickSound, 0.3); }
@@ -971,13 +965,12 @@
         let tentativiDomandaCorrente = 0;
         let timeoutProssima = null;
         let indiceDomandaCorrente = 0;
-        let messaggioTimeout = null; // Per gestire il timeout del messaggio di verifica
-        let messaggioSpecialeTimeout = null; // Per gestire il timeout del messaggio speciale
-        let prossimaSoglia = 100; // Per i traguardi di punteggio
+        let messaggioTimeout = null;
+        let messaggioSpecialeTimeout = null;
+        let prossimaSoglia = 100;
 
-        // Unico array con tutte le domande (copiate da tutte le categorie)
         const domandeTotali = [
-            // Numeri
+            // ... (le tue domande, invariate)
             { tipo: "scelta_multipla", testo: "Qual è il risultato di (-5) + (-3) × 2?", opzioni: ["-16", "-11", "-4", "4"], corretta: "-11", hint: "Prima la moltiplicazione: -3×2 = -6, poi -5 + (-6) = -11." },
             { tipo: "scelta_multipla", testo: "La radice quadrata di 144 è:", opzioni: ["12", "14", "16", "18"], corretta: "12", hint: "12×12 = 144." },
             { tipo: "scelta_multipla", testo: "Quale frazione è equivalente a 0,375?", opzioni: ["3/8", "5/8", "3/4", "1/3"], corretta: "3/8", hint: "0,375 = 375/1000 = 3/8." },
@@ -1040,7 +1033,7 @@
             { tipo: "scelta_multipla", testo: "Un'indagine dice che il 25% delle persone ha gli occhi azzurri. Su 240 persone, quante non hanno gli occhi azzurri?", opzioni: ["60", "120", "180", "200"], corretta: "180", hint: "Il 75% di 240 = 0,75×240 = 180." },
             { tipo: "scelta_multipla", testo: "Quale grafico è più adatto per confrontare quantità tra diverse categorie?", opzioni: ["Istogramma", "Diagramma a linee", "Areogramma", "Diagramma a barre"], corretta: "Diagramma a barre", hint: "Le barre permettono confronti diretti." },
             { tipo: "scelta_multipla", testo: "La probabilità che un evento impossibile si verifichi è:", opzioni: ["0", "0,5", "1", "100"], corretta: "0", hint: "Impossibile → probabilità 0." },
-            { tipo: "scelta_multipla", immagine: "imag/7_16.jpg", testo: "Quaranta alunni hanno svolto una prova di Italiano e una di Matematica. In tabella sono riportate le frequenze dei voti ottenuti in ciascuna delle due prove: ad esempio, 5 alunni hanno ottenuto come voti 8 in Italiano e 6 in Matematica. Quanti sono gli alunni che hanno ottenuto gli stessi voti in matematica?", opzioni: ["12", "60", "10", "24"], corretta: "10", hint: "Conta i casi in cui i voti di italiano e matematica sono uguali. (Attenzione: la risposta 10 non è tra le opzioni, ma è quella esatta secondo il testo.)" },
+            { tipo: "scelta_multipla", immagine: "imag/7_16.jpg", testo: "Quaranta alunni hanno svolto una prova di Italiano e una di Matematica. In tabella sono riportate le frequenze dei voti ottenuti in ciascuna delle due prove: ad esempio, 5 alunni hanno ottenuto come voti 8 in Italiano e 6 in Matematica. Quanti sono gli alunni che hanno ottenuto gli stessi voti in matematica?", opzioni: ["12", "60", "10", "24"], corretta: "10", hint: "Conta i casi in cui i voti di italiano e matematica sono uguali." },
             { tipo: "scelta_multipla", immagine: "imag/13_17.jpg", testo: "La tombola è un gioco in cui si estraggono i numeri da 1 a 90 uno alla volta. Un numero non può essere estratto più volte. Ogni giocatore ha una cartella con tre righe da cinque numeri ciascuna. I numeri di ogni cartella vengono coperti quando sono estratti. Dopo 20 estrazioni Samuele ha coperto 5 numeri nella sua cartella, come puoi vedere nella figura qui sotto. Qual è la probabilità che Samuele faccia terno (tre numeri coperti sulla stessa riga) alla successiva estrazione?", opzioni: ["6/70", "3/70", "3/90", "6/90"], corretta: "6/70", hint: "Ci sono 70 numeri rimasti; per fare terno deve uscire uno dei 6 numeri che completano le terzine." }
         ];
 
@@ -1140,7 +1133,6 @@
         }
 
         function mostraMessaggio(testo, classe, speciale = false, durata = 8000) {
-            // Pulisce il timeout precedente per evitare conflitti
             if (messaggioTimeout) {
                 clearTimeout(messaggioTimeout);
                 messaggioTimeout = null;
@@ -1157,8 +1149,7 @@
             }, durata);
         }
 
-        function mostraMessaggioSpeciale(testo, durata = 7000) {
-            // Pulisce il timeout precedente
+        function mostraMessaggioSpeciale(testo, durata = 5000) { // MODIFICATO: default a 5 secondi
             if (messaggioSpecialeTimeout) {
                 clearTimeout(messaggioSpecialeTimeout);
                 messaggioSpecialeTimeout = null;
@@ -1170,7 +1161,6 @@
                 messaggioSpecialeTimeout = null;
             }, durata);
             
-            // Ritarda anche la prossima domanda per far vedere il messaggio
             if (timeoutProssima) {
                 clearTimeout(timeoutProssima);
                 timeoutProssima = null;
@@ -1198,14 +1188,12 @@
         };
 
         function mostraDomanda() {
-            // Nasconde il messaggio precedente e pulisce il timeout
             if (messaggioTimeout) {
                 clearTimeout(messaggioTimeout);
                 messaggioTimeout = null;
             }
             messaggioVerifica.classList.remove('mostra');
 
-            // Nasconde anche il messaggio speciale (se ancora visibile per qualche motivo)
             if (messaggioSpecialeTimeout) {
                 clearTimeout(messaggioSpecialeTimeout);
                 messaggioSpecialeTimeout = null;
@@ -1213,7 +1201,6 @@
             messaggioSpeciale.classList.remove('mostra');
 
             if (indiceDomandaCorrente >= domande.length) {
-                // Fine delle domande
                 areaDomanda.innerHTML = '<div class="testo-domanda">🎉 HAI COMPLETATO TUTTE LE DOMANDE! 🎉<br>Complimenti!</div>';
                 bottoneVerifica.style.display = 'none';
                 document.getElementById('tastiera-container').style.display = 'none';
@@ -1368,28 +1355,24 @@
 
             if (isCorretto) {
                 if (tentativiDomandaCorrente === 0) {
-                    let bonus = Math.floor(tempoRimanente / 600); // 1 punto ogni 10 minuti (600 secondi)
-                    let puntiTotali = 1 + bonus; // Base 1 punto
+                    let bonus = Math.floor(tempoRimanente / 600);
+                    let puntiTotali = 1 + bonus;
                     punteggio += puntiTotali;
                     operazioniCorretteConsecutive++;
                     
-                    // Mostra SEMPRE il messaggio di verifica standard
                     mostraMessaggio(`CORRETTO! +${puntiTotali} punti (1 + ${bonus} bonus tempo)`, 'messaggio-corretto');
                     
-                    // Messaggio speciale per 5 risposte consecutive (se applicabile)
                     if (operazioniCorretteConsecutive % 5 === 0 && vite < 3) {
                         vite++;
                         playWowSound();
-                        mostraMessaggioSpeciale('🎉 WOW! 5 risposte corrette consecutive! +1 vita! 🎉', 12000);
+                        mostraMessaggioSpeciale('🎉 WOW! 5 risposte corrette consecutive! +1 vita! 🎉', 5000); // MODIFICATO: 5 secondi
                     }
                     
-                    // Messaggio speciale per traguardo di punteggio (ogni 100 punti)
                     if (punteggio >= prossimaSoglia) {
-                        playTraguardoWowSound(); // audio più forte
-                        mostraMessaggioSpeciale(`🏆 COMPLIMENTI! HAI RAGGIUNTO ${prossimaSoglia} PUNTI! 🏆`, 12000);
+                        playTraguardoWowSound();
+                        mostraMessaggioSpeciale(`🏆 COMPLIMENTI! HAI RAGGIUNTO ${prossimaSoglia} PUNTI! 🏆`, 5000); // MODIFICATO: 5 secondi
                         prossimaSoglia += 100;
                     } else {
-                        // Se non c'è messaggio speciale, imposta il timeout normale di 2 secondi
                         timeoutProssima = setTimeout(() => {
                             if (!gameOver) mostraDomanda();
                             timeoutProssima = null;
@@ -1473,7 +1456,7 @@
             aiutiUtilizzatiDomandaCorrente = 0;
             tempoRimanente = TEMPO_TOTALE;
             gameOver = false;
-            prossimaSoglia = 100; // Reset della soglia
+            prossimaSoglia = 100;
             mescolaDomande();
             indiceDomandaCorrente = 0;
             aggiornaViteUI();
@@ -1489,7 +1472,6 @@
                 clearTimeout(timeoutProssima);
                 timeoutProssima = null;
             }
-            // Nasconde eventuali messaggi speciali
             if (messaggioSpecialeTimeout) {
                 clearTimeout(messaggioSpecialeTimeout);
                 messaggioSpecialeTimeout = null;
