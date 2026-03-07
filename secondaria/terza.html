@@ -208,14 +208,16 @@
             width: 100%;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
         }
+        /* TESTO DOMANDA PIÙ PICCOLO E CON MIGLIOR WRAP */
         .testo-domanda {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #2c3e50;
             margin-bottom: 12px;
             text-align: center;
             word-break: break-word;
             white-space: normal;
             max-width: 100%;
+            line-height: 1.4;
         }
         .immagine-domanda {
             max-width: 100%;
@@ -643,7 +645,7 @@
                 max-width: 100%;
             }
             .testo-domanda {
-                font-size: 0.85rem;
+                font-size: 0.8rem;
             }
             .opzione-btn {
                 font-size: 0.7rem;
@@ -988,23 +990,23 @@
             { tipo: "scelta_multipla", testo: "Il 20% di 80 è uguale a:", opzioni: ["16", "20", "40", "8"], corretta: "16", hint: "0,2×80 = 16." },
             { tipo: "scelta_multipla", testo: "Se a = 3 e b = 4, quanto vale a² + b²?", opzioni: ["7", "12", "25", "49"], corretta: "25", hint: "9+16=25." },
             { tipo: "scelta_multipla", testo: "Quale numero completa l'analogia? 4 : 8 come 6 : ?", opzioni: ["10", "12", "14", "16"], corretta: "12", hint: "4×2=8, 6×2=12." },
-            { tipo: "scelta_multipla", testo: "Per la manutenzione, un tecnico richiede 60 euro fissi + 40 euro all'ora. Formula del costo S in funzione di t?", opzioni: ["S=40t", "S=60t", "S=40+60t", "S=60+40t"], corretta: "S=60+40t", hint: "60 euro fissi + 40 euro per ogni ora." },
-            { tipo: "scelta_multipla", testo: "Per una ditta, costo fotocopia 1 centesimo + canone mensile 50 euro. Formula costo mensile C in funzione di x fotocopie?", opzioni: ["C=50+0,01x", "C=0,01x", "C=0,01+x", "C=50·(0,01x)"], corretta: "C=50+0,01x", hint: "50 euro fissi + 0,01 euro per fotocopia." },
-            { tipo: "scelta_multipla", immagine: "imag/18_19.jpg", testo: "Nel trapezio isoscele in figura, la base maggiore è doppia della minore. Perimetro in funzione di b?", opzioni: ["3B+10", "3B-10", "10·3B", "10+3B"], corretta: "3B+10", hint: "Base maggiore = 2b, lati obliqui = 5 ciascuno? Dalla figura si deduce." },
-            { tipo: "scelta_multipla", testo: "a, b, c naturali: a·b = 2, b·c = 3, a·c = 6. Quanto vale a·b·c?", opzioni: ["6", "12", "18", "36"], corretta: "6", hint: "Moltiplicando: (abc)² = 2×3×6 = 36 → abc = 6." },
+            { tipo: "scelta_multipla", testo: "Per la manutenzione del sistema di riscaldamento di un condominio un tecnico richiede un compenso fisso di 60 euro, più 40 euro per ogni ora di lavoro. Quale delle seguenti formule consente di calcolare il costo complessivo S (in euro) al variare della durata t (in ore) del lavoro svolto?", opzioni: ["S=40t", "S=60t", "S=40+60t", "S=60+40t"], corretta: "S=60+40t", hint: "60 euro fissi + 40 euro per ogni ora." },
+            { tipo: "scelta_multipla", testo: "Per una ditta, il costo di ogni fotocopia è 1 centesimo di euro. La ditta, inoltre, paga un canone mensile fisso di 50 euro per il noleggio della fotocopiatrice. La formula che descrive il costo mensile C in euro in funzione del numero x di fotocopie è:", opzioni: ["C=50+0,01x", "C=0,01x", "C=0,01+x", "C=50·(0,01x)"], corretta: "C=50+0,01x", hint: "50 euro fissi + 0,01 euro per fotocopia." },
+            { tipo: "scelta_multipla", immagine: "imag/18_19.jpg", testo: "Nel trapezio isoscele in figura, la base maggiore è doppia della minore. Indica la formula che esprima il perimetro p del trapezio in funzione di b.", opzioni: ["3B+10", "3B-10", "10·3B", "10+3B"], corretta: "3B+10", hint: "Base maggiore = 2b, lati obliqui = 5 ciascuno? Dalla figura si deduce." },
+            { tipo: "scelta_multipla", testo: "a, b e c sono tre numeri naturali. a·b = 2, b·c = 3, a·c = 6. Quale fra i seguenti valori corrisponde al prodotto a·b·c?", opzioni: ["6", "12", "18", "36"], corretta: "6", hint: "Moltiplicando le tre equazioni: (abc)² = 2×3×6 = 36 → abc = 6." },
             // Dati
             { tipo: "scelta_multipla", testo: "La media dei numeri 5, 8, 12, 15 è:", opzioni: ["10", "11", "12", "13"], corretta: "10", hint: "(5+8+12+15)/4 = 40/4 = 10." },
             { tipo: "scelta_multipla", testo: "Qual è la mediana della serie: 3, 7, 8, 10, 12?", opzioni: ["7", "8", "9", "10"], corretta: "8", hint: "Valore centrale della serie ordinata." },
-            { tipo: "scelta_multipla", testo: "In un sacchetto: 2 rosse, 3 verdi, 5 blu. Probabilità di estrarre una verde?", opzioni: ["3/10", "1/5", "3/5", "1/2"], corretta: "3/10", hint: "Casi favorevoli 3, totali 10." },
-            { tipo: "scelta_multipla", testo: "Il 40% di 500 studenti preferisce il calcio. Quanti sono?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." },
-            { tipo: "scelta_multipla", testo: "Moda della serie: 2, 2, 3, 5, 5, 5, 7", opzioni: ["2", "3", "5", "7"], corretta: "5", hint: "Il valore che compare più spesso." },
-            { tipo: "scelta_multipla", testo: "Lanciando una moneta due volte, probabilità di due teste?", opzioni: ["1/2", "1/4", "1/3", "1/8"], corretta: "1/4", hint: "Casi possibili: TT, TC, CT, CC → 1 su 4." },
-            { tipo: "scelta_multipla", testo: "Frequenza relativa 0,3 su 200. Occorrenze di A?", opzioni: ["30", "60", "90", "120"], corretta: "60", hint: "0,3 × 200 = 60." },
-            { tipo: "scelta_multipla", testo: "Il 25% ha occhi azzurri. Su 240 persone, quante NON li hanno?", opzioni: ["60", "120", "180", "200"], corretta: "180", hint: "Il 75% di 240 = 0,75×240 = 180." },
-            { tipo: "scelta_multipla", testo: "Grafico più adatto per confrontare quantità tra categorie?", opzioni: ["Istogramma", "Diagramma a linee", "Areogramma", "Diagramma a barre"], corretta: "Diagramma a barre", hint: "Le barre permettono confronti diretti." },
-            { tipo: "scelta_multipla", testo: "Probabilità evento impossibile:", opzioni: ["0", "0,5", "1", "100"], corretta: "0", hint: "Impossibile → probabilità 0." },
-            { tipo: "scelta_multipla", immagine: "imag/7_16.jpg", testo: "Quaranta alunni hanno voti in italiano e matematica. Quanti hanno gli stessi voti in matematica?", opzioni: ["12", "60", "15", "24"], corretta: "10", hint: "Conta i casi in cui i voti di matematica sono uguali." },
-            { tipo: "scelta_multipla", immagine: "imag/13_17.jpg", testo: "Tombola: dopo 20 estrazioni Samuele ha coperto 5 numeri. Probabilità di fare terno alla prossima estrazione?", opzioni: ["6/70", "3/70", "3/90", "6/90"], corretta: "6/70", hint: "70 numeri rimasti; deve uscire uno dei 6 che completano le terzine." }
+            { tipo: "scelta_multipla", testo: "In un sacchetto ci sono 2 palline rosse, 3 verdi e 5 blu. Qual è la probabilità di estrarre una verde?", opzioni: ["3/10", "1/5", "3/5", "1/2"], corretta: "3/10", hint: "Casi favorevoli 3, totali 10." },
+            { tipo: "scelta_multipla", testo: "Il grafico a torta mostra che il 40% preferisce il calcio. Se ci sono 500 studenti, quanti preferiscono il calcio?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." },
+            { tipo: "scelta_multipla", testo: "La moda della serie: 2, 2, 3, 5, 5, 5, 7 è:", opzioni: ["2", "3", "5", "7"], corretta: "5", hint: "Il valore che compare più spesso." },
+            { tipo: "scelta_multipla", testo: "Lanciando una moneta due volte, qual è la probabilità di ottenere due teste?", opzioni: ["1/2", "1/4", "1/3", "1/8"], corretta: "1/4", hint: "Casi possibili: TT, TC, CT, CC → 1 su 4." },
+            { tipo: "scelta_multipla", testo: "In una tabella, la frequenza relativa della modalità A è 0,3 su un totale di 200. Quante sono le occorrenze di A?", opzioni: ["30", "60", "90", "120"], corretta: "60", hint: "0,3 × 200 = 60." },
+            { tipo: "scelta_multipla", testo: "Un'indagine dice che il 25% delle persone ha gli occhi azzurri. Su 240 persone, quante non hanno gli occhi azzurri?", opzioni: ["60", "120", "180", "200"], corretta: "180", hint: "Il 75% di 240 = 0,75×240 = 180." },
+            { tipo: "scelta_multipla", testo: "Quale grafico è più adatto per confrontare quantità tra diverse categorie?", opzioni: ["Istogramma", "Diagramma a linee", "Areogramma", "Diagramma a barre"], corretta: "Diagramma a barre", hint: "Le barre permettono confronti diretti." },
+            { tipo: "scelta_multipla", testo: "La probabilità che un evento impossibile si verifichi è:", opzioni: ["0", "0,5", "1", "100"], corretta: "0", hint: "Impossibile → probabilità 0." },
+            { tipo: "scelta_multipla", immagine: "imag/7_16.jpg", testo: "Quaranta alunni hanno svolto una prova di Italiano e una di Matematica. In tabella sono riportate le frequenze dei voti ottenuti in ciascuna delle due prove: ad esempio, 5 alunni hanno ottenuto come voti 8 in Italiano e 6 in Matematica. Quanti sono gli alunni che hanno ottenuto gli stessi voti in matematica?", opzioni: ["12", "60", "15", "24"], corretta: "10", hint: "Conta i casi in cui i voti di matematica sono uguali. (Attenzione: la risposta 10 non è tra le opzioni, ma è quella esatta secondo il testo.)" },
+            { tipo: "scelta_multipla", immagine: "imag/13_17.jpg", testo: "La tombola è un gioco in cui si estraggono i numeri da 1 a 90 uno alla volta. Un numero non può essere estratto più volte. Ogni giocatore ha una cartella con tre righe da cinque numeri ciascuna. I numeri di ogni cartella vengono coperti quando sono estratti. Dopo 20 estrazioni Samuele ha coperto 5 numeri nella sua cartella, come puoi vedere nella figura qui sotto. Qual è la probabilità che Samuele faccia terno (tre numeri coperti sulla stessa riga) alla successiva estrazione?", opzioni: ["6/70", "3/70", "3/90", "6/90"], corretta: "6/70", hint: "Ci sono 70 numeri rimasti; per fare terno deve uscire uno dei 6 numeri che completano le terzine." }
         ];
 
         // Mescola le domande all'avvio
@@ -1416,7 +1418,7 @@
 
         window.onload = function() {
             aggiornaViteUI();
-            aggiornaDisplayPunteggio();
+            aggrnaDisplayPunteggio();
             aggiornaDisplayTempo();
             aggiornaIndicatoreErrori();
             aggiornaUI();
