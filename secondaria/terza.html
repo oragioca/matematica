@@ -836,14 +836,14 @@
                 <ol class="modal-list">
                     <li>Leggi attentamente la domanda (alcune hanno immagini).</li>
                     <li>Seleziona la risposta (o scrivila) e premi "Verifica".</li>
-                    <li>Se corretto al primo tentativo guadagni 2 punti + bonus tempo (1 punto ogni 2 minuti rimasti).</li>
+                    <li>Se corretto al primo tentativo guadagni 1 punto base + bonus tempo (1 punto ogni 10 minuti rimasti).</li>
                     <li>Se non sai rispondere, premi "Non so" per saltare senza conseguenze.</li>
-                    <li>Dopo la verifica, la prossima domanda appare automaticamente dopo 2 secondi.</li>
+                    <li>Dopo la verifica, la prossima domanda appare automaticamente dopo 2 secondi (o dopo il messaggio speciale se presente).</li>
                 </ol>
             </div>
             <div class="modal-section">
                 <h3>🏆 Punteggio e vite</h3>
-                <p>+2 punti base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>5 corrette di fila → +1 vita.<br>Ogni 100 punti raggiunti un premio speciale! 🏆</p>
+                <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>5 corrette di fila → +1 vita.<br>Ogni 100 punti raggiunti un premio speciale! 🏆</p>
             </div>
         </div>
     </div>
@@ -973,6 +973,7 @@
         let indiceDomandaCorrente = 0;
         let messaggioTimeout = null; // Per gestire il timeout del messaggio di verifica
         let messaggioSpecialeTimeout = null; // Per gestire il timeout del messaggio speciale
+        let prossimaSoglia = 100; // Per i traguardi di punteggio
 
         // Unico array con tutte le domande (copiate da tutte le categorie)
         const domandeTotali = [
@@ -1168,6 +1169,16 @@
                 messaggioSpeciale.classList.remove('mostra');
                 messaggioSpecialeTimeout = null;
             }, durata);
+            
+            // Ritarda anche la prossima domanda per far vedere il messaggio
+            if (timeoutProssima) {
+                clearTimeout(timeoutProssima);
+                timeoutProssima = null;
+            }
+            timeoutProssima = setTimeout(() => {
+                if (!gameOver) mostraDomanda();
+                timeoutProssima = null;
+            }, durata);
         }
 
         // ==================== GESTIONE GIOCO ====================
@@ -1194,7 +1205,7 @@
             }
             messaggioVerifica.classList.remove('mostra');
 
-            // Nasconde anche il messaggio speciale
+            // Nasconde anche il messaggio speciale (se ancora visibile per qualche motivo)
             if (messaggioSpecialeTimeout) {
                 clearTimeout(messaggioSpecialeTimeout);
                 messaggioSpecialeTimeout = null;
@@ -1357,13 +1368,13 @@
 
             if (isCorretto) {
                 if (tentativiDomandaCorrente === 0) {
-                    let bonus = Math.floor(tempoRimanente / 120);
-                    let puntiTotali = 2 + bonus;
+                    let bonus = Math.floor(tempoRimanente / 600); // 1 punto ogni 10 minuti (600 secondi)
+                    let puntiTotali = 1 + bonus; // Base 1 punto
                     punteggio += puntiTotali;
                     operazioniCorretteConsecutive++;
                     
                     // Mostra SEMPRE il messaggio di verifica standard
-                    mostraMessaggio(`CORRETTO! +${puntiTotali} punti (2 + ${bonus} bonus tempo)`, 'messaggio-corretto');
+                    mostraMessaggio(`CORRETTO! +${puntiTotali} punti (1 + ${bonus} bonus tempo)`, 'messaggio-corretto');
                     
                     // Messaggio speciale per 5 risposte consecutive (se applicabile)
                     if (operazioniCorretteConsecutive % 5 === 0 && vite < 3) {
@@ -1372,10 +1383,17 @@
                         mostraMessaggioSpeciale('🎉 WOW! 5 risposte corrette consecutive! +1 vita! 🎉', 12000);
                     }
                     
-                    // Messaggio speciale per traguardo di punteggio (multiplo di 100)
-                    if (punteggio % 100 === 0 && punteggio > 0) {
+                    // Messaggio speciale per traguardo di punteggio (ogni 100 punti)
+                    if (punteggio >= prossimaSoglia) {
                         playTraguardoWowSound(); // audio più forte
-                        mostraMessaggioSpeciale(`🏆 COMPLIMENTI! HAI RAGGIUNTO ${punteggio} PUNTI! 🏆`, 12000);
+                        mostraMessaggioSpeciale(`🏆 COMPLIMENTI! HAI RAGGIUNTO ${prossimaSoglia} PUNTI! 🏆`, 12000);
+                        prossimaSoglia += 100;
+                    } else {
+                        // Se non c'è messaggio speciale, imposta il timeout normale di 2 secondi
+                        timeoutProssima = setTimeout(() => {
+                            if (!gameOver) mostraDomanda();
+                            timeoutProssima = null;
+                        }, 2000);
                     }
                     
                     indiceDomandaCorrente++;
@@ -1383,6 +1401,10 @@
                     operazioniCorretteConsecutive = 0;
                     indiceDomandaCorrente++;
                     mostraMessaggio('Corretto (nessun punto, hai sbagliato prima)', 'messaggio-info');
+                    timeoutProssima = setTimeout(() => {
+                        if (!gameOver) mostraDomanda();
+                        timeoutProssima = null;
+                    }, 2000);
                 }
                 erroriConsecutivi = 0;
                 aggiornaDisplayPunteggio();
@@ -1391,10 +1413,6 @@
                 aggiornaUI();
 
                 document.getElementById('tastiera-container').style.display = 'none';
-                timeoutProssima = setTimeout(() => {
-                    if (!gameOver) mostraDomanda();
-                    timeoutProssima = null;
-                }, 2000);
             } else {
                 tentativiDomandaCorrente++;
                 erroriConsecutivi++;
@@ -1455,6 +1473,7 @@
             aiutiUtilizzatiDomandaCorrente = 0;
             tempoRimanente = TEMPO_TOTALE;
             gameOver = false;
+            prossimaSoglia = 100; // Reset della soglia
             mescolaDomande();
             indiceDomandaCorrente = 0;
             aggiornaViteUI();
