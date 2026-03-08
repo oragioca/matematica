@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Math Game - Classe Terza </title>
+    <title>Math Game - Classe Terza</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* (stili invariati - identici al tuo) */
+        /* STILI COMPLETI CON MIGLIORIE PER TESTI LUNGHI */
         * {
             margin: 0;
             padding: 0;
@@ -196,16 +196,26 @@
             min-height: 200px;
             margin: 8px 0;
         }
+        /* MODIFICHE: area-domanda ora è un flex container centrato e con position relative per i messaggi assoluti */
         .area-domanda {
             display: none;
             flex-direction: column;
-            align-items: center;
+            position: relative;
             background: white;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
-            padding: 12px;
+            padding: 20px 12px;
             width: 100%;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+            min-height: 300px; /* altezza minima per dare spazio ai messaggi */
+        }
+        #contenuto-domanda {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            width: 100%;
         }
         .testo-domanda {
             font-size: 0.85rem;
@@ -332,7 +342,17 @@
             color: white;
             border-color: #c0392b;
         }
+        /* MODIFICHE: messaggi ora assoluti all'interno di area-domanda */
+        .messaggio-verifica, .messaggio-speciale {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 350px;
+            z-index: 10;
+        }
         .messaggio-verifica {
+            bottom: 10px; /* in basso */
             background: #fff3cd;
             border: 2px dashed #ffc107;
             border-radius: 6px;
@@ -343,20 +363,17 @@
             justify-content: center;
             font-weight: bold;
             color: #856404;
-            width: 90%;
-            max-width: 350px;
-            margin: 6px auto;
-            opacity: 0;
-            transform: translateY(-5px);
-            transition: all 0.3s;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             font-size: 0.9rem;
             text-align: center;
             word-break: break-word;
+            opacity: 0;
+            transform: translateX(-50%) translateY(-5px);
+            transition: all 0.3s;
         }
         .messaggio-verifica.mostra {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0);
         }
         .messaggio-corretto {
             background: #d4edda;
@@ -374,6 +391,7 @@
             color: #0c5460;
         }
         .messaggio-speciale {
+            bottom: 70px; /* sopra il messaggio di verifica */
             background: linear-gradient(145deg, #ff0080, #ff00ff);
             border: 3px solid #ff00ff;
             border-radius: 12px;
@@ -384,22 +402,19 @@
             justify-content: center;
             font-weight: bold;
             color: #ffffff;
-            width: 95%;
-            max-width: 450px;
-            margin: 10px auto;
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.5s ease-in-out;
             box-shadow: 0 0 25px rgba(255, 0, 255, 0.7);
             font-size: 1.5rem;
             text-align: center;
             word-break: break-word;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             animation: rainbow 3s infinite;
+            opacity: 0;
+            transform: translateX(-50%) scale(0.9);
+            transition: all 0.5s ease-in-out;
         }
         .messaggio-speciale.mostra {
             opacity: 1;
-            transform: scale(1);
+            transform: translateX(-50%) scale(1);
         }
         .controlli {
             display: none;
@@ -769,10 +784,13 @@
                 <p class="istruzione-principale">Clicca qui per iniziare!</p>
             </div>
 
-            <div class="area-domanda" id="area-domanda"></div>
-            <div class="messaggio-verifica" id="messaggio-verifica"></div>
-            <!-- Nuovo contenitore per i messaggi speciali (traguardi) -->
-            <div class="messaggio-speciale" id="messaggio-speciale"></div>
+            <div class="area-domanda" id="area-domanda">
+                <!-- Contenitore per la domanda (immagini, testo, opzioni) -->
+                <div id="contenuto-domanda"></div>
+                <!-- Messaggi di feedback (rimangono sempre presenti) -->
+                <div class="messaggio-verifica" id="messaggio-verifica"></div>
+                <div class="messaggio-speciale" id="messaggio-speciale"></div>
+            </div>
         </div>
 
         <!-- Pulsanti di controllo -->
@@ -970,7 +988,7 @@
         let prossimaSoglia = 100;
 
         const domandeTotali = [
-            // ... (le tue domande, invariate)
+            // ... (le tue domande, identiche a prima)
             { tipo: "scelta_multipla", testo: "Qual è il risultato di (-5) + (-3) × 2?", opzioni: ["-16", "-11", "-4", "4"], corretta: "-11", hint: "Prima la moltiplicazione: -3×2 = -6, poi -5 + (-6) = -11." },
             { tipo: "scelta_multipla", testo: "La radice quadrata di 144 è:", opzioni: ["12", "14", "16", "18"], corretta: "12", hint: "12×12 = 144." },
             { tipo: "scelta_multipla", testo: "Quale frazione è equivalente a 0,375?", opzioni: ["3/8", "5/8", "3/4", "1/3"], corretta: "3/8", hint: "0,375 = 375/1000 = 3/8." },
@@ -1026,7 +1044,7 @@
             { tipo: "scelta_multipla", testo: "La media dei numeri 5, 8, 12, 15 è:", opzioni: ["10", "11", "12", "13"], corretta: "10", hint: "(5+8+12+15)/4 = 40/4 = 10." },
             { tipo: "scelta_multipla", testo: "Qual è la mediana della serie: 3, 7, 8, 10, 12?", opzioni: ["7", "8", "9", "10"], corretta: "8", hint: "Valore centrale della serie ordinata." },
             { tipo: "scelta_multipla", testo: "In un sacchetto ci sono 2 palline rosse, 3 verdi e 5 blu. Qual è la probabilità di estrarre una verde?", opzioni: ["3/10", "1/5", "3/5", "1/2"], corretta: "3/10", hint: "Casi favorevoli 3, totali 10." },
-            { tipo: "scelta_multipla", testo: "Il grafico a torta mostra che il 40% preferisce il calcio. Se ci sono 500 studenti, quanti preferiscono il calcio?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." },
+            { tipo: "scelta_multipla", testo: "In un grafico a torta, che rappresenta le preferenze di gioco di 500 studenti, si vede che il 40% preferisce il calcio. Quanti sono in numero gli studenti che preferiscono il calcio?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." }
             { tipo: "scelta_multipla", testo: "La moda della serie: 2, 2, 3, 5, 5, 5, 7 è:", opzioni: ["2", "3", "5", "7"], corretta: "5", hint: "Il valore che compare più spesso." },
             { tipo: "scelta_multipla", testo: "Lanciando una moneta due volte, qual è la probabilità di ottenere due teste?", opzioni: ["1/2", "1/4", "1/3", "1/8"], corretta: "1/4", hint: "Casi possibili: TT, TC, CT, CC → 1 su 4." },
             { tipo: "scelta_multipla", testo: "In una tabella, la frequenza relativa della modalità A è 0,3 su un totale di 200. Quante sono le occorrenze di A?", opzioni: ["30", "60", "90", "120"], corretta: "60", hint: "0,3 × 200 = 60." },
@@ -1054,6 +1072,7 @@
         const tempoDisplay = document.getElementById('tempo-display');
         const messaggioAvvio = document.getElementById('messaggio-avvio');
         const areaDomanda = document.getElementById('area-domanda');
+        const contenutoDomanda = document.getElementById('contenuto-domanda'); // nuovo riferimento
         const controlliGioco = document.getElementById('controlli-gioco');
         const bottoneVerifica = document.getElementById('bottone-verifica');
         const bottoneAiuto = document.getElementById('bottone-aiuto');
@@ -1066,8 +1085,8 @@
         const contatoreAiuti = document.getElementById('contatore-aiuti');
         const rispConsecutiveDiv = document.getElementById('risposte-consecutive');
         const aiutiDiv = document.getElementById('aiuti-utilizzati');
-        const messaggioVerifica = document.getElementById('messaggio-verifica');
-        const messaggioSpeciale = document.getElementById('messaggio-speciale');
+        const messaggioVerifica = document.getElementById('messaggio-verifica'); // costante, non viene riassegnata
+        const messaggioSpeciale = document.getElementById('messaggio-speciale'); // costante
 
         // Variabili per la domanda corrente
         let domandaCorrente = null;
@@ -1149,7 +1168,7 @@
             }, durata);
         }
 
-        function mostraMessaggioSpeciale(testo, durata = 5000) { // MODIFICATO: default a 5 secondi
+        function mostraMessaggioSpeciale(testo, durata = 5000) {
             if (messaggioSpecialeTimeout) {
                 clearTimeout(messaggioSpecialeTimeout);
                 messaggioSpecialeTimeout = null;
@@ -1201,7 +1220,7 @@
             messaggioSpeciale.classList.remove('mostra');
 
             if (indiceDomandaCorrente >= domande.length) {
-                areaDomanda.innerHTML = '<div class="testo-domanda">🎉 HAI COMPLETATO TUTTE LE DOMANDE! 🎉<br>Complimenti!</div>';
+                contenutoDomanda.innerHTML = '<div class="testo-domanda">🎉 HAI COMPLETATO TUTTE LE DOMANDE! 🎉<br>Complimenti!</div>';
                 bottoneVerifica.style.display = 'none';
                 document.getElementById('tastiera-container').style.display = 'none';
                 return;
@@ -1227,7 +1246,7 @@
                             <input class="casella-risposta" type="text" id="campo-risposta" placeholder="Scrivi la risposta" inputmode="numeric">
                         </div>
                     </div>`;
-                areaDomanda.innerHTML = html;
+                contenutoDomanda.innerHTML = html;
                 creaTastieraNumerica();
                 document.getElementById('campo-risposta').addEventListener('input', function(e) {
                     rispostaApertaInput = e.target.value;
@@ -1239,7 +1258,7 @@
                     opzioniHtml += `<button class="opzione-btn" onclick="selezionaOpzione('${op.replace(/'/g, "\\'")}')">${op}</button>`;
                 });
                 html += `<div class="opzioni-container">${opzioniHtml}</div>`;
-                areaDomanda.innerHTML = html;
+                contenutoDomanda.innerHTML = html;
             }
 
             bottoneVerifica.disabled = false;
@@ -1365,12 +1384,12 @@
                     if (operazioniCorretteConsecutive % 5 === 0 && vite < 3) {
                         vite++;
                         playWowSound();
-                        mostraMessaggioSpeciale('🎉 WOW! 5 risposte corrette consecutive! +1 vita! 🎉', 5000); // MODIFICATO: 5 secondi
+                        mostraMessaggioSpeciale('🎉 WOW! 5 risposte corrette consecutive! +1 vita! 🎉', 5000);
                     }
                     
                     if (punteggio >= prossimaSoglia) {
                         playTraguardoWowSound();
-                        mostraMessaggioSpeciale(`🏆 COMPLIMENTI! HAI RAGGIUNTO ${prossimaSoglia} PUNTI! 🏆`, 5000); // MODIFICATO: 5 secondi
+                        mostraMessaggioSpeciale(`🏆 COMPLIMENTI! HAI RAGGIUNTO ${prossimaSoglia} PUNTI! 🏆`, 5000);
                         prossimaSoglia += 100;
                     } else {
                         timeoutProssima = setTimeout(() => {
