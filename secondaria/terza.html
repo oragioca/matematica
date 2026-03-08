@@ -7,7 +7,7 @@
     <title>Math Game - Classe Terza</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* STILI COMPLETI CON MIGLIORIE PER TESTI LUNGHI */
+        /* Stili invariati (come da codice precedente) */
         * {
             margin: 0;
             padding: 0;
@@ -196,7 +196,6 @@
             min-height: 200px;
             margin: 8px 0;
         }
-        /* MODIFICHE: area-domanda ora è un flex container centrato e con position relative per i messaggi assoluti */
         .area-domanda {
             display: none;
             flex-direction: column;
@@ -207,7 +206,7 @@
             padding: 20px 12px;
             width: 100%;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
-            min-height: 300px; /* altezza minima per dare spazio ai messaggi */
+            min-height: 300px;
         }
         #contenuto-domanda {
             display: flex;
@@ -342,7 +341,6 @@
             color: white;
             border-color: #c0392b;
         }
-        /* MODIFICHE: messaggi ora assoluti all'interno di area-domanda */
         .messaggio-verifica, .messaggio-speciale {
             position: absolute;
             left: 50%;
@@ -352,7 +350,7 @@
             z-index: 10;
         }
         .messaggio-verifica {
-            bottom: 10px; /* in basso */
+            bottom: 10px;
             background: #fff3cd;
             border: 2px dashed #ffc107;
             border-radius: 6px;
@@ -391,7 +389,7 @@
             color: #0c5460;
         }
         .messaggio-speciale {
-            bottom: 70px; /* sopra il messaggio di verifica */
+            bottom: 70px;
             background: linear-gradient(145deg, #ff0080, #ff00ff);
             border: 3px solid #ff00ff;
             border-radius: 12px;
@@ -871,7 +869,10 @@
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 creaSuoni();
                 audioInizializzato = true;
-            } catch (e) { console.log("Audio non supportato:", e); }
+                console.log("Audio inizializzato correttamente");
+            } catch (e) { 
+                console.log("Audio non supportato:", e); 
+            }
         }
 
         function creaSuoni() {
@@ -987,8 +988,9 @@
         let messaggioSpecialeTimeout = null;
         let prossimaSoglia = 100;
 
+        // ==================== DOMANDE ====================
         const domandeTotali = [
-            // ... (le tue domande, identiche a prima)
+            // Numeri
             { tipo: "scelta_multipla", testo: "Qual è il risultato di (-5) + (-3) × 2?", opzioni: ["-16", "-11", "-4", "4"], corretta: "-11", hint: "Prima la moltiplicazione: -3×2 = -6, poi -5 + (-6) = -11." },
             { tipo: "scelta_multipla", testo: "La radice quadrata di 144 è:", opzioni: ["12", "14", "16", "18"], corretta: "12", hint: "12×12 = 144." },
             { tipo: "scelta_multipla", testo: "Quale frazione è equivalente a 0,375?", opzioni: ["3/8", "5/8", "3/4", "1/3"], corretta: "3/8", hint: "0,375 = 375/1000 = 3/8." },
@@ -1044,7 +1046,7 @@
             { tipo: "scelta_multipla", testo: "La media dei numeri 5, 8, 12, 15 è:", opzioni: ["10", "11", "12", "13"], corretta: "10", hint: "(5+8+12+15)/4 = 40/4 = 10." },
             { tipo: "scelta_multipla", testo: "Qual è la mediana della serie: 3, 7, 8, 10, 12?", opzioni: ["7", "8", "9", "10"], corretta: "8", hint: "Valore centrale della serie ordinata." },
             { tipo: "scelta_multipla", testo: "In un sacchetto ci sono 2 palline rosse, 3 verdi e 5 blu. Qual è la probabilità di estrarre una verde?", opzioni: ["3/10", "1/5", "3/5", "1/2"], corretta: "3/10", hint: "Casi favorevoli 3, totali 10." },
-            { tipo: "scelta_multipla", testo: "In un grafico a torta, che rappresenta le preferenze di gioco di 500 studenti, si vede che il 40% preferisce il calcio. Quanti sono in numero gli studenti che preferiscono il calcio?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." }
+            { tipo: "scelta_multipla", testo: "Un grafico a torta che riporta le preferenze di sport di 500 alunni mostra che il 40% preferisce il calcio. Quanti sono in numero gli alunni che preferiscono il calcio?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." },
             { tipo: "scelta_multipla", testo: "La moda della serie: 2, 2, 3, 5, 5, 5, 7 è:", opzioni: ["2", "3", "5", "7"], corretta: "5", hint: "Il valore che compare più spesso." },
             { tipo: "scelta_multipla", testo: "Lanciando una moneta due volte, qual è la probabilità di ottenere due teste?", opzioni: ["1/2", "1/4", "1/3", "1/8"], corretta: "1/4", hint: "Casi possibili: TT, TC, CT, CC → 1 su 4." },
             { tipo: "scelta_multipla", testo: "In una tabella, la frequenza relativa della modalità A è 0,3 su un totale di 200. Quante sono le occorrenze di A?", opzioni: ["30", "60", "90", "120"], corretta: "60", hint: "0,3 × 200 = 60." },
@@ -1066,13 +1068,13 @@
             }
         }
 
-        // Riferimenti DOM
+        // ==================== RIFERIMENTI DOM ====================
         const punteggioDisplay = document.getElementById('punteggio-display');
         const viteContainer = document.getElementById('vite-container');
         const tempoDisplay = document.getElementById('tempo-display');
         const messaggioAvvio = document.getElementById('messaggio-avvio');
         const areaDomanda = document.getElementById('area-domanda');
-        const contenutoDomanda = document.getElementById('contenuto-domanda'); // nuovo riferimento
+        const contenutoDomanda = document.getElementById('contenuto-domanda');
         const controlliGioco = document.getElementById('controlli-gioco');
         const bottoneVerifica = document.getElementById('bottone-verifica');
         const bottoneAiuto = document.getElementById('bottone-aiuto');
@@ -1085,8 +1087,14 @@
         const contatoreAiuti = document.getElementById('contatore-aiuti');
         const rispConsecutiveDiv = document.getElementById('risposte-consecutive');
         const aiutiDiv = document.getElementById('aiuti-utilizzati');
-        const messaggioVerifica = document.getElementById('messaggio-verifica'); // costante, non viene riassegnata
-        const messaggioSpeciale = document.getElementById('messaggio-speciale'); // costante
+        const messaggioVerifica = document.getElementById('messaggio-verifica');
+        const messaggioSpeciale = document.getElementById('messaggio-speciale');
+
+        // Controllo che tutti gli elementi essenziali esistano
+        if (!punteggioDisplay || !viteContainer || !tempoDisplay || !messaggioAvvio || !areaDomanda || !contenutoDomanda || !controlliGioco || !bottoneVerifica || !bottoneAiuto || !bottoneNuova || !bottoneSalta || !errore1 || !errore2 || !errore3 || !contatoreConsecutive || !contatoreAiuti || !rispConsecutiveDiv || !aiutiDiv || !messaggioVerifica || !messaggioSpeciale) {
+            console.error("Errore: alcuni elementi DOM non sono stati trovati!");
+            alert("Errore nel caricamento della pagina. Verifica la console per dettagli.");
+        }
 
         // Variabili per la domanda corrente
         let domandaCorrente = null;
@@ -1095,6 +1103,7 @@
 
         // ==================== FUNZIONI UI ====================
         function aggiornaViteUI() {
+            if (!viteContainer) return;
             viteContainer.innerHTML = '';
             for (let i = 0; i < 3; i++) {
                 const vita = document.createElement('span');
@@ -1105,10 +1114,11 @@
         }
 
         function aggiornaDisplayPunteggio() {
-            punteggioDisplay.textContent = punteggio;
+            if (punteggioDisplay) punteggioDisplay.textContent = punteggio;
         }
 
         function aggiornaDisplayTempo() {
+            if (!tempoDisplay) return;
             const minuti = Math.floor(tempoRimanente / 60);
             const secondi = tempoRimanente % 60;
             tempoDisplay.textContent = `${minuti.toString().padStart(2,'0')}:${secondi.toString().padStart(2,'0')}`;
@@ -1118,16 +1128,17 @@
         }
 
         function aggiornaIndicatoreErrori() {
+            if (!errore1 || !errore2 || !errore3) return;
             errore1.className = 'pallino-errore' + (erroriConsecutivi >= 1 ? ' attivo' : '');
             errore2.className = 'pallino-errore' + (erroriConsecutivi >= 2 ? ' attivo' : '');
             errore3.className = 'pallino-errore' + (erroriConsecutivi >= 3 ? ' attivo' : '');
         }
 
         function aggiornaUI() {
-            contatoreConsecutive.textContent = operazioniCorretteConsecutive;
-            contatoreAiuti.textContent = aiutiUtilizzatiDomandaCorrente;
-            rispConsecutiveDiv.style.display = operazioniCorretteConsecutive > 0 ? 'flex' : 'none';
-            aiutiDiv.style.display = aiutiUtilizzatiDomandaCorrente > 0 ? 'flex' : 'none';
+            if (contatoreConsecutive) contatoreConsecutive.textContent = operazioniCorretteConsecutive;
+            if (contatoreAiuti) contatoreAiuti.textContent = aiutiUtilizzatiDomandaCorrente;
+            if (rispConsecutiveDiv) rispConsecutiveDiv.style.display = operazioniCorretteConsecutive > 0 ? 'flex' : 'none';
+            if (aiutiDiv) aiutiDiv.style.display = aiutiUtilizzatiDomandaCorrente > 0 ? 'flex' : 'none';
         }
 
         function avviaTimer() {
@@ -1152,6 +1163,7 @@
         }
 
         function mostraMessaggio(testo, classe, speciale = false, durata = 8000) {
+            if (!messaggioVerifica) return;
             if (messaggioTimeout) {
                 clearTimeout(messaggioTimeout);
                 messaggioTimeout = null;
@@ -1169,6 +1181,7 @@
         }
 
         function mostraMessaggioSpeciale(testo, durata = 5000) {
+            if (!messaggioSpeciale) return;
             if (messaggioSpecialeTimeout) {
                 clearTimeout(messaggioSpecialeTimeout);
                 messaggioSpecialeTimeout = null;
@@ -1192,12 +1205,13 @@
 
         // ==================== GESTIONE GIOCO ====================
         window.iniziaGioco = function() {
+            console.log("iniziaGioco chiamata");
             if (giocoIniziato) return;
             giocoIniziato = true;
             playStartSound();
-            messaggioAvvio.style.display = 'none';
-            areaDomanda.style.display = 'flex';
-            controlliGioco.style.display = 'flex';
+            if (messaggioAvvio) messaggioAvvio.style.display = 'none';
+            if (areaDomanda) areaDomanda.style.display = 'flex';
+            if (controlliGioco) controlliGioco.style.display = 'flex';
             tempoRimanente = TEMPO_TOTALE;
             aggiornaDisplayTempo();
             avviaTimer();
@@ -1207,21 +1221,22 @@
         };
 
         function mostraDomanda() {
+            console.log("mostraDomanda, indice:", indiceDomandaCorrente);
             if (messaggioTimeout) {
                 clearTimeout(messaggioTimeout);
                 messaggioTimeout = null;
             }
-            messaggioVerifica.classList.remove('mostra');
+            if (messaggioVerifica) messaggioVerifica.classList.remove('mostra');
 
             if (messaggioSpecialeTimeout) {
                 clearTimeout(messaggioSpecialeTimeout);
                 messaggioSpecialeTimeout = null;
             }
-            messaggioSpeciale.classList.remove('mostra');
+            if (messaggioSpeciale) messaggioSpeciale.classList.remove('mostra');
 
             if (indiceDomandaCorrente >= domande.length) {
-                contenutoDomanda.innerHTML = '<div class="testo-domanda">🎉 HAI COMPLETATO TUTTE LE DOMANDE! 🎉<br>Complimenti!</div>';
-                bottoneVerifica.style.display = 'none';
+                if (contenutoDomanda) contenutoDomanda.innerHTML = '<div class="testo-domanda">🎉 HAI COMPLETATO TUTTE LE DOMANDE! 🎉<br>Complimenti!</div>';
+                if (bottoneVerifica) bottoneVerifica.style.display = 'none';
                 document.getElementById('tastiera-container').style.display = 'none';
                 return;
             }
@@ -1231,12 +1246,12 @@
             tentativiDomandaCorrente = 0;
             aiutiUtilizzatiDomandaCorrente = 0;
             rispostaApertaInput = '';
-            bottoneAiuto.disabled = false;
+            if (bottoneAiuto) bottoneAiuto.disabled = false;
             aggiornaUI();
 
             let html = '';
             if (domandaCorrente.immagine) {
-                html += `<img src="${domandaCorrente.immagine}" class="immagine-domanda" alt="Immagine della domanda">`;
+                html += `<img src="${domandaCorrente.immagine}" class="immagine-domanda" alt="Immagine della domanda" onerror="this.style.display='none'">`;
             }
             html += `<div class="testo-domanda">${domandaCorrente.testo}</div>`;
 
@@ -1246,11 +1261,14 @@
                             <input class="casella-risposta" type="text" id="campo-risposta" placeholder="Scrivi la risposta" inputmode="numeric">
                         </div>
                     </div>`;
-                contenutoDomanda.innerHTML = html;
+                if (contenutoDomanda) contenutoDomanda.innerHTML = html;
                 creaTastieraNumerica();
-                document.getElementById('campo-risposta').addEventListener('input', function(e) {
-                    rispostaApertaInput = e.target.value;
-                });
+                const campo = document.getElementById('campo-risposta');
+                if (campo) {
+                    campo.addEventListener('input', function(e) {
+                        rispostaApertaInput = e.target.value;
+                    });
+                }
             } else {
                 const opzioniMescolate = mescolaArray(domandaCorrente.opzioni);
                 let opzioniHtml = '';
@@ -1258,11 +1276,13 @@
                     opzioniHtml += `<button class="opzione-btn" onclick="selezionaOpzione('${op.replace(/'/g, "\\'")}')">${op}</button>`;
                 });
                 html += `<div class="opzioni-container">${opzioniHtml}</div>`;
-                contenutoDomanda.innerHTML = html;
+                if (contenutoDomanda) contenutoDomanda.innerHTML = html;
             }
 
-            bottoneVerifica.disabled = false;
-            bottoneVerifica.style.display = 'inline-block';
+            if (bottoneVerifica) {
+                bottoneVerifica.disabled = false;
+                bottoneVerifica.style.display = 'inline-block';
+            }
         }
 
         function mescolaArray(array) {
@@ -1277,6 +1297,7 @@
         function creaTastieraNumerica() {
             const tastieraContainer = document.getElementById('tastiera-container');
             const tastieraNumerica = document.getElementById('tastiera-numerica');
+            if (!tastieraContainer || !tastieraNumerica) return;
             tastieraContainer.style.display = 'block';
             tastieraNumerica.innerHTML = '';
 
@@ -1288,8 +1309,10 @@
                 btn.onclick = () => {
                     playClickSound();
                     const campo = document.getElementById('campo-risposta');
-                    campo.value += n;
-                    rispostaApertaInput = campo.value;
+                    if (campo) {
+                        campo.value += n;
+                        rispostaApertaInput = campo.value;
+                    }
                 };
                 tastieraNumerica.appendChild(btn);
             });
@@ -1300,8 +1323,10 @@
             btn0.onclick = () => {
                 playClickSound();
                 const campo = document.getElementById('campo-risposta');
-                campo.value += '0';
-                rispostaApertaInput = campo.value;
+                if (campo) {
+                    campo.value += '0';
+                    rispostaApertaInput = campo.value;
+                }
             };
             tastieraNumerica.appendChild(btn0);
 
@@ -1311,8 +1336,10 @@
             btnComma.onclick = () => {
                 playClickSound();
                 const campo = document.getElementById('campo-risposta');
-                campo.value += ',';
-                rispostaApertaInput = campo.value;
+                if (campo) {
+                    campo.value += ',';
+                    rispostaApertaInput = campo.value;
+                }
             };
             tastieraNumerica.appendChild(btnComma);
 
@@ -1322,8 +1349,10 @@
             btnCanc.onclick = () => {
                 playClickSound();
                 const campo = document.getElementById('campo-risposta');
-                campo.value = campo.value.slice(0, -1);
-                rispostaApertaInput = campo.value;
+                if (campo) {
+                    campo.value = campo.value.slice(0, -1);
+                    rispostaApertaInput = campo.value;
+                }
             };
             tastieraNumerica.appendChild(btnCanc);
         }
@@ -1429,7 +1458,7 @@
                         gameOver = true;
                         fermaTimer();
                         mostraMessaggio('GAME OVER!', 'messaggio-errato');
-                        bottoneVerifica.style.display = 'none';
+                        if (bottoneVerifica) bottoneVerifica.style.display = 'none';
                     } else {
                         mostraMessaggio('Hai perso una vita!', 'messaggio-errato');
                     }
@@ -1452,7 +1481,7 @@
                 aggiornaDisplayPunteggio();
                 aggiornaUI();
                 mostraMessaggio('💡 SUGGERIMENTO: ' + domandaCorrente.hint, 'messaggio-info');
-                bottoneAiuto.disabled = true;
+                if (bottoneAiuto) bottoneAiuto.disabled = true;
                 playClickSound();
             }
         };
@@ -1486,7 +1515,7 @@
             if (giocoIniziato) {
                 mostraDomanda();
             }
-            bottoneAiuto.disabled = false;
+            if (bottoneAiuto) bottoneAiuto.disabled = false;
             if (timeoutProssima) {
                 clearTimeout(timeoutProssima);
                 timeoutProssima = null;
@@ -1495,7 +1524,7 @@
                 clearTimeout(messaggioSpecialeTimeout);
                 messaggioSpecialeTimeout = null;
             }
-            messaggioSpeciale.classList.remove('mostra');
+            if (messaggioSpeciale) messaggioSpeciale.classList.remove('mostra');
             playClickSound();
         };
 
@@ -1523,12 +1552,18 @@
         };
 
         window.onload = function() {
-            aggiornaViteUI();
-            aggiornaDisplayPunteggio();
-            aggiornaDisplayTempo();
-            aggiornaIndicatoreErrori();
-            aggiornaUI();
-            inizializzaAudio();
+            console.log("Pagina caricata, inizializzo...");
+            try {
+                aggiornaViteUI();
+                aggiornaDisplayPunteggio();
+                aggiornaDisplayTempo();
+                aggiornaIndicatoreErrori();
+                aggiornaUI();
+                inizializzaAudio();
+            } catch (e) {
+                console.error("Errore durante l'inizializzazione:", e);
+                alert("Errore all'avvio: " + e.message);
+            }
 
             document.getElementById('modal-overlay').addEventListener('click', (e) => {
                 if (e.target === e.currentTarget) chiudiIstruzioni();
