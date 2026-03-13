@@ -481,7 +481,7 @@
     <div class="game-container">
         <!-- HEADER CON TITOLO -->
         <div class="game-header">
-            <h1> Math Game 🧮 Classe Terza </h1>
+            <h1>🧮 Math Game - Classe Terza 🧮</h1>
         </div>
 
         <!-- Barra informazioni (centrata e simmetrica) -->
@@ -611,8 +611,8 @@
                 </ol>
             </div>
             <div class="modal-section">
-                <h3>🏆 Punteggio e vite</h3>
-                <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>5 corrette di fila → +1 vita.<br>Ogni 100 punti raggiunti un premio speciale! 🏆</p>
+                <h3>Punteggio e vite</h3>
+                <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>Se rispondi ad una SERIE di 5 risposte corrette di fila ti aggiudichi 1 vita, utile per recuperare le vite perdute.<br>Ogni 100 punti raggiunti un premio speciale! 🏆 </p>
             </div>
         </div>
     </div>
@@ -740,7 +740,7 @@
             { tipo: "scelta_multipla", testo: "La media dei numeri 5, 8, 12, 15 è:", opzioni: ["10", "11", "12", "13"], corretta: "10", hint: "(5+8+12+15)/4 = 40/4 = 10." },
             { tipo: "scelta_multipla", testo: "Qual è la mediana della serie: 3, 7, 8, 10, 12?", opzioni: ["7", "8", "9", "10"], corretta: "8", hint: "Valore centrale della serie ordinata." },
             { tipo: "scelta_multipla", testo: "In un sacchetto ci sono 2 palline rosse, 3 verdi e 5 blu. Qual è la probabilità di estrarre una verde?", opzioni: ["3/10", "1/5", "3/5", "1/2"], corretta: "3/10", hint: "Casi favorevoli 3, totali 10." },
-            { tipo: "scelta_multipla", testo: "Il grafico a torta mostra che il 40% preferisce il calcio. Se ci sono 500 studenti, quanti preferiscono il calcio?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." },
+            { tipo: "scelta_multipla", testo: "Un grafico a torta mostra che il 40% di 500 studenti preferisce il calcio. Quanti sono in numero gli studenti che preferiscono il calcio?", opzioni: ["200", "250", "300", "150"], corretta: "200", hint: "0,4×500 = 200." },
             { tipo: "scelta_multipla", testo: "La moda della serie: 2, 2, 3, 5, 5, 5, 7 è:", opzioni: ["2", "3", "5", "7"], corretta: "5", hint: "Il valore che compare più spesso." },
             { tipo: "scelta_multipla", testo: "Lanciando una moneta due volte, qual è la probabilità di ottenere due teste?", opzioni: ["1/2", "1/4", "1/3", "1/8"], corretta: "1/4", hint: "Casi possibili: TT, TC, CT, CC → 1 su 4." },
             { tipo: "scelta_multipla", testo: "In una tabella, la frequenza relativa della modalità A è 0,3 su un totale di 200. Quante sono le occorrenze di A? (Occorrenza=Frequenza assoluta)", opzioni: ["30", "60", "90", "120"], corretta: "60", hint: "0,3 × 200 = 60." },
@@ -1023,12 +1023,19 @@
 
             if (isCorretto) {
                 if (tentativiDomandaCorrente === 0) {
-                    let bonus = Math.floor(tempoRimanente / 600);
-                    let puntiTotali = 1 + bonus;
+                    // Risposta corretta al primo tentativo
+                    let puntiTotali;
+                    if (aiutiUtilizzatiDomandaCorrente > 0) {
+                        // Ha usato l'aiuto: solo 1 punto, niente bonus
+                        puntiTotali = 1;
+                        mostraMessaggio(`CORRETTO! +1 punto (nessun bonus perché hai usato l'aiuto)`, 'messaggio-corretto', 8000);
+                    } else {
+                        let bonus = Math.floor(tempoRimanente / 600);
+                        puntiTotali = 1 + bonus;
+                        mostraMessaggio(`CORRETTO! +${puntiTotali} punti (1 + ${bonus} bonus tempo)`, 'messaggio-corretto', 8000);
+                    }
                     punteggio += puntiTotali;
                     operazioniCorretteConsecutive++;
-
-                    mostraMessaggio(`CORRETTO! +${puntiTotali} punti (1 + ${bonus} bonus tempo)`, 'messaggio-corretto', 8000);
 
                     if (operazioniCorretteConsecutive % 5 === 0 && vite < 3) {
                         vite++;
@@ -1037,7 +1044,7 @@
                     }
                     if (punteggio >= prossimaSoglia) {
                         playWowSound(1.0);
-                        mostraMessaggioSpeciale(`🏆 COMPLIMENTI! HAI RAGGIUNTO ${prossimaSoglia} PUNTI! 🏆`, 5000);
+                        mostraMessaggioSpeciale(`COMPLIMENTI! HAI RAGGIUNTO ${prossimaSoglia} PUNTI! 🏆`, 5000);
                         prossimaSoglia += 100;
                     } else {
                         timeoutProssima = setTimeout(() => {
@@ -1169,5 +1176,4 @@
         };
     </script>
 </body>
-
 </html>
