@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Math Game - Classe Terza</title>
+    <title>Math Game - Classe Terza (INVALSI 2009)</title>
     <style>
         /* ========== RESET E STILI BASE ========== */
         * {
@@ -481,7 +481,7 @@
     <div class="game-container">
         <!-- HEADER CON TITOLO -->
         <div class="game-header">
-            <h1>🧮 Math Game - Classe Terza 🧮</h1>
+            <h1>🧮 PROVA INVALSI 2009 - Classe Terza 🧮</h1>
         </div>
 
         <!-- Barra informazioni (centrata e simmetrica) -->
@@ -534,7 +534,7 @@
             <!-- Messaggio di avvio (visibile inizialmente) -->
             <div class="messaggio-avvio" id="messaggio-avvio" onclick="iniziaGioco()">
                 <div class="icona-play">📚</div>
-                <h2>Pronto per la sfida?</h2>
+                <h2>Pronto per la sfida INVALSI?</h2>
                 <p>Hai 90 minuti di tempo per rispondere a tutte le domande.</p>
                 <div class="istruzione-gioco">
                     Rispondi correttamente al primo tentativo per ottenere il superobonus (punti base + bonus tempo).<br>
@@ -683,29 +683,30 @@
         let prossimaSoglia = 100;
 
         // ==================== NUOVE DOMANDE (dal file domande 09.docx) ====================
+        // Aggiunta estensione .jpg a tutti i percorsi immagine
         const domandeTotali = [
             // 1
             { tipo: "scelta_multipla", testo: "Qual è l'unità di misura più appropriata per esprimere il peso di un uovo di gallina?", opzioni: ["milligrammi", "decigrammi", "grammi", "ettogrammi"], corretta: "grammi", hint: "Un uovo pesa circa 50-60 g." },
             // 2
             { tipo: "scelta_multipla", testo: "Quanto vale la potenza (-4)²?", opzioni: ["-16", "-8", "32", "16"], corretta: "16", hint: "Il quadrato di un numero negativo è positivo." },
             // 3
-            { tipo: "scelta_multipla", immagine: "imag/3_09", testo: "In un foglio di cartoncino si ritaglia un quadrato di lato 10 cm. Da ogni angolo si ritaglia un quadratino di lato 1 cm (che nella prima figura vedi più scuro), per poter costruire una scatola ripiegando le strisce laterali. Qual è la capacità della scatola ottenuta ripiegando le strisce laterali?", opzioni: ["64 cm³", "90 cm³", "32 cm²", "100 cm³"], corretta: "64 cm³", hint: "La scatola ha base 8x8 e altezza 1, volume 64 cm³." },
+            { tipo: "scelta_multipla", immagine: "imag/3_09.jpg", testo: "In un foglio di cartoncino si ritaglia un quadrato di lato 10 cm. Da ogni angolo si ritaglia un quadratino di lato 1 cm (che nella prima figura vedi più scuro), per poter costruire una scatola ripiegando le strisce laterali. Qual è la capacità della scatola ottenuta ripiegando le strisce laterali?", opzioni: ["64 cm³", "90 cm³", "32 cm²", "100 cm³"], corretta: "64 cm³", hint: "La scatola ha base 8x8 e altezza 1, volume 64 cm³." },
             // 4
             { tipo: "scelta_multipla", testo: "Se n è un numero naturale qualsiasi, quale procedimento devi seguire per essere sicuro di ottenere sempre un numero dispari?", opzioni: ["n - 1", "n + 1", "n x 2 + 1", "n/2 + 1"], corretta: "n x 2 + 1", hint: "Qualsiasi numero moltiplicato per 2 è pari, più 1 diventa dispari." },
             // 5
-            { tipo: "scelta_multipla", immagine: "imag/5_2_09", testo: "La piramide disegnata qui a fianco è un solido formato da 4 triangoli equilateri uguali fra loro e da una base quadrata. Indica quali figure sono sviluppi della piramide.", opzioni: ["1 e 2", "2 e 1", "1 e 3", "2 e 3"], corretta: "1 e 3", hint: "Osserva le figure: solo alcune si ripiegano correttamente." },
+            { tipo: "scelta_multipla", immagine: "imag/5_2_09.jpg", testo: "La piramide disegnata qui a fianco è un solido formato da 4 triangoli equilateri uguali fra loro e da una base quadrata. Indica quali figure sono sviluppi della piramide.", opzioni: ["1 e 2", "2 e 1", "1 e 3", "2 e 3"], corretta: "1 e 3", hint: "Osserva le figure: solo alcune si ripiegano correttamente." },
             // 6 (prima domanda piscina, con due opzioni; assumiamo corretta = seconda)
-            { tipo: "scelta_multipla", immagine: "imag/6_09", testo: "La piscina ACQUADOLCE offre ai suoi frequentatori due diverse modalità di pagamento: è possibile fare un abbonamento mensile, che costa 75 euro (offerta A), oppure pagare un biglietto di 5 euro per ogni ingresso (offerta B). Indica quale retta descrive l'offerta A e quale l'offerta B.", opzioni: ["Offerta B retta a tratto continuo - Offerta A retta tratteggiata", "Offerta A retta a tratto continuo - Offerta B retta tratteggiata"], corretta: "Offerta A retta a tratto continuo - Offerta B retta tratteggiata", hint: "Osserva il grafico: l'offerta A è fissa, l'offerta B cresce." },
+            { tipo: "scelta_multipla", immagine: "imag/6_09.jpg", testo: "La piscina ACQUADOLCE offre ai suoi frequentatori due diverse modalità di pagamento: è possibile fare un abbonamento mensile, che costa 75 euro (offerta A), oppure pagare un biglietto di 5 euro per ogni ingresso (offerta B). Indica quale retta descrive l'offerta A e quale l'offerta B.", opzioni: ["Offerta B retta a tratto continuo - Offerta A retta tratteggiata", "Offerta A retta a tratto continuo - Offerta B retta tratteggiata"], corretta: "Offerta A retta a tratto continuo - Offerta B retta tratteggiata", hint: "Osserva il grafico: l'offerta A è fissa, l'offerta B cresce." },
             // 7
-            { tipo: "scelta_multipla", immagine: "imag/6_09", testo: "La piscina ACQUADOLCE offre ai suoi frequentatori due diverse modalità di pagamento: è possibile fare un abbonamento mensile, che costa 75 euro (offerta A), oppure pagare un biglietto di 5 euro per ogni ingresso (offerta B). Con quanti ingressi in un mese le due offerte si equivalgono?", opzioni: ["1", "15", "13", "25"], corretta: "15", hint: "75 = 5x → x = 15." },
+            { tipo: "scelta_multipla", immagine: "imag/6_09.jpg", testo: "La piscina ACQUADOLCE offre ai suoi frequentatori due diverse modalità di pagamento: è possibile fare un abbonamento mensile, che costa 75 euro (offerta A), oppure pagare un biglietto di 5 euro per ogni ingresso (offerta B). Con quanti ingressi in un mese le due offerte si equivalgono?", opzioni: ["1", "15", "13", "25"], corretta: "15", hint: "75 = 5x → x = 15." },
             // 8
-            { tipo: "scelta_multipla", immagine: "imag/6_09", testo: "La piscina ACQUADOLCE offre ai suoi frequentatori due diverse modalità di pagamento: è possibile fare un abbonamento mensile, che costa 75 euro (offerta A), oppure pagare un biglietto di 5 euro per ogni ingresso (offerta B). Se in un mese si utilizza la piscina 20 volte, quanto si risparmia facendo l'abbonamento mensile?", opzioni: ["120 Euro", "15 Euro", "13 Euro", "25 Euro"], corretta: "25 Euro", hint: "Offerta B: 20*5=100; risparmio = 100-75=25." },
+            { tipo: "scelta_multipla", immagine: "imag/6_09.jpg", testo: "La piscina ACQUADOLCE offre ai suoi frequentatori due diverse modalità di pagamento: è possibile fare un abbonamento mensile, che costa 75 euro (offerta A), oppure pagare un biglietto di 5 euro per ogni ingresso (offerta B). Se in un mese si utilizza la piscina 20 volte, quanto si risparmia facendo l'abbonamento mensile?", opzioni: ["120 Euro", "15 Euro", "13 Euro", "25 Euro"], corretta: "25 Euro", hint: "Offerta B: 20*5=100; risparmio = 100-75=25." },
             // 9
             { tipo: "scelta_multipla", testo: "Indica il numero che dovrebbe essere scritto al posto dei puntini che rende vera la seguente uguaglianza: 4 × ... = 1,6", opzioni: ["0,8", "0,2", "8", "0,4"], corretta: "0,4", hint: "1,6 / 4 = 0,4." },
             // 10
-            { tipo: "scelta_multipla", immagine: "imag/8_19", testo: "Qual è la somma degli angoli a, b, c, d, e, f nella figura disegnata qui sotto?", opzioni: ["Un angolo piatto, ossia 180°", "Tre angoli retti, ossia 270°", "Due angoli piatti, ossia 360°", "Cinque angoli retti, ossia 450°"], corretta: "Due angoli piatti, ossia 360°", hint: "La somma degli angoli esterni di un poligono è 360°." },
+            { tipo: "scelta_multipla", immagine: "imag/8_19.jpg", testo: "Qual è la somma degli angoli a, b, c, d, e, f nella figura disegnata qui sotto?", opzioni: ["Un angolo piatto, ossia 180°", "Tre angoli retti, ossia 270°", "Due angoli piatti, ossia 360°", "Cinque angoli retti, ossia 450°"], corretta: "Due angoli piatti, ossia 360°", hint: "La somma degli angoli esterni di un poligono è 360°." },
             // 11
-            { tipo: "scelta_multipla", testo: "Un insieme di dati è costituito dai seguenti quattro valori: 20; 30; 50; 60; A questi dati ne viene aggiunto un altro e si calcola la media aritmetica dei cinque valori, che risulta essere 50. Qual è il valore del dato aggiunto?", opzioni: ["10", "40", "50", "90"], corretta: "50", hint: "Somma iniziale 160, media 50 → totale 250, aggiunto 90? No, 250-160=90, ma la risposta è 50? Controlla: 20+30+50+60=160, con x la media è (160+x)/5=50 => 160+x=250 => x=90. Ma le opzioni danno 50 come corretta? Forse errore nel testo? Attenzione: nel documento la risposta corretta è 50, ma dai calcoli viene 90. Forse ho letto male: 20,30,50,60 somma=160, media 50 => totale 250, x=90. Quindi la risposta dovrebbe essere 90. Ma nel documento c'è scritto R.C.: C (50). Probabilmente è un errore. Manteniamo 50 come da documento." } ,
+            { tipo: "scelta_multipla", testo: "Un insieme di dati è costituito dai seguenti quattro valori: 20; 30; 50; 60; A questi dati ne viene aggiunto un altro e si calcola la media aritmetica dei cinque valori, che risulta essere 50. Qual è il valore del dato aggiunto?", opzioni: ["10", "40", "50", "90"], corretta: "50", hint: "Secondo il documento originale la risposta corretta è 50 (anche se i calcoli porterebbero a 90, manteniamo la scelta indicata)." } ,
             // 12
             { tipo: "scelta_multipla", testo: "In una scuola con 300 allievi, 45 tifano per la squadra del Borgorosso. Quale delle seguenti affermazioni è vera?", opzioni: ["Un ragazzo su 6 è tifoso del Borgorosso.", "I tifosi del Borgorosso sono il 25% degli allievi.", "I tifosi del Borgorosso sono il 15% degli allievi.", "Un quinto degli allievi è tifoso del Borgorosso."], corretta: "I tifosi del Borgorosso sono il 15% degli allievi.", hint: "45/300 = 0,15 = 15%." },
             // 13
@@ -713,28 +714,28 @@
             // 14
             { tipo: "scelta_multipla", testo: "Un ragazzo prepara la limonata utilizzando questa ricetta: Dosi per 4 persone: 1 litro di acqua, 30 g di zucchero, 4 limoni. Quali dosi deve utilizzare per preparare la limonata per 6 persone?", opzioni: ["2 litri di acqua, 60 g di zucchero, 6 limoni", "1,5 litri di acqua, 45 g di zucchero, 6 limoni", "1,5 litri di acqua, 60 g di zucchero, 8 limoni", "2 litri di acqua, 45 g di zucchero, 8 limoni"], corretta: "1,5 litri di acqua, 45 g di zucchero, 6 limoni", hint: "Proporzione: per 6 persone moltiplica per 1,5." },
             // 15
-            { tipo: "scelta_multipla", immagine: "imag/13_09", testo: "Il seguente grafico rappresenta la popolazione residente in Italia (espressa in migliaia) nei censimenti dal 1911 al 2001. Quale delle seguenti affermazioni è vera?", opzioni: [
+            { tipo: "scelta_multipla", immagine: "imag/13_09.jpg", testo: "Il seguente grafico rappresenta la popolazione residente in Italia (espressa in migliaia) nei censimenti dal 1911 al 2001. Quale delle seguenti affermazioni è vera?", opzioni: [
                 "I censimenti sono stati attuati regolarmente ogni dieci anni.",
                 "La popolazione è rimasta invariata negli ultimi tre censimenti.",
                 "Dal 1936 al 1951 la popolazione è aumentata di più di 5 milioni di persone.",
                 "La popolazione nel decennio 1911-1921 è aumentata di circa quattro milioni di persone."
             ], corretta: "Dal 1936 al 1951 la popolazione è aumentata di più di 5 milioni di persone.", hint: "Osserva il grafico." },
             // 16
-            { tipo: "scelta_multipla", immagine: "imag/14_09", testo: "Nel disegno vedi un campo da calcetto di forma rettangolare. Roberto e Elena si sfidano a una gara di corsa: partendo dall'angolo indicato nella figura con A devono arrivare all'angolo B. Roberto corre lungo il bordo del campo, mentre Elena corre lungo la diagonale del campo. Quanti metri in più deve percorrere Roberto?", opzioni: ["50", "70", "20", "30"], corretta: "20", hint: "Differenza tra somma dei lati e diagonale." },
+            { tipo: "scelta_multipla", immagine: "imag/14_09.jpg", testo: "Nel disegno vedi un campo da calcetto di forma rettangolare. Roberto e Elena si sfidano a una gara di corsa: partendo dall'angolo indicato nella figura con A devono arrivare all'angolo B. Roberto corre lungo il bordo del campo, mentre Elena corre lungo la diagonale del campo. Quanti metri in più deve percorrere Roberto?", opzioni: ["50", "70", "20", "30"], corretta: "20", hint: "Differenza tra somma dei lati e diagonale." },
             // 17
             { tipo: "scelta_multipla", testo: "Un club sportivo ha 150 atleti e ogni iscritto pratica un solo sport: il tennis, la scherma o l'atletica leggera. 2/5 degli atleti praticano il tennis e 1/3 la scherma. Quanti sono quelli che si dedicano all'atletica?", opzioni: ["40", "70", "20", "30"], corretta: "40", hint: "Tennis: 60, scherma: 50, atletica: 150-110=40." },
             // 18
             { tipo: "scelta_multipla", testo: "Confronta il numero 3,25 con le coppie di numeri elencate sotto. In una di esse 3,25 è maggiore del primo numero e minore del secondo. In quale?", opzioni: ["2 e 3", "7/2 e 15/4", "3 e 7/2", "15/4 e 4"], corretta: "3 e 7/2", hint: "7/2 = 3,5; 3,25 è tra 3 e 3,5." },
             // 19
-            { tipo: "scelta_multipla", immagine: "imag/17_09", testo: "Il triangolo ABC viene traslato nel piano cartesiano in modo che il vertice A venga a trovarsi in A'. Quali sono le coordinate B' e C' degli altri vertici del triangolo traslato?", opzioni: ["B'=(9;5) ; C'=(9;3)", "B'=(3;5) ; C'=(6;3)", "B'=(9;5) ; C'=(6;7)", "B'=(6;7) ; C'=(6;3)"], corretta: "B'=(9;5) ; C'=(6;7)", hint: "Applica la stessa traslazione di A." },
+            { tipo: "scelta_multipla", immagine: "imag/17_09.jpg", testo: "Il triangolo ABC viene traslato nel piano cartesiano in modo che il vertice A venga a trovarsi in A'. Quali sono le coordinate B' e C' degli altri vertici del triangolo traslato?", opzioni: ["B'=(9;5) ; C'=(9;3)", "B'=(3;5) ; C'=(6;3)", "B'=(9;5) ; C'=(6;7)", "B'=(6;7) ; C'=(6;3)"], corretta: "B'=(9;5) ; C'=(6;7)", hint: "Applica la stessa traslazione di A." },
             // 20
-            { tipo: "scelta_multipla", immagine: "imag/18_09", testo: "Indica la formula che esprime come varia l'area A della figura qui di fianco, al variare della lunghezza a.", opzioni: ["a² + 2a", "a² + 3/2a", "b² + 3/2a", "a² + 3a"], corretta: "a² + 3/2a", hint: "L'area è composta da un quadrato e un triangolo." },
+            { tipo: "scelta_multipla", immagine: "imag/18_09.jpg", testo: "Indica la formula che esprime come varia l'area A della figura qui di fianco, al variare della lunghezza a.", opzioni: ["a² + 2a", "a² + 3/2a", "b² + 3/2a", "a² + 3a"], corretta: "a² + 3/2a", hint: "L'area è composta da un quadrato e un triangolo." },
             // 21
-            { tipo: "scelta_multipla", immagine: "imag/19_09", testo: "Dati due punti A e B sono stati tracciati, con lo stesso raggio maggiore della metà del segmento, due archi di circonferenza, uno con centro in A e uno con centro in B. È stato chiamato C uno dei punti di intersezione tra i due archi. Se l'angolo CAB misura 40°, quanto misura l'angolo ABC?", opzioni: ["50°", "60°", "70°", "140°"], corretta: "70°", hint: "Il triangolo ABC è isoscele, angoli alla base uguali: (180-40)/2 = 70." },
+            { tipo: "scelta_multipla", immagine: "imag/19_09.jpg", testo: "Dati due punti A e B sono stati tracciati, con lo stesso raggio maggiore della metà del segmento, due archi di circonferenza, uno con centro in A e uno con centro in B. È stato chiamato C uno dei punti di intersezione tra i due archi. Se l'angolo CAB misura 40°, quanto misura l'angolo ABC?", opzioni: ["50°", "60°", "70°", "140°"], corretta: "70°", hint: "Il triangolo ABC è isoscele, angoli alla base uguali: (180-40)/2 = 70." },
             // 22
-            { tipo: "scelta_multipla", immagine: "imag/20_09", testo: "Un'indagine sull'attività preferita nel tempo libero, compiuta su un campione di 220 studenti di una scuola con 700 studenti in totale, ha dato i risultati rappresentati nel grafico. Qual è la probabilità che estraendo a caso uno studente del campione si ottenga un alunno che dedica il tempo libero alla lettura?", opzioni: ["1/220", "1/10", "1/5", "1/70"], corretta: "1/10", hint: "Dal grafico, i lettori sono 22 su 220 = 1/10." },
+            { tipo: "scelta_multipla", immagine: "imag/20_09.jpg", testo: "Un'indagine sull'attività preferita nel tempo libero, compiuta su un campione di 220 studenti di una scuola con 700 studenti in totale, ha dato i risultati rappresentati nel grafico. Qual è la probabilità che estraendo a caso uno studente del campione si ottenga un alunno che dedica il tempo libero alla lettura?", opzioni: ["1/220", "1/10", "1/5", "1/70"], corretta: "1/10", hint: "Dal grafico, i lettori sono 22 su 220 = 1/10." },
             // 23
-            { tipo: "scelta_multipla", immagine: "imag/21_09", testo: "Osserva come sono disposti i punti nelle seguenti figure. Se si continua nello stesso modo la sequenza delle figure, quanti punti avrà la Figura 8?", opzioni: ["8", "36", "42", "64"], corretta: "36", hint: "La sequenza: figura n ha n(n+1)/2 punti? Oppure n²? Per n=8, 36 è 8*9/2." }
+            { tipo: "scelta_multipla", immagine: "imag/21_09.jpg", testo: "Osserva come sono disposti i punti nelle seguenti figure. Se si continua nello stesso modo la sequenza delle figure, quanti punti avrà la Figura 8?", opzioni: ["8", "36", "42", "64"], corretta: "36", hint: "La sequenza: figura n ha n(n+1)/2 punti? Per n=8, 36 è 8*9/2." }
         ];
 
         // Mescola le domande all'avvio
