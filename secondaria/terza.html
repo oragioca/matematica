@@ -901,19 +901,28 @@
             if (messaggioSpeciale) messaggioSpeciale.classList.remove('mostra');
             body.classList.remove('messaggio-attivo');
 
+            // Se abbiamo finito tutte le domande
             if (indiceDomandaCorrente >= domande.length) {
                 if (contenutoDomanda) contenutoDomanda.innerHTML = '<div class="testo-domanda">🎉 HAI COMPLETATO TUTTE LE DOMANDE! 🎉<br>Complimenti!</div>';
                 if (bottoneVerifica) bottoneVerifica.style.display = 'none';
+                if (bottoneAiuto) bottoneAiuto.style.display = 'none';
+                if (bottoneSalta) bottoneSalta.style.display = 'none';
                 document.getElementById('tastiera-container').style.display = 'none';
                 return;
             }
 
+            // Altrimenti mostra la domanda corrente
             domandaCorrente = domande[indiceDomandaCorrente];
             opzioneSelezionata = null;
             tentativiDomandaCorrente = 0;
             aiutiUtilizzatiDomandaCorrente = 0;
             rispostaApertaInput = '';
-            if (bottoneAiuto) bottoneAiuto.disabled = false;
+            if (bottoneAiuto) {
+                bottoneAiuto.disabled = false;
+                bottoneAiuto.style.display = 'inline-block'; // ripristina visibilità
+            }
+            if (bottoneSalta) bottoneSalta.style.display = 'inline-block';
+            if (bottoneVerifica) bottoneVerifica.style.display = 'inline-block';
             aggiornaUI();
 
             let html = '';
@@ -938,7 +947,6 @@
             }
             if (bottoneVerifica) {
                 bottoneVerifica.disabled = false;
-                bottoneVerifica.style.display = 'inline-block';
             }
         }
 
@@ -1096,7 +1104,8 @@
         };
 
         window.mostraAiuto = function() {
-            if (gameOver || !domandaCorrente) return;
+            // Impedisce l'uso dell'aiuto se il gioco è finito o se non c'è una domanda corrente (es. dopo completamento)
+            if (gameOver || !domandaCorrente || indiceDomandaCorrente >= domande.length) return;
             if (aiutiUtilizzatiDomandaCorrente === 0) {
                 aiutiUtilizzatiDomandaCorrente++;
                 punteggio = Math.max(0, punteggio - 2);
@@ -1133,7 +1142,10 @@
             aggiornaIndicatoreErrori();
             aggiornaUI();
             if (giocoIniziato) mostraDomanda();
-            if (bottoneAiuto) bottoneAiuto.disabled = false;
+            // Ripristina visibilità pulsanti (nel caso fossimo nella schermata di completamento)
+            if (bottoneAiuto) { bottoneAiuto.disabled = false; bottoneAiuto.style.display = 'inline-block'; }
+            if (bottoneSalta) bottoneSalta.style.display = 'inline-block';
+            if (bottoneVerifica) bottoneVerifica.style.display = 'inline-block';
             if (timeoutProssima) clearTimeout(timeoutProssima);
             if (messaggioSpecialeTimeout) clearTimeout(messaggioSpecialeTimeout);
             if (messaggioSpeciale) messaggioSpeciale.classList.remove('mostra');
