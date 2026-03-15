@@ -738,21 +738,20 @@
             { tipo: "scelta_multipla", testo: "In una scuola con 300 allievi, 45 tifano per la squadra del Borgorosso. Quale delle seguenti affermazioni è vera?", opzioni: ["Un ragazzo su 6 è tifoso del Borgorosso.", "I tifosi del Borgorosso sono il 25% degli allievi.", "I tifosi del Borgorosso sono il 15% degli allievi.", "Un quinto degli allievi è tifoso del Borgorosso."], corretta: "I tifosi del Borgorosso sono il 15% degli allievi.", hint: "45/300 = 0,15 = 15%." },
             // 13 (MODIFICATA con allineamento a sinistra per gli step)
             { tipo: "scelta_multipla",
-              testo: "Nel risolvere la seguente equazione, è stato commesso un errore.<br>" +
-                     "<div style='text-align: left; display: inline-block; margin: 0 auto;'>" +
-                     "(step 1) -10X -2 +4X -4 =0<br>" +
-                     "(step 2) -10X+4X =2+4<br>" +
-                     "(step 3) 6X =6<br>" +
-                     "(step 4) X =6/6<br>" +
-                     "(step 5) X =1<br>" +
+              testo: "Nel risolvere la seguente equazione  -10X -2 +4X -4 = 0, è stato commesso un errore.<br>" +
+                     "<div style='text-align: left; display: inline-block; margin: 0 auto;'>" ++
+                     "1) -10X+4X =2+4<br>" +
+                     "2) 6X =6<br>" +
+                     "3) X =6/6<br>" +
+                     "4) X =1<br>" +
                      "</div><br>In quale passaggio è stato commesso l'errore?",
               opzioni: [
-                "Nel passaggio dallo step 1 allo step 2.",
-                "Nel passaggio dallo step 2 allo step 3.",
-                "Nel passaggio dallo step 3 allo step 4.",
-                "Nel passaggio dallo step 4 allo step 5."
+                "Nel passaggio dalla riga 1 alla 2",
+                "Nel passaggio dalla riga 2 alla 3",
+                "Nel passaggio dalla riga 3 alla 4",
+            
               ],
-              corretta: "Nel passaggio dallo step 2 allo step 3.",
+              corretta: "Nel passaggio dalla riga 1 alla 2.",
               hint: "Il termine -10X+4X = -6X, non 6X."
             },
             // 14
