@@ -736,9 +736,16 @@
             { tipo: "scelta_multipla", testo: "Un insieme di dati è costituito dai seguenti quattro valori: 20; 30; 50; 60; A questi dati ne viene aggiunto un altro e si calcola la media aritmetica dei cinque valori, che risulta essere 50. Qual è il valore del dato aggiunto?", opzioni: ["10", "40", "50", "90"], corretta: "50", hint: "Secondo il documento, la risposta corretta è 50." },
             // 12
             { tipo: "scelta_multipla", testo: "In una scuola con 300 allievi, 45 tifano per la squadra del Borgorosso. Quale delle seguenti affermazioni è vera?", opzioni: ["Un ragazzo su 6 è tifoso del Borgorosso.", "I tifosi del Borgorosso sono il 25% degli allievi.", "I tifosi del Borgorosso sono il 15% degli allievi.", "Un quinto degli allievi è tifoso del Borgorosso."], corretta: "I tifosi del Borgorosso sono il 15% degli allievi.", hint: "45/300 = 0,15 = 15%." },
-            // 13  (MODIFICATA: ogni step su nuova riga, risposta corretta aggiornata)
+            // 13 (MODIFICATA con allineamento a sinistra per gli step)
             { tipo: "scelta_multipla",
-              testo: "Nel risolvere la seguente equazione, è stato commesso un errore.<br>(step 1) -10X -2 +4X -4 =0<br>(step 2) -10X+4X =2+4<br>(step 3) 6X =6<br>(step 4) X =6/6<br>(step 5) X =1<br>In quale passaggio è stato commesso l'errore?",
+              testo: "Nel risolvere la seguente equazione, è stato commesso un errore.<br>" +
+                     "<div style='text-align: left; display: inline-block; margin: 0 auto;'>" +
+                     "(step 1) -10X -2 +4X -4 =0<br>" +
+                     "(step 2) -10X+4X =2+4<br>" +
+                     "(step 3) 6X =6<br>" +
+                     "(step 4) X =6/6<br>" +
+                     "(step 5) X =1<br>" +
+                     "</div><br>In quale passaggio è stato commesso l'errore?",
               opzioni: [
                 "Nel passaggio dallo step 1 allo step 2.",
                 "Nel passaggio dallo step 2 allo step 3.",
