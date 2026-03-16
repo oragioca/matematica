@@ -730,7 +730,7 @@
             { tipo: "scelta_multipla", immagine: "imag/7_10.jpg", testo: "La superficie del cubo di legno in figura è stata completamente verniciata. Il cubo viene poi segato lungo le linee tratteggiate. Si ottengono così diversi cubetti, dei quali alcuni non hanno nessuna faccia verniciata, altri una o più facce verniciate. Quanti sono i cubetti che non hanno nessuna faccia verniciata?", opzioni: ["1", "7/4", "2", "4"], corretta: "1", hint: "Solo il cubetto centrale interno non è verniciato." },
             // 9 - Piero e Giorgio
             { tipo: "scelta_multipla", immagine: "imag/8_10.jpg", testo: "Piero e Giorgio partono per una breve vacanza. Decidono che Piero pagherà per il cibo e Giorgio per l'alloggio. In tabella c'è il riepilogo delle spese che ciascuno di loro ha sostenuto. Al ritorno fanno i conti per dividere in parti uguali le spese. Quanti euro deve dare Piero a Giorgio per far sì che entrambi abbiano speso la stessa somma di denaro?", opzioni: ["10", "202", "30", "400"], corretta: "10", hint: "Calcola la differenza e dividi per 2." },
-            // 10 - Padella (CORRETTA: escape virgolette e risposta corretta)
+            // 10 - Padella (corretta: escape virgolette e risposta corretta)
             { tipo: "scelta_multipla", testo: "Il prezzo \"p\" (in euro) di una padella dipende dal suo diametro \"d\" (in cm) secondo la seguente formula: p = (1/15) d². Indica quale fra queste affermazioni è quella vera.", opzioni: [
                 "Il prezzo della padella è inversamente proporzionale al suo diametro.",
                 "Il prezzo della padella aumenta all'aumentare del suo diametro.",
@@ -771,13 +771,8 @@
                 "Saturno, Urano e Nettuno.",
                 "Nettuno, Saturno e Urano."
             ], corretta: "Urano, Nettuno e Saturno.", hint: "Confronta gli esponenti: Urano 8,67e25, Nettuno 1,02e26, Saturno 5,68e26." },
-            // 18 - Discussione espressione
-            { tipo: "scelta_multipla", testo: "L’insegnante dice: Prendiamo un numero naturale che indichiamo con n. Cosa si può dire del risultato di n(n-1)? E’ sempre pari, oppure sempre dispari, oppure può essere qualche volta pari e qualche volta dispari? Alcuni studenti rispondono in questo modo:
-Roberto: Può essere sia pari sia dispari, perché n è un numero qualsiasi
-Angela: E’ sempre dispari, perché n-1 indica un numero dispari
-Ilaria: E’ sempre pari, perché 3×(3-1) fa 6, che è pari
-Chiara: E’ sempre pari perché n e (n-1) sono numeri consecutivi e quindi uno dei due deve essere pari
-Chi ha ragione e fornisce la spiegazione corretta?", opzioni: ["Roberto", "Angela", "Ilaria", "Chiara"], corretta: "Chiara", hint: "n e n-1 sono consecutivi, quindi uno è pari; il prodotto è pari." },
+            // 18 - Discussione espressione (corretto: testo su una riga)
+            { tipo: "scelta_multipla", testo: "L’insegnante dice: Prendiamo un numero naturale che indichiamo con n. Cosa si può dire del risultato di n(n-1)? E’ sempre pari, oppure sempre dispari, oppure può essere qualche volta pari e qualche volta dispari? Alcuni studenti rispondono in questo modo: Roberto: Può essere sia pari sia dispari, perché n è un numero qualsiasi Angela: E’ sempre dispari, perché n-1 indica un numero dispari Ilaria: E’ sempre pari, perché 3×(3-1) fa 6, che è pari Chiara: E’ sempre pari perché n e (n-1) sono numeri consecutivi e quindi uno dei due deve essere pari Chi ha ragione e fornisce la spiegazione corretta?", opzioni: ["Roberto", "Angela", "Ilaria", "Chiara"], corretta: "Chiara", hint: "n e n-1 sono consecutivi, quindi uno è pari; il prodotto è pari." },
             // 19 - Area curva
             { tipo: "scelta_multipla", immagine: "imag/18_10.jpg", testo: "Nella figura che vedi ogni quadretto ha il lato di 1 cm. Quanto misura all'incirca l'area racchiusa dalla linea curva?", opzioni: ["Meno di 8 cm²", "Più di 8 cm² e meno di 13 cm²", "Più di 13 cm² e meno di 25 cm²", "Più di 25 cm²"], corretta: "Più di 13 cm² e meno di 25 cm²", hint: "Conta i quadretti interni." },
             // 20 - Affermazione tappa
@@ -1219,19 +1214,19 @@ Chi ha ragione e fornisce la spiegazione corretta?", opzioni: ["Roberto", "Angel
             }
         };
 
-        // ==================== LIGHTBOX ====================
-        function apriLightbox(src) {
+        // ==================== LIGHTBOX (rese globali) ====================
+        window.apriLightbox = function(src) {
             const overlay = document.getElementById('lightbox-overlay');
             const img = document.getElementById('lightbox-img');
             img.src = src;
             overlay.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-        }
+        };
 
-        function chiudiLightbox() {
+        window.chiudiLightbox = function() {
             document.getElementById('lightbox-overlay').style.display = 'none';
             document.body.style.overflow = 'auto';
-        }
+        };
 
         window.onload = function() {
             aggiornaViteUI();
