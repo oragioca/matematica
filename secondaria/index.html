@@ -14,12 +14,12 @@
             color: white;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             text-align: center;
             display: flex;
             flex-direction: column;
-            min-height: 90vh; /* per spingere il footer in basso */
+            min-height: 90vh;
         }
         h1 {
             font-size: 2rem;
@@ -27,26 +27,25 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         .giochi-lista {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 25px;
             margin: 40px 0;
-            justify-items: center;
-            flex: 1; /* occupa lo spazio disponibile */
+            flex: 1;
         }
         .gioco-card {
             background: #ffffff;
             color: #333;
             border-radius: 16px;
-            padding: 0; /* tolto padding per gestire meglio il link */
+            padding: 0;
             text-align: center;
             box-shadow: 0 8px 0 #b0b0b0, 0 12px 20px rgba(0,0,0,0.3);
             transition: transform 0.1s, box-shadow 0.1s;
             border: 1px solid #ddd;
             background: linear-gradient(145deg, #f9f9f9, #e6e6e6);
-            width: 100%;
-            max-width: 220px;
-            height: 120px; /* altezza fissa per uniformità */
+            width: 220px;
+            height: 120px;
         }
         .gioco-card:hover {
             transform: translateY(-4px);
@@ -75,7 +74,7 @@
             color: #666;
             font-weight: normal;
         }
-        /* Pulsante Torna alla Home in basso, stile card */
+        /* Pulsante Torna alla Home in basso */
         .back-home {
             margin-top: 20px;
             display: flex;
@@ -111,12 +110,12 @@
             padding: 0 10px;
             box-sizing: border-box;
         }
-        @media (max-width: 500px) {
+        @media (max-width: 600px) {
             .giochi-lista {
                 gap: 15px;
             }
             .gioco-card {
-                max-width: 180px;
+                width: 180px;
                 height: 100px;
             }
             .gioco-card a {
@@ -157,9 +156,15 @@
                     <span class="titolo">PROVA INVALSI 2009</span>
                 </a>
             </div>
+            <!-- Nuova card per PROVA INVALSI 2010 -->
+            <div class="gioco-card">
+                <a href="terza_10.html">
+                    <span class="titolo">PROVA INVALSI 2010</span>
+                </a>
+            </div>
         </div>
 
-        <!-- Pulsante Torna alla Home in basso con stile card -->
+        <!-- Pulsante Torna alla Home in basso -->
         <div class="back-home">
             <div class="back-card">
                 <a href="../">← Torna alla Home</a>
