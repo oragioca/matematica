@@ -715,7 +715,7 @@
             // 1 - Succo di frutta
             { tipo: "scelta_multipla", immagine: "imag/1_10.jpg", testo: "Su una confezione di succo di frutta da 250 ml trovi le seguenti informazioni nutrizionali: Valore energetico: 54 kcal - 228 kJ per 100 ml; Proteine: 0,3 g; Carboidrati: 13,1 g; Grassi: 0,0 g. Quante kcal assumi se bevi tutto il succo della confezione?", opzioni: ["54", "135", "228", "570"], corretta: "135", hint: "54 kcal per 100 ml, per 250 ml: 54 × 2,5 = 135." },
             // 2 - Sequenze numeriche
-            { tipo: "scelta_multipla", immagine: "imag/2_10.jpg", testo: "In quale di queste sequenze i numeri sono ordinati dal più piccolo al più grande?", opzioni: ["A", "B", "C", "D"], corretta: "A", hint: "Osserva l'immagine per individuare la sequenza corretta." },
+            { tipo: "scelta_multipla", immagine: "imag/2_10.jpg", testo: "In quale di queste sequenze i numeri sono ordinati dal più piccolo al più grande?", opzioni: ["A", "B", "C", "D"], corretta: "A", hint: "Trasforma le frazioni in decimali." },
             // 3 - Scala carta stradale
             { tipo: "scelta_multipla", testo: "Su una carta stradale due località sono distanti 3 cm. Sapendo che la scala della carta è di 1:1 500 000, a quale distanza reale si trovano le due località?", opzioni: ["4,5 km", "15 km", "45 km", "450 km"], corretta: "45 km", hint: "3 cm × 1.500.000 = 4.500.000 cm = 45 km." },
             // 4 - Computer venduti
@@ -730,13 +730,13 @@
             { tipo: "scelta_multipla", immagine: "imag/7_10.jpg", testo: "La superficie del cubo di legno in figura è stata completamente verniciata. Il cubo viene poi segato lungo le linee tratteggiate. Si ottengono così diversi cubetti, dei quali alcuni non hanno nessuna faccia verniciata, altri una o più facce verniciate. Quanti sono i cubetti che non hanno nessuna faccia verniciata?", opzioni: ["1", "7/4", "2", "4"], corretta: "1", hint: "Solo il cubetto centrale interno non è verniciato." },
             // 9 - Piero e Giorgio
             { tipo: "scelta_multipla", immagine: "imag/8_10.jpg", testo: "Piero e Giorgio partono per una breve vacanza. Decidono che Piero pagherà per il cibo e Giorgio per l'alloggio. In tabella c'è il riepilogo delle spese che ciascuno di loro ha sostenuto. Al ritorno fanno i conti per dividere in parti uguali le spese. Quanti euro deve dare Piero a Giorgio per far sì che entrambi abbiano speso la stessa somma di denaro?", opzioni: ["10", "202", "30", "400"], corretta: "10", hint: "Calcola la differenza e dividi per 2." },
-            // 10 - Padella
-            { tipo: "scelta_multipla", testo: "Il prezzo "p" (in euro) di una padella dipende dal suo diametro "d" (in cm) secondo la seguente formula: p = (1/15) d². Indica quale fra queste affermazioni è quella vera.", opzioni: [
-                "Il prezzo della padella è direttamente proporzionale al suo diametro.",
+            // 10 - Padella (CORRETTA: escape virgolette e risposta corretta)
+            { tipo: "scelta_multipla", testo: "Il prezzo \"p\" (in euro) di una padella dipende dal suo diametro \"d\" (in cm) secondo la seguente formula: p = (1/15) d². Indica quale fra queste affermazioni è quella vera.", opzioni: [
+                "Il prezzo della padella è inversamente proporzionale al suo diametro.",
                 "Il prezzo della padella aumenta all'aumentare del suo diametro.",
                 "Il rapporto fra il diametro della padella e il suo prezzo è 15.",
                 "Il rapporto fra il diametro della padella e il suo prezzo è 1."
-            ], corretta: "Il prezzo della padella è direttamente proporzionale al suo diametro.", hint: "La funzione quadratica è crescente per d>0." },
+            ], corretta: "Il prezzo della padella aumenta all'aumentare del suo diametro.", hint: "La funzione quadratica è crescente per d>0." },
             // 11 - Aereo fuso orario
             { tipo: "scelta_multipla", testo: "Un aereo parte alle 14.15 (ora di Roma) dall'aeroporto di Roma-Fiumicino e arriva all'aeroporto JFK di New York alle 18.00 (ora di New York). Sapendo che fra Roma e New York vi sono 6 ore di differenza di fuso orario (quando a New York è mezzanotte, a Roma sono le 6 del mattino seguente), quante ore dura il volo?", opzioni: ["3 h 45'", "4 h 15'", "9 h 45'", "10 h 15'"], corretta: "9 h 45'", hint: "Ora di New York all partenza: 14:15 - 6 = 8:15; volo = 18:00 - 8:15 = 9h45." },
             // 12 - Barattolo pelati
@@ -792,7 +792,7 @@ Chi ha ragione e fornisce la spiegazione corretta?", opzioni: ["Roberto", "Angel
             // 22 - Triangoli sequenza
             { tipo: "scelta_multipla", immagine: "imag/21_10.jpg", testo: "Queste sono le prime tre figure di una sequenza di triangoli. Il lato del triangolo di figura 2 è il doppio di quello di figura 1 e la sua area è quattro volte più grande. Il lato del triangolo di figura 3 è il triplo di quello di figura 1 e l'area è nove volte più grande. a) Un triangolo formato da 30 triangoli uguali a quello di figura 1 appartiene alla sequenza?", opzioni: ["Si", "No", "Non si può dire", "I triangoli non sono uguali"], corretta: "No", hint: "Il numero di triangoli deve essere un quadrato perfetto (1,4,9,16,...). 30 non lo è." },
             // 23 - Triangolo isoscele perimetro
-            { tipo: "scelta_multipla", immagine: "imag/22_10.jpg", testo: "Indica la formula corretta che esprime il perimetro "p" del triangolo isoscele in figura in funzione di "a". (La figura mostra un triangolo isoscele con i lati obliqui lunghi "a" e la base lunga "3")", opzioni: ["p = 2a+3", "p = a+3", "p = 1/2a+3", "p = a^2+3"], corretta: "p = 2a+3", hint: "Perimetro = a + a + base = 2a + 3." },
+            { tipo: "scelta_multipla", immagine: "imag/22_10.jpg", testo: "Indica la formula corretta che esprime il perimetro \"p\" del triangolo isoscele in figura in funzione di \"a\". (La figura mostra un triangolo isoscele con i lati obliqui lunghi \"a\" e la base lunga \"3\")", opzioni: ["p = 2a+3", "p = a+3", "p = 1/2a+3", "p = a^2+3"], corretta: "p = 2a+3", hint: "Perimetro = a + a + base = 2a + 3." },
             // 24 - Circonferenza e rettangolo
             { tipo: "scelta_multipla", immagine: "imag/23_10.jpg", testo: "La circonferenza in figura ha il raggio di 4 cm. ABCD è un rettangolo. Qual è la lunghezza (in cm) del segmento AC ?", opzioni: ["5", "16", "4", "8"], corretta: "4", hint: "Forse AC è un raggio? Osserva la figura." },
             // 25 - Probabilità giugno
