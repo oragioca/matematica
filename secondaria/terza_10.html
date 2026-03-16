@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Math Game 10 - Classe Terza</title>
+    <title>Math Game - Classe Terza (INVALSI 2010)</title>
     <style>
         /* ========== RESET E STILI BASE ========== */
         * {
@@ -504,7 +504,7 @@
     <div class="game-container">
         <!-- HEADER CON TITOLO -->
         <div class="game-header">
-            <h1> Math Game 10 🧮 Classe Terza </h1>
+            <h1>🧮 Math Game - Classe Terza (INVALSI 2010) 🧮</h1>
         </div>
 
         <!-- Barra informazioni (centrata e simmetrica) -->
@@ -710,26 +710,26 @@
         let messaggioSpecialeTimeout = null;
         let prossimaSoglia = 100;
 
-        // ==================== NUOVE DOMANDE (dal file domande 10.docx) ====================
+        // ==================== DOMANDE (da domande 10.docx con estensione .jpg) ====================
         const domandeTotali = [
             // 1 - Succo di frutta
-            { tipo: "scelta_multipla", immagine: "imag/1_10", testo: "Su una confezione di succo di frutta da 250 ml trovi le seguenti informazioni nutrizionali: Valore energetico: 54 kcal - 228 kJ per 100 ml; Proteine: 0,3 g; Carboidrati: 13,1 g; Grassi: 0,0 g. Quante kcal assumi se bevi tutto il succo della confezione?", opzioni: ["54", "135", "228", "570"], corretta: "135", hint: "54 kcal per 100 ml, per 250 ml: 54 × 2,5 = 135." },
+            { tipo: "scelta_multipla", immagine: "imag/1_10.jpg", testo: "Su una confezione di succo di frutta da 250 ml trovi le seguenti informazioni nutrizionali: Valore energetico: 54 kcal - 228 kJ per 100 ml; Proteine: 0,3 g; Carboidrati: 13,1 g; Grassi: 0,0 g. Quante kcal assumi se bevi tutto il succo della confezione?", opzioni: ["54", "135", "228", "570"], corretta: "135", hint: "54 kcal per 100 ml, per 250 ml: 54 × 2,5 = 135." },
             // 2 - Sequenze numeriche
-            { tipo: "scelta_multipla", immagine: "imag/2_10", testo: "In quale di queste sequenze i numeri sono ordinati dal più piccolo al più grande?", opzioni: ["A", "B", "C", "D"], corretta: "B", hint: "Osserva l'immagine per individuare la sequenza corretta." },
+            { tipo: "scelta_multipla", immagine: "imag/2_10.jpg", testo: "In quale di queste sequenze i numeri sono ordinati dal più piccolo al più grande?", opzioni: ["A", "B", "C", "D"], corretta: "B", hint: "Osserva l'immagine per individuare la sequenza corretta." },
             // 3 - Scala carta stradale
             { tipo: "scelta_multipla", testo: "Su una carta stradale due località sono distanti 3 cm. Sapendo che la scala della carta è di 1:1 500 000, a quale distanza reale si trovano le due località?", opzioni: ["4,5 km", "15 km", "45 km", "450 km"], corretta: "45 km", hint: "3 cm × 1.500.000 = 4.500.000 cm = 45 km." },
             // 4 - Computer venduti
-            { tipo: "scelta_multipla", immagine: "imag/4_10", testo: "La tabella mostra la percentuale di computer venduti in base alla dimensione del disco rigido. Sapendo che in totale sono stati venduti 350 computer, quanti computer con hard disk da 250 GB sono stati venduti?", opzioni: ["35", "40", "100", "140"], corretta: "140", hint: "Dalla tabella, la percentuale per 250 GB è 40%: 350 × 0,4 = 140." },
+            { tipo: "scelta_multipla", immagine: "imag/4_10.jpg", testo: "La tabella mostra la percentuale di computer venduti in base alla dimensione del disco rigido. Sapendo che in totale sono stati venduti 350 computer, quanti computer con hard disk da 250 GB sono stati venduti?", opzioni: ["35", "40", "100", "140"], corretta: "140", hint: "Dalla tabella, la percentuale per 250 GB è 40%: 350 × 0,4 = 140." },
             // 5 - Flaconi (a)
             { tipo: "scelta_multipla", testo: "In un laboratorio si devono riempire completamente 7 contenitori da un litro travasando il liquido contenuto in flaconi da 33 cl ciascuno. Il liquido rimanente viene gettato via. Qual è il numero minimo di flaconi che occorrono per riempire tutti i sette contenitori?", opzioni: ["3", "40", "22", "12"], corretta: "22", hint: "7 litri = 700 cl; 700 / 33 ≈ 21,21 → servono 22 flaconi." },
             // 6 - Flaconi (b)
             { tipo: "scelta_multipla", testo: "In un laboratorio si devono riempire completamente 7 contenitori da un litro travasando il liquido contenuto in flaconi da 33 cl ciascuno. Il liquido rimanente viene gettato via. Quanto cl di liquido viene gettato via?", opzioni: ["1", "26", "21", "242"], corretta: "26", hint: "22 flaconi danno 726 cl, usati 700 cl, avanzano 26 cl." },
             // 7 - Espressione
-            { tipo: "scelta_multipla", immagine: "imag/6_10", testo: "Qual è il risultato della seguente espressione? (L'espressione non è visibile nel testo fornito, ma la domanda è presente)", opzioni: ["1", "7/4", "2", "4"], corretta: "4", hint: "Osserva l'immagine per l'espressione." },
+            { tipo: "scelta_multipla", immagine: "imag/6_10.jpg", testo: "Qual è il risultato della seguente espressione? (L'espressione non è visibile nel testo fornito, ma la domanda è presente)", opzioni: ["1", "7/4", "2", "4"], corretta: "4", hint: "Osserva l'immagine per l'espressione." },
             // 8 - Cubo verniciato
-            { tipo: "scelta_multipla", immagine: "imag/7_10", testo: "La superficie del cubo di legno in figura è stata completamente verniciata. Il cubo viene poi segato lungo le linee tratteggiate. Si ottengono così diversi cubetti, dei quali alcuni non hanno nessuna faccia verniciata, altri una o più facce verniciate. Quanti sono i cubetti che non hanno nessuna faccia verniciata?", opzioni: ["1", "7/4", "2", "4"], corretta: "1", hint: "Solo il cubetto centrale interno non è verniciato." },
+            { tipo: "scelta_multipla", immagine: "imag/7_10.jpg", testo: "La superficie del cubo di legno in figura è stata completamente verniciata. Il cubo viene poi segato lungo le linee tratteggiate. Si ottengono così diversi cubetti, dei quali alcuni non hanno nessuna faccia verniciata, altri una o più facce verniciate. Quanti sono i cubetti che non hanno nessuna faccia verniciata?", opzioni: ["1", "7/4", "2", "4"], corretta: "1", hint: "Solo il cubetto centrale interno non è verniciato." },
             // 9 - Piero e Giorgio
-            { tipo: "scelta_multipla", immagine: "imag/8_10", testo: "Piero e Giorgio partono per una breve vacanza. Decidono che Piero pagherà per il cibo e Giorgio per l'alloggio. In tabella c'è il riepilogo delle spese che ciascuno di loro ha sostenuto. Al ritorno fanno i conti per dividere in parti uguali le spese. Quanti euro deve dare Piero a Giorgio per far sì che entrambi abbiano speso la stessa somma di denaro?", opzioni: ["10", "202", "30", "400"], corretta: "10", hint: "Calcola la differenza e dividi per 2." },
+            { tipo: "scelta_multipla", immagine: "imag/8_10.jpg", testo: "Piero e Giorgio partono per una breve vacanza. Decidono che Piero pagherà per il cibo e Giorgio per l'alloggio. In tabella c'è il riepilogo delle spese che ciascuno di loro ha sostenuto. Al ritorno fanno i conti per dividere in parti uguali le spese. Quanti euro deve dare Piero a Giorgio per far sì che entrambi abbiano speso la stessa somma di denaro?", opzioni: ["10", "202", "30", "400"], corretta: "10", hint: "Calcola la differenza e dividi per 2." },
             // 10 - Padella
             { tipo: "scelta_multipla", testo: "Il prezzo p (in euro) di una padella dipende dal suo diametro d (in cm) secondo la seguente formula: p = (1/15) d². Indica quale fra queste affermazioni è quella vera.", opzioni: [
                 "Il prezzo della padella è direttamente proporzionale al suo diametro.",
@@ -740,9 +740,9 @@
             // 11 - Aereo fuso orario
             { tipo: "scelta_multipla", testo: "Un aereo parte alle 14.15 (ora di Roma) dall'aeroporto di Roma-Fiumicino e arriva all'aeroporto JFK di New York alle 18.00 (ora di New York). Sapendo che fra Roma e New York vi sono 6 ore di differenza di fuso orario (quando a New York è mezzanotte, a Roma sono le 6 del mattino seguente), quante ore dura il volo?", opzioni: ["3 h 45'", "4 h 15'", "9 h 45'", "10 h 15'"], corretta: "9 h 45'", hint: "Ora di New York all partenza: 14:15 - 6 = 8:15; volo = 18:00 - 8:15 = 9h45." },
             // 12 - Barattolo pelati
-            { tipo: "scelta_multipla", immagine: "imag/11_10", testo: "Un barattolo di pelati da 0,4 kg è alto 11 cm e ha la base di 6 cm di diametro. Qual è il volume del barattolo?", opzioni: ["Circa 100 cm³", "Circa 200 cm³", "Circa 300 cm³", "Circa 400 cm³"], corretta: "Circa 300 cm³", hint: "Volume cilindro: π·3²·11 ≈ 311 cm³." },
+            { tipo: "scelta_multipla", immagine: "imag/11_10.jpg", testo: "Un barattolo di pelati da 0,4 kg è alto 11 cm e ha la base di 6 cm di diametro. Qual è il volume del barattolo?", opzioni: ["Circa 100 cm³", "Circa 200 cm³", "Circa 300 cm³", "Circa 400 cm³"], corretta: "Circa 300 cm³", hint: "Volume cilindro: π·3²·11 ≈ 311 cm³." },
             // 13 - Triangoli rettangoli
-            { tipo: "scelta_multipla", immagine: "imag/12_10", testo: "Le immagini rappresentano due triangoli rettangoli con il cateto AB disposto sulla retta r e l'altro cateto disposto sulla perpendicolare alla retta. Indica l'affermazione corretta:", opzioni: [
+            { tipo: "scelta_multipla", immagine: "imag/12_10.jpg", testo: "Le immagini rappresentano due triangoli rettangoli con il cateto AB disposto sulla retta r e l'altro cateto disposto sulla perpendicolare alla retta. Indica l'affermazione corretta:", opzioni: [
                 "Gli angoli contrassegnati con la x sono di 90°",
                 "Gli angoli contrassegnati con la x non sono di 90°",
                 "Gli angoli contrassegnati con la x sono di 180°",
@@ -751,14 +751,14 @@
             // 14 - Triathlon
             { tipo: "scelta_multipla", testo: "Filippo si prepara per una gara di triathlon. Si allena nel nuoto ogni 3 giorni, nella corsa a piedi ogni 6 giorni e nella corsa in bicicletta ogni 8 giorni. Se oggi si è allenato in tutti e tre gli sport, tra quanti giorni gli accadrà di nuovo di allenarsi nei tre sport nella stessa giornata?", opzioni: ["8", "12", "17", "24"], corretta: "24", hint: "mcm(3,6,8) = 24." },
             // 15 - Dado
-            { tipo: "scelta_multipla", immagine: "imag/14_10", testo: "Un dado non truccato è stato lanciato 70 volte di seguito. La tabella riporta la frequenza con cui ciascun numero è uscito. Indica quale delle seguenti affermazioni è vera.", opzioni: [
+            { tipo: "scelta_multipla", immagine: "imag/14_10.jpg", testo: "Un dado non truccato è stato lanciato 70 volte di seguito. La tabella riporta la frequenza con cui ciascun numero è uscito. Indica quale delle seguenti affermazioni è vera.", opzioni: [
                 "Poiché il 5 è uscito meno volte, la probabilità che esca 5 nel lancio successivo è maggiore rispetto agli altri numeri.",
                 "Poiché il 4 è uscito più volte, la probabilità che esca 4 nel lancio successivo è maggiore rispetto agli altri numeri.",
                 "La probabilità che esca 5 nel lancio successivo è uguale a quella che esca 4.",
                 "La probabilità che esca 7 nel lancio successivo è uguale a quella che esca 4."
             ], corretta: "La probabilità che esca 5 nel lancio successivo è uguale a quella che esca 4.", hint: "Il dado non è truccato, ogni faccia ha probabilità 1/6." },
             // 16 - Manuela (grafico)
-            { tipo: "scelta_multipla", immagine: "imag/15_10", testo: "Indica se ciascuna delle seguenti affermazioni è vera o falsa.", opzioni: [
+            { tipo: "scelta_multipla", immagine: "imag/15_10.jpg", testo: "Indica se ciascuna delle seguenti affermazioni è vera o falsa.", opzioni: [
                 "Il grafico mostra che Manuela nel tratto 3 ha camminato meno velocemente che nel tratto 1.",
                 "Il grafico mostra che Manuela nel tratto 3 ha camminato più velocemente che nel tratto 1.",
                 "Il grafico mostra che Manuela nel tratto 1 e nel tratto 5 ha camminato alla stessa velocità.",
@@ -774,26 +774,26 @@
             // 18 - Discussione espressione
             { tipo: "scelta_multipla", testo: "Quattro ragazzi discutono sul valore dell'espressione 3 × n × (n-1) al variare del numero naturale n. Chi ha ragione e fornisce la spiegazione corretta?", opzioni: ["Roberto", "Angela", "Ilaria", "Chiara"], corretta: "Chiara", hint: "n e n-1 sono consecutivi, quindi uno è pari; il prodotto è pari." },
             // 19 - Area curva
-            { tipo: "scelta_multipla", immagine: "imag/18_10", testo: "Nella figura che vedi ogni quadretto ha il lato di 1 cm. Quanto misura all'incirca l'area racchiusa dalla linea curva?", opzioni: ["Meno di 8 cm²", "Più di 8 cm² e meno di 13 cm²", "Più di 13 cm² e meno di 25 cm²", "Più di 25 cm²"], corretta: "Più di 13 cm² e meno di 25 cm²", hint: "Conta i quadretti interni." },
+            { tipo: "scelta_multipla", immagine: "imag/18_10.jpg", testo: "Nella figura che vedi ogni quadretto ha il lato di 1 cm. Quanto misura all'incirca l'area racchiusa dalla linea curva?", opzioni: ["Meno di 8 cm²", "Più di 8 cm² e meno di 13 cm²", "Più di 13 cm² e meno di 25 cm²", "Più di 25 cm²"], corretta: "Più di 13 cm² e meno di 25 cm²", hint: "Conta i quadretti interni." },
             // 20 - Affermazione tappa
-            { tipo: "scelta_multipla", immagine: "imag/19_10", testo: "Indica quale delle seguenti affermazioni è vera.", opzioni: [
+            { tipo: "scelta_multipla", immagine: "imag/19_10.jpg", testo: "Indica quale delle seguenti affermazioni è vera.", opzioni: [
                 "La tappa è lunga 125 km.",
                 "L'altitudine massima raggiunta è 1844 m.",
                 "Il dislivello tra Bolzano e l'arrivo (Alpe di Siusi) è 2110 m.",
                 "La distanza tra Bolzano e l'arrivo (Alpe di Siusi) è 33,6 km."
             ], corretta: "La tappa è lunga 125 km.", hint: "Osserva il profilo altimetrico." },
             // 21 - Signor Carlo
-            { tipo: "scelta_multipla", immagine: "imag/20_10", testo: "Il Signor Carlo scende dal tram all'incrocio di via Pietro Micca con via Antonio Giuseppe Bertola (il punto è contrassegnato da un asterisco). Percorre 200 metri di via Bertola e all'incrocio con via 20 Settembre svolta a sinistra; dopo aver camminato per 150 metri, raggiunge l'incrocio con via Pietro Micca. Da lì decide di tornare al punto di partenza per via Pietro Micca. Quanti metri all'incirca percorre al ritorno?", opzioni: ["200 m", "250 m", "350 m", "600 m"], corretta: "250 m", hint: "Il percorso di ritorno è l'ipotenusa di un triangolo rettangolo con cateti 200 e 150: √(200²+150²)=250." },
+            { tipo: "scelta_multipla", immagine: "imag/20_10.jpg", testo: "Il Signor Carlo scende dal tram all'incrocio di via Pietro Micca con via Antonio Giuseppe Bertola (il punto è contrassegnato da un asterisco). Percorre 200 metri di via Bertola e all'incrocio con via 20 Settembre svolta a sinistra; dopo aver camminato per 150 metri, raggiunge l'incrocio con via Pietro Micca. Da lì decide di tornare al punto di partenza per via Pietro Micca. Quanti metri all'incirca percorre al ritorno?", opzioni: ["200 m", "250 m", "350 m", "600 m"], corretta: "250 m", hint: "Il percorso di ritorno è l'ipotenusa di un triangolo rettangolo con cateti 200 e 150: √(200²+150²)=250." },
             // 22 - Triangoli sequenza
-            { tipo: "scelta_multipla", immagine: "imag/21_10", testo: "Queste sono le prime tre figure di una sequenza di triangoli. Il lato del triangolo di figura 2 è il doppio di quello di figura 1 e la sua area è quattro volte più grande. Il lato del triangolo di figura 3 è il triplo di quello di figura 1 e l'area è nove volte più grande. a) Un triangolo formato da 30 triangoli uguali a quello di figura 1 appartiene alla sequenza?", opzioni: ["Si", "No", "Non si può dire", "I triangoli non sono uguali"], corretta: "No", hint: "Il numero di triangoli deve essere un quadrato perfetto (1,4,9,16,...). 30 non lo è." },
+            { tipo: "scelta_multipla", immagine: "imag/21_10.jpg", testo: "Queste sono le prime tre figure di una sequenza di triangoli. Il lato del triangolo di figura 2 è il doppio di quello di figura 1 e la sua area è quattro volte più grande. Il lato del triangolo di figura 3 è il triplo di quello di figura 1 e l'area è nove volte più grande. a) Un triangolo formato da 30 triangoli uguali a quello di figura 1 appartiene alla sequenza?", opzioni: ["Si", "No", "Non si può dire", "I triangoli non sono uguali"], corretta: "No", hint: "Il numero di triangoli deve essere un quadrato perfetto (1,4,9,16,...). 30 non lo è." },
             // 23 - Triangolo isoscele perimetro
-            { tipo: "scelta_multipla", immagine: "imag/22_10", testo: "Scrivi la formula che esprime il perimetro p del triangolo isoscele in figura in funzione di a. (La figura mostra un triangolo isoscele con i lati obliqui lunghi a e la base lunga 3)", opzioni: ["p = 2a+3", "p = a+3", "p = 1/2a+3", "p = a^2+3"], corretta: "p = 2a+3", hint: "Perimetro = a + a + base = 2a + 3." },
+            { tipo: "scelta_multipla", immagine: "imag/22_10.jpg", testo: "Scrivi la formula che esprime il perimetro p del triangolo isoscele in figura in funzione di a. (La figura mostra un triangolo isoscele con i lati obliqui lunghi a e la base lunga 3)", opzioni: ["p = 2a+3", "p = a+3", "p = 1/2a+3", "p = a^2+3"], corretta: "p = 2a+3", hint: "Perimetro = a + a + base = 2a + 3." },
             // 24 - Circonferenza e rettangolo
-            { tipo: "scelta_multipla", immagine: "imag/23_10", testo: "La circonferenza in figura ha il raggio di 4 cm. ABCD è un rettangolo. a. Qual è la lunghezza (in cm) del segmento AC ?", opzioni: ["5", "16", "4", "8"], corretta: "4", hint: "Forse AC è un raggio? Osserva la figura." },
+            { tipo: "scelta_multipla", immagine: "imag/23_10.jpg", testo: "La circonferenza in figura ha il raggio di 4 cm. ABCD è un rettangolo. a. Qual è la lunghezza (in cm) del segmento AC ?", opzioni: ["5", "16", "4", "8"], corretta: "4", hint: "Forse AC è un raggio? Osserva la figura." },
             // 25 - Probabilità giugno
-            { tipo: "scelta_multipla", immagine: "imag/24_10", testo: "Elena compie gli anni in giugno. Di seguito è riportato il calendario di giugno 2010, dove sono evidenziati i giorni festivi. Qual è la probabilità che Elena compia gli anni in un giorno festivo?", opzioni: ["12%", "16,7 %", "4,2%", "80%"], corretta: "16,7 %", hint: "Giugno ha 30 giorni; conta i festivi (probabilmente 5 domeniche?) 5/30 ≈ 16,7%." },
+            { tipo: "scelta_multipla", immagine: "imag/24_10.jpg", testo: "Elena compie gli anni in giugno. Di seguito è riportato il calendario di giugno 2010, dove sono evidenziati i giorni festivi. Qual è la probabilità che Elena compia gli anni in un giorno festivo?", opzioni: ["12%", "16,7 %", "4,2%", "80%"], corretta: "16,7 %", hint: "Giugno ha 30 giorni; conta i festivi (probabilmente 5 domeniche?) 5/30 ≈ 16,7%." },
             // 26 - Giovanni osservazioni
-            { tipo: "scelta_multipla", immagine: "imag/25_10", testo: "Giovanni osserva da diversi punti di vista la struttura raffigurata qui sotto. Quali tra le seguenti possono essere rappresentazioni di ciò che vede?", opzioni: ["La 1 e la 5", "La 3 e la 6", "La 2 e la 4", "La 2 e la 6"], corretta: "La 2 e la 6", hint: "Osserva le viste laterali." }
+            { tipo: "scelta_multipla", immagine: "imag/25_10.jpg", testo: "Giovanni osserva da diversi punti di vista la struttura raffigurata qui sotto. Quali tra le seguenti possono essere rappresentazioni di ciò che vede?", opzioni: ["La 1 e la 5", "La 3 e la 6", "La 2 e la 4", "La 2 e la 6"], corretta: "La 2 e la 6", hint: "Osserva le viste laterali." }
         ];
 
         // Mescola le domande all'avvio
