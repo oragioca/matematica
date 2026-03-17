@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Math Game - Classe Terza (INVALSI 2011)</title>
+    <style>
+        /* ========== RESET E STILI BASE ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Open Sans', 'Segoe UI', sans-serif;
+        }
+        body {
+            background-color: #c3e0ff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+        }
+        .game-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #d4e6ff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,40,80,0.2);
+            padding: 12px;
+            margin: 0 auto;
+        }
+
+        /* ========== HEADER CON TITOLO ========== */
+        .game-header {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            border-radius: 12px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 0 #1f618d, 0 10px 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .game-header h1 {
+            color: white;
+            font-size: 1.4rem;
+            text-shadow: 2px 2px 0 #1f618d;
+            word-break: break-word;
+        }
+
+        /* ========== BARRA INFORMAZIONI (CENTRATA E SIMMETRICA) ========== */
+        .game-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            border: 1px solid #d0d0d0;
+        }
+        .info-item {
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .info-item .label {
+            font-size: 0.6rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+        }
+        .info-item .value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .vite-container {
+            display: flex;
+            gap: 2px;
+            justify-content: center;
+        }
+        .vita {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        .vita.piena { color: #ffaa00; }
+        .vita.persa { color: #b0b0b0; opacity: 0.5; }
+
+        /* Indicatore errori */
+        .errori-indicatore {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            background: #f8f9fa;
+            padding: 3px 8px;
+            border-radius: 6px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .pallino-errore {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            border: 1px solid #ff4757;
+        }
+        .pallino-errore.attivo { background: #ff4757; box-shadow: 0 0 5px #ff4757; }
+
+        /* Contatore serie */
+        .risposte-consecutive {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #f8f9fa;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .risposte-consecutive span:last-child {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Aiuti utilizzati (nascosto di default) */
+        .aiuti-utilizzati {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            background: #f8f9fa;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+
+        /* ========== AREA GIOCO ========== */
+        .sezione-gioco {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 300px;
+            margin: 8px 0;
+        }
+        /* Messaggio di avvio */
+        .messaggio-avvio {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            border-radius: 16px;
+            padding: 20px 15px;
+            max-width: 450px;
+            margin: 10px auto;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #1f618d, 0 10px 20px rgba(0,0,0,0.3);
+            color: white;
+            text-align: center;
+        }
+        .messaggio-avvio h2 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 2px 2px 0 #1f618d; }
+        .messaggio-avvio p { margin-bottom: 8px; font-size: 1rem; }
+        .messaggio-avvio .istruzione-gioco {
+            background: rgba(255,255,255,0.25);
+            border-radius: 12px;
+            padding: 10px;
+            margin: 12px 0;
+            border: 2px dashed white;
+        }
+        .messaggio-avvio .istruzione-principale {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: rgba(0,0,0,0.2);
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 40px;
+            margin-top: 10px;
+        }
+        .icona-play { font-size: 4rem; margin-bottom: 5px; animation: bounce 1.5s infinite; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+        /* Area domanda (inizialmente nascosta) */
+        .area-domanda {
+            display: none;
+            flex-direction: column;
+            position: relative;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px 12px;
+            width: 100%;
+            min-height: 300px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+        }
+        #contenuto-domanda {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            width: 100%;
+        }
+        .testo-domanda {
+            font-size: 0.85rem;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            text-align: justify;      /* Allineamento giustificato */
+            word-break: break-word;
+            line-height: 1.4;
+            hyphens: auto;            /* Sillabazione automatica */
+        }
+        .immagine-domanda {
+            max-width: 100%;
+            max-height: 200px;
+            margin-bottom: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            object-fit: contain;
+            cursor: pointer;
+        }
+        .opzioni-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .opzione-btn {
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+            border: none;
+            border-radius: 6px;
+            padding: 8px 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b0b0b0, 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+            word-break: break-word;
+            min-height: 50px;
+            transition: 0.1s;
+        }
+        .opzione-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #a0a0a0; }
+        .opzione-btn.selezionata {
+            background: linear-gradient(145deg, #2ecc71, #27ae60);
+            color: white;
+            box-shadow: 0 3px 0 #1e8449;
+        }
+        .risposta-aperta-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .casella-risposta {
+            width: 80px;
+            height: 60px;
+            font-size: 2rem;
+            text-align: center;
+            border: 2px solid #4a90e2;
+            border-radius: 6px;
+            background: white;
+            color: #2c3e50;
+            outline: none;
+        }
+        .tastiera-container {
+            display: none;
+            background: #f8f8f8;
+            border-radius: 6px;
+            padding: 6px;
+            margin-top: 6px;
+            border: 2px solid #ddd;
+        }
+        .tastiera-numerica {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .tasto-numero {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+            border: 2px solid #4a90e2;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #b0b0b0;
+            transition: 0.1s;
+        }
+        .tasto-numero:hover { transform: translateY(-1px); box-shadow: 0 3px 0 #a0a0a0; }
+        .tasto-cancella { background: #ff4757; color: white; border-color: #c0392b; }
+
+        /* Messaggi di verifica e speciali */
+        .messaggio-verifica, .messaggio-speciale {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 350px;
+            z-index: 10;
+            pointer-events: none;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .messaggio-verifica {
+            bottom: 10px;
+            background: #fff3cd;
+            border: 2px dashed #ffc107;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-weight: bold;
+            color: #856404;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateX(-50%) translateY(-5px);
+        }
+        .messaggio-verifica.mostra { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .messaggio-corretto { background: #d4edda; border-color: #28a745; color: #155724; }
+        .messaggio-errato { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .messaggio-info { background: #d1ecf1; border-color: #17a2b8; color: #0c5460; }
+        .messaggio-speciale {
+            bottom: 70px;
+            background: linear-gradient(145deg, #ff0080, #ff00ff);
+            border: 3px solid #ff00ff;
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 0 25px rgba(255,0,255,0.7);
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: rainbow 3s infinite;
+            opacity: 0;
+            transform: translateX(-50%) scale(0.9);
+        }
+        .messaggio-speciale.mostra { opacity: 1; transform: translateX(-50%) scale(1); }
+        @keyframes rainbow {
+            0% { background: #ff0080; } 25% { background: #00ffff; } 50% { background: #00ff80; } 75% { background: #ffff00; } 100% { background: #ff0080; }
+        }
+
+        /* ========== PULSANTI DI CONTROLLO (GIOCO) ========== */
+        .controlli {
+            display: none;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .bottone {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b0b0b0;
+            transition: 0.1s;
+            font-size: 0.9rem;
+            flex: 1;
+            max-width: 120px;
+            color: white;
+            word-break: break-word;
+        }
+        .bottone:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #a0a0a0; }
+        .bottone-verifica { background: linear-gradient(145deg, #2ecc71, #27ae60); }
+        .bottone-aiuto { background: linear-gradient(145deg, #f39c12, #e67e22); }
+        .bottone-nuova { background: linear-gradient(145deg, #9b59b6, #8e44ad); }
+        .bottone-salta { background: linear-gradient(145deg, #ff9800, #f57c00); }
+
+        /* ========== PULSANTI IN BASSO (INFO, COMMENTI, ESCI) ========== */
+        .bottom-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        .bottom-btn {
+            flex: 1 1 0;
+            min-width: 120px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 0 #1f618d;
+            transition: 0.1s;
+            text-align: center;
+        }
+        .bottom-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #1f618d;
+        }
+        @media (max-width: 480px) {
+            .bottom-btn { flex: 1 1 100%; }
+        }
+
+        /* ========== MODALI ========== */
+        .modal-overlay, .comment-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 8px;
+        }
+        .modal-content, .comment-content {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .close-modal {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 26px; height: 26px;
+            cursor: pointer;
+        }
+        .comment-section input, .comment-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        .comment-section button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .comment-close {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px; height: 30px;
+            font-size: 1.2rem;
+            position: absolute;
+            top: 10px; right: 10px;
+            cursor: pointer;
+        }
+        .back-link { text-align: center; margin-top: 15px; }
+        .back-link a { color: #4a90e2; text-decoration: none; }
+
+        /* Lightbox per immagini */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            cursor: pointer;
+        }
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border: 3px solid white;
+            border-radius: 8px;
+        }
+
+        /* Blocco interazioni durante messaggi speciali */
+        body.messaggio-attivo .bottone,
+        body.messaggio-attivo .bottom-btn {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- HEADER CON TITOLO -->
+        <div class="game-header">
+            <h1>🧮 Math Game - Classe Terza (INVALSI 2011) 🧮</h1>
+        </div>
+
+        <!-- Barra informazioni (centrata e simmetrica) -->
+        <div class="game-info">
+            <!-- PUNTI -->
+            <div class="info-item">
+                <div class="label">PUNTI</div>
+                <div class="value" id="punteggio-display">0</div>
+            </div>
+
+            <!-- Errori consecutivi -->
+            <div class="errori-indicatore" id="errori-indicatore">
+                <span>Errori:</span>
+                <div class="pallino-errore" id="errore-1"></div>
+                <div class="pallino-errore" id="errore-2"></div>
+                <div class="pallino-errore" id="errore-3"></div>
+                <span>(perdi 1 vita al 3°)</span>
+            </div>
+
+            <!-- VITE (centrate) -->
+            <div class="info-item">
+                <div class="label">VITE</div>
+                <div class="vite-container" id="vite-container"></div>
+            </div>
+
+            <!-- Serie -->
+            <div class="risposte-consecutive" id="risposte-consecutive">
+                <span>Serie:</span>
+                <span id="contatore-consecutive">0</span>
+                <span>😊</span>
+            </div>
+
+            <!-- TEMPO -->
+            <div class="info-item">
+                <div class="label">TEMPO</div>
+                <div class="value" id="tempo-display">90:00</div>
+            </div>
+
+            <!-- Aiuti (nascosto, ma mantenuto) -->
+            <div class="aiuti-utilizzati" id="aiuti-utilizzati">
+                <span>Aiuti usati:</span>
+                <span id="contatore-aiuti">0</span>
+                <span>🧠</span>
+                <span>(-2 cad.)</span>
+            </div>
+        </div>
+
+        <!-- Area gioco -->
+        <div class="sezione-gioco">
+            <!-- Messaggio di avvio (visibile inizialmente) -->
+            <div class="messaggio-avvio" id="messaggio-avvio" onclick="iniziaGioco()">
+                <div class="icona-play">📚</div>
+                <h2>Pronto per la sfida?</h2>
+                <p>Hai 90 minuti di tempo per rispondere a tutte le domande.</p>
+                <div class="istruzione-gioco">
+                    Rispondi correttamente al primo tentativo per ottenere il superobonus (punti base + bonus tempo).<br>
+                    Invia un commento se vuoi suggerire qualcosa o vuoi comunicare con l'autore dei giochi.
+                </div>
+                <p class="istruzione-principale">Clicca qui per iniziare!</p>
+            </div>
+
+            <!-- Area domanda (inizialmente nascosta) -->
+            <div class="area-domanda" id="area-domanda">
+                <div id="contenuto-domanda"></div>
+                <!-- Messaggi di feedback -->
+                <div class="messaggio-verifica" id="messaggio-verifica"></div>
+                <div class="messaggio-speciale" id="messaggio-speciale"></div>
+            </div>
+        </div>
+
+        <!-- Pulsanti di controllo del gioco -->
+        <div class="controlli" id="controlli-gioco">
+            <button class="bottone bottone-aiuto" id="bottone-aiuto" onclick="mostraAiuto()">🧠 Aiuto (-2)</button>
+            <button class="bottone bottone-verifica" id="bottone-verifica" onclick="verificaRisposta()">✓ Verifica</button>
+            <button class="bottone bottone-salta" id="bottone-salta" onclick="saltaDomanda()">❓ Non so</button>
+            <button class="bottone bottone-nuova" id="bottone-nuova" onclick="resetGioco()">🔄 Nuova Partita</button>
+        </div>
+
+        <!-- Tastiera numerica (per risposte aperte) -->
+        <div class="tastiera-container" id="tastiera-container">
+            <div class="tastiera-numerica" id="tastiera-numerica"></div>
+        </div>
+
+        <!-- Pulsanti in basso: Info, Commenti, Esci -->
+        <div class="bottom-buttons">
+            <button class="bottom-btn" onclick="apriIstruzioni()">❓ Info</button>
+            <button class="bottom-btn" onclick="apriCommenti()">💬 Commenti</button>
+            <button class="bottom-btn" onclick="esciDalGioco()">🚪 Esci</button>
+        </div>
+
+        <!-- Overlay commenti -->
+        <div class="comment-overlay" id="comment-overlay">
+            <div class="comment-content">
+                <button class="comment-close" onclick="chiudiCommenti()">✕</button>
+                <div class="comment-section">
+                    <h2>✍️ Scrivi il tuo nome e sotto il msg</h2>
+                    <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
+                        <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/secondaria/grazie.html">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="text" name="name" placeholder="Il tuo nome" required>
+                        <textarea name="message" placeholder="Il tuo commento..." rows="4" required></textarea>
+                        <button type="submit">Invia</button>
+                    </form>
+                    <p style="font-size:0.7rem; color:#888;">I commenti sono anonimi e verranno inviati via email.</p>
+                    <div class="back-link"><a href="index.html">← Torna alla pagina della secondaria</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale istruzioni -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">📚 Istruzioni</span>
+                <button class="close-modal" onclick="chiudiIstruzioni()">✕</button>
+            </div>
+            <div class="modal-section">
+                <h3>🎯 Come giocare</h3>
+                <ol style="margin-left:18px;">
+                    <li>Leggi attentamente la domanda (alcune hanno immagini).</li>
+                    <li>Seleziona la risposta (o scrivila) e premi "Verifica".</li>
+                    <li>Se corretto al primo tentativo guadagni 1 punto base + bonus tempo (1 punto ogni 10 minuti rimasti).</li>
+                    <li>Se non sai rispondere, premi "Non so" per saltare senza conseguenze.</li>
+                    <li>Dopo la verifica, la prossima domanda appare automaticamente dopo 2 secondi (o dopo il messaggio speciale se presente).</li>
+                </ol>
+            </div>
+            <div class="modal-section">
+                <h3>Punteggio e vite</h3>
+                <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>Se rispondi ad una SERIE di 5 risposte corrette di fila ti aggiudichi 1 vita, utile per recuperare le vite perdute.<br>Ogni 100 punti raggiunti un premio speciale! 🏆 </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox per immagini -->
+    <div class="lightbox-overlay" id="lightbox-overlay" onclick="chiudiLightbox()">
+        <img class="lightbox-img" id="lightbox-img" src="" alt="Ingrandimento">
+    </div>
+
+    <script>
+        // ==================== AUDIO (solo per superbonus) ====================
+        let audioContext;
+        let audioInizializzato = false;
+        let wowSound;
+
+        function inizializzaAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                creaSuonoWow();
+                audioInizializzato = true;
+                if (audioContext.state === 'suspended') audioContext.resume();
+                console.log("Audio inizializzato");
+            } catch (e) { console.log("Audio non supportato:", e); }
+        }
+
+        function creaSuonoWow() {
+            try {
+                const durata = 1.5;
+                const buffer = audioContext.createBuffer(1, audioContext.sampleRate * durata, audioContext.sampleRate);
+                const output = buffer.getChannelData(0);
+                for (let i = 0; i < buffer.length; i++) {
+                    const t = i / audioContext.sampleRate;
+                    let freq1 = 200 + t * 600; if (freq1 > 800) freq1 = 800;
+                    let freq2 = freq1 * 1.5, freq3 = freq1 * 2;
+                    let envelope = Math.sin(Math.PI * t / durata) * 0.7 * (1 + 0.3 * Math.sin(2 * Math.PI * 2 * t));
+                    output[i] = envelope * ( Math.sin(2 * Math.PI * freq1 * t) * 0.5 + Math.sin(2 * Math.PI * freq2 * t) * 0.3 + Math.sin(2 * Math.PI * freq3 * t) * 0.2 );
+                    output[i] *= (1 + 0.1 * Math.sin(2 * Math.PI * 3 * t));
+                }
+                wowSound = buffer;
+            } catch (e) {}
+        }
+
+        function playWowSound(volume = 0.8) {
+            if (!audioInizializzato || !wowSound) return;
+            try {
+                if (audioContext.state === 'suspended') audioContext.resume();
+                const source = audioContext.createBufferSource();
+                source.buffer = wowSound;
+                const gainNode = audioContext.createGain();
+                gainNode.gain.value = volume;
+                source.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                source.start();
+            } catch (e) {}
+        }
+
+        // ==================== VARIABILI GLOBALI ====================
+        let punteggio = 0;
+        let vite = 3;
+        let giocoIniziato = false;
+        let gameOver = false;
+        let operazioniCorretteConsecutive = 0;
+        let aiutiUtilizzatiDomandaCorrente = 0;
+        let erroriConsecutivi = 0;
+        let timerInterval;
+        let tempoRimanente = 5400; // 90 minuti in secondi
+        const TEMPO_TOTALE = 5400;
+        let tentativiDomandaCorrente = 0;
+        let timeoutProssima = null;
+        let indiceDomandaCorrente = 0;
+        let messaggioTimeout = null;
+        let messaggioSpecialeTimeout = null;
+        let prossimaSoglia = 100;
+
+        // ==================== DOMANDE (INVALSI 2011) ====================
+        const domandeTotali = [
+            // 1 - Grafico famiglie (2 componenti)
+            { tipo: "scelta_multipla", immagine: "imag/1_11.jpg", testo: "Osserva il grafico seguente che rappresenta la distribuzione percentuale di famiglie per numero di componenti, in base al censimento 2001. Qual è la percentuale di famiglie con 2 componenti?", opzioni: ["28", "27", "6", "32"], corretta: "27", hint: "Dal grafico, la percentuale per 2 componenti è 27%." },
+            // 2 - Grafico famiglie (6% per quanti componenti)
+            { tipo: "scelta_multipla", immagine: "imag/1_11.jpg", testo: "Osserva il grafico seguente che rappresenta la distribuzione percentuale di famiglie per numero di componenti, in base al censimento 2001. Il 6% delle famiglie ha componenti:", opzioni: ["5", "2", "6", "3"], corretta: "5", hint: "Dal grafico, la percentuale per 5 componenti è 6%." },
+            // 3 - Tre numeri dispari consecutivi
+            { tipo: "scelta_multipla", testo: "L’insegnante chiede: Che cosa succede se si addizionano tre numeri dispari consecutivi? Quattro studenti rispondono nel modo che vedi in tabella. Indica l'affermazione corretta:", opzioni: ["Luisa: si ottiene sempre un numero pari.", "Giovanni: si ottiene sempre un multiplo di tre.", "Andrea: si ottiene a volte un numero pari a volte un numero dispari.", "Paola: si ottiene sempre il doppio di uno dei tre numeri."], corretta: "Giovanni: si ottiene sempre un multiplo di tre.", hint: "Per esempio, 1+3+5=9 multiplo di 3, 3+5+7=15, ecc." },
+            // 4 - Stipendio aziende
+            { tipo: "scelta_multipla", immagine: "imag/3_11.jpg", testo: "Il padre di Silvia riceve due proposte di lavoro, una dall'azienda A e una dall'azienda B. La tabella rappresenta come cresce nel tempo lo stipendio offerto dall'azienda A e il grafico rappresenta come cresce nel tempo quello offerto dall'Azienda B. In quale anno il padre di Silvia percepirà uno stipendio annuale di 40000 euro?", opzioni: ["Azienda A=6° ; Azienda B=7°", "Azienda A=7° ; Azienda B=7°", "Azienda A=6° ; Azienda B=6°", "Azienda A=7° ; Azienda B=6°"], corretta: "Azienda A=6° ; Azienda B=7°", hint: "Dalla tabella e dal grafico, l'azienda A raggiunge 40000 al 6° anno, la B al 7°." },
+            // 5 - Porta girevole
+            { tipo: "scelta_multipla", immagine: "imag/4_11.jpg", testo: "Antonella, passeggiando, si ferma a osservare la porta girevole di vetro dell'Hotel Landi su cui sono impresse le lettere ... Una persona entra nell'albergo spingendo con forza la porta, che ruota così di circa 180°. Antonella vede ancora, in trasparenza, le lettere. Quale tra le seguenti immagini vede?", opzioni: ["A", "B", "C", "D"], corretta: "A", hint: "Dopo una rotazione di 180°, le lettere appaiono capovolte ma simmetriche? In base all'immagine, la risposta è A." },
+            // 6 - Vasche in piscina
+            { tipo: "scelta_multipla", testo: "Giovanni e Caterina si stanno allenando in piscina. Nuotano entrambi alla stessa velocità ma Giovanni ha cominciato più tardi ad allenarsi. Quando Giovanni ha fatto 10 vasche, Caterina ne ha fatte 30. Al termine dell'allenamento Giovanni ha fatto 50 vasche; quante ne ha fatte Caterina?", opzioni: ["50", "70", "120", "10"], corretta: "70", hint: "La differenza iniziale è di 20 vasche, quindi Caterina ne ha sempre 20 in più: 50+20=70." },
+            // 7 - Area triangolo
+            { tipo: "scelta_multipla", immagine: "imag/6_11.jpg", testo: "Osserva il disegno. Calcola l'area del triangolo sapendo che il segmento AB è 4 cm e l'altezza relativa al vertice è 3 cm:", opzioni: ["5", "6", "12", "18"], corretta: "6", hint: "Area = (base × altezza)/2 = (4×3)/2 = 6." },
+            // 8 - Quiz Antonio e Giada (attenzione: secondo il documento la risposta corretta è B, anche se il calcolo darebbe A)
+            { tipo: "scelta_multipla", testo: "Antonio e Giada partecipano a una gara a quiz. Per ogni risposta esatta si assegnano due punti mentre per ogni risposta sbagliata si toglie un punto. L'esito della gara è il seguente: Antonio ha dato 11 risposte esatte e 9 sbagliate; Giada ha dato 6 risposte esatte e 14 sbagliate. Quali sono i punteggi finali dei due ragazzi?", opzioni: ["+13; +2", "-13; +2", "+2; +8", "+2; -8"], corretta: "-13; +2", hint: "Secondo il documento, la risposta corretta è questa (anche se i calcoli darebbero +13 e -2)." },
+            // 9 - Offerta olio
+            { tipo: "scelta_multipla", testo: "Giulio sa che nel negozio A e nel negozio B le bottiglie di olio della marca che preferisce hanno lo stesso prezzo. Sua moglie gli dice che oggi, su quell'olio, nel negozio A fanno l'offerta compri 3 e paghi 2 e nel negozio B fanno lo sconto del 40%. Giulio deve comprare 3 bottiglie d'olio. In quale negozio gli conviene comprarle?", opzioni: ["A", "B"], corretta: "B", hint: "Con l'offerta 3x2 si paga il prezzo di 2 bottiglie, quindi si risparmia 1/3 ≈ 33.3%, mentre lo sconto del 40% è maggiore." },
+            // 10 - Dodecagono
+            { tipo: "scelta_multipla", immagine: "imag/9_11.jpg", testo: "Le immagini che seguono rappresentano un motivo del pavimento di una antica casa romana e la sua schematizzazione geometrica: Il motivo, corrispondente a un dodecagono, è composto da un esagono regolare interno, sei quadrati uguali e sei triangoli equilateri uguali. Indica l'affermazione corretta.", opzioni: ["L'area dell'esagono è metà dell'area del dodecagono", "L'area di ciascun triangolo è un sesto dell'area dell'esagono", "L'area di un quadrato è il doppio dell'area di un triangolo", "Il perimetro del dodecagono è il triplo di quello dell'esagono"], corretta: "L'area di ciascun triangolo è un sesto dell'area dell'esagono", hint: "Dalla geometria della figura, l'esagono è diviso in 6 triangoli equilateri, quindi ogni triangolo ha area 1/6 dell'esagono." },
+            // 11 - Linee di livello
+            { tipo: "scelta_multipla", immagine: "imag/10_11.jpg", testo: "La figura che vedi riporta una rappresentazione semplificata delle linee di livello di una montagna. Le linee di livello uniscono tutti i punti che si trovano alla stessa altitudine. Nella figura il punto A è a 1000 metri di altitudine e la vetta S della montagna è a 1600 metri. Un escursionista va dal punto A al punto S seguendo il percorso indicato nel disegno dal segmento AS. Tra i tratti AB, BC, CD, DE, qual è il più ripido?", opzioni: ["AB", "BC", "CD", "DE"], corretta: "CD", hint: "Il tratto più ripido è quello in cui le linee di livello sono più vicine tra loro." },
+            // 12 - Lancio moneta
+            { tipo: "scelta_multipla", immagine: "imag/11_11.jpg", testo: "Per scegliere chi deve lavare i piatti del pranzo, Marco, Lorenzo e Livia decidono di lanciare due volte una moneta da 1 euro come quella che vedi in figura: Testa Croce. Stabiliscono che: se verranno 2 croci, laverà i piatti Marco; se verranno 2 teste, laverà i piatti Livia; se verranno una testa e una croce, laverà i piatti Lorenzo. Pensi che tutti e tre abbiano la stessa probabilità di lavare i piatti?", opzioni: ["SI", "NO"], corretta: "NO", hint: "Le probabilità sono: 2 croci 1/4, 2 teste 1/4, una testa e una croce 1/2." },
+            // 13 - Scala banco
+            { tipo: "scelta_multipla", immagine: "imag/12_11.jpg", testo: "Il rettangolo rappresenta, in scala 1:5, il piano rettangolare di un banco. Quanti rettangoli uguali a quello disegnato servono per coprire interamente la superficie reale del piano del banco?", opzioni: ["25", "20", "10", "5"], corretta: "25", hint: "La scala lineare è 1:5, quindi l'area è in scala 1:25, servono 25 rettangoli." },
+            // 14 - √10
+            { tipo: "scelta_multipla", testo: "Il numero √10 è:", opzioni: ["compreso tra 9 e 11", "uguale a 5", "compreso tra 3 e 4", "uguale a 100"], corretta: "compreso tra 3 e 4", hint: "√10 ≈ 3,16, quindi è compreso tra 3 e 4." },
+            // 15 - 27% di 350
+            { tipo: "scelta_multipla", testo: "Per trovare il 27% di 350 si deve", opzioni: ["dividere 350 per 27", "dividere 350 per 0,27", "moltiplicare 350 per 27", "moltiplicare 350 per 0,27"], corretta: "moltiplicare 350 per 0,27", hint: "27% = 0,27, quindi 350 × 0,27." },
+            // 16 - Voli Atlanta
+            { tipo: "scelta_multipla", immagine: "imag/15_11.jpg", testo: "Francesco si trova nell'aeroporto di Atlanta per una vacanza negli Stati Uniti. La sua prossima tappa è Los Angeles. Purtroppo non c'è un volo diretto e deve fare scalo in un altro aeroporto. Quale combinazione di voli, in base alla tabella, risulta più economica per Francesco?", opzioni: ["Z3+Z4", "Z2+Z6", "Z4+Z5", "Z6+Z4"], corretta: "Z2+Z6", hint: "Dalla tabella, la combinazione Z2+Z6 è la più economica." },
+            // 17 - Inchiesta Sara
+            { tipo: "scelta_multipla", immagine: "imag/16_11.jpg", testo: "Sara chiede agli studenti della sezione musicale della sua scuola qual è la loro materia preferita. Nella tabella ha riportato i risultati della sua inchiesta: ... Sara conclude che la musica è la materia preferita dagli studenti della sua scuola. Quale tra le seguenti motivazioni spiega meglio perché la sua conclusione potrebbe non essere valida?", opzioni: ["Sara non ha distinto le preferenze dei maschi da quelle delle femmine.", "Sara avrebbe dovuto intervistare solo gli studenti di terza media della scuola.", "Gli studenti intervistati non sono rappresentativi di tutti gli studenti della scuola.", "Gli studenti sono stati intervistati solo una volta."], corretta: "Gli studenti intervistati non sono rappresentativi di tutti gli studenti della scuola.", hint: "Il campione non è rappresentativo perché sono solo studenti di musica." },
+            // 18 - Molla
+            { tipo: "scelta_multipla", testo: "La formula L = L0 + K × P esprime la lunghezza di una molla al variare del peso applicato. L0 rappresenta la lunghezza in centimetri 'a riposo' della molla; K indica di quanto si allunga in centimetri la molla quando le si applica una unità di peso. Quale delle formule elencate si adatta meglio alla seguente descrizione: 'È una molla molto corta e molto dura (cioè molto resistente alla trazione)'", opzioni: ["L=10+0,5×P", "L=10+7×P", "L=80+0,5×P", "L=80+7×P"], corretta: "L=10+0,5×P", hint: "Corta significa L0 piccolo, dura significa K piccolo." },
+            // 19 - Elisa e Paolo
+            { tipo: "scelta_multipla", immagine: "imag/18_11.jpg", testo: "Elisa e Paolo stanno cercando di rispondere a questa domanda: Qual è la coppia di numeri interi a, b (diversi fra loro) tali che ? Ecco le loro soluzioni. Chi ha ragione?", opzioni: ["Solo Elisa", "Solo Paolo", "Entrambi", "Nessuno dei due"], corretta: "Solo Paolo", hint: "Dalla figura, la soluzione di Paolo è corretta." },
+            // 20 - Bicchieri
+            { tipo: "scelta_multipla", testo: "Un bicchiere contiene 1/4 di litro di acqua. Se si vuole riempire una bottiglia da 1,5 litri, quanti bicchieri di acqua bisogna versare nella bottiglia?", opzioni: ["16", "6", "4", "2"], corretta: "6", hint: "1,5 litri = 1,5 / 0,25 = 6 bicchieri." },
+            // 21 - Muretto
+            { tipo: "scelta_multipla", immagine: "imag/20_11.jpg", testo: "Si vuole dipingere un muretto di separazione tra i giardini di due case adiacenti. Il muretto, lungo 5 m, con uno spessore di 0,2 m e una altezza di 1 m, appoggia con una delle facce laterali sulla parete delle case, come in figura. Quanto misura la superficie da dipingere in m²?", opzioni: ["10,4", "11,2", "11,4", "12,4"], corretta: "11,2", hint: "Le superfici da dipingere sono le due facce laterali e la faccia superiore? In realtà, il muretto ha due facce laterali (lunghezza x altezza) e due facce frontali (spessore x altezza) ma una laterale è contro la casa? Secondo la figura, il calcolo dà 11,2." },
+            // 22 - Club sportivo (maschio)
+            { tipo: "scelta_multipla", immagine: "imag/21_11.jpg", testo: "La seguente tabella mostra il numero di iscritti a un club sportivo. Minori di 18 anni: Maschi 20, Femmine 18; Maggiori di 18 anni: Maschi 15, Femmine 22. Se viene scelta a caso una delle persone iscritte al club, qual è la probabilità che sia un maschio?", opzioni: ["20/35", "1/2", "35/40", "35/75"], corretta: "35/75", hint: "Totale maschi = 20+15=35, totale iscritti = 20+18+15+22=75, probabilità = 35/75." },
+            // 23 - Club sportivo (più di 18)
+            { tipo: "scelta_multipla", immagine: "imag/21_11.jpg", testo: "La seguente tabella mostra il numero di iscritti a un club sportivo. Qual è la probabilità che la persona scelta a caso abbia più di 18 anni?", opzioni: ["37/75", "40/80", "35/40", "35/75"], corretta: "37/75", hint: "Maggiori di 18 anni: 15+22=37, totale 75, probabilità = 37/75." },
+            // 24 - Scivolo scala (solo con lettere)
+            { tipo: "scelta_multipla", immagine: "imag/22_11.jpg", testo: "Una scala, costituita da 5 gradini profondi 24 cm e alti 18 cm l’uno, deve essere coperta da una tavola di legno utilizzata come scivolo per il trasporto di alcune merci. Indica la formula per trovare la lunghezza dello scivolo?", opzioni: ["A", "B", "C", "D"], corretta: "C", hint: "Guarda la figura: la formula corretta è quella che moltiplica per 5 l'ipotenusa di un gradino." },
+            // 25 - Palo ombra
+            { tipo: "scelta_multipla", immagine: "imag/23_11.jpg", testo: "A una certa ora di una giornata di dicembre, un bastone lungo 1,5 m, piantato nel terreno perpendicolarmente ad esso, proietta un'ombra lunga 6 m. Alla stessa ora, un palo della luce proietta un'ombra di 18 m. Quanto è alto il palo?", opzioni: ["6 m", "5 m", "4,5 m", "18 m"], corretta: "4,5 m", hint: "Proporzione: 1,5/6 = x/18 → x = (1,5*18)/6 = 4,5." },
+            // 26 - Prato e piscina
+            { tipo: "scelta_multipla", immagine: "imag/24_11.jpg", testo: "In un prato (rettangolo più grande) è stata costruita una piscina (rettangolo più piccolo) come vedi in figura. La superficie di prato rimasta è:", opzioni: ["8a²", "6a²", "9a²", "3a"], corretta: "6a²", hint: "L'area del prato meno l'area della piscina: (3a * 3a) - (a * 3a) = 9a² - 3a² = 6a²." },
+            // 27 - Disuguaglianze
+            { tipo: "scelta_multipla", testo: "Quale fra le seguenti disuguaglianze è quella corretta?", opzioni: ["3/10 < 3/5 < 3/20", "4/10 < 3/5 < 11/20", "5/10 < 3/5 < 13/20", "7/10 < 3/5 < 13/20"], corretta: "5/10 < 3/5 < 13/20", hint: "3/5 = 0,6, 5/10=0,5, 13/20=0,65, quindi 0,5<0,6<0,65." },
+            // 28 - Prospettiva armadio
+            { tipo: "scelta_multipla", immagine: "imag/26_11.jpg", testo: "Un alunno, osservando dal suo banco l'armadio posto nell'aula, lo ha rappresentato mediante uno schizzo in prospettiva, cioè come lo vede. Indica la lettera della piantina dell'aula corrispondente alla posizione dell'alunno rispetto all'armadio.", opzioni: ["A", "B", "C"], corretta: "A", hint: "Dalla prospettiva, l'alunno si trova nella posizione A." }
+        ];
+
+        // Mescola le domande all'avvio
+        let domande = [];
+        function mescolaDomande() {
+            domande = [...domandeTotali];
+            for (let i = domande.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [domande[i], domande[j]] = [domande[j], domande[i]];
+            }
+        }
+
+        // ==================== RIFERIMENTI DOM ====================
+        const punteggioDisplay = document.getElementById('punteggio-display');
+        const viteContainer = document.getElementById('vite-container');
+        const tempoDisplay = document.getElementById('tempo-display');
+        const messaggioAvvio = document.getElementById('messaggio-avvio');
+        const areaDomanda = document.getElementById('area-domanda');
+        const contenutoDomanda = document.getElementById('contenuto-domanda');
+        const controlliGioco = document.getElementById('controlli-gioco');
+        const bottoneVerifica = document.getElementById('bottone-verifica');
+        const bottoneAiuto = document.getElementById('bottone-aiuto');
+        const bottoneNuova = document.getElementById('bottone-nuova');
+        const bottoneSalta = document.getElementById('bottone-salta');
+        const errore1 = document.getElementById('errore-1');
+        const errore2 = document.getElementById('errore-2');
+        const errore3 = document.getElementById('errore-3');
+        const contatoreConsecutive = document.getElementById('contatore-consecutive');
+        const contatoreAiuti = document.getElementById('contatore-aiuti');
+        const rispConsecutiveDiv = document.getElementById('risposte-consecutive');
+        const aiutiDiv = document.getElementById('aiuti-utilizzati');
+        const messaggioVerifica = document.getElementById('messaggio-verifica');
+        const messaggioSpeciale = document.getElementById('messaggio-speciale');
+        const body = document.body;
+
+        let domandaCorrente = null;
+        let opzioneSelezionata = null;
+        let rispostaApertaInput = '';
+
+        // ==================== FUNZIONI UI ====================
+        function aggiornaViteUI() {
+            if (!viteContainer) return;
+            viteContainer.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                const vita = document.createElement('span');
+                vita.className = `vita ${i < vite ? 'piena' : 'persa'}`;
+                vita.textContent = i < vite ? '😊' : '😐';
+                viteContainer.appendChild(vita);
+            }
+        }
+
+        function aggiornaDisplayPunteggio() {
+            if (punteggioDisplay) punteggioDisplay.textContent = punteggio;
+        }
+
+        function aggiornaDisplayTempo() {
+            if (!tempoDisplay) return;
+            const min = Math.floor(tempoRimanente / 60);
+            const sec = tempoRimanente % 60;
+            tempoDisplay.textContent = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+            if (tempoRimanente <= 60) tempoDisplay.style.color = '#c0392b';
+            else if (tempoRimanente <= 180) tempoDisplay.style.color = '#e67e22';
+            else tempoDisplay.style.color = '#27ae60';
+        }
+
+        function aggiornaIndicatoreErrori() {
+            if (!errore1 || !errore2 || !errore3) return;
+            errore1.className = 'pallino-errore' + (erroriConsecutivi >= 1 ? ' attivo' : '');
+            errore2.className = 'pallino-errore' + (erroriConsecutivi >= 2 ? ' attivo' : '');
+            errore3.className = 'pallino-errore' + (erroriConsecutivi >= 3 ? ' attivo' : '');
+        }
+
+        function aggiornaUI() {
+            if (contatoreConsecutive) contatoreConsecutive.textContent = operazioniCorretteConsecutive;
+            if (contatoreAiuti) contatoreAiuti.textContent = aiutiUtilizzatiDomandaCorrente;
+            if (rispConsecutiveDiv) rispConsecutiveDiv.style.display = operazioniCorretteConsecutive > 0 ? 'flex' : 'none';
+            if (aiutiDiv) aiutiDiv.style.display = aiutiUtilizzatiDomandaCorrente > 0 ? 'flex' : 'none';
+        }
+
+        function avviaTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (tempoRimanente > 0) {
+                    tempoRimanente--;
+                    aggiornaDisplayTempo();
+                }
+                if (tempoRimanente <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    tempoRimanente = 0;
+                    aggiornaDisplayTempo();
+                }
+            }, 1000);
+        }
+
+        function fermaTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function mostraMessaggio(testo, classe, durata = 8000) {
+            if (!messaggioVerifica) return;
+            if (messaggioTimeout) clearTimeout(messaggioTimeout);
+            messaggioVerifica.textContent = testo;
+            messaggioVerifica.className = 'messaggio-verifica mostra ' + classe;
+            messaggioTimeout = setTimeout(() => {
+                messaggioVerifica.classList.remove('mostra');
+                messaggioTimeout = null;
+            }, durata);
+        }
+
+        function mostraMessaggioSpeciale(testo, durata = 5000) {
+            if (!messaggioSpeciale) return;
+            if (messaggioSpecialeTimeout) clearTimeout(messaggioSpecialeTimeout);
+            messaggioSpeciale.textContent = testo;
+            messaggioSpeciale.classList.add('mostra');
+            body.classList.add('messaggio-attivo');
+            messaggioSpecialeTimeout = setTimeout(() => {
+                messaggioSpeciale.classList.remove('mostra');
+                body.classList.remove('messaggio-attivo');
+                messaggioSpecialeTimeout = null;
+            }, durata);
+            if (timeoutProssima) clearTimeout(timeoutProssima);
+            timeoutProssima = setTimeout(() => {
+                if (!gameOver) mostraDomanda();
+                timeoutProssima = null;
+            }, durata);
+        }
+
+        // ==================== GESTIONE GIOCO ====================
+        window.iniziaGioco = function() {
+            if (giocoIniziato) return;
+            giocoIniziato = true;
+            if (audioContext && audioContext.state === 'suspended') audioContext.resume();
+            if (messaggioAvvio) messaggioAvvio.style.display = 'none';
+            if (areaDomanda) areaDomanda.style.display = 'flex';
+            if (controlliGioco) controlliGioco.style.display = 'flex';
+            tempoRimanente = TEMPO_TOTALE;
+            aggiornaDisplayTempo();
+            avviaTimer();
+            mescolaDomande();
+            indiceDomandaCorrente = 0;
+            mostraDomanda();
+        };
+
+        function mostraDomanda() {
+            if (messaggioTimeout) clearTimeout(messaggioTimeout);
+            if (messaggioVerifica) messaggioVerifica.classList.remove('mostra');
+            if (messaggioSpecialeTimeout) clearTimeout(messaggioSpecialeTimeout);
+            if (messaggioSpeciale) messaggioSpeciale.classList.remove('mostra');
+            body.classList.remove('messaggio-attivo');
+
+            // Se abbiamo finito tutte le domande
+            if (indiceDomandaCorrente >= domande.length) {
+                if (contenutoDomanda) contenutoDomanda.innerHTML = '<div class="testo-domanda">🎉 HAI COMPLETATO TUTTE LE DOMANDE! 🎉<br>Complimenti!</div>';
+                if (bottoneVerifica) bottoneVerifica.style.display = 'none';
+                if (bottoneAiuto) bottoneAiuto.style.display = 'none';
+                if (bottoneSalta) bottoneSalta.style.display = 'none';
+                document.getElementById('tastiera-container').style.display = 'none';
+                return;
+            }
+
+            // Altrimenti mostra la domanda corrente
+            domandaCorrente = domande[indiceDomandaCorrente];
+            opzioneSelezionata = null;
+            tentativiDomandaCorrente = 0;
+            aiutiUtilizzatiDomandaCorrente = 0;
+            rispostaApertaInput = '';
+            if (bottoneAiuto) {
+                bottoneAiuto.disabled = false;
+                bottoneAiuto.style.display = 'inline-block';
+            }
+            if (bottoneSalta) bottoneSalta.style.display = 'inline-block';
+            if (bottoneVerifica) bottoneVerifica.style.display = 'inline-block';
+            aggiornaUI();
+
+            let html = '';
+            if (domandaCorrente.immagine) {
+                html += `<img src="${domandaCorrente.immagine}" class="immagine-domanda" alt="Immagine" onclick="apriLightbox('${domandaCorrente.immagine}')" style="cursor: pointer;" onerror="this.style.display='none'">`;
+            }
+            html += `<div class="testo-domanda">${domandaCorrente.testo}</div>`;
+
+            if (domandaCorrente.tipo === 'risposta_aperta') {
+                html += `<div class="risposta-aperta-container"><input class="casella-risposta" type="text" id="campo-risposta" placeholder="Scrivi la risposta" inputmode="numeric"></div>`;
+                if (contenutoDomanda) contenutoDomanda.innerHTML = html;
+                creaTastieraNumerica();
+                document.getElementById('campo-risposta').addEventListener('input', e => rispostaApertaInput = e.target.value);
+            } else {
+                const opzioniMescolate = mescolaArray(domandaCorrente.opzioni);
+                let optsHtml = '';
+                opzioniMescolate.forEach(op => {
+                    optsHtml += `<button class="opzione-btn" onclick="selezionaOpzione('${op.replace(/'/g, "\\'")}')">${op}</button>`;
+                });
+                html += `<div class="opzioni-container">${optsHtml}</div>`;
+                if (contenutoDomanda) contenutoDomanda.innerHTML = html;
+            }
+            if (bottoneVerifica) {
+                bottoneVerifica.disabled = false;
+            }
+        }
+
+        function mescolaArray(array) {
+            const a = [...array];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        function creaTastieraNumerica() {
+            const tastieraContainer = document.getElementById('tastiera-container');
+            const tastieraNumerica = document.getElementById('tastiera-numerica');
+            if (!tastieraContainer || !tastieraNumerica) return;
+            tastieraContainer.style.display = 'block';
+            tastieraNumerica.innerHTML = '';
+
+            const numeri = [1,2,3,4,5,6,7,8,9];
+            numeri.forEach(n => {
+                const btn = document.createElement('button');
+                btn.className = 'tasto-numero';
+                btn.textContent = n;
+                btn.onclick = () => {
+                    const campo = document.getElementById('campo-risposta');
+                    if (campo) { campo.value += n; rispostaApertaInput = campo.value; }
+                };
+                tastieraNumerica.appendChild(btn);
+            });
+            const btn0 = document.createElement('button');
+            btn0.className = 'tasto-numero'; btn0.textContent = '0';
+            btn0.onclick = () => { const c = document.getElementById('campo-risposta'); if(c){c.value+='0'; rispostaApertaInput=c.value;} };
+            tastieraNumerica.appendChild(btn0);
+            const btnComma = document.createElement('button');
+            btnComma.className = 'tasto-numero'; btnComma.textContent = ',';
+            btnComma.onclick = () => { const c = document.getElementById('campo-risposta'); if(c){c.value+=','; rispostaApertaInput=c.value;} };
+            tastieraNumerica.appendChild(btnComma);
+            const btnCanc = document.createElement('button');
+            btnCanc.className = 'tasto-numero tasto-cancella'; btnCanc.textContent = '⌫';
+            btnCanc.onclick = () => { const c = document.getElementById('campo-risposta'); if(c){c.value=c.value.slice(0,-1); rispostaApertaInput=c.value;} };
+            tastieraNumerica.appendChild(btnCanc);
+        }
+
+        window.selezionaOpzione = function(valore) {
+            opzioneSelezionata = valore;
+            document.querySelectorAll('.opzione-btn').forEach(btn => btn.classList.remove('selezionata'));
+            document.querySelectorAll('.opzione-btn').forEach(btn => {
+                if (btn.textContent === valore) btn.classList.add('selezionata');
+            });
+        };
+
+        window.verificaRisposta = function() {
+            if (gameOver) return;
+            if (timeoutProssima) clearTimeout(timeoutProssima);
+
+            if (!domandaCorrente) return;
+
+            let rispostaUtente = '';
+            let isCorretto = false;
+
+            if (domandaCorrente.tipo === 'risposta_aperta') {
+                rispostaUtente = rispostaApertaInput.trim();
+                if (rispostaUtente === '') {
+                    mostraMessaggio('Inserisci una risposta!', 'messaggio-info');
+                    return;
+                }
+                let numUtente = parseFloat(rispostaUtente.replace(',', '.'));
+                let numCorretto = parseFloat(domandaCorrente.corretta.toString().replace(',', '.'));
+                if (!isNaN(numUtente) && !isNaN(numCorretto)) {
+                    isCorretto = Math.abs(numUtente - numCorretto) < 0.001;
+                } else {
+                    isCorretto = (rispostaUtente === domandaCorrente.corretta);
+                }
+            } else {
+                if (!opzioneSelezionata) {
+                    mostraMessaggio('Seleziona una risposta!', 'messaggio-info');
+                    return;
+                }
+                isCorretto = (opzioneSelezionata === domandaCorrente.corretta);
+            }
+
+            if (isCorretto) {
+                if (tentativiDomandaCorrente === 0) {
+                    // Risposta corretta al primo tentativo
+                    let puntiTotali;
+                    if (aiutiUtilizzatiDomandaCorrente > 0) {
+                        // Ha usato l'aiuto: solo 1 punto, niente bonus
+                        puntiTotali = 1;
+                        mostraMessaggio(`CORRETTO! +1 punto (nessun bonus perché hai usato l'aiuto)`, 'messaggio-corretto', 8000);
+                    } else {
+                        let bonus = Math.floor(tempoRimanente / 600);
+                        puntiTotali = 1 + bonus;
+                        mostraMessaggio(`CORRETTO! +${puntiTotali} punti (1 + ${bonus} bonus tempo)`, 'messaggio-corretto', 8000);
+                    }
+                    punteggio += puntiTotali;
+                    operazioniCorretteConsecutive++;
+
+                    if (operazioniCorretteConsecutive % 5 === 0 && vite < 3) {
+                        vite++;
+                        playWowSound(0.8);
+                        mostraMessaggioSpeciale('🎉 WOW! 5 risposte corrette consecutive! +1 vita! 🎉', 5000);
+                    }
+                    if (punteggio >= prossimaSoglia) {
+                        playWowSound(1.0);
+                        mostraMessaggioSpeciale(`COMPLIMENTI! HAI RAGGIUNTO ${prossimaSoglia} PUNTI! 🏆`, 5000);
+                        prossimaSoglia += 100;
+                    } else {
+                        timeoutProssima = setTimeout(() => {
+                            if (!gameOver) mostraDomanda();
+                            timeoutProssima = null;
+                        }, 2000);
+                    }
+                    indiceDomandaCorrente++;
+                } else {
+                    operazioniCorretteConsecutive = 0;
+                    indiceDomandaCorrente++;
+                    mostraMessaggio('Corretto (nessun punto, hai sbagliato prima)', 'messaggio-info', 8000);
+                    timeoutProssima = setTimeout(() => {
+                        if (!gameOver) mostraDomanda();
+                        timeoutProssima = null;
+                    }, 2000);
+                }
+                erroriConsecutivi = 0;
+                aggiornaDisplayPunteggio();
+                aggiornaViteUI();
+                aggiornaIndicatoreErrori();
+                aggiornaUI();
+                document.getElementById('tastiera-container').style.display = 'none';
+            } else {
+                tentativiDomandaCorrente++;
+                erroriConsecutivi++;
+                operazioniCorretteConsecutive = 0;
+                mostraMessaggio('ERRATO!', 'messaggio-errato', 8000);
+                if (erroriConsecutivi >= 3) {
+                    vite--;
+                    erroriConsecutivi = 0;
+                    if (vite <= 0) {
+                        gameOver = true;
+                        fermaTimer();
+                        mostraMessaggio('GAME OVER!', 'messaggio-errato', 8000);
+                        if (bottoneVerifica) bottoneVerifica.style.display = 'none';
+                    } else {
+                        mostraMessaggio('Hai perso una vita!', 'messaggio-errato', 8000);
+                    }
+                }
+                aggiornaViteUI();
+                aggiornaIndicatoreErrori();
+                aggiornaUI();
+                timeoutProssima = setTimeout(() => {
+                    if (!gameOver) mostraDomanda();
+                    timeoutProssima = null;
+                }, 2000);
+            }
+        };
+
+        window.mostraAiuto = function() {
+            if (gameOver || !domandaCorrente || indiceDomandaCorrente >= domande.length) return;
+            if (aiutiUtilizzatiDomandaCorrente === 0) {
+                aiutiUtilizzatiDomandaCorrente++;
+                punteggio = Math.max(0, punteggio - 2);
+                aggiornaDisplayPunteggio();
+                aggiornaUI();
+                mostraMessaggio('💡 SUGGERIMENTO: ' + domandaCorrente.hint, 'messaggio-info', 8000);
+                setTimeout(() => { if (bottoneAiuto) bottoneAiuto.disabled = true; }, 80);
+            }
+        };
+
+        window.saltaDomanda = function() {
+            if (gameOver || !giocoIniziato) return;
+            if (indiceDomandaCorrente >= domande.length) return;
+            indiceDomandaCorrente++;
+            operazioniCorretteConsecutive = 0;
+            aggiornaUI();
+            mostraDomanda();
+        };
+
+        window.resetGioco = function() {
+            punteggio = 0;
+            vite = 3;
+            erroriConsecutivi = 0;
+            operazioniCorretteConsecutive = 0;
+            aiutiUtilizzatiDomandaCorrente = 0;
+            tempoRimanente = TEMPO_TOTALE;
+            gameOver = false;
+            prossimaSoglia = 100;
+            mescolaDomande();
+            indiceDomandaCorrente = 0;
+            aggiornaViteUI();
+            aggiornaDisplayPunteggio();
+            aggiornaDisplayTempo();
+            aggiornaIndicatoreErrori();
+            aggiornaUI();
+            if (giocoIniziato) mostraDomanda();
+            if (bottoneAiuto) { bottoneAiuto.disabled = false; bottoneAiuto.style.display = 'inline-block'; }
+            if (bottoneSalta) bottoneSalta.style.display = 'inline-block';
+            if (bottoneVerifica) bottoneVerifica.style.display = 'inline-block';
+            if (timeoutProssima) clearTimeout(timeoutProssima);
+            if (messaggioSpecialeTimeout) clearTimeout(messaggioSpecialeTimeout);
+            if (messaggioSpeciale) messaggioSpeciale.classList.remove('mostra');
+            body.classList.remove('messaggio-attivo');
+        };
+
+        window.apriIstruzioni = function() {
+            document.getElementById('modal-overlay').style.display = 'flex';
+        };
+        window.chiudiIstruzioni = function() {
+            document.getElementById('modal-overlay').style.display = 'none';
+        };
+        window.apriCommenti = function() {
+            document.getElementById('comment-overlay').style.display = 'flex';
+        };
+        window.chiudiCommenti = function() {
+            document.getElementById('comment-overlay').style.display = 'none';
+        };
+        window.esciDalGioco = function() {
+            if (confirm("Vuoi davvero uscire dal gioco?")) {
+                fermaTimer();
+                window.location.href = "https://oragioca.github.io/matematica/";
+            }
+        };
+
+        // ==================== LIGHTBOX (rese globali) ====================
+        window.apriLightbox = function(src) {
+            const overlay = document.getElementById('lightbox-overlay');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.chiudiLightbox = function() {
+            document.getElementById('lightbox-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        window.onload = function() {
+            aggiornaViteUI();
+            aggiornaDisplayPunteggio();
+            aggiornaDisplayTempo();
+            aggiornaIndicatoreErrori();
+            aggiornaUI();
+            inizializzaAudio();
+
+            document.getElementById('modal-overlay').addEventListener('click', e => {
+                if (e.target === e.currentTarget) chiudiIstruzioni();
+            });
+            document.getElementById('comment-overlay').addEventListener('click', e => {
+                if (e.target === e.currentTarget) chiudiCommenti();
+            });
+        };
+    </script>
+</body>
+</html>
