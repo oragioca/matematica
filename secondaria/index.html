@@ -5,172 +5,206 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giochi di Matematica - Scuola Secondaria</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 20px;
             min-height: 100vh;
-            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 1000px;
+            width: 100%;
             text-align: center;
             display: flex;
             flex-direction: column;
-            min-height: 90vh;
+            align-items: center;
         }
         h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: white;
+        }
+        .sottotitolo {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            font-weight: 300;
         }
         .giochi-lista {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 25px;
-            margin: 40px 0;
-            flex: 1;
+            margin: 0 auto 40px;
+            width: 100%;
         }
         .gioco-card {
-            background: #ffffff;
-            color: #333;
-            border-radius: 16px;
+            background: white;
+            border-radius: 20px;
             padding: 0;
             text-align: center;
-            box-shadow: 0 8px 0 #b0b0b0, 0 12px 20px rgba(0,0,0,0.3);
-            transition: transform 0.1s, box-shadow 0.1s;
-            border: 1px solid #ddd;
-            background: linear-gradient(145deg, #f9f9f9, #e6e6e6);
-            width: 220px;
-            height: 120px;
+            box-shadow: 0 12px 0 #4a3f6e, 0 15px 25px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            width: 240px;
+            height: 140px;
+            position: relative;
+            border: 2px solid #ffffff30;
         }
         .gioco-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 0 #a0a0a0, 0 18px 28px rgba(0,0,0,0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 0 #3a2f5a, 0 20px 30px rgba(0,0,0,0.4);
         }
         .gioco-card a {
             text-decoration: none;
             color: #2c3e50;
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 1.2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             width: 100%;
             height: 100%;
-            padding: 10px;
+            padding: 15px;
             box-sizing: border-box;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #f9f9f9, #f0f0f0);
+        }
+        .icona {
+            font-size: 2rem;
+            margin-bottom: 5px;
         }
         .titolo {
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+            color: #333;
         }
         .sotto {
             font-size: 0.85rem;
             color: #666;
             font-weight: normal;
+            background: #e0e0e0;
+            padding: 3px 12px;
+            border-radius: 30px;
+            margin-top: 5px;
         }
-        /* Pulsante Torna alla Home in basso */
+        /* Pulsante Torna alla Home (meno arrotondato) */
         .back-home {
             margin-top: 20px;
             display: flex;
             justify-content: center;
         }
         .back-card {
-            background: #ffffff;
-            color: #333;
-            border-radius: 16px;
-            padding: 0;
+            background: white;
+            border-radius: 12px; /* ridotto da 60px a 12px */
             text-align: center;
-            box-shadow: 0 6px 0 #b0b0b0, 0 10px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 0 #4a3f6e, 0 10px 20px rgba(0,0,0,0.2);
             transition: transform 0.1s, box-shadow 0.1s;
-            border: 1px solid #ddd;
-            background: linear-gradient(145deg, #f9f9f9, #e6e6e6);
-            width: 200px;
-            height: 50px;
+            border: 2px solid #ffffff30;
+            width: 220px;
+            height: 55px;
         }
         .back-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 0 #a0a0a0, 0 12px 20px rgba(0,0,0,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 9px 0 #3a2f5a, 0 14px 25px rgba(0,0,0,0.3);
         }
         .back-card a {
             text-decoration: none;
             color: #2c3e50;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
             height: 100%;
-            padding: 0 10px;
+            padding: 0 20px;
             box-sizing: border-box;
+            border-radius: 12px; /* coerente con il bordo della card */
+            background: linear-gradient(145deg, #f9f9f9, #f0f0f0);
         }
         @media (max-width: 600px) {
-            .giochi-lista {
-                gap: 15px;
-            }
+            h1 { font-size: 1.8rem; }
             .gioco-card {
-                width: 180px;
-                height: 100px;
+                width: 200px;
+                height: 120px;
             }
-            .gioco-card a {
-                font-size: 1rem;
-            }
-            .back-card {
-                width: 180px;
-                height: 45px;
-            }
+            .icona { font-size: 1.8rem; }
+            .sotto { font-size: 0.75rem; }
+            .back-card { width: 200px; height: 50px; }
+            .back-card a { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>SCEGLI UN GIOCO E BATTI IL RECORD!</h1>
-        <p>Quesiti archivio INVALSI!</p>
+        <h1>🎮 GIOCHI DI MATEMATICA</h1>
+        <div class="sottotitolo">Scegli un gioco e batti il record!</div>
 
         <div class="giochi-lista">
+            <!-- Card per Classe Prima -->
             <div class="gioco-card">
                 <a href="prima.html">
+                    <span class="icona">📘</span>
                     <span class="titolo">Math Game</span>
                     <span class="sotto">Classe Prima</span>
                 </a>
             </div>
+            <!-- Card per Classe Terza (base) -->
             <div class="gioco-card">
                 <a href="terza.html">
+                    <span class="icona">📙</span>
                     <span class="titolo">Math Game</span>
                     <span class="sotto">Classe Terza</span>
                 </a>
             </div>
+            <!-- Card per Terza 2008 -->
             <div class="gioco-card">
                 <a href="terza_08.html">
+                    <span class="icona">📅</span>
                     <span class="titolo">Math Game 8</span>
-			<span class="sotto">Classe Terza</span>
+                    <span class="sotto">Classe Terza</span>
                 </a>
             </div>
+            <!-- Card per Terza 2009 -->
             <div class="gioco-card">
                 <a href="terza_09.html">
+                    <span class="icona">📅</span>
                     <span class="titolo">Math Game 9</span>
-			<span class="sotto">Classe Terza</span>
+                    <span class="sotto">Classe Terza</span>
                 </a>
             </div>
-            <!-- Nuova card per PROVA INVALSI 2010 -->
+            <!-- Card per Terza 2010 -->
             <div class="gioco-card">
                 <a href="terza_10.html">
+                    <span class="icona">📅</span>
                     <span class="titolo">Math Game 10</span>
-			<span class="sotto">Classe Terza</span>
+                    <span class="sotto">Classe Terza</span>
+                </a>
+            </div>
+            <!-- Card per Terza 2011 -->
+            <div class="gioco-card">
+                <a href="terza_11.html">
+                    <span class="icona">📅</span>
+                    <span class="titolo">Math Game 11</span>
+                    <span class="sotto">Classe Terza</span>
                 </a>
             </div>
         </div>
 
-        <!-- Pulsante Torna alla Home in basso -->
+        <!-- Pulsante Torna alla Home -->
         <div class="back-home">
             <div class="back-card">
-                <a href="../">← Torna alla Home</a>
+                <a href="../">← Torna alla Home principale</a>
             </div>
         </div>
     </div>
