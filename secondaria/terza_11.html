@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Math Game - Classe Terza (INVALSI 2011)</title>
+    <title>Math Game 11 - Classe Terza</title>
     <style>
         /* ========== RESET E STILI BASE ========== */
         * {
@@ -399,8 +399,17 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 0 #1f618d;
         }
+        /* ========== MEDIA QUERY PER MOBILE (pulsanti in basso su una riga) ========== */
         @media (max-width: 480px) {
-            .bottom-btn { flex: 1 1 100%; }
+            .bottom-buttons {
+                flex-wrap: nowrap;  /* impedisce il wrap */
+            }
+            .bottom-btn {
+                flex: 1 1 0;        /* distribuisce equamente lo spazio */
+                min-width: 0;        /* permette la riduzione */
+                font-size: 0.75rem;  /* testo più piccolo */
+                padding: 8px 4px;    /* padding ridotto */
+            }
         }
 
         /* ========== MODALI ========== */
@@ -505,7 +514,7 @@
     <div class="game-container">
         <!-- HEADER CON TITOLO -->
         <div class="game-header">
-            <h1>🧮 Math Game - Classe Terza (INVALSI 2011) 🧮</h1>
+            <h1> Math Game 11 🧮 Classe Terza </h1>
         </div>
 
         <!-- Barra informazioni (centrata e simmetrica) -->
@@ -559,10 +568,10 @@
             <div class="messaggio-avvio" id="messaggio-avvio" onclick="iniziaGioco()">
                 <div class="icona-play">📚</div>
                 <h2>Pronto per la sfida?</h2>
-                <p>Hai 90 minuti di tempo per rispondere a tutte le domande.</p>
+            
                 <div class="istruzione-gioco">
-                    Rispondi correttamente al primo tentativo per ottenere il superobonus (punti base + bonus tempo).<br>
-                    Invia un commento se vuoi suggerire qualcosa o vuoi comunicare con l'autore dei giochi.
+                   <small> Clicca su Info per vedere come funziona il gioco prima di cominciare <br>
+                    Invia un commento se vuoi suggerire qualcosa o vuoi comunicare con l'autore dei giochi.</small> 
                 </div>
                 <p class="istruzione-principale">Clicca qui per iniziare!</p>
             </div>
@@ -627,7 +636,7 @@
             <div class="modal-section">
                 <h3>🎯 Come giocare</h3>
                 <ol style="margin-left:18px;">
-                    <li>Leggi attentamente la domanda (alcune hanno immagini).</li>
+                    <li>Hai 90 minuti per giocare, ma puoi finire molto prima, leggi attentamente la domanda e clicca sulla immagine, quado c'è, per ingrandirla e clicca fuori dall'immagine per tornare al quesito.</li>
                     <li>Seleziona la risposta (o scrivila) e premi "Verifica".</li>
                     <li>Se corretto al primo tentativo guadagni 1 punto base + bonus tempo (1 punto ogni 10 minuti rimasti).</li>
                     <li>Se non sai rispondere, premi "Non so" per saltare senza conseguenze.</li>
