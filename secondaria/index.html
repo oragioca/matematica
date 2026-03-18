@@ -24,7 +24,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 28px;
             padding: 40px;
-            max-width: 1100px; /* leggermente più largo per contenere le card */
+            max-width: 1100px;
             width: 100%;
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
             box-sizing: border-box;
@@ -39,7 +39,7 @@
         .icona-joystick {
             animation: bounce 1.5s infinite;
             display: inline-block;
-            font-size: 6rem;  /* ingrandita del 50% rispetto ai 4rem di base */
+            font-size: 6rem;
             line-height: 1;
             margin-bottom: 10px;
         }
@@ -116,41 +116,7 @@
             border-radius: 30px;
             margin-top: 5px;
         }
-        /* Pulsante Torna alla Home (meno arrotondato) */
-        .back-home {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .back-card {
-            background: white;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 6px 0 #4a3f6e, 0 10px 20px rgba(0,0,0,0.2);
-            transition: transform 0.1s, box-shadow 0.1s;
-            border: 2px solid #ffffff30;
-            width: 220px;
-            height: 55px;
-        }
-        .back-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 9px 0 #3a2f5a, 0 14px 25px rgba(0,0,0,0.3);
-        }
-        .back-card a {
-            text-decoration: none;
-            color: #2c3e50;
-            font-weight: 600;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            padding: 0 20px;
-            box-sizing: border-box;
-            border-radius: 12px;
-            background: linear-gradient(145deg, #f9f9f9, #f0f0f0);
-        }
+        /* Footer (come nella seconda pagina) */
         .footer {
             margin-top: 40px;
             padding-top: 20px;
@@ -176,8 +142,6 @@
             }
             .icona { font-size: 1.8rem; }
             .sotto { font-size: 0.75rem; }
-            .back-card { width: 200px; height: 50px; }
-            .back-card a { font-size: 1rem; }
         }
     </style>
 </head>
@@ -238,14 +202,7 @@
                 </div>
             </div>
 
-            <!-- Pulsante Torna alla Home -->
-            <div class="back-home">
-                <div class="back-card">
-                    <a href="../">← Torna alla Home</a>
-                </div>
-            </div>
-
-            <!-- Footer (come nella seconda pagina) -->
+            <!-- Footer (con link Home incluso) -->
             <div class="footer">
                 <small> © RG 2026 Oragioca - Tutti i diritti riservati. | </small>
                 <a href="https://oragioca.github.io/matematica/">Home</a>
