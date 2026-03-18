@@ -27,6 +27,18 @@
             flex-direction: column;
             align-items: center;
         }
+        /* Stili per l'icona joystick animata (emoji) */
+        .icona-joystick {
+            animation: bounce 1.5s infinite;
+            display: inline-block;
+            font-size: 6rem;  /* ingrandita del 50% rispetto ai 4rem di base */
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
         h1 {
             font-size: 2.2rem;
             margin-bottom: 10px;
@@ -105,7 +117,7 @@
         }
         .back-card {
             background: white;
-            border-radius: 12px; /* ridotto da 60px a 12px */
+            border-radius: 12px;
             text-align: center;
             box-shadow: 0 6px 0 #4a3f6e, 0 10px 20px rgba(0,0,0,0.2);
             transition: transform 0.1s, box-shadow 0.1s;
@@ -129,7 +141,7 @@
             height: 100%;
             padding: 0 20px;
             box-sizing: border-box;
-            border-radius: 12px; /* coerente con il bordo della card */
+            border-radius: 12px;
             background: linear-gradient(145deg, #f9f9f9, #f0f0f0);
         }
         @media (max-width: 600px) {
@@ -147,9 +159,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎮</h1>
-	<div class="sottotitolo"><strong>SCEGLI UN GIOCO E BATTI IL RECORD!<strong></div>
-  	   <div class="giochi-lista">
+        <!-- Icona joystick animata e ingrandita (emoji) -->
+        <div class="icona-joystick">🎮</div>
+        <div class="sottotitolo"><strong>SCEGLI UN GIOCO E BATTI IL RECORD!</strong></div>
+        <div class="giochi-lista">
             <!-- Card per Classe Prima -->
             <div class="gioco-card">
                 <a href="prima.html">
@@ -203,7 +216,7 @@
         <!-- Pulsante Torna alla Home -->
         <div class="back-home">
             <div class="back-card">
-                <a href="../">← Torna alla Home </a>
+                <a href="../">← Torna alla Home</a>
             </div>
         </div>
     </div>
