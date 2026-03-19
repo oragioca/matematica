@@ -632,9 +632,9 @@
                     <li>Dopo la verifica, la prossima domanda appare automaticamente dopo 2 secondi (o dopo il messaggio speciale se presente).</li>
                 </ol>
             </div>
-            <div class="modal-section">
+             <div class="modal-section">
                 <h3>Punteggio e vite</h3>
-                <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>Se rispondi ad una SERIE di 5 risposte corrette di fila ti aggiudichi 1 vita, utile per recuperare le vite perdute.<br>Ogni 100 punti raggiunti un premio speciale! 🏆 </p>
+                <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Le vite sono indicate con gli emoticon. Perdi 1 vita dopo 3 errori consecutivi, gli errori sono indicati con i pallini rossi.<br>Se rispondi ad una SERIE di 5 risposte corrette di fila ti aggiudichi 1 vita, utile per recuperare le vite perdute, le vite guadagnate appaiono nel box a fianco a quello delle vite.<br>Ogni 100 punti raggiunti un premio speciale! 🏆 </p>
             </div>
         </div>
     </div>
@@ -718,7 +718,7 @@
             // 3
             { tipo: "scelta_multipla", testo: "Una mamma deve somministrare al figlio convalescente 150 mg di vitamina C ogni giorno. Avendo a disposizione compresse da 0,6 g quante compresse al giorno deve dare al figlio?", opzioni: ["Un quarto di compressa.", "Una compressa.", "2 compresse e mezzo.", "4 compresse."], corretta: "Un quarto di compressa.", hint: "150 mg = 0,15 g; 0,15/0,6 = 0,25 = 1/4." },
             // 4
-            { tipo: "scelta_multipla", testo: "Vuoi costruire un portapenne di forma cilindrica, di volume 192 cm³. Se il diametro di base misura 8 cm, quanto sarà alto il portapenne?", opzioni: ["3 cm", "6 cm", "9 cm", "12 cm"], corretta: "12 cm", hint: "Volume = πr²h; raggio = 4 cm; π·16·h = 192 ⇒ h = 192/(16π) ≈ 12/π? Non torna con le opzioni, ma forse usano π=3? 16*3=48, 192/48=4, non 12. Forse errore: volume 192π? Se volume = 192π, allora h=12. Probabilmente intendevano 192π." },
+            { tipo: "scelta_multipla", testo: "Vuoi costruire un portapenne di forma cilindrica, di volume 192π cm³. Se il diametro di base misura 8 cm, quanto sarà alto il portapenne?", opzioni: ["3 cm", "6 cm", "9 cm", "12 cm"], corretta: "12 cm", hint: "Volume = πr²h; raggio = 4 cm; π·16·h = 192 ⇒ h = 192/(16π) ≈ 12/π? Non torna con le opzioni, ma forse usano π=3? 16*3=48, 192/48=4, non 12. Forse errore: volume 192π? Se volume = 192π, allora h=12. Probabilmente intendevano 192π." },
             // 5
             { tipo: "scelta_multipla", testo: "In ottobre un maglione costa 100 euro. Prima di Natale il suo prezzo è aumentato del 20%. Nel mese di gennaio, con i saldi, il costo del maglione si è ribassato del 10% rispetto al prezzo natalizio. Quale affermazione è vera?", opzioni: [
                 "Il maglione in gennaio ha un costo pari a quello di ottobre.",
@@ -727,9 +727,9 @@
                 "Il maglione da ottobre a gennaio ha subito un rincaro del 10%."
             ], corretta: "Il maglione in gennaio ha un costo maggiore rispetto a quello di ottobre dell'8%.", hint: "Prezzo natale: 120€; gennaio: 120*0,9=108€; rispetto a 100€ è +8%." },
             // 6
-            { tipo: "scelta_multipla", testo: "Quale è il perimetro di un quadrato la cui area è di 100 m²?", opzioni: ["3 cm", "24 cm", "8 cm", "40 cm"], corretta: "40 cm", hint: "Lato = 10 m, perimetro = 40 m (ma le opzioni sono in cm, probabilmente errore)." },
+            { tipo: "scelta_multipla", testo: "Quale è il perimetro di un quadrato la cui area è di 100 cm²?", opzioni: ["3 cm", "24 cm", "8 cm", "40 cm"], corretta: "40 cm", hint: "Lato = 10 cm, perimetro = 40 cm." },
             // 7
-            { tipo: "scelta_multipla", immagine: "imag/7_08.jpg", testo: "Il grafico mostra il numero dei cioccolatini di diversi gusti contenuti in una scatola. Prendendo un cioccolatino a caso, qual è la probabilità di scegliere un cioccolatino alla nocciola?", opzioni: ["16/4", "6/40", "6/34", "1/4"], corretta: "1/4", hint: "Dal grafico, i cioccolatini alla nocciola sono 8 su 32? Forse 1/4." },
+            { tipo: "scelta_multipla", immagine: "imag/7_08.jpg", testo: "Il grafico mostra il numero dei cioccolatini di diversi gusti contenuti in una scatola. Prendendo un cioccolatino a caso, qual è la probabilità di scegliere un cioccolatino alla nocciola?", opzioni: ["16/4", "6/40", "6/34", "1/4"], corretta: "1/4", hint: "Dal grafico, i cioccolatini alla nocciola sono 8 su 32? 8/32 ridotta ai minimi termini; 1/4." },
             // 8
             { tipo: "scelta_multipla", testo: "Un padre e i suoi quattro figli si dividono la cifra vinta al Totocalcio in questo modo: al padre spetta 1/3 dell'intera somma, e il rimanente viene diviso in parti uguali tra i figli. Quale frazione della somma spetta a ognuno dei figli?", opzioni: ["1/2", "1/3", "1/4", "1/6"], corretta: "1/6", hint: "Rimanente = 2/3, diviso per 4 figli = (2/3)/4 = 2/12 = 1/6." },
             // 9
@@ -739,7 +739,7 @@
             // 11
             { tipo: "scelta_multipla", immagine: "imag/11_08.jpg", testo: "Il triangolo ABC è inscritto in una circonferenza di centro O, come in figura. Il triangolo ABC e un triangolo rettangolo?", opzioni: ["No.", "Forse.", "Scaleno.", "Si."], corretta: "Si.", hint: "Se il lato è il diametro, allora è rettangolo." },
             // 12
-            { tipo: "scelta_multipla", immagine: "imag/12_08.jpg", testo: "Alcuni fiammiferi sono disposti come indicato nelle figure. Se si continua la sequenza delle figure, quanti fiammiferi verranno usati per fare la figura 10?", opzioni: ["30.", "33.", "36.", "42."], corretta: "33.", hint: "La sequenza: forse 3n+3? Per n=10, 33." },
+            { tipo: "scelta_multipla", immagine: "imag/12_08.jpg", testo: "Alcuni fiammiferi sono disposti come indicato nelle figure. Se si continua la sequenza delle figure, quanti fiammiferi verranno usati per fare la figura 10?", opzioni: ["30.", "33.", "36.", "42."], corretta: "33.", hint: "La sequenza: 3n+3? Per n=10, 33." },
             // 13
             { tipo: "scelta_multipla", immagine: "imag/13_08.jpg", testo: "I due triangoli A e B sul piano cartesiano sono ottenuti con una simmetria centrale. Quali sono le coordinate del centro di simmetria?", opzioni: ["(4;4)", "(4;5)", "(5;4)", "(5;5)"], corretta: "(5;4)", hint: "Il centro è il punto medio tra vertici corrispondenti." },
             // 14
@@ -759,7 +759,7 @@
             // 21
             { tipo: "scelta_multipla", immagine: "imag/20_08.jpg", testo: "Se x e y sono numeri interi, quali tra le seguenti è la relazione tra x e y per i punti disegnati nel grafico?", opzioni: ["x + 4y = 4", "x + y = 4", "y = x4", "x = y4"], corretta: "x + y = 4", hint: "I punti soddisfano x+y=4." },
             // 22
-            { tipo: "scelta_multipla", immagine: "imag/21_08.jpg", testo: "In una grande libreria gli impiegati sono così suddivisi: Qual è il numero dei magazzinieri?", opzioni: ["4", "6", "8", "28"], corretta: "6", hint: "Dal grafico." }
+            { tipo: "scelta_multipla", immagine: "imag/21_08.jpg", testo: "In una grande libreria gli impiegati sono così suddivisi: Qual è il numero dei magazzinieri?", opzioni: ["4", "6", "8", "28"], corretta: "6", hint: "considerando i dati del venditore, 8 venditori sono il 40% del totale, puoi impostare la proporzione per calcolare il totale degli impiegati e per differenza, di tutti gli impiegati in tabella, il numero dei magazzinieri." }
         ];
 
         // Mescola le domande all'avvio
