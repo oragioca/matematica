@@ -47,19 +47,20 @@
             word-break: break-word;
         }
 
-        /* ========== BARRA INFORMAZIONI (CENTRATA E SIMMETRICA) ========== */
+        /* ========== BARRA INFORMAZIONI ========== */
         .game-info {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            background: white;
+            background: #c3e0ff;        /* sfondo giallo chiaro per tutta la barra */
             border-radius: 8px;
             padding: 8px 12px;
             margin-bottom: 10px;
-            border: 1px solid #d0d0d0;
+            border: 1px solid #b0c4de;
         }
+        /* Base per tutti i box */
         .info-item {
             display: flex;
             flex-direction: column;
@@ -177,16 +178,16 @@
             border-radius: 10px;
             padding: 20px 12px;
             width: 100%;
-            height: 450px;          /* altezza fissa */
-            overflow-y: auto;       /* scroll se necessario */
+            height: 450px;
+            overflow-y: auto;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
         }
         #contenuto-domanda {
             display: flex;
             flex-direction: column;
-            justify-content: center;   /* centratura verticale del contenuto */
+            justify-content: center;
             align-items: center;
-            min-height: 100%;          /* per far funzionare il centraggio verticale */
+            min-height: 100%;
             width: 100%;
         }
         .testo-domanda {
@@ -515,7 +516,7 @@
                 <div class="pallino-errore" id="errore-3"></div>
             </div>
 
-            <!-- VITE (centrate) -->
+            <!-- VITE -->
             <div class="info-item">
                 <div class="vite-container" id="vite-container"></div>
             </div>
@@ -543,7 +544,7 @@
 
         <!-- Area gioco -->
         <div class="sezione-gioco">
-            <!-- Messaggio di avvio (visibile inizialmente) -->
+            <!-- Messaggio di avvio -->
             <div class="messaggio-avvio" id="messaggio-avvio" onclick="iniziaGioco()">
                 <div class="icona-play">🎮</div>
                 <h2>Pronto per la sfida?</h2>
@@ -562,7 +563,7 @@
             </div>
         </div>
 
-        <!-- Pulsanti di controllo del gioco -->
+        <!-- Pulsanti di controllo -->
         <div class="controlli" id="controlli-gioco">
             <button class="bottone bottone-aiuto" id="bottone-aiuto" onclick="mostraAiuto()">🧠 Aiuto (-2)</button>
             <button class="bottone bottone-verifica" id="bottone-verifica" onclick="verificaRisposta()">✓ Verifica</button>
@@ -575,7 +576,7 @@
             <div class="tastiera-numerica" id="tastiera-numerica"></div>
         </div>
 
-        <!-- Pulsanti in basso: Info, Commenti, Esci -->
+        <!-- Pulsanti in basso -->
         <div class="bottom-buttons">
             <button class="bottom-btn" onclick="apriIstruzioni()">❓ Info</button>
             <button class="bottom-btn" onclick="apriCommenti()">💬 Commenti</button>
@@ -607,13 +608,13 @@
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title">📚Istruzioni</span>
+                <span class="modal-title">📚 Istruzioni</span>
                 <button class="close-modal" onclick="chiudiIstruzioni()">✕</button>
             </div>
             <div class="modal-section">
                 <h3>🎯 Come giocare</h3>
                 <ol style="margin-left:18px;">
-                    <li>Hai 90 minuti per giocare, ma puoi finire molto prima, leggi attentamente la domanda, clicca sulla immagine per ingrandirla e clicca fuori dall'immagine per tornare al quesito.</li>
+                    <li>Hai 90 minuti per giocare. Leggi attentamente la domanda, clicca sull'immagine per ingrandirla.</li>
                     <li>Seleziona la risposta (o scrivila) e premi "Verifica".</li>
                     <li>Se corretto al primo tentativo guadagni 1 punto base + bonus tempo (1 punto ogni 10 minuti rimasti).</li>
                     <li>Se non sai rispondere, premi "Non so" per saltare senza conseguenze.</li>
@@ -622,7 +623,12 @@
             </div>
             <div class="modal-section">
                 <h3>Punteggio e vite</h3>
-                <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>Dopo un errore, la risposta corretta non dà punti.<br>Perdi 1 vita dopo 3 errori consecutivi.<br>Se rispondi ad una SERIE di 5 risposte corrette di fila ti aggiudichi 1 vita, utile per recuperare le vite perdute. Gli emoticon felici sono le tue vite, i pallini rossi ti segnalano gli errori, e nel box a destra delle vite appariranno le vite guadagnate.<br>Ogni 100 punti raggiunti un premio speciale! 🏆 </p>
+                <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>
+                Dopo un errore, la risposta corretta non dà punti.<br>
+                Perdi 1 vita dopo 3 errori consecutivi.<br>
+                <strong>Recuperi 1 vita dopo 10 risposte corrette consecutive</strong> (invece di 5, per rendere il gioco più equilibrato).<br>
+                Gli emoticon felici sono le tue vite, i pallini rossi segnalano gli errori.<br>
+                Ogni 100 punti raggiunti un premio speciale! 🏆</p>
             </div>
         </div>
     </div>
@@ -696,6 +702,9 @@
         let messaggioTimeout = null;
         let messaggioSpecialeTimeout = null;
         let prossimaSoglia = 100;
+
+        // COSTANTE per il numero di risposte corrette consecutive necessarie per una vita
+        const VITE_SOGLIA = 10;   // ora servono 10 risposte consecutive per recuperare 1 vita
 
         let viteStati = ['iniziale', 'iniziale', 'iniziale'];
 
@@ -1077,7 +1086,9 @@
                     }
                     punteggio += puntiTotali;
                     operazioniCorretteConsecutive++;
-                    if (operazioniCorretteConsecutive % 5 === 0 && vite < 3) {
+                    
+                    // NUOVA SOGLIA per recuperare una vita (ora 10 invece di 5)
+                    if (operazioniCorretteConsecutive % VITE_SOGLIA === 0 && vite < 3) {
                         for (let i = 0; i < 3; i++) {
                             if (viteStati[i] === 'persa') {
                                 viteStati[i] = 'recuperata';
@@ -1086,7 +1097,7 @@
                         }
                         vite++;
                         playWowSound(0.8);
-                        mostraMessaggioSpeciale('🎉 WOW! 5 risposte corrette consecutive! +1 vita! 🎉', 5000);
+                        mostraMessaggioSpeciale(`🎉 WOW! ${VITE_SOGLIA} risposte corrette consecutive! +1 vita! 🎉`, 5000);
                     }
                     if (punteggio >= prossimaSoglia) {
                         playWowSound(1.0);
