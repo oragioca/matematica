@@ -732,7 +732,7 @@
             // 3 - Voto Piero
             { tipo: "scelta_multipla", testo: "All'università un esame di inglese prevede uno scritto e un orale (voto massimo 30 per ciascuna prova). Il voto dello scritto vale il doppio rispetto a quello dell'orale. Piero prende 24 allo scritto e 30 all'orale. Quale sarà il voto finale di Piero?", opzioni: ["25", "26", "27", "28"], corretta: "26", hint: "Voto = (24*2 + 30)/3 = (48+30)/3 = 78/3 = 26." },
             // 4 - Voto Marco
-            { tipo: "scelta_multipla", testo: "Marco prende 30 allo scritto e 24 all'orale. Come sarà il voto finale di Marco rispetto a quello di Piero?", opzioni: ["Sarà più alto", "Sarà più basso", "Sarà uguale", "Non si può sapere"], corretta: "Sarà più alto", hint: "Voto Marco = (30*2 + 24)/3 = (60+24)/3 = 84/3 = 28, maggiore di 26." },
+            { tipo: "scelta_multipla", testo: "All'università un esame di inglese prevede uno scritto e un orale (voto massimo 30 per ciascuna prova). Il voto dello scritto vale il doppio rispetto a quello dell'orale. Piero prende 24 allo scritto e 30 all'orale. Marco prende 30 allo scritto e 24 all'orale. Come sarà il voto finale di Marco rispetto a quello di Piero?", opzioni: ["Sarà più alto", "Sarà più basso", "Sarà uguale", "Non si può sapere"], corretta: "Sarà più alto", hint: " È un problema di media ponderata (o media aritmetica pesata), dove lo scritto ha peso 2 e l’orale peso 1, perché il voto dello scritto “vale il doppio” di quello dell’orale. Voto Marco = (30*2 + 24)/3 = (60+24)/3 = 84/3 = 28, maggiore di 26." },
             // 5 - IMC Carlo
             { tipo: "scelta_multipla", immagine: "imag12/4_12.jpg", testo: "L'Indice di Massa Corporea (IMC) si calcola con IMC = peso / altezza². Carlo, 16 anni, pesa 70 kg ed è alto 1,8 m. Qual è il suo IMC?", opzioni: ["circa 3,8", "circa 19,4", "circa 21,6", "circa 38,9"], corretta: "circa 21,6", hint: "1,8² = 3,24; 70 / 3,24 ≈ 21,6." },
             // 6 - IMC Luigi
@@ -750,20 +750,20 @@
                 "No, perché non conosco le dimensioni del rettangolo.",
                 "Sì, perché i quattro triangoli di vertice O sono equivalenti.",
                 "Sì, perché i quattro triangoli di vertice O sono isosceli."
-            ], corretta: "Sì, perché i quattro triangoli di vertice O sono equivalenti.", hint: "Le diagonali dividono il rettangolo in 4 triangoli equivalenti." },
+            ], corretta: "Sì, perché i quattro triangoli di vertice O sono equivalenti.", hint: "In un rettangolo, le diagonali si incontrano nel loro punto medio e ciascuna di esse divide il rettangolo in due triangoli equivalenti, mentre il punto medio fa sì che i segmenti che congiungono i vertici con tale punto dividano ciascuno di quei triangoli in due parti di uguale area." },
             // 9 - Disuguaglianza
             { tipo: "scelta_multipla", immagine: "imag12/7_12.jpg", testo: "Quale numero puoi inserire nel quadratino per rendere vera la seguente disuguaglianza?", opzioni: [
                 "un numero maggiore di 6",
                 "qualsiasi numero maggiore di 4 e minore di 6",
                 "un numero minore di 4",
                 "un numero qualsiasi minore di 4 e maggiore di 6"
-            ], corretta: "qualsiasi numero maggiore di 4 e minore di 6", hint: "Osserva la disuguaglianza nell'immagine." },
+            ], corretta: "qualsiasi numero maggiore di 4 e minore di 6", hint: "Se moltiplichi tutti i termini per il mcm dei denominatori, 10, e semplifichi capisci subito la soluzione" },
             // 10 - Metropolitana volume
-            { tipo: "scelta_multipla", immagine: "imag12/8_12.jpg", testo: "Per scavare le gallerie di una linea della metropolitana si fa uso di una macchina cilindrica. La galleria ha un diametro di 6,80 m. Oggi la macchina ha scavato un tratto lungo 10 metri. Il volume di terra che è stato rimosso è", opzioni: ["circa 70 m³", "circa 120 m³", "circa 360 m³", "circa 470 m³"], corretta: "circa 360 m³", hint: "Raggio = 3,4 m; volume = π·3,4²·10 ≈ 3,14·11,56·10 ≈ 363 m³." },
+            { tipo: "scelta_multipla", immagine: "imag12/8_12.jpg", testo: "Per scavare le gallerie di una linea della metropolitana si fa uso di una macchina cilindrica. La galleria ha un diametro di 6,80 m. Oggi la macchina ha scavato un tratto lungo 10 metri. Il volume di terra che è stato rimosso è", opzioni: ["circa 70 m³", "circa 120 m³", "circa 360 m³", "circa 470 m³"], corretta: "circa 360 m³", hint: "Il volume rimosso ha la forma di un cilindro quindi: volume = π·3,4²·10 ≈ 3,14·11,56·10 ≈ 363 m³." },
             // 11 - Metropolitana peso
-            { tipo: "scelta_multipla", immagine: "imag12/8_12.jpg", testo: "Ieri la macchina ha spostato circa 250 m³ di terra. La densità della terra spostata è circa 1 800 kg/m³. Quanto pesa la terra che la macchina ha spostato ieri?", opzioni: ["320", "450000", "60000", "560000"], corretta: "450000", hint: "250 × 1800 = 450000 kg." },
+            { tipo: "scelta_multipla", immagine: "imag12/8_12.jpg", testo: "Ieri la macchina ha spostato circa 250 m³ di terra. La densità della terra spostata è circa 1 800 kg/m³. Quanto pesa la terra che la macchina ha spostato ieri?", opzioni: ["320", "450000", "60000", "560000"], corretta: "450000", hint: "Per calcolare il peso (inteso come massa) della terra spostata, moltiplica il volume per la densità: 250 × 1800 = 450000 kg." },
             // 12 - Mappa lunghezza
-            { tipo: "scelta_multipla", immagine: "imag12/9_12.jpg", testo: "Osserva la seguente mappa (scala 1 : 10 000). Quanto è lungo il tratto di via Reggio Emilia compreso tra le due stelline?", opzioni: ["circa 300", "800", "15", "500"], corretta: "circa 300", hint: "Dalla mappa, misura circa 3 cm → 3×10000 = 30000 cm = 300 m." },
+            { tipo: "scelta_multipla", immagine: "imag12/9_12.jpg", testo: "Osserva la seguente mappa (scala 1 : 10 000). Quanto è lungo il tratto di via Reggio Emilia compreso tra le due stelline?", opzioni: ["circa 300", "800", "15", "500"], corretta: "circa 300", hint: "Dalla mappa si misura circa 3 cm che moltiplicato per la scala: 3×10000 = 30000 cm e trasformando i cm in m si ha: 300 m." },
             // 13 - Mappa scala
             { tipo: "scelta_multipla", immagine: "imag12/9_12.jpg", testo: "La stessa zona viene rappresentata in una nuova mappa in scala 1 : 5 000. Quale delle seguenti affermazioni è corretta?", opzioni: [
                 "La nuova mappa diventa più piccola della prima perché 5 000 è un numero minore di 10 000",
@@ -777,9 +777,9 @@
                 "Il numero 13, Gergati Lorenzo",
                 "Il numero 14, Ghersetti Mario Jose",
                 "Il numero 18, Busma Deividas"
-            ], corretta: "Il numero 18, Busma Deividas", hint: "Dalla tabella, la mediana corrisponde al giocatore 18." },
+            ], corretta: "Il numero 18, Busma Deividas", hint: "Dalla tabella, la mediana, ordinando la serie di dati dal più piccolo al più grande è il dato centrale, corrisponde al giocatore 18." },
             // 15 - Potenze
-            { tipo: "scelta_multipla", testo: "La decima parte di 10^20 è:", opzioni: ["10^10", "1^20", "100", "10^19"], corretta: "10^19", hint: "10^20 / 10 = 10^19." },
+            { tipo: "scelta_multipla", testo: "La decima parte di 10^20 è:", opzioni: ["10^10", "1^20", "100", "10^19"], corretta: "10^19", hint: "La decima parte di un numero equivale a dividerlo per 10: 10^20 / 10 = 10^19." },
             // 16 - Circonferenza perimetro
             { tipo: "scelta_multipla", immagine: "imag12/12-12.jpg", testo: "La circonferenza in figura ha il diametro di 10 cm e le corde AD e BC uguali al raggio. Qual è il perimetro del quadrilatero ABCD?", opzioni: ["7", "12", "25", "21"], corretta: "25", hint: "Raggio = 5 cm; AD = BC = 5; AB e CD sono lati del quadrilatero? Probabilmente il perimetro è 25 cm." },
             // 17 - Numeri pari
@@ -790,17 +790,17 @@
                 "Daniela: No, perché ogni numero pari può essere scritto come somma di due numeri uguali fra loro."
             ], corretta: "Carlo: Sì, perché posso scriverlo come il numero dispari che lo precede più 1", hint: "Ad esempio 10 = 9+1 (9 e 1 sono dispari e diversi)." },
             // 18 - Quadrato inscritto area
-            { tipo: "scelta_multipla", immagine: "imag12/14a_12.jpg", testo: "In un quadrato ABCD di lato 10 cm è inscritto un quadrato LMNO. I segmenti DO, CN, BM e AL sono uguali fra loro e ciascuno di essi misura 2 cm. Quanto misura l'area del quadrato LMNO?", opzioni: ["13", "68", "54", "8"], corretta: "68", hint: "Lato del quadrato interno = √[(10-2)² + 2²] = √(8²+2²)=√68; area = 68." },
+            { tipo: "scelta_multipla", immagine: "imag12/14a_12.jpg", testo: "In un quadrato ABCD di lato 10 cm è inscritto un quadrato LMNO. I segmenti DO, CN, BM e AL sono uguali fra loro e ciascuno di essi misura 2 cm. Quanto misura l'area del quadrato LMNO?", opzioni: ["13", "68", "54", "8"], corretta: "68", hint: "Si potrebbe anche sottrarre all'area del quadrato grande, facilmente calcolabile, quella dei quattro triangolini di cui si conoscono i due cateti, base e altezza, Lato del quadrato interno = √[(10-2)² + 2²] = √(8²+2²)=√68; area = 68." },
             // 19 - Quadrato inscritto minimo
-            { tipo: "scelta_multipla", immagine: "imag12/14b_12.jpg", testo: "Immagina che i punti L, M, N e O si muovano lungo i lati del quadrato ABCD in modo tale che DO = CN = BM = AL = x. Al variare di x varia anche l'area del quadrato LMNO. Per quale tra questi valori di x l'area del quadrato LMNO diventa minima?", opzioni: ["1", "34", "5", "8"], corretta: "5", hint: "L'area è minima quando x = 5 (metà del lato)." },
+            { tipo: "scelta_multipla", immagine: "imag12/14b_12.jpg", testo: "Immagina che i punti L, M, N e O si muovano lungo i lati del quadrato ABCD in modo tale che DO = CN = BM = AL = x. Al variare di x varia anche l'area del quadrato LMNO. Per quale tra questi valori di x l'area del quadrato LMNO diventa minima?", opzioni: ["1", "34", "5", "8"], corretta: "5", hint: "Con procedimento simile si può calcolare l'area sostituendo i diversi valori proposti ad x che rappresenta un cateto verificando che l'area è minima quando x = 5." },
             // 20 - Azienda
             { tipo: "scelta_multipla", testo: "Una grande azienda nel 2009 aveva 100 impiegati. Nell'anno 2010 il numero degli impiegati è diminuito del 20% rispetto al 2009 mentre nel 2011 è aumentato del 20% rispetto al 2010. Al termine dei due anni gli impiegati dell'azienda sono:", opzioni: ["diminuiti del 4%", "diminuiti del 10%", "aumentati del 4%", "aumentati del 10%"], corretta: "diminuiti del 4%", hint: "2010: 80, 2011: 96, variazione -4%." },
             // 21 - Cavo ripetitore
             { tipo: "scelta_multipla", immagine: "imag12/16_12.jpg", testo: "Il cavo (AB) di un ripetitore per telefonia cellulare è stato fissato a un palo a una distanza dal suolo di 9 m. Una lampada di segnalazione (C) viene agganciata al cavo a 3 m di altezza e a 5 m dal punto di ancoraggio a terra (A). Qual è la lunghezza in metri del cavo AB?", opzioni: ["12", "45", "15", "105"], corretta: "15", hint: "Teorema di Pitagora: √(9² + 12²) = √(81+144)=√225=15." },
             // 22 - Tessera cinema formula
-            { tipo: "scelta_multipla", immagine: "imag12/17_12.jpg", testo: "Paolo acquista una tessera che consente l'ingresso a prezzo ridotto per un anno. Il costo della tessera è di 12 euro e permette di pagare il biglietto di ingresso solo 5 euro per ogni spettacolo. Quale fra le seguenti formule consente di calcolare il costo complessivo S al variare del numero n di spettacoli?", opzioni: ["S=12+5n", "S=12+5", "S=12+n", "S=12n+5n"], corretta: "S=12+5n", hint: "Costo fisso 12 + 5 per spettacolo." },
+            { tipo: "scelta_multipla", immagine: "imag12/17_12.jpg", testo: "Paolo acquista una tessera che consente l'ingresso a prezzo ridotto per un anno. Il costo della tessera è di 12 euro e permette di pagare il biglietto di ingresso solo 5 euro per ogni spettacolo. Quale fra le seguenti formule consente di calcolare il costo complessivo S al variare del numero n di spettacoli?", opzioni: ["S=12+5n", "S=12+5", "S=12+n", "S=12n+5n"], corretta: "S=12+5n", hint: "Il costo complessivo S è dato dalla somma del costo della tessera (12 €) e del costo totale dei biglietti (5 € per ciascuno degli n spettacoli)." },
             // 23 - Tessera cinema grafico
-            { tipo: "scelta_multipla", immagine: "imag12/17_2-12.jpg", testo: "Osserva i grafici seguenti: Quale grafico rappresenta come varia il costo complessivo S al variare del numero n di spettacoli?", opzioni: ["1", "2", "3", "4"], corretta: "4", hint: "Il grafico deve essere una retta con intercetta 12 e pendenza 5." },
+            { tipo: "scelta_multipla", immagine: "imag12/17_2-12.jpg", testo: "Osserva i grafici seguenti: Quale grafico rappresenta come varia il costo complessivo S al variare del numero n di spettacoli?", opzioni: ["1", "2", "3", "4"], corretta: "4", hint: "Il grafico deve essere una retta parte da 12 e incrementa di 5 ogni n, non si legge bene l'incremento ma è l'unico la cui retta parte da 12 è ha sempre lo stesso incremento." },
             // 24 - Trapezio figura F
             { tipo: "scelta_multipla", immagine: "imag12/18_12.jpg", testo: "Il trapezio che vedi sotto è stato ritagliato da una figura F più grande. Il trapezio è i 3/4 della figura F. Indica una possibile figura F da aggiungere al trapezio per formare la figura da cui è stato ritagliato.", opzioni: [
                 "Potrebbe essere un triangolo di area 6 quadratini appoggiato sulla base minore o su uno dei suoi lati obliqui",
@@ -809,7 +809,7 @@
                 "Potrebbe essere un triangolo di area 13 quadratini appoggiato sulla base minore o su uno dei suoi lati obliqui"
             ], corretta: "Potrebbe essere un triangolo di area 6 quadratini appoggiato sulla base minore o su uno dei suoi lati obliqui", hint: "Se il trapezio è 3/4, la figura mancante è 1/4, cioè area 6 quadratini." },
             // 25 - Moneta e dado
-            { tipo: "scelta_multipla", immagine: "imag12/19_12.jpg", testo: "Immagina di lanciare prima una moneta e poi un dado. La probabilità che escano una croce e un numero dispari è", opzioni: ["1/2", "3/12", "3/8", "2/12"], corretta: "3/12", hint: "Casi possibili: 2×6=12; casi favorevoli: croce (1) e dispari (3) → 3. Probabilità 3/12." },
+            { tipo: "scelta_multipla", testo: "Immagina di lanciare prima una moneta e poi un dado. La probabilità che escano una croce e un numero dispari è", opzioni: ["1/2", "3/12", "3/8", "2/12"], corretta: "3/12", hint: "Casi possibili: 2×6=12; casi favorevoli: croce (1) e dispari (3) → 3. Probabilità 3/12." },
             // 26 - Autostrada caselli più vicini
             { tipo: "scelta_multipla", immagine: "imag12/20_12.jpg", testo: "L'autostrada A11 collega Firenze-Peretola e Pisa Nord con un percorso lungo 81 km. La tabella riporta le distanze da Firenze-Peretola. Quali sono i due caselli autostradali più vicini fra loro?", opzioni: [
                 "Firenze-Peretola -- Firenze Ovest",
@@ -834,7 +834,7 @@
                 "6,12 e 6,13"
             ], corretta: "61,2 e 6,12", hint: "Dividendo per 10 e per 100." },
             // 30 - Autobus Sardegna passaggio
-            { tipo: "scelta_multipla", immagine: "imag12/22_12.jpg", testo: "Lorenzo abita a Pittulongu. La mattina prende l'autobus numero 4 e scende a via San Simplicio. Nel tragitto da Pittulongu a via San Simplicio, Lorenzo passa per la fermata di Mare Rocce?", opzioni: [
+            { tipo: "scelta_multipla", immagine: "imag12/22_1_12.jpg", testo: "Lorenzo abita a Pittulongu. La mattina prende l'autobus numero 4 e scende a via San Simplicio. Nel tragitto da Pittulongu a via San Simplicio, Lorenzo passa per la fermata di Mare Rocce?", opzioni: [
                 "Sì, perché Mare Rocce è la seconda fermata",
                 "No, perché Mare Rocce è prima di Pittulongu",
                 "No, perché Mare Rocce è dopo via San Simplicio",
@@ -850,7 +850,7 @@
             // 32 - Fotografia ingrandimento
             { tipo: "scelta_multipla", immagine: "imag12/23_12.jpg", testo: "La seguente fotografia ha le dimensioni di 10 cm x 15 cm. Luciana la ingrandisce in proporzione; dopo l'ingrandimento la dimensione maggiore misura 18 cm. Quanto misura l'altra dimensione?", opzioni: ["12 cm", "15 cm", "16 cm", "18 cm"], corretta: "12 cm", hint: "Fattore di scala = 18/15 = 1,2; altra dimensione = 10×1,2 = 12 cm." },
             // 33 - Temperature media 
-            { tipo: "scelta_multipla", immagine: "imag12/24_12.jpg", testo: "In una stazione meteorologica sulle Alpi sono state registrate le temperature alle ore 8:00 per una settimana e riportate nella tabella qui sotto. Calcola la media aritmetica delle temperature riportate in tabella.", opzioni: ["2 °C", "-2 °C", "16 °C", "8 °C"], corretta: "-2 °C", hint: "Dalla tabella, la media risulta 2 °C." },
+            { tipo: "scelta_multipla", immagine: "imag12/24_12.jpg", testo: "In una stazione meteorologica sulle Alpi sono state registrate le temperature alle ore 8:00 per una settimana e riportate nella tabella qui sotto. Calcola la media aritmetica delle temperature riportate in tabella.", opzioni: ["2 °C", "-2 °C", "16 °C", "8 °C"], corretta: "-2 °C", hint: "Dalla tabella, la media risulta -2 °C." },
             // 34 - Mattonelle
             { tipo: "scelta_multipla", immagine: "imag12/25_12.jpg", testo: "Questa figura rappresenta quattro mattonelle di un pavimento. Solo una delle mattonelle è decorata. Completando la decorazione delle altre mattonelle in modo che i loro bordi in comune siano tutti assi di simmetria qual è la figura al centro del quadrato formato dalle quattro mattonelle?", opzioni: ["un rettangolo", "un rombo", "un quadrato", "un cerchio"], corretta: "un cerchio", hint: "Con simmetrie, la figura centrale diventa un cerchio." }
         ];
