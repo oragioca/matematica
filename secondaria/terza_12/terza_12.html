@@ -54,11 +54,11 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
-            background: #c3e0ff;        /* sfondo giallo chiaro per tutta la barra */
+            background: #c3e0ff;
             border-radius: 8px;
             padding: 8px 12px;
             margin-bottom: 10px;
-            border: 1px solid #b0c4desecondaria;
+            border: 1px solid #b0c4de;
         }
         /* Base per tutti i box */
         .info-item {
@@ -107,7 +107,7 @@
             line-height: 1;
         }
         .vita.piena { color: #ffaa00; }
-        .vita.verde { color: #00cc44; text-shadow: 0 0 3px #00aa33; } /* verde acceso con ombra */
+        .vita.verde { color: #00cc44; text-shadow: 0 0 3px #00aa33; }
         .vita.persa { color: #b0b0b0; opacity: 0.5; }
 
         .errori-indicatore { gap: 4px; font-size: 0.7rem; }
@@ -622,13 +622,13 @@
                 </ol>
             </div>
             <div class="modal-section">
-                <h3>Punteggio e vite</h3>
-                <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>
+                <h3>🏆 Punteggio e vite 🏆</h3>
+                <p>Guadagni 1 punto + bonus tempo se rispondi in modo corretto al primo tentativo.<br>
                 Dopo un errore, la risposta corretta non dà punti.<br>
-                Perdi 1 vita dopo 3 errori consecutivi, se ne perdi tutte 3 la partita finisce.<br>
-                <strong>Guadagni 1 vita dopo 10 risposte corrette consecutive, utile per recuperare le vite perse</strong><br>
-               Nella barra sotto il titolo vedi il box con i pinti, i pallini rossi che segnalano gli errori, gli emoticon felici le tue 3 vite, e il box che appare quando guadagni nuove vite.<br>
-                Ogni 100 punti raggiunti un premio speciale! 🏆</p>
+                Perdi 1 vita dopo 3 errori consecutivi,<strong> se si perdono tutte e 3 le vite la partita finisce</strong>.<br>
+                Guadagni 1 vita dopo 10 risposte corrette consecutive, utile per recuperare le vite perse.<br>
+                Nella barra sotto il titolo vedi il box con i punti, i pallini rossi che segnalano gli errori, gli emoticon felici le tue 3 vite, a destra del box delle vite apparirà il box con le vite guadagnate.<br>
+                Ogni 100 punti raggiunti ti aggidichi il Superbonus! </p>
             </div>
         </div>
     </div>
@@ -711,7 +711,7 @@
         // ==================== DOMANDE (da domande 12.docx) ====================
         const domandeTotali = [
             { tipo: "scelta_multipla", immagine: "imag12/1_12.jpg", testo: "L'immagine mostra una ricostruzione dell'Acropoli di Atene. L'edificio indicato con P è il Partenone. Osserva la piantina: quale numero identifica il Partenone?", opzioni: ["19", "17", "14", "1"], corretta: "1", hint: "Il Partenone è il numero 1 nella piantina." },
-            { tipo: "scelta_multipla", immagine: "imag12/2_12.jpg", testo: "Indica se l'uguaglianza è vera:", opzioni: ["NO", "SI"], corretta: "SI", hint: "Osserva l'immagine: l'uguaglianza è vera." },
+            { tipo: "scelta_multipla", immagine: "imag12/2_12.jpg", testo: "Indica se l'uguaglianza è vera:", opzioni: ["NO", "SI"], corretta: "SI", hint: "Osserva l'immagine: Radice di 3 alla seconda è = 3 e radice di 2 alla seconda è = 2, quindi 3+2=5 ." },
             { tipo: "scelta_multipla", testo: "All'università un esame di inglese prevede uno scritto e un orale (voto massimo 30 per ciascuna prova). Il voto dello scritto vale il doppio rispetto a quello dell'orale. Piero prende 24 allo scritto e 30 all'orale. Quale sarà il voto finale di Piero?", opzioni: ["25", "26", "27", "28"], corretta: "26", hint: "Voto = (24*2 + 30)/3 = (48+30)/3 = 78/3 = 26." },
             { tipo: "scelta_multipla", testo: "All'università un esame di inglese prevede uno scritto e un orale (voto massimo 30 per ciascuna prova). Il voto dello scritto vale il doppio rispetto a quello dell'orale. Piero prende 24 allo scritto e 30 all'orale. Marco prende 30 allo scritto e 24 all'orale. Come sarà il voto finale di Marco rispetto a quello di Piero?", opzioni: ["Sarà più alto", "Sarà più basso", "Sarà uguale", "Non si può sapere"], corretta: "Sarà più alto", hint: "Voto Marco = (30*2 + 24)/3 = (60+24)/3 = 84/3 = 28, maggiore di 26." },
             { tipo: "scelta_multipla", immagine: "imag12/4_12.jpg", testo: "L'Indice di Massa Corporea (IMC) si calcola con IMC = peso / altezza². Carlo, 16 anni, pesa 70 kg ed è alto 1,8 m. Qual è il suo IMC?", opzioni: ["circa 3,8", "circa 19,4", "circa 21,6", "circa 38,9"], corretta: "circa 21,6", hint: "1,8² = 3,24; 70 / 3,24 ≈ 21,6." },
@@ -1099,9 +1099,14 @@
                         playWowSound(0.8);
                         mostraMessaggioSpeciale(`🎉 WOW! ${VITE_SOGLIA} risposte corrette consecutive! +1 vita! 🎉`, 5000);
                     }
+                    // Controllo se il punteggio ha raggiunto un multiplo di 100 (premio speciale)
                     if (punteggio >= prossimaSoglia) {
+                        const sogliaCorrente = prossimaSoglia;
+                        // Aggiungi 10 punti bonus
+                        punteggio += 10;
+                        aggiornaDisplayPunteggio();
                         playWowSound(1.0);
-                        mostraMessaggioSpeciale(`COMPLIMENTI! HAI RAGGIUNTO ${prossimaSoglia} PUNTI! 🏆`, 5000);
+                        mostraMessaggioSpeciale(`🎉 PREMIO SPECIALE! Superbonus, +10 PUNTI! 🎉<br>Hai raggiunto ${sogliaCorrente} punti!`, 5000);
                         prossimaSoglia += 100;
                     } else {
                         timeoutProssima = setTimeout(() => {
