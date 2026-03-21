@@ -107,7 +107,7 @@
             line-height: 1;
         }
         .vita.piena { color: #ffaa00; }
-        .vita.verde { color: #2ecc71; }
+        .vita.verde { color: #00cc44; text-shadow: 0 0 3px #00aa33; } /* verde acceso con ombra */
         .vita.persa { color: #b0b0b0; opacity: 0.5; }
 
         .errori-indicatore { gap: 4px; font-size: 0.7rem; }
@@ -625,9 +625,9 @@
                 <h3>Punteggio e vite</h3>
                 <p>+1 punto base + bonus tempo se corretto al primo tentativo.<br>
                 Dopo un errore, la risposta corretta non dà punti.<br>
-                Perdi 1 vita dopo 3 errori consecutivi.<br>
-                <strong>Recuperi 1 vita dopo 10 risposte corrette consecutive</strong> (invece di 5, per rendere il gioco più equilibrato).<br>
-                Gli emoticon felici sono le tue vite, i pallini rossi segnalano gli errori.<br>
+                Perdi 1 vita dopo 3 errori consecutivi, se ne perdi tutte 3 la partita finisce.<br>
+                <strong>Guadagni 1 vita dopo 10 risposte corrette consecutive, utile per recuperare le vite perse</strong><br>
+               Nella barra sotto il titolo vedi il box con i pinti, i pallini rossi che segnalano gli errori, gli emoticon felici le tue 3 vite, e il box che appare quando guadagni nuove vite.<br>
                 Ogni 100 punti raggiunti un premio speciale! 🏆</p>
             </div>
         </div>
@@ -753,7 +753,7 @@
             { tipo: "scelta_multipla", immagine: "imag12/12_12.jpg", testo: "La circonferenza in figura ha il diametro di 10 cm e le corde AD e BC uguali al raggio. Qual è il perimetro del quadrilatero ABCD?", opzioni: ["7", "12", "25", "21"], corretta: "25", hint: "Raggio = 5 cm; AD = BC = 5; AB e CD sono lati del quadrilatero? Probabilmente il perimetro è 25 cm." },
             { tipo: "scelta_multipla", testo: "L'insegnante chiede: «Un numero pari, maggiore di 2, si può sempre scrivere come somma di due numeri dispari diversi fra loro?». Qui sotto ci sono le risposte di quattro studenti. Chi dà la risposta esatta e la giustifica correttamente?", opzioni: [
                 "Antonio: Sì, perché la somma di due numeri dispari è un numero pari",
-                "Barbara: No, perché ...",
+                "Barbara: No, perché 6=4+2",
                 "Carlo: Sì, perché posso scriverlo come il numero dispari che lo precede più 1",
                 "Daniela: No, perché ogni numero pari può essere scritto come somma di due numeri uguali fra loro."
             ], corretta: "Carlo: Sì, perché posso scriverlo come il numero dispari che lo precede più 1", hint: "Ad esempio 10 = 9+1 (9 e 1 sono dispari e diversi)." },
