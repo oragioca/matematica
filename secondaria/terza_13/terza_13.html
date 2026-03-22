@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Math Game 13 - Classe Terza</title>
     <style>
-        /* ========== RESET E STILI BASE (identici a prima) ========== */
+        /* ========== RESET E STILI BASE ========== */
         * {
             margin: 0;
             padding: 0;
@@ -42,7 +42,6 @@
             color: white;
             font-size: 1.4rem;
             text-shadow: 2px 2px 0 #1f618d;
-            word-break: break-word;
         }
         .game-info {
             display: flex;
@@ -68,9 +67,7 @@
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
             white-space: nowrap;
         }
-        .errori-indicatore,
-        .risposte-consecutive,
-        .aiuti-utilizzati {
+        .errori-indicatore, .risposte-consecutive, .aiuti-utilizzati {
             display: flex;
             align-items: center;
             height: 40px;
@@ -78,28 +75,23 @@
             background: #f8f9fa;
             border-radius: 6px;
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-            white-space: nowrap;
         }
         .info-item .label {
             font-size: 0.6rem;
             color: #7f8c8d;
             text-transform: uppercase;
-            line-height: 1.2;
         }
         .info-item .value {
             font-size: 1rem;
             font-weight: 700;
             color: #2c3e50;
-            line-height: 1.2;
         }
         .vite-container {
             display: flex;
             gap: 2px;
-            justify-content: center;
         }
         .vita {
             font-size: 1.2rem;
-            line-height: 1;
         }
         .vita.piena { color: #ffaa00; }
         .vita.verde { color: #00cc44; text-shadow: 0 0 3px #00aa33; }
@@ -111,12 +103,10 @@
             background: #ddd;
             border: 1px solid #ff4757;
         }
-        .pallino-errore.attivo { background: #ff4757; box-shadow: 0 0 5px #ff4757; }
+        .pallino-errore.attivo { background: #ff4757; }
         .risposte-consecutive { gap: 4px; font-size: 0.7rem; }
-        .risposte-consecutive span:last-child { font-weight: bold; color: #2c3e50; }
         .aiuti-utilizzati {
             display: none;
-            align-items: center;
             gap: 4px;
             font-size: 0.7rem;
         }
@@ -133,12 +123,11 @@
             max-width: 450px;
             margin: 10px auto;
             cursor: pointer;
-            box-shadow: 0 8px 0 #1f618d, 0 10px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 0 #1f618d;
             color: white;
             text-align: center;
         }
         .messaggio-avvio h2 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 2px 2px 0 #1f618d; }
-        .messaggio-avvio p { margin-bottom: 8px; font-size: 1rem; }
         .messaggio-avvio .istruzione-gioco {
             background: rgba(255,255,255,0.25);
             border-radius: 12px;
@@ -168,7 +157,6 @@
             width: 100%;
             height: 450px;
             overflow-y: auto;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
         }
         #contenuto-domanda {
             display: flex;
@@ -185,7 +173,6 @@
             text-align: justify;
             word-break: break-word;
             line-height: 1.4;
-            hyphens: auto;
         }
         .immagine-domanda {
             max-width: 100%;
@@ -212,17 +199,15 @@
             font-weight: bold;
             color: #2c3e50;
             cursor: pointer;
-            box-shadow: 0 3px 0 #b0b0b0, 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 0 #b0b0b0;
             border: 1px solid #ccc;
-            word-break: break-word;
             min-height: 50px;
             transition: 0.1s;
         }
-        .opzione-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #a0a0a0; }
+        .opzione-btn:hover { transform: translateY(-1px); }
         .opzione-btn.selezionata {
             background: linear-gradient(145deg, #2ecc71, #27ae60);
             color: white;
-            box-shadow: 0 3px 0 #1e8449;
         }
         .risposta-aperta-container {
             display: flex;
@@ -240,8 +225,6 @@
             border: 2px solid #4a90e2;
             border-radius: 6px;
             background: white;
-            color: #2c3e50;
-            outline: none;
         }
         .tastiera-container {
             display: none;
@@ -266,9 +249,7 @@
             background: white;
             cursor: pointer;
             box-shadow: 0 2px 0 #b0b0b0;
-            transition: 0.1s;
         }
-        .tasto-numero:hover { transform: translateY(-1px); box-shadow: 0 3px 0 #a0a0a0; }
         .tasto-cancella { background: #ff4757; color: white; border-color: #c0392b; }
         .messaggio-verifica, .messaggio-speciale {
             position: absolute;
@@ -289,10 +270,8 @@
             padding: 6px 10px;
             font-weight: bold;
             color: #856404;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             font-size: 0.9rem;
             opacity: 0;
-            transform: translateX(-50%) translateY(-5px);
         }
         .messaggio-verifica.mostra { opacity: 1; transform: translateX(-50%) translateY(0); }
         .messaggio-corretto { background: #d4edda; border-color: #28a745; color: #155724; }
@@ -304,11 +283,8 @@
             border: 3px solid #ff00ff;
             border-radius: 12px;
             padding: 15px 20px;
-            font-weight: bold;
             color: white;
-            box-shadow: 0 0 25px rgba(255,0,255,0.7);
             font-size: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             animation: rainbow 3s infinite;
             opacity: 0;
             transform: translateX(-50%) scale(0.9);
@@ -331,14 +307,11 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 3px 0 #b0b0b0;
-            transition: 0.1s;
             font-size: 0.9rem;
             flex: 1;
             max-width: 120px;
             color: white;
-            word-break: break-word;
         }
-        .bottone:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #a0a0a0; }
         .bottone-verifica { background: linear-gradient(145deg, #2ecc71, #27ae60); }
         .bottone-aiuto { background: linear-gradient(145deg, #f39c12, #e67e22); }
         .bottone-nuova { background: linear-gradient(145deg, #9b59b6, #8e44ad); }
@@ -351,34 +324,17 @@
             justify-content: center;
         }
         .bottom-btn {
-            flex: 1 1 0;
+            flex: 1;
             min-width: 120px;
-            padding: 10px 15px;
+            padding: 10px;
             border: none;
             border-radius: 8px;
             font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
             background: linear-gradient(145deg, #3498db, #2980b9);
             color: white;
             box-shadow: 0 4px 0 #1f618d;
-            transition: 0.1s;
             text-align: center;
-        }
-        .bottom-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 #1f618d;
-        }
-        @media (max-width: 480px) {
-            .bottom-buttons {
-                flex-wrap: nowrap;
-            }
-            .bottom-btn {
-                flex: 1 1 0;
-                min-width: 0;
-                font-size: 0.75rem;
-                padding: 8px 4px;
-            }
+            cursor: pointer;
         }
         .modal-overlay, .comment-overlay {
             position: fixed;
@@ -408,13 +364,16 @@
             padding-bottom: 5px;
             margin-bottom: 10px;
         }
-        .close-modal {
+        .close-modal, .comment-close {
             background: #ff4757;
             color: white;
             border: none;
             border-radius: 50%;
             width: 26px; height: 26px;
             cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }
         .comment-section input, .comment-section textarea {
             width: 100%;
@@ -433,25 +392,9 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .comment-close {
-            background: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px; height: 30px;
-            font-size: 1.2rem;
-            position: absolute;
-            top: 10px; right: 10px;
-            cursor: pointer;
-        }
-        .back-link { text-align: center; margin-top: 15px; }
-        .back-link a { color: #4a90e2; text-decoration: none; }
         .lightbox-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top:0; left:0; width:100%; height:100%;
             background: rgba(0,0,0,0.9);
             display: none;
             justify-content: center;
@@ -517,31 +460,56 @@
         <button class="bottom-btn" onclick="esciDalGioco()">🚪 Esci</button>
     </div>
 
-    <div class="modal-section">
+    <!-- Modale per le istruzioni -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>📚 Istruzioni</span>
+                <button class="close-modal" onclick="chiudiIstruzioni()">✕</button>
+            </div>
+            <div class="modal-section">
                 <h3>🎯 Come giocare</h3>
                 <ol style="margin-left:18px;">
-                    <li>Hai 90 minuti per giocare e 3 vite a disposizione. Leggi attentamente la domanda, se necessario clicca sull'immagine per ingrandirla.</li>
+                    <li>Hai 90 minuti e 3 vite. Leggi attentamente la domanda, clicca sull'immagine per ingrandirla.</li>
                     <li>Seleziona la risposta (o scrivila) e premi "Verifica".</li>
-                    <li>Nella barra sotto il titolo vedi il box con i punti, i pallini rossi che segnalano gli errori, gli emoticon felici le tue 3 vite, a destra del box delle vite apparirà il box con le vite guadagnate e il msg degli                 aiutini che hai utilizzato.</li>
-                    
+                    <li>Nella barra sotto il titolo vedi il box con i punti, i pallini rossi che segnalano gli errori, gli emoticon per le vite.</li>
                     <li>Dopo la verifica, la domanda successiva appare automaticamente.</li>
-<li>Se non sai rispondere, premi "Non so" per saltare senza conseguenze.</li>
+                    <li>Se non sai rispondere, premi "Non so" per saltare senza conseguenze.</li>
                 </ol>
             </div>
             <div class="modal-section">
                 <h3>🏆 Punteggio e vite 🏆</h3>
-                <p>Guadagni 1 punto + bonus tempo (1 punto ogni 10 minuti rimasti) se rispondi in modo corretto al primo tentativo. Ogni 100 punti raggiunti ti aggidichi il Superbonus di +10 punti!<br>
+                <p>Guadagni 1 punto + bonus tempo (1 ogni 10 minuti rimasti) se rispondi correttamente al primo tentativo. Ogni 100 punti superbonus +10!<br>
                 Dopo un errore, la risposta corretta non dà punti.<br>
-                Perdi 1 vita dopo 3 errori consecutivi,<strong> se si perdono tutte e 3 le vite la partita finisce</strong>.<br>
-                Guadagni 1 vita dopo 10 risposte corrette consecutive, utile per recuperare le vite perse.<br>
-
-.<br>
-               </p>
+                Perdi 1 vita dopo 3 errori consecutivi; se perdi tutte le vite la partita finisce.<br>
+                Guadagni 1 vita dopo 10 risposte corrette consecutive.</p>
             </div>
         </div>
     </div>
 
-<div class="lightbox-overlay" id="lightbox-overlay" onclick="chiudiLightbox()"><img class="lightbox-img" id="lightbox-img" src="" alt="Ingrandimento"></div>
+    <!-- Modale per i commenti -->
+    <div class="comment-overlay" id="comment-overlay">
+        <div class="comment-content">
+            <button class="comment-close" onclick="chiudiCommenti()">✕</button>
+            <div class="comment-section">
+                <h2>✍️ Invia un commento</h2>
+                <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
+                    <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/secondaria/grazie.html">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="text" name="name" placeholder="Il tuo nome" required>
+                    <textarea name="message" placeholder="Il tuo commento..." rows="4" required></textarea>
+                    <button type="submit">Invia</button>
+                </form>
+                <p style="font-size:0.7rem; color:#888;">I commenti sono anonimi e verranno inviati via email.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox-overlay" id="lightbox-overlay" onclick="chiudiLightbox()">
+        <img class="lightbox-img" id="lightbox-img" src="" alt="Ingrandimento">
+    </div>
+</div>
 
 <script>
     // ==================== AUDIO ====================
@@ -559,7 +527,7 @@
     let viteStati = ['iniziale','iniziale','iniziale'];
     const VITE_SOGLIA = 10;
 
-    // ==================== DOMANDE CON TESTO COMPLETO (da DOMANDE 13.docx) ====================
+    // ==================== DOMANDE CON TESTO COMPLETO ====================
     const domandeTotali = [
         { tipo:"scelta_multipla", immagine:"imag/1_13.jpg", testo:"Il seguente grafico rappresenta la distribuzione dei lavoratori precari in Italia suddivisi per età nell'anno 2012.\nCome si distribuiscono i precari per età?\nQuanti sono in totale i precari?", opzioni:["Circa due milioni","Circa tre milioni","Circa quattro milioni","Circa cinque milioni"], corretta:"Circa quattro milioni", hint:"Dal grafico, il totale ammonta a circa 4 milioni." },
         { tipo:"scelta_multipla", immagine:"imag/1_13.jpg", testo:"Il seguente grafico rappresenta la distribuzione dei lavoratori precari in Italia suddivisi per età nell'anno 2012.\nCome si distribuiscono i precari per età?\nQuale percentuale rappresentano i precari che hanno tra i 25 e i 34 anni?", opzioni:["Circa il 50%","Circa il 40%","Circa il 30%","Circa il 20%"], corretta:"Circa il 30%", hint:"La fascia 25-34 anni è circa il 30% del totale." },
@@ -604,7 +572,7 @@
     let domande = [];
     function mescolaDomande() { domande = [...domandeTotali]; for(let i=domande.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[domande[i],domande[j]]=[domande[j],domande[i]];} }
 
-    // Riferimenti DOM (identici a prima)
+    // Riferimenti DOM
     const punteggioDisplay=document.getElementById('punteggio-display');
     const viteContainer=document.getElementById('vite-container');
     const tempoDisplay=document.getElementById('tempo-display');
