@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Math Game 13 - Classe Terza</title>
     <style>
-        /* ========== RESET E STILI BASE ========== */
+        /* ========== RESET E STILI BASE (identici a prima) ========== */
         * {
             margin: 0;
             padding: 0;
@@ -30,8 +30,6 @@
             padding: 12px;
             margin: 0 auto;
         }
-
-        /* ========== HEADER CON TITOLO ========== */
         .game-header {
             background: linear-gradient(145deg, #3498db, #2980b9);
             border-radius: 12px;
@@ -46,8 +44,6 @@
             text-shadow: 2px 2px 0 #1f618d;
             word-break: break-word;
         }
-
-        /* ========== BARRA INFORMAZIONI ========== */
         .game-info {
             display: flex;
             flex-wrap: wrap;
@@ -108,7 +104,6 @@
         .vita.piena { color: #ffaa00; }
         .vita.verde { color: #00cc44; text-shadow: 0 0 3px #00aa33; }
         .vita.persa { color: #b0b0b0; opacity: 0.5; }
-
         .errori-indicatore { gap: 4px; font-size: 0.7rem; }
         .pallino-errore {
             width: 10px; height: 10px;
@@ -117,18 +112,14 @@
             border: 1px solid #ff4757;
         }
         .pallino-errore.attivo { background: #ff4757; box-shadow: 0 0 5px #ff4757; }
-
         .risposte-consecutive { gap: 4px; font-size: 0.7rem; }
         .risposte-consecutive span:last-child { font-weight: bold; color: #2c3e50; }
-
         .aiuti-utilizzati {
             display: none;
             align-items: center;
             gap: 4px;
             font-size: 0.7rem;
         }
-
-        /* ========== AREA GIOCO ========== */
         .sezione-gioco {
             display: flex;
             flex-direction: column;
@@ -166,7 +157,6 @@
         }
         .icona-play { font-size: 4rem; margin-bottom: 5px; animation: bounce 1.5s infinite; }
         @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-
         .area-domanda {
             display: none;
             flex-direction: column;
@@ -280,7 +270,6 @@
         }
         .tasto-numero:hover { transform: translateY(-1px); box-shadow: 0 3px 0 #a0a0a0; }
         .tasto-cancella { background: #ff4757; color: white; border-color: #c0392b; }
-
         .messaggio-verifica, .messaggio-speciale {
             position: absolute;
             left: 50%;
@@ -328,7 +317,6 @@
         @keyframes rainbow {
             0% { background: #ff0080; } 25% { background: #00ffff; } 50% { background: #00ff80; } 75% { background: #ffff00; } 100% { background: #ff0080; }
         }
-
         .controlli {
             display: none;
             justify-content: center;
@@ -355,7 +343,6 @@
         .bottone-aiuto { background: linear-gradient(145deg, #f39c12, #e67e22); }
         .bottone-nuova { background: linear-gradient(145deg, #9b59b6, #8e44ad); }
         .bottone-salta { background: linear-gradient(145deg, #ff9800, #f57c00); }
-
         .bottom-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -393,7 +380,6 @@
                 padding: 8px 4px;
             }
         }
-
         .modal-overlay, .comment-overlay {
             position: fixed;
             top:0; left:0; width:100%; height:100%;
@@ -460,7 +446,6 @@
         }
         .back-link { text-align: center; margin-top: 15px; }
         .back-link a { color: #4a90e2; text-decoration: none; }
-
         .lightbox-overlay {
             position: fixed;
             top: 0;
@@ -481,7 +466,6 @@
             border: 3px solid white;
             border-radius: 8px;
         }
-
         body.messaggio-attivo .bottone,
         body.messaggio-attivo .bottom-btn {
             pointer-events: none;
@@ -559,7 +543,7 @@
     function creaSuonoWow() { try { const durata = 1.5; const buffer = audioContext.createBuffer(1, audioContext.sampleRate * durata, audioContext.sampleRate); const output = buffer.getChannelData(0); for (let i=0;i<buffer.length;i++) { const t=i/audioContext.sampleRate; let freq1=200+t*600; if(freq1>800) freq1=800; let envelope=Math.sin(Math.PI*t/durata)*0.7*(1+0.3*Math.sin(2*Math.PI*2*t)); output[i]=envelope*(Math.sin(2*Math.PI*freq1*t)*0.5+Math.sin(2*Math.PI*freq1*1.5*t)*0.3+Math.sin(2*Math.PI*freq1*2*t)*0.2); } wowSound=buffer; } catch(e){} }
     function playWowSound(vol=0.8) { if(!audioInizializzato||!wowSound) return; try { if(audioContext.state==='suspended') audioContext.resume(); const src=audioContext.createBufferSource(); src.buffer=wowSound; const gain=audioContext.createGain(); gain.gain.value=vol; src.connect(gain); gain.connect(audioContext.destination); src.start(); } catch(e){} }
 
-    // ==================== VARIABILI ====================
+    // ==================== VARIABILI GLOBALI ====================
     let punteggio = 0, vite = 3, giocoIniziato = false, gameOver = false;
     let operazioniCorretteConsecutive = 0, aiutiUtilizzatiDomandaCorrente = 0, erroriConsecutivi = 0;
     let timerInterval; let tempoRimanente = 5400; const TEMPO_TOTALE = 5400;
@@ -568,52 +552,52 @@
     let viteStati = ['iniziale','iniziale','iniziale'];
     const VITE_SOGLIA = 10;
 
-    // ==================== NUOVE DOMANDE (da DOMANDE 13.docx) ====================
+    // ==================== DOMANDE CON TESTO COMPLETO (da DOMANDE 13.docx) ====================
     const domandeTotali = [
-        { tipo:"scelta_multipla", immagine:"imag/1_13.jpg", testo:"Quanti sono in totale i precari (dati 2012)?", opzioni:["Circa due milioni","Circa tre milioni","Circa quattro milioni","Circa cinque milioni"], corretta:"Circa quattro milioni", hint:"Dal grafico, il totale ammonta a circa 4 milioni." },
-        { tipo:"scelta_multipla", immagine:"imag/1_13.jpg", testo:"Quale percentuale rappresentano i precari che hanno tra i 25 e i 34 anni?", opzioni:["Circa il 50%","Circa il 40%","Circa il 30%","Circa il 20%"], corretta:"Circa il 30%", hint:"La fascia 25-34 anni è circa il 30% del totale." },
-        { tipo:"scelta_multipla", immagine:"imag/2_13.jpg", testo:"Quale espressione calcola il volume del solido (cubo grande - cubo piccolo)?", opzioni:["6a²-3b²","3a²-3b²","(a-b)²","a³-b³"], corretta:"a³-b³", hint:"Volume cubo grande a³, cubo piccolo b³, differenza a³-b³." },
-        { tipo:"scelta_multipla", immagine:"imag/3_13.jpg", testo:"La superficie che ospiterà i pannelli solari misura:", opzioni:["12 m²","12,8 m²","16 m²","16,4 m²"], corretta:"16 m²", hint:"Calcolo area rettangolo inclinato: base × altezza = 4×4 =16 m²." },
-        { tipo:"scelta_multipla", immagine:"imag/4_13.jpg", testo:"Estrarre una pallina rossa dal sacchetto A è ...... probabile che estrarre una pallina rossa dal sacchetto B.", opzioni:["più","meno","ugualmente","è forse"], corretta:"meno", hint:"P(A)=4/12≈0.333, P(B)=4/10=0.4, quindi meno probabile." },
-        { tipo:"scelta_multipla", immagine:"imag/4_13.jpg", testo:"Giovanni aggiunge 6 palline rosse in totale. Quante ne aggiunge in A e B per avere probabilità uguali?", opzioni:["A:2 B:4","A:4 B:2","A:1 B:5","A:5 B:1"], corretta:"A:4 B:2", hint:"(4+x)/(12+x) = (4+6-x)/(10+6-x) → x=4." },
-        { tipo:"scelta_multipla", immagine:"imag/5_13.jpg", testo:"Quale percorso porta alla stanza M (Figura 1)?", opzioni:["Esci da ascensore A, gira a destra. Stanza a destra","Esci da ascensore A, gira a destra. Stanza a sinistra","Esci da ascensore A, gira a sinistra. Stanza a destra","Esci da ascensore A, gira a sinistra. Stanza a sinistra"], corretta:"Esci da ascensore A, gira a destra. Stanza a sinistra", hint:"Osservando la piantina, uscendo e girando a destra la M è sulla sinistra." },
-        { tipo:"scelta_multipla", immagine:"imag/6_13.jpg", testo:"Quale formula descrive meglio la forbice in fotografia?", opzioni:["S=7×T/1","S=1×T/7","S=2×T/4","S=4×T/1"], corretta:"S=1×T/7", hint:"Nella foto M è molto più grande di L, quindi S = (L/M)*T con L=1, M=7." },
-        { tipo:"scelta_multipla", immagine:"imag/6_13.jpg", testo:"Quale frase corrisponde alla forbice descritta dalla formula?", opzioni:["Lame molto corte e impugnatura robusta","Lame lunghe come la distanza perno-impugnatura","Lame più lunghe della distanza perno-impugnatura","Lame più corte della distanza perno-impugnatura"], corretta:"Lame più corte della distanza perno-impugnatura", hint:"L (distanza lama) < M, lame più corte." },
-        { tipo:"scelta_multipla", immagine:"imag/7_13.jpg", testo:"Anna (prodotto pari) e Daniele (dispari) hanno stessa probabilità?", opzioni:["Sì, perché più combinazioni pari","No, perché più combinazioni pari","No, perché più combinazioni dispari","Sì, perché più combinazioni pari"], corretta:"No, perché più combinazioni pari", hint:"Prodotti pari: 27 casi, dispari: 9 casi, vince Anna più spesso." },
-        { tipo:"scelta_multipla", immagine:"imag/8_13.jpg", testo:"Percentuale di alunni stranieri dell'intero istituto?", opzioni:["93,0%","41,2%","31,0%","29,2%"], corretta:"29,2%", hint:"Calcolo dal totale degli alunni e somma stranieri." },
-        { tipo:"scelta_multipla", immagine:"imag/9_13.jpg", testo:"Quale abbinamento percentuali settori (Primario, Secondario, Terziario)?", opzioni:["Sec 10% - Pri 30% - Ter 60%","Pri 10% - Sec 30% - Ter 60%","Sec 10% - Ter 60% - Pri 30%","Sec 30% - Ter 10% - Pri 60%"], corretta:"Pri 10% - Sec 30% - Ter 60%", hint:"Dal grafico a torta, il primario è la fetta più piccola." },
-        { tipo:"scelta_multipla", immagine:"imag/10_13.jpg", testo:"Il grafico può rappresentare:", opzioni:["Due oggetti che partono all'istante 0 da posizioni diverse","Uno parte a 0, l'altro dopo","Stesso punto con velocità diverse","Stessa velocità"], corretta:"Due oggetti che partono all'istante 0 da posizioni diverse", hint:"All'istante 0 le posizioni sono diverse." },
-        { tipo:"scelta_multipla", immagine:"imag/10_13.jpg", testo:"Nell'istante p:", opzioni:["I due oggetti si trovano nello stesso punto","Hanno la stessa velocità","Hanno percorso lo stesso spazio","Si fermano"], corretta:"I due oggetti si trovano nello stesso punto", hint:"I grafici si intersecano, stessa posizione." },
-        { tipo:"scelta_multipla", immagine:"imag/11_13.jpg", testo:"Area del triangolo AEC?", opzioni:["90 cm²","108 cm²","180 cm²","216 cm²"], corretta:"180 cm²", hint:"Base AE=18+12=30 cm, altezza da C ad AE = 12 cm (raggio?): area=30×12/2=180." },
-        { tipo:"scelta_multipla", immagine:"imag/12_13.jpg", testo:"Distanza tra le tacchette segnate da Giovanni:", opzioni:["Diminuisce verso l'alto","Aumenta verso l'alto","Costante","Aumenta poi diminuisce"], corretta:"Aumenta verso l'alto", hint:"Recipiente con forma che si allarga, a parità di volume il dislivello diminuisce? In realtà verso l'alto aumenta perché la sezione si restringe? Dalla figura è un tronco di cono rovesciato, aumenta." },
-        { tipo:"scelta_multipla", immagine:"imag/13_13.jpg", testo:"Per quanti giorni la nonna può prendere 30 mg al giorno usando una scatola?", opzioni:["12","10","180","18"], corretta:"18", hint:"28 compresse ×20 mg =560 mg totali; 560/30 ≈ 18,6 → 18 giorni." },
-        { tipo:"scelta_multipla", immagine:"imag/14_13.jpg", testo:"Giorgio piede 24 cm. Che numero scarpe in Italia?", opzioni:["12","10","36","18"], corretta:"36", hint:"Numero EU ≈ 1,5 × cm = 36." },
-        { tipo:"scelta_multipla", immagine:"imag/14_13.jpg", testo:"John numero USA 7, lunghezza piede circa?", opzioni:["16","36","18","26"], corretta:"26", hint:"Dalla tabella USA 7 corrisponde a circa 26 cm." },
-        { tipo:"scelta_multipla", immagine:"imag/14_13.jpg", testo:"Relazione tra numero USA (U) e Europeo (E):", opzioni:["E=U-32","E=U+32","E=U×32","E=U/32"], corretta:"E=U+32", hint:"Esempio: USA 7 → EU 39 = 7+32." },
-        { tipo:"scelta_multipla", testo:"Distanza 5×10⁶ km → metri?", opzioni:["5×10¹⁸ m","5×10⁹ m","5×10³ m","5×10² m"], corretta:"5×10⁹ m", hint:"1 km = 1000 m → 5×10⁶ ×10³ =5×10⁹ m." },
-        { tipo:"scelta_multipla", immagine:"imag/16_13.jpg", testo:"Rettangolo con stessa area di ABCD ma perimetro maggiore:", opzioni:["base4, altezza5","base12, altezza2","base3, altezza4","base2, altezza6"], corretta:"base12, altezza2", hint:"Area ABCD = 4×6=24; base12×2=24; perimetro maggiore." },
-        { tipo:"scelta_multipla", immagine:"imag/17_13.jpg", testo:"Affermazione vera sulle scale termometriche:", opzioni:["Acqua bolle a 100°F","273 K = 23°C","50°C = 122°F","Nessuna"], corretta:"50°C = 122°F", hint:"50×9/5+32=122." },
-        { tipo:"scelta_multipla", testo:"Mario vede lampo e dopo 3 s sente tuono. Distanza?", opzioni:["800 m","1020 m","320 m","2400 m"], corretta:"1020 m", hint:"340×3=1020 m." },
-        { tipo:"scelta_multipla", testo:"Se fulmine a 1,7 km, dopo quanti secondi sente tuono?", opzioni:["8","120","5","40"], corretta:"5", hint:"1700/340=5 s." },
-        { tipo:"scelta_multipla", testo:"Il numero √6,4 è all'incirca:", opzioni:["3,2","2,5","0,8","8,0"], corretta:"2,5", hint:"√6,4≈2,53." },
-        { tipo:"scelta_multipla", testo:"Espressione per temperatura alle 22:00:", opzioni:["(-8)+(-12)-(-14)","(-8)+(+12)-(-14)","(-8)-(+12)-(+14)","(-8)+(+12)-(+14)"], corretta:"(-8)+(+12)-(+14)", hint:"-8 +12 -14." },
-        { tipo:"scelta_multipla", immagine:"imag/21_13.jpg", testo:"Percentuale di ragazze che mangiano a scuola (III A):", opzioni:["60%","70%","50%","50%"], corretta:"60%", hint:"Dal grafico circa 60%." },
-        { tipo:"scelta_multipla", immagine:"imag/21_13.jpg", testo:"Nella III A ci sono 15 ragazzi. Quanti mangiano a casa?", opzioni:["2","3","8","5"], corretta:"3", hint:"Dal grafico, 20% dei ragazzi mangia a casa: 15×0.2=3." },
-        { tipo:"scelta_multipla", testo:"Se n è naturale, n·(n+2):", opzioni:["sempre dispari","sempre pari","dispari se n pari","dispari se n dispari"], corretta:"dispari se n dispari", hint:"dispari×dispari=dispari, pari×pari=pari." },
-        { tipo:"scelta_multipla", immagine:"imag/23_13.jpg", testo:"Al posto della stellina c'è il numero 0? Affermazione vera?", opzioni:["Sì, perché 6+2=8 e pallino in comune","No, perché il pallino potrebbe cambiare","non si può dire"], corretta:"Sì, perché 6+2=8 e pallino in comune", hint:"Somme orizzontali e verticali uguali, il valore comune si elide, quindi stellina=0." },
-        { tipo:"scelta_multipla", immagine:"imag/24_13.jpg", testo:"Superficie totale dell'appartamento?", opzioni:["104 m²","120 m²","208 m²","576 m²"], corretta:"120 m²", hint:"Soggiorno lato 6 m, cucina lato 4 m, planimetria dà totale 120 m²." },
-        { tipo:"scelta_multipla", immagine:"imag/25_13.jpg", testo:"Frazione del Tangram corrispondente al pezzo grigio:", opzioni:["1/7","1/8","1/15","1/16"], corretta:"1/16", hint:"Il tangram ha area totale 16 triangoli piccoli, il grigio è 1/16." },
-        { tipo:"scelta_multipla", immagine:"imag/26_13.jpg", testo:"Moda delle assenze:", opzioni:["4","16","8","2"], corretta:"2", hint:"La colonna più alta è 2 assenze." },
-        { tipo:"scelta_multipla", immagine:"imag/26_13.jpg", testo:"Se Lorenzo raddoppiasse le assenze, cambiamento nel grafico B:", opzioni:["2 assenze +1, 2 assenze -1","4 assenze +1, 2 assenze -1","16 assenze +1, 2 assenze -1","4 assenze +1, 2 assenze -1"], corretta:"La colonna corrispondente a 4 assenze aumenta da 3 a 4 e la colonna corrispondente a 2 assenze diminuisce da 6 a 5", hint:"Lorenzo aveva 2 assenze, diventa 4." },
-        { tipo:"scelta_multipla", testo:"Proporzione per trovare x insegnanti (600 studenti, 1 ogni 15):", opzioni:["x:15=1:600","15:1=x:600","1:15=x:600","x:1=15:600"], corretta:"1:15=x:600", hint:"1 insegnante : 15 studenti = x : 600." },
-        { tipo:"scelta_multipla", testo:"Nell'altra scuola stesso numero studenti, insegnanti metà. Studenti per insegnante?", opzioni:["4","16","8","30"], corretta:"30", hint:"Insegnanti = (600/15)/2=20, 600/20=30." },
-        { tipo:"scelta_multipla", testo:"Affermazione vera:", opzioni:["3/2 è triplo di 2","3/2 è metà di 3","3/4 è doppio di 3/2","Non si può sapere"], corretta:"3/2 è metà di 3", hint:"Metà di 3 = 1.5 = 3/2." }
+        { tipo:"scelta_multipla", immagine:"imag/1_13.jpg", testo:"Il seguente grafico rappresenta la distribuzione dei lavoratori precari in Italia suddivisi per età nell'anno 2012.\nCome si distribuiscono i precari per età?\nQuanti sono in totale i precari?", opzioni:["Circa due milioni","Circa tre milioni","Circa quattro milioni","Circa cinque milioni"], corretta:"Circa quattro milioni", hint:"Dal grafico, il totale ammonta a circa 4 milioni." },
+        { tipo:"scelta_multipla", immagine:"imag/1_13.jpg", testo:"Il seguente grafico rappresenta la distribuzione dei lavoratori precari in Italia suddivisi per età nell'anno 2012.\nCome si distribuiscono i precari per età?\nQuale percentuale rappresentano i precari che hanno tra i 25 e i 34 anni?", opzioni:["Circa il 50%","Circa il 40%","Circa il 30%","Circa il 20%"], corretta:"Circa il 30%", hint:"La fascia 25-34 anni è circa il 30% del totale." },
+        { tipo:"scelta_multipla", immagine:"imag/2_13.jpg", testo:"In figura è rappresentato un solido ottenuto da un cubo grande dal quale è stato tolto un cubo più piccolo.\nQuale delle seguenti espressioni permette di calcolare il volume del solido ottenuto?", opzioni:["6a²-3b²","3a²-3b²","(a-b)²","a³-b³"], corretta:"a³-b³", hint:"Volume cubo grande a³, cubo piccolo b³, differenza a³-b³." },
+        { tipo:"scelta_multipla", immagine:"imag/3_13.jpg", testo:"Marco vuole installare dei pannelli solari sul tetto del suo box auto. La superficie su cui poggeranno i pannelli deve essere inclinata per ricevere i raggi del sole nel modo più efficace. Il progetto di Marco è schematizzato nella figura.\nLa superficie che ospiterà i pannelli solari misura:", opzioni:["12 m²","12,8 m²","16 m²","16,4 m²"], corretta:"16 m²", hint:"Area = base × altezza = 4×4 =16 m²." },
+        { tipo:"scelta_multipla", immagine:"imag/4_13.jpg", testo:"Nel sacchetto A ci sono 4 palline rosse e 8 nere mentre nel sacchetto B ci sono 4 palline rosse e 6 nere.\nCompleta correttamente la seguente frase indicando quale delle seguenti parole va inserita al posto dei puntini:\nEstrarre una pallina rossa dal sacchetto A è ...... probabile che estrarre una pallina rossa dal sacchetto B.", opzioni:["più","meno","ugualmente","è forse"], corretta:"meno", hint:"P(A)=4/12≈0.333, P(B)=4/10=0.4, quindi meno probabile." },
+        { tipo:"scelta_multipla", immagine:"imag/4_13.jpg", testo:"Giovanni distribuisce fra i due sacchetti altre 6 palline rosse in modo che la probabilità di estrarre una pallina rossa sia la stessa per entrambi i sacchetti.\nQuante palline rosse ha aggiunto Giovanni in ciascuno dei due sacchetti?", opzioni:["A:2 B:4","A:4 B:2","A:1 B:5","A:5 B:1"], corretta:"A:4 B:2", hint:"(4+x)/(12+x) = (4+6-x)/(10+6-x) → x=4." },
+        { tipo:"scelta_multipla", immagine:"imag/5_13.jpg", testo:"Qui di seguito sono riportate la pianta del secondo piano e il prospetto della facciata principale di un albergo.\nMarco occupa la stanza del secondo piano indicata dalla lettera M (Figura 1).\nQuale fra i seguenti percorsi ti permette di arrivare alla stanza di Marco?", opzioni:["Esci dall'ascensore A, gira a destra. La stanza si trova sulla tua destra","Esci dall'ascensore A, gira a destra. La stanza si trova sulla tua sinistra","Esci dall'ascensore A, gira a sinistra. La stanza si trova sulla tua destra","Esci dall'ascensore A, gira a sinistra. La stanza si trova sulla tua sinistra"], corretta:"Esci dall'ascensore A, gira a destra. La stanza si trova sulla tua sinistra", hint:"Dalla piantina, uscendo e girando a destra la M è sulla sinistra." },
+        { tipo:"scelta_multipla", immagine:"imag/6_13.jpg", testo:"Quando si taglia un oggetto con una forbice da potatura, si esercita una forza (S), mentre l'oggetto che si vuole tagliare oppone una resistenza (T).\nLa formula S = L × T / M permette di calcolare la forza che si esercita con una forbice, tenendo conto di due elementi: la distanza (L) tra il perno fisso intorno a cui si muovono le lame e il punto in cui viene opposta la resistenza al taglio, e la distanza (M) tra l'impugnatura e il perno fisso.\nQuale fra le seguenti formule descrive meglio una forbice come quella in fotografia?", opzioni:["S=7×T/1","S=1×T/7","S=2×T/4","S=4×T/1"], corretta:"S=1×T/7", hint:"Nella foto M è molto più grande di L, quindi S = (L/M)*T con L=1, M=7." },
+        { tipo:"scelta_multipla", immagine:"imag/6_13.jpg", testo:"Quale fra le seguenti frasi corrisponde alla forbice descritta da questa formula?", opzioni:["Una forbice con le lame molto corte, affilate e l'impugnatura molto robusta","Una forbice con le lame lunghe come la distanza fra il perno fisso e l'impugnatura","Una forbice con le lame più lunghe della distanza fra il perno fisso e l'impugnatura","Una forbice con le lame più corte della distanza fra il perno fisso e l'impugnatura"], corretta:"Una forbice con le lame più corte della distanza fra il perno fisso e l'impugnatura", hint:"L (distanza lama) < M, lame più corte." },
+        { tipo:"scelta_multipla", immagine:"imag/7_13.jpg", testo:"Anna e Daniele giocano con due dadi. Ciascuno tira i due dadi e moltiplica i due numeri. Ad esempio, in questo caso 4x3=12.\nAnna vince se il prodotto è un numero pari.\nDaniele vince se il prodotto è un numero dispari.\nHanno entrambi la stessa probabilità di vincere?\nScegli la risposta:", opzioni:["Sì, perché sono di più le combinazioni pari che quelle dispari","No, perché sono di più le combinazioni pari che quelle dispari","No, perché sono di più le combinazioni dispari che quelle pari","Sì, perché sono di più le combinazioni pari che quelle dispari"], corretta:"No, perché sono di più le combinazioni pari che quelle dispari", hint:"Prodotti pari: 27 casi, dispari: 9 casi, vince Anna più spesso." },
+        { tipo:"scelta_multipla", immagine:"imag/8_13.jpg", testo:"La seguente tabella riporta i dati sulla cittadinanza degli alunni a un istituto Comprensivo:\nQual è la percentuale di alunni stranieri dell'intero istituto?", opzioni:["93,0%","41,2%","31,0%","29,2%"], corretta:"29,2%", hint:"Calcolo dal totale degli alunni e somma stranieri." },
+        { tipo:"scelta_multipla", immagine:"imag/9_13.jpg", testo:"Utilizza il cerchio qui sotto per rappresentare con un aerogramma la percentuale di produzione del reddito per i diversi settori economici scritti in tabella. Per ciascun settore rappresentato, scrivi il nome corrispondente.\nSettore economico Percentuale (%)\nA. Secondario 10(%) - Primario 30(%) - Terziario 60(%)\nB. Primario 10(%) - Secondario 30(%) - Terziario 60(%)\nC. Secondario 10(%) - Terziario 60(%)- Primario 30(%)\nD. Secondario 30(%) - Terziario 10(%)- Primario 60(%)", opzioni:["Sec 10% - Pri 30% - Ter 60%","Pri 10% - Sec 30% - Ter 60%","Sec 10% - Ter 60% - Pri 30%","Sec 30% - Ter 10% - Pri 60%"], corretta:"Pri 10% - Sec 30% - Ter 60%", hint:"Dal grafico a torta, il primario è la fetta più piccola." },
+        { tipo:"scelta_multipla", immagine:"imag/10_13.jpg", testo:"Il seguente grafico rappresenta il moto di due oggetti che si muovono sulla stessa traiettoria rettilinea.\nIl grafico può rappresentare:", opzioni:["Il moto di due oggetti che partono all'istante 0 da due posizioni differenti","Il moto di due oggetti che partono uno all'istante 0 e l'altro in un istante successivo","Il moto di due oggetti che partono all'istante 0 dallo stesso punto con velocità diverse","Il moto di due oggetti che viaggiano alla stessa velocità"], corretta:"Il moto di due oggetti che partono all'istante 0 da due posizioni differenti", hint:"All'istante 0 le posizioni sono diverse." },
+        { tipo:"scelta_multipla", immagine:"imag/10_13.jpg", testo:"Il seguente grafico rappresenta il moto di due oggetti che si muovono sulla stessa traiettoria rettilinea. Nell'istante p:", opzioni:["i due oggetti si trovano nello stesso punto","i due oggetti hanno la medesima velocità","i due oggetti hanno percorso lo stesso spazio a partire dall'istante 0","i due oggetti si fermano"], corretta:"i due oggetti si trovano nello stesso punto", hint:"I grafici si intersecano, stessa posizione." },
+        { tipo:"scelta_multipla", immagine:"imag/11_13.jpg", testo:"Nella seguente figura le rette r ed s sono perpendicolari fra loro e è una semicirconferenza di centro O. La lunghezza del segmento AO è di 18 cm e la lunghezza del segmento OB è di 12 cm.\nSe si congiunge C con E. Qual è l'area del triangolo AEC?", opzioni:["90 cm²","108 cm²","180 cm²","216 cm²"], corretta:"180 cm²", hint:"Base AE=30 cm, altezza = 12 cm → area=30×12/2=180." },
+        { tipo:"scelta_multipla", immagine:"imag/12_13.jpg", testo:"Giovanni versa 100 ml di acqua alla volta nel recipiente che vedi in figura fino a 800 ml. Ogni volta segna con una tacchetta sul recipiente il livello raggiunto dall'acqua.\nCom'è la distanza tra le tacchette segnate da Giovanni?", opzioni:["La distanza tra le tacchette diminuisce verso l'alto","La distanza tra le tacchette aumenta verso l'alto","La distanza tra le tacchette si mantiene costante","La distanza tra le tacchette prima aumenta e poi diminuisce"], corretta:"La distanza tra le tacchette aumenta verso l'alto", hint:"Il recipiente si allarga verso l'alto, quindi a parità di volume l'innalzamento è minore → le tacchette sono più ravvicinate in basso e più distanziate in alto." },
+        { tipo:"scelta_multipla", immagine:"imag/13_13.jpg", testo:"Una medicina viene venduta in scatole da 28 compresse divisibili come quella in figura. Ogni compressa è da 20 mg. La nonna di Piero deve prendere tutti i giorni, per un mese, 30 mg di questa medicina.\nPer quanti giorni la nonna di Piero può prendere la sua dose giornaliera del farmaco utilizzando una sola scatola?", opzioni:["12","10","180","18"], corretta:"18", hint:"28 compresse ×20 mg =560 mg totali; 560/30 ≈ 18,6 → 18 giorni." },
+        { tipo:"scelta_multipla", immagine:"imag/14_13.jpg", testo:"In Europa, i numeri delle scarpe corrispondono circa ai della lunghezza (in cm) del piede. Negli USA i numeri delle scarpe sono attribuiti in modo diverso, come si vede dalla tabella.\nGiorgio ha il piede lungo 24 cm. Quale numero di scarpe dovrà acquistare in Italia?", opzioni:["12","10","36","18"], corretta:"36", hint:"Numero EU ≈ 1,5 × cm = 36." },
+        { tipo:"scelta_multipla", immagine:"imag/14_13.jpg", testo:"In Europa, i numeri delle scarpe corrispondono circa ai della lunghezza (in cm) del piede. Negli USA i numeri delle scarpe sono attribuiti in modo diverso, come si vede dalla tabella.\nJohn porta scarpe numero 7, misura USA. Qual è all'incirca la lunghezza del suo piede?", opzioni:["16","36","18","26"], corretta:"26", hint:"Dalla tabella USA 7 corrisponde a circa 26 cm." },
+        { tipo:"scelta_multipla", immagine:"imag/14_13.jpg", testo:"In Europa, i numeri delle scarpe corrispondono circa ai della lunghezza (in cm) del piede. Negli USA i numeri delle scarpe sono attribuiti in modo diverso, come si vede dalla tabella.\nIndica la relazione che ti permette di passare dal numero di scarpe USA (U) al numero di scarpe europeo (E).", opzioni:["E=U-32","E=U+32","E=U×32","E=U/32"], corretta:"E=U+32", hint:"Esempio: USA 7 → EU 39 = 7+32." },
+        { tipo:"scelta_multipla", testo:"La distanza tra due corpi celesti è 5 x 10⁶ km. Qual è la distanza equivalente in metri?", opzioni:["5 x 10¹⁸ m","5 x 10⁹ m","5 x 10³ m","5 x 10² m"], corretta:"5 x 10⁹ m", hint:"1 km = 1000 m → 5×10⁶ ×10³ =5×10⁹ m." },
+        { tipo:"scelta_multipla", immagine:"imag/16_13.jpg", testo:"Indica le dimensioni di un rettangolo che abbia la stessa area del rettangolo ABCD, ma perimetro maggiore.", opzioni:["un rettangolo che ha la base 4 quadratini e l'altezza 5 quadratini.","un rettangolo che ha la base 12 quadratini e l'altezza 2 quadratini.","un rettangolo che ha la base 3 quadratini e l'altezza 4 quadratini.","un rettangolo che ha la base 2 quadratini e l'altezza 6 quadratini."], corretta:"un rettangolo che ha la base 12 quadratini e l'altezza 2 quadratini.", hint:"Area ABCD = 4×6=24; base12×2=24; perimetro maggiore." },
+        { tipo:"scelta_multipla", immagine:"imag/17_13.jpg", testo:"Per la misura delle temperature, vengono utilizzate tre scale termometriche diverse: la classica Celsius (°C), la scala Fahrenheit (°F) e la scala Kelvin (K).\nNell'immagine sono rappresentati tre termometri tarati con le diverse scale. Indica quale delle seguenti affermazioni è vera:", opzioni:["La temperatura di ebollizione dell'acqua è 100°F","273 Kelvin corrispondono a 23°C","50°C corrispondono a 122°F"], corretta:"50°C corrispondono a 122°F", hint:"50×9/5+32=122." },
+        { tipo:"scelta_multipla", testo:"La velocità del suono nell'aria è di circa 340 metri al secondo, di molto inferiore alla velocità della luce. Durante un temporale, un fulmine si scarica a terra. Mario vede il lampo e 3 secondi dopo sente il tuono.\nA quanti metri di distanza da Mario, all'incirca, si è scaricato il fulmine?", opzioni:["800","1020","320","2400"], corretta:"1020", hint:"340×3=1020 m." },
+        { tipo:"scelta_multipla", testo:"La velocità del suono nell'aria è di circa 340 metri al secondo, di molto inferiore alla velocità della luce. Durante un temporale, un fulmine si scarica a terra. Mario vede il lampo e 3 secondi dopo sente il tuono.\nDopo quanti secondi Mario avrebbe sentito il tuono se il fulmine si fosse scaricato a una distanza di circa 1,7 km da lui?", opzioni:["8","120","5","40"], corretta:"5", hint:"1700/340=5 s." },
+        { tipo:"scelta_multipla", testo:"Il numero √6,4 è all'incirca uguale a:", opzioni:["3,2","2,5","0,8","8,0"], corretta:"2,5", hint:"√6,4≈2,53." },
+        { tipo:"scelta_multipla", testo:"In un rifugio di alta montagna, il 31 marzo 2012 alle ore 6:00, è stata registrata una temperatura di 8 gradi sotto lo zero; alle ore 15:00 la temperatura era salita di 12 gradi mentre alle ore 22:00 era scesa di 14 gradi rispetto alle ore 15:00.\nQuale delle seguenti espressioni permette di calcolare la temperatura alle ore 22:00?", opzioni:["(-8)+(-12)-(-14)","(-8)+(+12)-(-14)","(-8)-(+12)-(+14)","(-8)+(+12)-(+14)"], corretta:"(-8)+(+12)-(+14)", hint:"-8 +12 -14." },
+        { tipo:"scelta_multipla", immagine:"imag/21_13.jpg", testo:"I seguenti grafici mostrano le percentuali di ragazzi e ragazze della III A che a pranzo mangiano a casa o a scuola.\nStima la percentuale di ragazze della III A che mangiano a scuola.", opzioni:["60%","70%","50%","50%"], corretta:"70%", hint:"Dal grafico, circa il 70% delle ragazze mangia a scuola." },
+        { tipo:"scelta_multipla", immagine:"imag/21_13.jpg", testo:"I seguenti grafici mostrano le percentuali di ragazzi e ragazze della III A che a pranzo mangiano a casa o a scuola.\nNella III A ci sono 15 ragazzi. Quanti mangiano a casa?", opzioni:["2","3","8","5"], corretta:"3", hint:"Dal grafico, 20% dei ragazzi mangia a casa: 15×0.2=3." },
+        { tipo:"scelta_multipla", testo:"Se n é un numero naturale, allora il numero n·(n+2):", opzioni:["è sempre dispari","è sempre pari","è dispari se n è pari","è dispari se n è dispari"], corretta:"è dispari se n è dispari", hint:"dispari×dispari=dispari, pari×pari=pari." },
+        { tipo:"scelta_multipla", immagine:"imag/23_13.jpg", testo:"Nello schema, la somma dei numeri in orizzontale è uguale alla somma dei numeri in verticale. Alcuni numeri sono coperti da simboli.\nL'affermazione: Al posto della stellina c'è il numero 0 è sicuramente vera?", opzioni:["Sì, perché 6+2=8, il pallino è in comune (e il valore che copre è ininfluente), quindi sotto la stellina deve esserci 0","No, perché 6+2=8, ma il pallino è in comune (e il valore che copre farebbe cambiare il risultato), quindi sotto la stellina potrebbe esserci 0","non si può dire"], corretta:"Sì, perché 6+2=8, il pallino è in comune (e il valore che copre è ininfluente), quindi sotto la stellina deve esserci 0", hint:"Somme orizzontali e verticali uguali, il valore comune si elide, quindi stellina=0." },
+        { tipo:"scelta_multipla", immagine:"imag/24_13.jpg", testo:"In figura è rappresentata la pianta in scala di un appartamento su due livelli.\nIl soggiorno (S) e la cucina (K) sono al piano terra. Entrambi i locali sono di forma quadrata e misurano rispettivamente 36 m² e 16 m².\nQuanto misura la superficie dell'intero appartamento?", opzioni:["104 m²","120 m²","208 m²","576 m²"], corretta:"120 m²", hint:"Soggiorno lato 6 m, cucina lato 4 m, planimetria dà totale 120 m²." },
+        { tipo:"scelta_multipla", immagine:"imag/25_13.jpg", testo:"In figura è rappresentata il gioco del Tangram con i pezzi che lo compongono.\nA quale frazione dell'area del Tangram corrisponde il pezzo colorato in grigio?", opzioni:["Un settimo","Un ottavo","Un quindicesimo","Un sedicesimo"], corretta:"Un sedicesimo", hint:"Il tangram ha area totale 16 triangoli piccoli, il grigio è 1/16." },
+        { tipo:"scelta_multipla", immagine:"imag/26_13.jpg", testo:"Il Grafico A e il Grafico B rappresentano le assenze del primo quadrimestre di una classe di 20 alunni.\nQual è la moda delle assenze?", opzioni:["4","16","8","2"], corretta:"2", hint:"La colonna più alta è 2 assenze." },
+        { tipo:"scelta_multipla", immagine:"imag/26_13.jpg", testo:"Il Grafico A e il Grafico B rappresentano le assenze del primo quadrimestre di una classe di 20 alunni.\nSe Lorenzo avesse fatto il doppio delle assenze, quali cambiamenti ci sarebbero nel Grafico B?\nIndica la giusta la frase corrispondente:", opzioni:["La colonna corrispondente a 2 assenze aumenta da 3 a 4 e la colonna corrispondente a 2 assenze diminuisce da 4 a 5","La colonna corrispondente a 4 assenze aumenta da 3 a 4 e la colonna corrispondente a 2 assenze diminuisce da 6 a 5","La colonna corrispondente a 16 assenze aumenta da 15 a 16 e la colonna corrispondente a 2 assenze diminuisce da 5 a 6","La colonna corrispondente a 4 assenze aumenta da 4 a 5 e la colonna corrispondente a 2 assenze diminuisce da 5 a 4"], corretta:"La colonna corrispondente a 4 assenze aumenta da 3 a 4 e la colonna corrispondente a 2 assenze diminuisce da 6 a 5", hint:"Lorenzo aveva 2 assenze, diventa 4." },
+        { tipo:"scelta_multipla", testo:"Nella scuola Nino Bixio ci sono 600 studenti e un insegnante ogni 15 studenti.\nQuale proporzione permette di trovare il numero x degli insegnanti?", opzioni:["x : 15 = 1 : 600","15 : 1 = x : 600","1 : 15 = x : 600","x : 1 = 15 : 600"], corretta:"1 : 15 = x : 600", hint:"1 insegnante : 15 studenti = x : 600." },
+        { tipo:"scelta_multipla", testo:"Nella scuola Nino Bixio ci sono 600 studenti e un insegnante ogni 15 studenti.\nNella scuola Giuseppe Garibaldi, con lo stesso numero di studenti della Nino Bixio, il numero degli insegnanti è la metà. Quanti studenti ci sono per ogni insegnante?", opzioni:["4","16","8","30"], corretta:"30", hint:"Insegnanti = (600/15)/2=20, 600/20=30." },
+        { tipo:"scelta_multipla", testo:"Indica quale delle seguenti affermazioni è vera:", opzioni:["3/2 è il triplo di 2","3/2 è la metà di 3","3/4 è il doppio di 3/2","Non si può sapere"], corretta:"3/2 è la metà di 3", hint:"Metà di 3 = 1.5 = 3/2." }
     ];
 
     let domande = [];
     function mescolaDomande() { domande = [...domandeTotali]; for(let i=domande.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[domande[i],domande[j]]=[domande[j],domande[i]];} }
 
-    // Riferimenti DOM
+    // Riferimenti DOM (identici a prima)
     const punteggioDisplay=document.getElementById('punteggio-display');
     const viteContainer=document.getElementById('vite-container');
     const tempoDisplay=document.getElementById('tempo-display');
