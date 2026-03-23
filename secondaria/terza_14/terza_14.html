@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Math Game 14 - Classe Terza</title>
+    <style>
+        /* ========== RESET E STILI BASE ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Open Sans', 'Segoe UI', sans-serif;
+        }
+        body {
+            background-color: #c3e0ff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+        }
+        .game-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #d4e6ff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,40,80,0.2);
+            padding: 12px;
+            margin: 0 auto;
+        }
+        .game-header {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            border-radius: 12px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 0 #1f618d, 0 10px 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .game-header h1 {
+            color: white;
+            font-size: 1.4rem;
+            text-shadow: 2px 2px 0 #1f618d;
+            word-break: break-word;
+        }
+        .game-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            background: #c3e0ff;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            border: 1px solid #b0c4de;
+        }
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            padding: 0 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .errori-indicatore,
+        .risposte-consecutive,
+        .aiuti-utilizzati {
+            display: flex;
+            align-items: center;
+            height: 40px;
+            padding: 0 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .info-item .label {
+            font-size: 0.6rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        .info-item .value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+        .vite-container {
+            display: flex;
+            gap: 2px;
+            justify-content: center;
+        }
+        .vita {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        .vita.piena { color: #ffaa00; }
+        .vita.verde { color: #00cc44; text-shadow: 0 0 3px #00aa33; }
+        .vita.persa { color: #b0b0b0; opacity: 0.5; }
+        .errori-indicatore { gap: 4px; font-size: 0.7rem; }
+        .pallino-errore {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            border: 1px solid #ff4757;
+        }
+        .pallino-errore.attivo { background: #ff4757; box-shadow: 0 0 5px #ff4757; }
+        .risposte-consecutive { gap: 4px; font-size: 0.7rem; }
+        .risposte-consecutive span:last-child { font-weight: bold; color: #2c3e50; }
+        .aiuti-utilizzati {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+        }
+        .sezione-gioco {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 8px 0;
+        }
+        .messaggio-avvio {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            border-radius: 16px;
+            padding: 20px 15px;
+            max-width: 450px;
+            margin: 10px auto;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #1f618d, 0 10px 20px rgba(0,0,0,0.3);
+            color: white;
+            text-align: center;
+        }
+        .messaggio-avvio h2 { font-size: 1.8rem; margin-bottom: 10px; text-shadow: 2px 2px 0 #1f618d; }
+        .messaggio-avvio p { margin-bottom: 8px; font-size: 1rem; }
+        .messaggio-avvio .istruzione-gioco {
+            background: rgba(255,255,255,0.25);
+            border-radius: 12px;
+            padding: 10px;
+            margin: 12px 0;
+            border: 2px dashed white;
+        }
+        .messaggio-avvio .istruzione-principale {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: rgba(0,0,0,0.2);
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 40px;
+            margin-top: 10px;
+        }
+        .icona-play { font-size: 4rem; margin-bottom: 5px; animation: bounce 1.5s infinite; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        .area-domanda {
+            display: none;
+            flex-direction: column;
+            position: relative;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px 12px;
+            width: 100%;
+            height: 450px;
+            overflow-y: auto;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+        }
+        #contenuto-domanda {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            width: 100%;
+        }
+        .testo-domanda {
+            font-size: 0.85rem;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            text-align: justify;
+            word-break: break-word;
+            line-height: 1.4;
+            hyphens: auto;
+        }
+        .immagine-domanda {
+            max-width: 100%;
+            max-height: 180px;
+            margin-bottom: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            object-fit: contain;
+            cursor: pointer;
+        }
+        .opzioni-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .opzione-btn {
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+            border: none;
+            border-radius: 6px;
+            padding: 8px 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b0b0b0, 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+            word-break: break-word;
+            min-height: 50px;
+            transition: 0.1s;
+        }
+        .opzione-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #a0a0a0; }
+        .opzione-btn.selezionata {
+            background: linear-gradient(145deg, #2ecc71, #27ae60);
+            color: white;
+            box-shadow: 0 3px 0 #1e8449;
+        }
+        .risposta-aperta-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .casella-risposta {
+            width: 80px;
+            height: 60px;
+            font-size: 2rem;
+            text-align: center;
+            border: 2px solid #4a90e2;
+            border-radius: 6px;
+            background: white;
+            color: #2c3e50;
+            outline: none;
+        }
+        .tastiera-container {
+            display: none;
+            background: #f8f8f8;
+            border-radius: 6px;
+            padding: 6px;
+            margin-top: 6px;
+            border: 2px solid #ddd;
+        }
+        .tastiera-numerica {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .tasto-numero {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+            border: 2px solid #4a90e2;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 0 #b0b0b0;
+            transition: 0.1s;
+        }
+        .tasto-numero:hover { transform: translateY(-1px); box-shadow: 0 3px 0 #a0a0a0; }
+        .tasto-cancella { background: #ff4757; color: white; border-color: #c0392b; }
+        .messaggio-verifica, .messaggio-speciale {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 350px;
+            z-index: 10;
+            pointer-events: none;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .messaggio-verifica {
+            bottom: 10px;
+            background: #fff3cd;
+            border: 2px dashed #ffc107;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-weight: bold;
+            color: #856404;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateX(-50%) translateY(-5px);
+        }
+        .messaggio-verifica.mostra { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .messaggio-corretto { background: #d4edda; border-color: #28a745; color: #155724; }
+        .messaggio-errato { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .messaggio-info { background: #d1ecf1; border-color: #17a2b8; color: #0c546c; }
+        .messaggio-speciale {
+            bottom: 70px;
+            background: linear-gradient(145deg, #ff0080, #ff00ff);
+            border: 3px solid #ff00ff;
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 0 25px rgba(255,0,255,0.7);
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: rainbow 3s infinite;
+            opacity: 0;
+            transform: translateX(-50%) scale(0.9);
+        }
+        .messaggio-speciale.mostra { opacity: 1; transform: translateX(-50%) scale(1); }
+        @keyframes rainbow {
+            0% { background: #ff0080; } 25% { background: #00ffff; } 50% { background: #00ff80; } 75% { background: #ffff00; } 100% { background: #ff0080; }
+        }
+        .controlli {
+            display: none;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .bottone {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b0b0b0;
+            transition: 0.1s;
+            font-size: 0.9rem;
+            flex: 1;
+            max-width: 120px;
+            color: white;
+            word-break: break-word;
+        }
+        .bottone:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #a0a0a0; }
+        .bottone-verifica { background: linear-gradient(145deg, #2ecc71, #27ae60); }
+        .bottone-aiuto { background: linear-gradient(145deg, #f39c12, #e67e22); }
+        .bottone-nuova { background: linear-gradient(145deg, #9b59b6, #8e44ad); }
+        .bottone-salta { background: linear-gradient(145deg, #ff9800, #f57c00); }
+        .bottom-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        .bottom-btn {
+            flex: 1 1 0;
+            min-width: 120px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 0 #1f618d;
+            transition: 0.1s;
+            text-align: center;
+        }
+        .bottom-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #1f618d;
+        }
+        @media (max-width: 480px) {
+            .bottom-buttons {
+                flex-wrap: nowrap;
+            }
+            .bottom-btn {
+                flex: 1 1 0;
+                min-width: 0;
+                font-size: 0.75rem;
+                padding: 8px 4px;
+            }
+        }
+        .modal-overlay, .comment-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 8px;
+        }
+        .modal-content, .comment-content {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .close-modal {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 26px; height: 26px;
+            cursor: pointer;
+        }
+        .comment-section input, .comment-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        .comment-section button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .comment-close {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px; height: 30px;
+            font-size: 1.2rem;
+            position: absolute;
+            top: 10px; right: 10px;
+            cursor: pointer;
+        }
+        .back-link { text-align: center; margin-top: 15px; }
+        .back-link a { color: #4a90e2; text-decoration: none; }
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            cursor: pointer;
+        }
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border: 3px solid white;
+            border-radius: 8px;
+        }
+        body.messaggio-attivo .bottone,
+        body.messaggio-attivo .bottom-btn {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <div class="game-header">
+        <h1>📐 Math Game 14 - Classe Terza 📊</h1>
+    </div>
+
+    <div class="game-info">
+        <div class="info-item"><div class="label">PUNTI</div><div class="value" id="punteggio-display">0</div></div>
+        <div class="errori-indicatore" id="errori-indicatore">
+            <div class="pallino-errore" id="errore-1"></div>
+            <div class="pallino-errore" id="errore-2"></div>
+            <div class="pallino-errore" id="errore-3"></div>
+        </div>
+        <div class="info-item"><div class="vite-container" id="vite-container"></div></div>
+        <div class="risposte-consecutive" id="risposte-consecutive"><span id="contatore-consecutive">0</span><span>😊</span></div>
+        <div class="info-item"><div class="label">TEMPO</div><div class="value" id="tempo-display">90:00</div></div>
+        <div class="aiuti-utilizzati" id="aiuti-utilizzati"><span>Aiuti usati:</span><span id="contatore-aiuti">0</span><span>🧠</span><span>(-2 cad.)</span></div>
+    </div>
+
+    <div class="sezione-gioco">
+        <div class="messaggio-avvio" id="messaggio-avvio" onclick="iniziaGioco()">
+            <div class="icona-play">🎮</div>
+            <h2>Pronto per la sfida?</h2>
+            <div class="istruzione-gioco"><small>Clicca su Info per vedere come funziona il gioco.<br>Invia un commento se vuoi suggerire qualcosa.</small></div>
+            <p class="istruzione-principale">Clicca qui per iniziare!</p>
+        </div>
+        <div class="area-domanda" id="area-domanda"><div id="contenuto-domanda"></div><div class="messaggio-verifica" id="messaggio-verifica"></div><div class="messaggio-speciale" id="messaggio-speciale"></div></div>
+    </div>
+
+    <div class="controlli" id="controlli-gioco">
+        <button class="bottone bottone-aiuto" id="bottone-aiuto" onclick="mostraAiuto()">🧠 Aiuto (-2)</button>
+        <button class="bottone bottone-verifica" id="bottone-verifica" onclick="verificaRisposta()">✓ Verifica</button>
+        <button class="bottone bottone-salta" id="bottone-salta" onclick="saltaDomanda()">❓ Non so</button>
+        <button class="bottone bottone-nuova" id="bottone-nuova" onclick="resetGioco()">🔄 Nuova Partita</button>
+    </div>
+
+    <div class="tastiera-container" id="tastiera-container"><div class="tastiera-numerica" id="tastiera-numerica"></div></div>
+
+    <div class="bottom-buttons">
+        <button class="bottom-btn" onclick="apriIstruzioni()">❓ Info</button>
+        <button class="bottom-btn" onclick="apriCommenti()">💬 Commenti</button>
+        <button class="bottom-btn" onclick="esciDalGioco()">🚪 Esci</button>
+    </div>
+
+    <!-- Modale istruzioni -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>📚 Istruzioni</span>
+                <button class="close-modal" onclick="chiudiIstruzioni()">✕</button>
+            </div>
+            <div class="modal-section">
+                <h3>🎯 Come giocare</h3>
+                <ol style="margin-left:18px;">
+                    <li>Hai 90 minuti e 3 vite. Leggi attentamente la domanda, clicca sull'immagine per ingrandirla.</li>
+                    <li>Seleziona la risposta (o scrivila) e premi "Verifica".</li>
+                    <li>Nella barra sotto il titolo vedi il box con i punti, i pallini rossi che segnalano gli errori, gli emoticon per le vite.</li>
+                    <li>Dopo la verifica, la domanda successiva appare automaticamente.</li>
+                    <li>Se non sai rispondere, premi "Non so" per saltare senza conseguenze.</li>
+                </ol>
+            </div>
+            <div class="modal-section">
+                <h3>🏆 Punteggio e vite 🏆</h3>
+                <p>Guadagni 1 punto + bonus tempo (1 ogni 10 minuti rimasti) se rispondi correttamente al primo tentativo. Ogni 100 punti superbonus +10!<br>
+                Dopo un errore, la risposta corretta non dà punti.<br>
+                Perdi 1 vita dopo 3 errori consecutivi; se perdi tutte le vite la partita finisce.<br>
+                Guadagni 1 vita dopo 10 risposte corrette consecutive.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale commenti -->
+    <div class="comment-overlay" id="comment-overlay">
+        <div class="comment-content">
+            <button class="comment-close" onclick="chiudiCommenti()">✕</button>
+            <div class="comment-section">
+                <h2>✍️ Invia un commento</h2>
+                <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
+                    <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/secondaria/grazie.html">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="text" name="name" placeholder="Il tuo nome" required>
+                    <textarea name="message" placeholder="Il tuo commento..." rows="4" required></textarea>
+                    <button type="submit">Invia</button>
+                </form>
+                <p style="font-size:0.7rem; color:#888;">I commenti sono anonimi e verranno inviati via email.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox-overlay" id="lightbox-overlay" onclick="chiudiLightbox()">
+        <img class="lightbox-img" id="lightbox-img" src="" alt="Ingrandimento">
+    </div>
+</div>
+
+<script>
+    // ==================== AUDIO ====================
+    let audioContext; let audioInizializzato = false; let wowSound;
+    function inizializzaAudio() { try { audioContext = new (window.AudioContext || window.webkitAudioContext)(); creaSuonoWow(); audioInizializzato = true; if (audioContext.state === 'suspended') audioContext.resume(); } catch(e){} }
+    function creaSuonoWow() { try { const durata = 1.5; const buffer = audioContext.createBuffer(1, audioContext.sampleRate * durata, audioContext.sampleRate); const output = buffer.getChannelData(0); for (let i=0;i<buffer.length;i++) { const t=i/audioContext.sampleRate; let freq1=200+t*600; if(freq1>800) freq1=800; let envelope=Math.sin(Math.PI*t/durata)*0.7*(1+0.3*Math.sin(2*Math.PI*2*t)); output[i]=envelope*(Math.sin(2*Math.PI*freq1*t)*0.5+Math.sin(2*Math.PI*freq1*1.5*t)*0.3+Math.sin(2*Math.PI*freq1*2*t)*0.2); } wowSound=buffer; } catch(e){} }
+    function playWowSound(vol=0.8) { if(!audioInizializzato||!wowSound) return; try { if(audioContext.state==='suspended') audioContext.resume(); const src=audioContext.createBufferSource(); src.buffer=wowSound; const gain=audioContext.createGain(); gain.gain.value=vol; src.connect(gain); gain.connect(audioContext.destination); src.start(); } catch(e){} }
+
+    // ==================== VARIABILI GLOBALI ====================
+    let punteggio = 0, vite = 3, giocoIniziato = false, gameOver = false;
+    let operazioniCorretteConsecutive = 0, aiutiUtilizzatiDomandaCorrente = 0, erroriConsecutivi = 0;
+    let timerInterval; let tempoRimanente = 5400; const TEMPO_TOTALE = 5400;
+    let tentativiDomandaCorrente = 0, timeoutProssima = null, indiceDomandaCorrente = 0;
+    let messaggioTimeout = null, messaggioSpecialeTimeout = null, prossimaSoglia = 100;
+    let viteStati = ['iniziale','iniziale','iniziale'];
+    const VITE_SOGLIA = 10;
+
+    // ==================== DOMANDE (da domande 14.docx) ====================
+    const domandeTotali = [
+        { tipo:"scelta_multipla", immagine:null, testo:"Quattro amiche devono eseguire la seguente moltiplicazione: 25×(-30). Per trovare il risultato ognuna svolge il calcolo in modo diverso.\nChi ha svolto il calcolo in modo NON corretto?", opzioni:["Amina","Beatrice","Carla","Denise"], corretta:"Carla", hint:"Il risultato corretto è -750. Controlla i calcoli di ciascuna amica." },
+        { tipo:"scelta_multipla", immagine:null, testo:"Una fabbrica produce 1000 lampadine, di cui 30 difettose. Ne vende 100 e tra queste 12 risultano difettose.\nSe si sceglie a caso una lampadina tra quelle rimaste da vendere, qual è la probabilità che sia difettosa?", opzioni:["18/900","108/900","30/900","129/1000"], corretta:"18/900", hint:"Dopo la vendita, rimangono 900 lampadine. Le difettose rimaste sono 30-12=18. Quindi probabilità = 18/900." },
+        { tipo:"scelta_multipla", immagine:"imag/4_14.png", testo:"La famiglia Rossi, composta da due adulti e due bambini di 3 e 5 anni, deve noleggiare un'automobile per una settimana. Cerca su Internet e trova le seguenti offerte.\nLa famiglia Rossi decide di noleggiare un'automobile Modello Economica con GPS e seggiolini per i bambini.\nIndica i prezzi al giorno della tabella che permettono di calcolare la spesa della famiglia Rossi per il noleggio dell'automobile.", opzioni:["231,14+17,00+7,30","207,65+14,50+7,30","39,80+15,40+7,30","213,24+15,40+7,30"], corretta:"213,24+15,40+7,30", hint:"Dalla tabella, il modello Economica costa 213,24 € al giorno, il GPS 15,40 € al giorno, il seggiolino per bambini 7,30 € al giorno." },
+        { tipo:"scelta_multipla", immagine:"imag/4_14.png", testo:"La famiglia Rossi, composta da due adulti e due bambini di 3 e 5 anni, deve noleggiare un'automobile per una settimana. Cerca su Internet e trova le seguenti offerte. La famiglia Rossi decide di noleggiare un'automobile Modello Economica con GPS e seggiolini per i bambini.\nQuanto spende in euro la famiglia Rossi per il noleggio dei seggiolini?", opzioni:["140","213,40","102,20","255,44"], corretta:"102,20", hint:"Due seggiolini a 7,30 € al giorno per 7 giorni: 2×7,30×7 = 102,20 €." },
+        { tipo:"scelta_multipla", immagine:null, testo:"Una scatola a forma di parallelepipedo ha quattro facce rettangolari uguali di dimensioni 6 cm e 10 cm.\nIndica con una crocetta l'affermazione vera:", opzioni:["Le altre due facce possono essere due quadrati di 6 cm x 6 cm","Le altre due facce possono essere un quadrato di 6 cm x 6 cm e un rettangolo di 6 cm x 10 cm","Le altre due facce possono essere un quadrato di 10 cm x 10 cm e un rettangolo di 6 cm x 10 cm","Le altre due facce possono essere due quadrati di 12 cm x 10 cm"], corretta:"Le altre due facce possono essere due quadrati di 6 cm x 6 cm", hint:"Se le quattro facce uguali sono 6×10, le due facce rimanenti sono quadrati di lato 6 cm (se l'altezza è 6) o quadrati di lato 10 cm (se l'altezza è 10)." },
+        { tipo:"scelta_multipla", immagine:null, testo:"Una scatola a forma di parallelepipedo ha quattro facce rettangolari uguali di dimensioni 6 cm e 10 cm.\nIndica con una crocetta l'affermazione vera:", opzioni:["Le altre due facce possono essere due quadrati di 8 cm x 6 cm","Le altre due facce possono essere un quadrato di 6 cm x 6 cm e un rettangolo di 6 cm x 10 cm","Le altre due facce possono essere un quadrato di 10 cm x 10 cm e un rettangolo di 6 cm x 10 cm","Le altre due facce possono essere due quadrati di 10 cm x 10 cm"], corretta:"Le altre due facce possono essere due quadrati di 10 cm x 10 cm", hint:"Se le quattro facce uguali sono 6×10, le due facce rimanenti sono quadrati di lato 10 cm (se l'altezza è 10)." },
+        { tipo:"scelta_multipla", immagine:"imag/5_14.png", testo:"Due candele di cera, alte entrambe 30 cm, vengono messe in un portacandela in posizione verticale e accese.\nLa candela A si accorcia di 0,5 cm ogni 3 minuti mentre la candela B si accorcia di 0,5 cm ogni minuto.\nDopo 10 minuti di quanto si saranno accorciate le due candele?", opzioni:["Candela A: circa 1,6 cm; Candela B: 5 cm","Candela A: circa 3 cm; Candela B: 1 cm","Candela A: circa 15 cm; Candela B: 10 cm","Candela A: circa 9 cm; Candela B: 10 cm"], corretta:"Candela A: circa 1,6 cm; Candela B: 5 cm", hint:"Candela A: (0,5 cm / 3 min) × 10 min = 5/3 ≈ 1,67 cm. Candela B: 0,5×10 = 5 cm." },
+        { tipo:"scelta_multipla", immagine:"imag/5_14.png", testo:"Due candele di cera, alte entrambe 30 cm, vengono messe in un portacandela in posizione verticale e accese.\nLa candela A si accorcia di 0,5 cm ogni 3 minuti mentre la candela B si accorcia di 0,5 cm ogni minuto.\nQuale delle seguenti formule esprime l'altezza L (in centimetri) della candela B al variare del numero n di minuti?", opzioni:["L = 30 - 3·n","L = 30 - 1,5·n","L = 30 - n","L = 30 - 0,5·n"], corretta:"L = 30 - 0,5·n", hint:"Ogni minuto si accorcia di 0,5 cm, quindi altezza = 30 - 0,5·n." },
+        { tipo:"scelta_multipla", immagine:null, testo:"Considera il numero 15. Raddoppialo, poi raddoppia il risultato, poi continua a raddoppiare.\nIn questo modo arrivi a trovare tutti i multipli di 15?", opzioni:["Sì, perché si trovano tutti i multipli di 15","No, perché non si trovano i multipli dispari di 15","Sì, perché si trovano tutti i multipli di 15","Non si può dire"], corretta:"No, perché non si trovano i multipli dispari di 15", hint:"Raddoppiando si ottengono solo multipli pari di 15, mentre i multipli dispari (15, 45, 75, ...) non vengono mai raggiunti." },
+        { tipo:"scelta_multipla", immagine:null, testo:"Scrivi nei riquadri i seguenti numeri: π - 3,60 - 335/100 - 4\nin ordine dal più piccolo al più grande.", opzioni:["3,14 - π - 3,60 - 4","335/100 - π - 3,60 - 4","π - 335/100 - 3,60 - 4","335/100 - π - 4 - 3,14"], corretta:"π - 335/100 - 3,60 - 4", hint:"π ≈ 3,14; 335/100 = 3,35; 3,60 = 3,6; 4. Ordine: 3,14 < 3,35 < 3,6 < 4." },
+        { tipo:"scelta_multipla", immagine:"imag/8_14.png", testo:"La seguente figura rappresenta il prato davanti alla casa di Paolo.\nÈ possibile, con i dati a disposizione, calcolare il perimetro del prato?", opzioni:["Sì, misura 15 m","Sì, misura 30 m","Sì, misura 50 m","No, non si può calcolare"], corretta:"Sì, misura 30 m", hint:"Dalla figura, il perimetro è dato dalla somma dei lati: 6+4+3+5+3+4+5? La risposta corretta è 30 m." },
+        { tipo:"scelta_multipla", immagine:"imag/9_14.png", testo:"Due treni viaggiano uno verso l'altro con velocità costanti.\nIndividua fra i seguenti grafici quello che descrive come varia la distanza fra i due treni al passare del tempo.", opzioni:["Grafico 1","Grafico 2","Grafico 3","Grafico 4"], corretta:"Grafico 1", hint:"La distanza diminuisce linearmente fino a diventare zero quando si incontrano. Il grafico corretto è una retta decrescente." },
+        { tipo:"scelta_multipla", immagine:"imag/10_1_14.png", testo:"Nella pizzeria 'Da Marco' la pizza margherita costa 5 euro. Il mercoledì però, per chi compra più pizze, c'è un'offerta speciale. Il seguente grafico rappresenta come varia, il mercoledì, la spesa complessiva, in euro, al variare del numero delle pizze margherita acquistate.\nFacendo riferimento al grafico indica il costo IN EURO di 3 pizze:", opzioni:["10","15","5","12.5"], corretta:"10", hint:"Dal grafico, per 3 pizze la spesa è 10 euro." },
+        { tipo:"scelta_multipla", immagine:"imag/10_1_14.png", testo:"Nella pizzeria 'Da Marco' la pizza margherita costa 5 euro. Il mercoledì però, per chi compra più pizze, c'è un'offerta speciale. Il seguente grafico rappresenta come varia, il mercoledì, la spesa complessiva, in euro, al variare del numero delle pizze margherita acquistate.\nIndica quale delle seguenti affermazioni è vera:", opzioni:["Il mercoledì, il risparmio rispetto agli altri giorni, in percentuale, è sempre lo stesso qualunque sia il numero di pizze acquistate.","Il mercoledì, una pizza su due è gratis","Il mercoledì, se si comprano 4 pizze, il risparmio rispetto agli altri giorni è del 25%","Il mercoledì, se compri due pizze invece di una risparmi"], corretta:"Il mercoledì, se si comprano 4 pizze, il risparmio rispetto agli altri giorni è del 25%", hint:"Normalmente 4 pizze costano 20 €; mercoledì costano 15 € (dal grafico). Risparmio 5 € su 20 = 25%." },
+        { tipo:"scelta_multipla", immagine:"imag/11_14.png", testo:"Osserva i triangoli nella seguente figura.\nQuale delle seguenti affermazioni è corretta?", opzioni:["I tre triangoli hanno stessa area e stesso perimetro","I tre triangoli hanno stessa area e diverso perimetro","I tre triangoli hanno diversa area e stesso perimetro","I tre triangoli hanno diversa area e diverso perimetro"], corretta:"I tre triangoli hanno stessa area e diverso perimetro", hint:"I triangoli hanno la stessa base e la stessa altezza, quindi area uguale; i perimetri variano per la diversa inclinazione dei lati." },
+        { tipo:"scelta_multipla", immagine:"imag/11_14.png", testo:"Osserva i triangoli nella seguente figura.\nImmagina di posizionare il punto P nel punto medio del lato AB, si ottiene il triangolo AEP. L'area del triangolo AEP sarà:", opzioni:["Il doppio dell'area del triangolo EFB","Il triplo dell'area del triangolo EFB","Non si può dire perché non abbiamo le lunghezze dei lati","Hanno forma diversa e non si possono confrontare le aree."], corretta:"Il triplo dell'area del triangolo EFB", hint:"Dalla figura, i triangoli AEP e EFB hanno altezze diverse; con P punto medio, l'area di AEP è tre volte quella di EFB." },
+        { tipo:"scelta_multipla", immagine:null, testo:"A un torneo di tennis, uno contro uno, partecipano 16 giocatori. Il torneo si svolge a eliminazione diretta, cioè chi perde una partita viene eliminato.\nQual è il numero di partite necessario per stabilire il vincitore del torneo?", opzioni:["8","15","16","32"], corretta:"15", hint:"Per eliminare 15 giocatori servono 15 partite." },
+        { tipo:"scelta_multipla", immagine:null, testo:"A un torneo di tennis, uno contro uno, partecipano 16 giocatori. Il torneo si svolge a eliminazione diretta, cioè chi perde una partita viene eliminato.\nGabriele ha vinto il torneo. Quante partite ha giocato?", opzioni:["3","12","4","2"], corretta:"4", hint:"Con 16 giocatori, il vincitore gioca 4 partite (ottavi, quarti, semifinale, finale)." },
+        { tipo:"scelta_multipla", immagine:"imag/12_14.png", testo:"Nella seguente tabella sono riportate le longitudini e le latitudini di alcune città del mondo.\nLe piovosità medie nel mese di giugno delle città elencate in tabella sono rappresentate nel grafico da cerchi con centro in corrispondenza delle coordinate della città. L'area dei cerchi è proporzionale ai millimetri di pioggia caduti. Sull'asse orizzontale è riportata la longitudine, sull'asse verticale la latitudine.\nA quale città corrisponde il cerchio contrassegnato con la lettera F?", opzioni:["Londra","Pechino","Buenos Aires","Sydney"], corretta:"Buenos Aires", hint:"Dalle coordinate, il cerchio F si trova a longitudine circa -58 e latitudine -34, corrispondente a Buenos Aires." },
+        { tipo:"scelta_multipla", immagine:"imag/12_14.png", testo:"Nella seguente tabella sono riportate le longitudini e le latitudini di alcune città del mondo.\nLe piovosità medie nel mese di giugno delle città elencate in tabella sono rappresentate nel grafico da cerchi con centro in corrispondenza delle coordinate della città. L'area dei cerchi è proporzionale ai millimetri di pioggia caduti. Sull'asse orizzontale è riportata la longitudine, sull'asse verticale la latitudine.\nIn quale dei seguenti elenchi le città sono ordinate dalla più piovosa alla meno piovosa?", opzioni:["Pechino -- New York -- Sydney","New York -- Pechino -- Sydney","Sydney -- New York -- Pechino","Sydney -- Pechino -- New York"], corretta:"New York -- Pechino -- Sydney", hint:"Dal grafico, New York ha il cerchio più grande, Pechino medio, Sydney il più piccolo." },
+        { tipo:"scelta_multipla", immagine:null, testo:"La somma di due numeri naturali a e b è pari. Se aggiungo 1 a entrambi i numeri, come sarà ora la somma? Scegli la risposta corretta.", opzioni:["La somma sarà pari perché se aggiungo 2 a un numero pari il risultato è pari","La somma sarà dispari perché se aggiungo 2 a un numero pari il risultato è pari","Se aggiungo 2 a un numero pari il risultato sarà dispari","Non si può dire perchè non si sa quale numero aggiungere"], corretta:"La somma sarà pari perché se aggiungo 2 a un numero pari il risultato è pari", hint:"Se a+b è pari, (a+1)+(b+1) = a+b+2, che è ancora pari." },
+        { tipo:"scelta_multipla", immagine:null, testo:"Una scuola ha dieci classi, con una media di 22 alunni per classe.\nLe classi con 21 alunni sono sei; le classi con 24 alunni sono tre.\nQuanti alunni ci sono nella decima classe?", opzioni:["20","22","23","25"], corretta:"22", hint:"Totale alunni = 10×22 = 220. Somma delle 9 classi note = 6×21 + 3×24 = 126+72 = 198. Decima classe = 220-198 = 22." },
+        { tipo:"scelta_multipla", immagine:"imag/16_14.png", testo:"Osserva il grafico.\nIndica se ciascuna delle seguenti affermazioni è vera.", opzioni:["Nel 1999 sono sbarcati circa 50 stranieri","Il 2010 è stato l'anno in cui sono sbarcati meno stranieri","Dal 1999 al 2004 il numero di stranieri sbarcati è andato sempre diminuendo","Nel 2011 il numero di stranieri sbarcati è stato circa 4 volte quello degli stranieri sbarcati nel 2009"], corretta:"Il 2010 è stato l'anno in cui sono sbarcati meno stranieri", hint:"Dal grafico, il valore più basso si ha nel 2010." },
+        { tipo:"scelta_multipla", immagine:null, testo:"In Italia, secondo gli ultimi dati forniti dall'ISTAT, ci sono circa 600 automobili ogni 1000 abitanti. Gli abitanti dell'Italia sono circa 60 milioni e un'automobile è lunga mediamente 4 metri.\nImmagina di posizionare tutte le automobili che ci sono in Italia una dietro l'altra, formando un'unica fila continua: quanti chilometri sarebbe all'incirca lunga questa fila?", opzioni:["Sarebbe all'incirca lunga come l'Italia (circa 1000 km)","Sarebbe all'incirca lunga come la distanza tra l'Italia e gli USA (circa 6000 km)","Sarebbe all'incirca lunga come l'equatore (circa 40000 km)","Sarebbe all'incirca lunga come il diametro del pianeta Giove (circa 143000 km)"], corretta:"Sarebbe all'incirca lunga come il diametro del pianeta Giove (circa 143000 km)", hint:"Numero auto = (600/1000)×60.000.000 = 36.000.000. Lunghezza = 36.000.000 × 4 m = 144.000.000 m = 144.000 km, simile al diametro di Giove." },
+        { tipo:"scelta_multipla", immagine:"imag/18_14.png", testo:"Osserva la figura. AB è un cateto di un triangolo rettangolo inscritto nella circonferenza di centro O. cosa faresti per disegnare il triangolo rettangolo.", opzioni:["traccerei i due cateti AO e BO","disegnerei il diametro della circonferenza a partire da A per poi congiungere l'estremità del diametro con B.","traccerei un lato a partire da B per O per poi congiungerlo con A.","non si può fare"], corretta:"disegnerei il diametro della circonferenza a partire da A per poi congiungere l'estremità del diametro con B.", hint:"Un triangolo rettangolo inscritto in una circonferenza ha l'ipotenusa coincidente con un diametro." },
+        { tipo:"scelta_multipla", immagine:"imag/19_14.png", testo:"Leonardo vuole costruire una mensola come quella in figura. La parte sporgente delle assi della mensola è di lunghezza uguale a quella del lato del quadrato centrale. Qui sotto è riportato lo schema della parte posteriore della mensola con le misure. Affinché la mensola sostenga il peso dei libri è necessario mettere una sbarretta d'acciaio che colleghi il punto A con il punto B, come nello schema.\nQuanto deve essere lunga la sbarretta?", opzioni:["Circa 11 dm","Circa 16 dm","Circa 20 dm","Circa 25 dm"], corretta:"Circa 16 dm", hint:"Dalle misure dello schema, applicando il teorema di Pitagora, la lunghezza AB è circa 16 dm." },
+        { tipo:"scelta_multipla", immagine:"imag/20_14.png", testo:"Luisa non ricorda bene la combinazione del lucchetto della sua bicicletta. La combinazione si ottiene girando quattro rotelline, ognuna delle quali riporta tutte le cifre da 0 a 9.\nLuisa non ricorda per nulla la seconda cifra della combinazione ma sa che\nla prima cifra è 6\nla terza cifra è 3 o 4\nl'ultima cifra è 1\nQuante combinazioni al massimo dovrà provare Luisa per riuscire ad aprire il lucchetto della sua bicicletta?", opzioni:["2","3","10","20"], corretta:"20", hint:"Prima cifra fissa (1), seconda 10 possibilità, terza 2 possibilità, quarta fissa (1). Totale 10×2=20." },
+        { tipo:"scelta_multipla", immagine:"imag/21_14.png", testo:"Di recente, vicino alle coste americane, una piattaforma petrolifera è esplosa e ha riversato in mare diverse tonnellate di petrolio. Le rilevazioni da satellite, fatte dopo 10 giorni, mostrano l'estensione della macchia di petrolio (la parte scura in figura).\nL'estensione della macchia di petrolio è compresa", opzioni:["tra 100 e 200 km²","tra 1000 e 2000 km²","tra 10000 e 20000 km²","tra 100000 e 200000 km²"], corretta:"tra 10000 e 20000 km²", hint:"Dalla figura, la macchia ha un'estensione dell'ordine di decine di migliaia di km²." },
+        { tipo:"scelta_multipla", immagine:"imag/22_14.png", testo:"Nel triangolo in figura il segmento AM congiunge il vertice A con il punto medio M del lato BC. Il triangolo risulta così diviso in due triangoli.\nI due triangoli ABM ed AMC risultano tra loro equivalenti?", opzioni:["Sì, perché i triangoli ABM e AMC hanno una base e la relativa altezza di uguali lunghezze","Sì, perché il lato AM è in comune ai triangoli ABM e AMC","No, perché i triangoli ABM e AMC non sono congruenti","No, perché il segmento AM è la mediana relativa al lato BC del triangolo ABC"], corretta:"Sì, perché i triangoli ABM e AMC hanno una base e la relativa altezza di uguali lunghezze", hint:"I due triangoli hanno basi BM e MC uguali (M punto medio) e la stessa altezza dal vertice A, quindi aree uguali." },
+        { tipo:"scelta_multipla", immagine:null, testo:"a e b sono due numeri naturali.\nIndica l'affermazione corretta.", opzioni:["Se a è un multiplo di 6 e b è un multiplo di 4 , allora a•b non è un multiplo di 8","Se a è un multiplo di 5 e b è un multiplo di 10, allora a•b è divisibile per 25","Se a+b è pari, allora almeno uno dei due addendi, a oppure b, è pari","Se a è divisibile per 10, allora a+1 è divisibile per 11"], corretta:"Se a è un multiplo di 5 e b è un multiplo di 10, allora a•b è divisibile per 25", hint:"a=5k, b=10m ⇒ a·b = 50·k·m, che è divisibile per 25." },
+        { tipo:"scelta_multipla", immagine:"imag/24_14.png", testo:"Osserva la figura.\nLa lunghezza della colonna del liquido contenuto nella siringa è indicata con h. Il volume del liquido è V. Indica la formula che ti permette di calcolare l'area A della sezione della siringa conoscendo h e V.", opzioni:["h/V","V/h","V·h","h·V"], corretta:"V/h", hint:"Volume = Area × altezza ⇒ A = V / h." },
+        { tipo:"scelta_multipla", immagine:"imag/24_14.png", testo:"Osserva la figura.\nLa lunghezza della colonna del liquido contenuto nella siringa è indicata con h. Il volume del liquido è V. Lo stesso volume V di liquido viene messo in una seconda siringa e la lunghezza della colonna di liquido diventa il doppio. L'area della sezione di questa siringa rispetto alla prima è:", opzioni:["il doppio","un quarto","la metà","il quadruplo"], corretta:"la metà", hint:"V = A1·h1 = A2·2h1 ⇒ A2 = A1/2." },
+        { tipo:"scelta_multipla", immagine:"imag/25_14.png", testo:"Osserva il rettangolo.\nSul lato DC segna il punto H in modo tale che il segmento HK divida il rettangolo in due parti uguali.", opzioni:["Il lato DC è diviso in 4 quadratini, il punto H è posizionato nel primo quadratino a partire da C.","Il lato DC è diviso in 4 quadratini, il punto H è posizionato nel primo quadratino a partire da D.","Il lato DC è diviso in 4 quadratini, il punto H è posizionato nel suo punto medio.","Il punto H è posizionato ad 1/4 del lato DC."], corretta:"Il lato DC è diviso in 4 quadratini, il punto H è posizionato nel suo punto medio.", hint:"Per dividere il rettangolo in due parti uguali con un segmento che parte da un punto di DC e arriva in K, H deve essere nel punto medio." },
+        { tipo:"scelta_multipla", immagine:null, testo:"Considera la frazione 400/500.\nIndica l'affermazione corretta.", opzioni:["Aggiungo 1 al numeratore: 401/500 è maggiore di 400/500","Aggiungo 1 al denominatore: 400/501 è minore di 400/500","Aggiungo 1 sia al numeratore sia al denominatore:401/501 non è equivalente a 400/500","Sottraggo 1 sia al numeratore sia al denominatore: 399/499 non è equivalente a 400/500"], corretta:"Aggiungo 1 al numeratore: 401/500 è maggiore di 400/500", hint:"Aumentando solo il numeratore, la frazione aumenta." }
+    ];
+
+    let domande = [];
+    function mescolaDomande() { domande = [...domandeTotali]; for(let i=domande.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[domande[i],domande[j]]=[domande[j],domande[i]];} }
+
+    // Riferimenti DOM (identici ai giochi precedenti)
+    const punteggioDisplay=document.getElementById('punteggio-display');
+    const viteContainer=document.getElementById('vite-container');
+    const tempoDisplay=document.getElementById('tempo-display');
+    const messaggioAvvio=document.getElementById('messaggio-avvio');
+    const areaDomanda=document.getElementById('area-domanda');
+    const contenutoDomanda=document.getElementById('contenuto-domanda');
+    const controlliGioco=document.getElementById('controlli-gioco');
+    const bottoneVerifica=document.getElementById('bottone-verifica');
+    const bottoneAiuto=document.getElementById('bottone-aiuto');
+    const bottoneNuova=document.getElementById('bottone-nuova');
+    const bottoneSalta=document.getElementById('bottone-salta');
+    const errore1=document.getElementById('errore-1');
+    const errore2=document.getElementById('errore-2');
+    const errore3=document.getElementById('errore-3');
+    const contatoreConsecutive=document.getElementById('contatore-consecutive');
+    const contatoreAiuti=document.getElementById('contatore-aiuti');
+    const rispConsecutiveDiv=document.getElementById('risposte-consecutive');
+    const aiutiDiv=document.getElementById('aiuti-utilizzati');
+    const messaggioVerifica=document.getElementById('messaggio-verifica');
+    const messaggioSpeciale=document.getElementById('messaggio-speciale');
+    const body=document.body;
+
+    let domandaCorrente=null, opzioneSelezionata=null, rispostaApertaInput='';
+    function aggiornaViteUI(){ if(!viteContainer) return; viteContainer.innerHTML=''; for(let i=0;i<3;i++){ const s=document.createElement('span'); s.className='vita'; if(viteStati[i]==='iniziale') s.classList.add('piena'); else if(viteStati[i]==='recuperata') s.classList.add('verde'); else s.classList.add('persa'); s.textContent='😊'; viteContainer.appendChild(s); } }
+    function aggiornaDisplayPunteggio(){ if(punteggioDisplay) punteggioDisplay.textContent=punteggio; }
+    function aggiornaDisplayTempo(){ if(tempoDisplay){ let min=Math.floor(tempoRimanente/60), sec=tempoRimanente%60; tempoDisplay.textContent=`${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`; if(tempoRimanente<=60) tempoDisplay.style.color='#c0392b'; else if(tempoRimanente<=180) tempoDisplay.style.color='#e67e22'; else tempoDisplay.style.color='#27ae60'; } }
+    function aggiornaIndicatoreErrori(){ if(errore1){ errore1.className='pallino-errore'+(erroriConsecutivi>=1?' attivo':''); errore2.className='pallino-errore'+(erroriConsecutivi>=2?' attivo':''); errore3.className='pallino-errore'+(erroriConsecutivi>=3?' attivo':''); } }
+    function aggiornaUI(){ if(contatoreConsecutive) contatoreConsecutive.textContent=operazioniCorretteConsecutive; if(contatoreAiuti) contatoreAiuti.textContent=aiutiUtilizzatiDomandaCorrente; if(rispConsecutiveDiv) rispConsecutiveDiv.style.display=operazioniCorretteConsecutive>0?'flex':'none'; if(aiutiDiv) aiutiDiv.style.display=aiutiUtilizzatiDomandaCorrente>0?'flex':'none'; }
+    function avviaTimer(){ if(timerInterval) clearInterval(timerInterval); timerInterval=setInterval(()=>{ if(tempoRimanente>0){ tempoRimanente--; aggiornaDisplayTempo(); } if(tempoRimanente<=0){ clearInterval(timerInterval); timerInterval=null; tempoRimanente=0; aggiornaDisplayTempo(); } },1000); }
+    function fermaTimer(){ clearInterval(timerInterval); timerInterval=null; }
+    function mostraMessaggio(txt,cls,dur=8000){ if(!messaggioVerifica) return; if(messaggioTimeout) clearTimeout(messaggioTimeout); messaggioVerifica.textContent=txt; messaggioVerifica.className='messaggio-verifica mostra '+cls; messaggioTimeout=setTimeout(()=>{ messaggioVerifica.classList.remove('mostra'); messaggioTimeout=null; },dur); }
+    function mostraMessaggioSpeciale(txt,dur=5000){ if(!messaggioSpeciale) return; if(messaggioSpecialeTimeout) clearTimeout(messaggioSpecialeTimeout); messaggioSpeciale.textContent=txt; messaggioSpeciale.classList.add('mostra'); body.classList.add('messaggio-attivo'); messaggioSpecialeTimeout=setTimeout(()=>{ messaggioSpeciale.classList.remove('mostra'); body.classList.remove('messaggio-attivo'); messaggioSpecialeTimeout=null; },dur); if(timeoutProssima) clearTimeout(timeoutProssima); timeoutProssima=setTimeout(()=>{ if(!gameOver) mostraDomanda(); timeoutProssima=null; },dur); }
+
+    window.iniziaGioco=function(){ if(giocoIniziato) return; giocoIniziato=true; viteStati=['iniziale','iniziale','iniziale']; vite=3; if(audioContext&&audioContext.state==='suspended') audioContext.resume(); if(messaggioAvvio) messaggioAvvio.style.display='none'; if(areaDomanda) areaDomanda.style.display='flex'; if(controlliGioco) controlliGioco.style.display='flex'; tempoRimanente=TEMPO_TOTALE; aggiornaDisplayTempo(); avviaTimer(); mescolaDomande(); indiceDomandaCorrente=0; mostraDomanda(); };
+    function mescolaArray(arr){ let a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+    function mostraDomanda(){ if(messaggioTimeout) clearTimeout(messaggioTimeout); if(messaggioVerifica) messaggioVerifica.classList.remove('mostra'); if(messaggioSpecialeTimeout) clearTimeout(messaggioSpecialeTimeout); if(messaggioSpeciale) messaggioSpeciale.classList.remove('mostra'); body.classList.remove('messaggio-attivo'); if(indiceDomandaCorrente>=domande.length){ contenutoDomanda.innerHTML='<div class="testo-domanda">🎉 HAI COMPLETATO TUTTE LE DOMANDE! 🎉<br>Complimenti!</div>'; if(bottoneVerifica) bottoneVerifica.style.display='none'; if(bottoneAiuto) bottoneAiuto.style.display='none'; if(bottoneSalta) bottoneSalta.style.display='none'; document.getElementById('tastiera-container').style.display='none'; return; } domandaCorrente=domande[indiceDomandaCorrente]; opzioneSelezionata=null; tentativiDomandaCorrente=0; aiutiUtilizzatiDomandaCorrente=0; rispostaApertaInput=''; if(bottoneAiuto){ bottoneAiuto.disabled=false; bottoneAiuto.style.display='inline-block'; } if(bottoneSalta) bottoneSalta.style.display='inline-block'; if(bottoneVerifica) bottoneVerifica.style.display='inline-block'; aggiornaUI(); let html=''; if(domandaCorrente.immagine) html+=`<img src="${domandaCorrente.immagine}" class="immagine-domanda" alt="Immagine" onclick="apriLightbox('${domandaCorrente.immagine}')" style="cursor:pointer;" onerror="this.style.display='none'">`; html+=`<div class="testo-domanda">${domandaCorrente.testo}</div>`; if(domandaCorrente.tipo==='risposta_aperta'){ html+=`<div class="risposta-aperta-container"><input class="casella-risposta" type="text" id="campo-risposta" placeholder="Scrivi la risposta" inputmode="numeric"></div>`; contenutoDomanda.innerHTML=html; creaTastieraNumerica(); document.getElementById('campo-risposta').addEventListener('input',e=>rispostaApertaInput=e.target.value); }else{ let opts=mescolaArray(domandaCorrente.opzioni); let optsHtml=''; opts.forEach(o=>{ optsHtml+=`<button class="opzione-btn" onclick="selezionaOpzione('${o.replace(/'/g,"\\'")}')">${o}</button>`; }); html+=`<div class="opzioni-container">${optsHtml}</div>`; contenutoDomanda.innerHTML=html; } if(bottoneVerifica) bottoneVerifica.disabled=false; }
+    function creaTastieraNumerica(){ let tc=document.getElementById('tastiera-container'), tn=document.getElementById('tastiera-numerica'); if(!tc||!tn) return; tc.style.display='block'; tn.innerHTML=''; [1,2,3,4,5,6,7,8,9].forEach(n=>{ let b=document.createElement('button'); b.className='tasto-numero'; b.textContent=n; b.onclick=()=>{ let c=document.getElementById('campo-risposta'); if(c){c.value+=n; rispostaApertaInput=c.value;} }; tn.appendChild(b); }); let b0=document.createElement('button'); b0.className='tasto-numero'; b0.textContent='0'; b0.onclick=()=>{ let c=document.getElementById('campo-risposta'); if(c){c.value+='0'; rispostaApertaInput=c.value;} }; tn.appendChild(b0); let bVirg=document.createElement('button'); bVirg.className='tasto-numero'; bVirg.textContent=','; bVirg.onclick=()=>{ let c=document.getElementById('campo-risposta'); if(c){c.value+=','; rispostaApertaInput=c.value;} }; tn.appendChild(bVirg); let bCanc=document.createElement('button'); bCanc.className='tasto-numero tasto-cancella'; bCanc.textContent='⌫'; bCanc.onclick=()=>{ let c=document.getElementById('campo-risposta'); if(c){c.value=c.value.slice(0,-1); rispostaApertaInput=c.value;} }; tn.appendChild(bCanc); }
+    window.selezionaOpzione=function(val){ opzioneSelezionata=val; document.querySelectorAll('.opzione-btn').forEach(btn=>btn.classList.remove('selezionata')); document.querySelectorAll('.opzione-btn').forEach(btn=>{ if(btn.textContent===val) btn.classList.add('selezionata'); }); };
+    window.verificaRisposta=function(){ if(gameOver||!domandaCorrente) return; if(timeoutProssima) clearTimeout(timeoutProssima); let isCorretto=false; if(domandaCorrente.tipo==='risposta_aperta'){ let risp=rispostaApertaInput.trim(); if(risp===''){ mostraMessaggio('Inserisci una risposta!','messaggio-info'); return; } isCorretto=(risp===domandaCorrente.corretta); }else{ if(!opzioneSelezionata){ mostraMessaggio('Seleziona una risposta!','messaggio-info'); return; } isCorretto=(opzioneSelezionata===domandaCorrente.corretta); } if(isCorretto){ if(tentativiDomandaCorrente===0){ let puntiTotali; if(aiutiUtilizzatiDomandaCorrente>0){ puntiTotali=1; mostraMessaggio(`CORRETTO! +1 punto (nessun bonus aiuto)`, 'messaggio-corretto',8000); }else{ let bonus=Math.floor(tempoRimanente/600); puntiTotali=1+bonus; mostraMessaggio(`CORRETTO! +${puntiTotali} punti (1+${bonus} bonus tempo)`, 'messaggio-corretto',8000); } punteggio+=puntiTotali; operazioniCorretteConsecutive++; if(operazioniCorretteConsecutive%VITE_SOGLIA===0 && vite<3){ for(let i=0;i<3;i++) if(viteStati[i]==='persa'){ viteStati[i]='recuperata'; break; } vite++; playWowSound(0.8); mostraMessaggioSpeciale(`🎉 WOW! ${VITE_SOGLIA} corrette consecutive! +1 vita! 🎉`,5000); } if(punteggio>=prossimaSoglia){ punteggio+=10; aggiornaDisplayPunteggio(); playWowSound(1.0); mostraMessaggioSpeciale(`🎉 SUPERBONUS! +10 PUNTI! Raggiunti ${prossimaSoglia} punti! 🎉`,5000); prossimaSoglia+=100; }else{ timeoutProssima=setTimeout(()=>{ if(!gameOver) mostraDomanda(); timeoutProssima=null; },2000); } indiceDomandaCorrente++; }else{ operazioniCorretteConsecutive=0; indiceDomandaCorrente++; mostraMessaggio('Corretto (nessun punto, errore precedente)','messaggio-info',8000); timeoutProssima=setTimeout(()=>{ if(!gameOver) mostraDomanda(); timeoutProssima=null; },2000); } erroriConsecutivi=0; aggiornaDisplayPunteggio(); aggiornaViteUI(); aggiornaIndicatoreErrori(); aggiornaUI(); document.getElementById('tastiera-container').style.display='none'; }else{ tentativiDomandaCorrente++; erroriConsecutivi++; operazioniCorretteConsecutive=0; mostraMessaggio('ERRATO!','messaggio-errato',8000); if(erroriConsecutivi>=3){ for(let i=0;i<3;i++) if(viteStati[i]!=='persa'){ viteStati[i]='persa'; break; } vite--; erroriConsecutivi=0; if(vite<=0){ gameOver=true; fermaTimer(); mostraMessaggio('GAME OVER!','messaggio-errato',8000); if(bottoneVerifica) bottoneVerifica.style.display='none'; }else{ mostraMessaggio('Hai perso una vita!','messaggio-errato',8000); } } aggiornaViteUI(); aggiornaIndicatoreErrori(); aggiornaUI(); timeoutProssima=setTimeout(()=>{ if(!gameOver) mostraDomanda(); timeoutProssima=null; },2000); } };
+    window.mostraAiuto=function(){ if(gameOver||!domandaCorrente||indiceDomandaCorrente>=domande.length) return; if(aiutiUtilizzatiDomandaCorrente===0){ aiutiUtilizzatiDomandaCorrente++; punteggio=Math.max(0,punteggio-2); aggiornaDisplayPunteggio(); aggiornaUI(); mostraMessaggio('💡 SUGGERIMENTO: '+domandaCorrente.hint,'messaggio-info',8000); setTimeout(()=>{ if(bottoneAiuto) bottoneAiuto.disabled=true; },80); } };
+    window.saltaDomanda=function(){ if(gameOver||!giocoIniziato||indiceDomandaCorrente>=domande.length) return; indiceDomandaCorrente++; operazioniCorretteConsecutive=0; aggiornaUI(); mostraDomanda(); };
+    window.resetGioco=function(){ punteggio=0; vite=3; viteStati=['iniziale','iniziale','iniziale']; erroriConsecutivi=0; operazioniCorretteConsecutive=0; aiutiUtilizzatiDomandaCorrente=0; tempoRimanente=TEMPO_TOTALE; gameOver=false; prossimaSoglia=100; mescolaDomande(); indiceDomandaCorrente=0; aggiornaViteUI(); aggiornaDisplayPunteggio(); aggiornaDisplayTempo(); aggiornaIndicatoreErrori(); aggiornaUI(); if(giocoIniziato) mostraDomanda(); if(bottoneAiuto){ bottoneAiuto.disabled=false; bottoneAiuto.style.display='inline-block'; } if(bottoneSalta) bottoneSalta.style.display='inline-block'; if(bottoneVerifica) bottoneVerifica.style.display='inline-block'; if(timeoutProssima) clearTimeout(timeoutProssima); if(messaggioSpecialeTimeout) clearTimeout(messaggioSpecialeTimeout); if(messaggioSpeciale) messaggioSpeciale.classList.remove('mostra'); body.classList.remove('messaggio-attivo'); };
+    window.apriIstruzioni=()=>document.getElementById('modal-overlay').style.display='flex';
+    window.chiudiIstruzioni=()=>document.getElementById('modal-overlay').style.display='none';
+    window.apriCommenti=()=>document.getElementById('comment-overlay').style.display='flex';
+    window.chiudiCommenti=()=>document.getElementById('comment-overlay').style.display='none';
+    window.esciDalGioco=()=>{ if(confirm("Vuoi davvero uscire?")){ fermaTimer(); window.location.href="https://oragioca.github.io/matematica/"; } };
+    window.apriLightbox=(src)=>{ document.getElementById('lightbox-img').src=src; document.getElementById('lightbox-overlay').style.display='flex'; document.body.style.overflow='hidden'; };
+    window.chiudiLightbox=()=>{ document.getElementById('lightbox-overlay').style.display='none'; document.body.style.overflow='auto'; };
+    window.onload=()=>{ aggiornaViteUI(); aggiornaDisplayPunteggio(); aggiornaDisplayTempo(); aggiornaIndicatoreErrori(); aggiornaUI(); inizializzaAudio(); document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget) chiudiIstruzioni();}); document.getElementById('comment-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget) chiudiCommenti();}); };
+</script>
+</body>
+</html>
