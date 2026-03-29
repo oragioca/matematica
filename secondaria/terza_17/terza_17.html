@@ -232,7 +232,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 4px;
+            text-align: center;
+        }
+        .opzione-btn span {
+            display: block;
+            width: 100%;
+            text-align: center;
         }
         .opzione-btn img {
             max-width: 50px;
@@ -266,28 +273,41 @@
         .affermazione-testo {
             margin-bottom: 6px;
             font-size: 0.8rem;
+            text-align: center;   /* testo centrato */
         }
+        /* Pulsanti Vero/Falso ridotti di un terzo */
         .vf-buttons {
             display: flex;
+            justify-content: center;
             gap: 8px;
+            margin-top: 4px;
         }
         .vf-btn {
-            padding: 3px 10px;
+            padding: 3px 8px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            background: #e0e0e0;
-            transition: 0.1s;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
+            background: #4a90e2;
+            color: white;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .vf-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            background: #3a7bc8;
         }
         .vf-btn.selezionato-vero {
             background: #2ecc71;
             color: white;
+            box-shadow: 0 1px 3px rgba(46,204,113,0.3);
         }
         .vf-btn.selezionato-falso {
             background: #e74c3c;
             color: white;
+            box-shadow: 0 1px 3px rgba(231,76,60,0.3);
         }
         .risposta-aperta-container {
             display: flex;
@@ -470,6 +490,13 @@
             }
             .controlli {
                 gap: 4px;
+            }
+            .vf-btn {
+                padding: 2px 6px;
+                font-size: 0.65rem;
+            }
+            .affermazione-testo {
+                font-size: 0.7rem;
             }
         }
         .modal-overlay, .comment-overlay {
