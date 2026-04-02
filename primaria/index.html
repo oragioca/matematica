@@ -92,7 +92,7 @@
         }
 
         .lang-option {
-            background-color: #e74c3c; /* rosso per i link inattivi */
+            background-color: #e74c3c;
             color: white;
             text-decoration: none;
             padding: 4px 8px;
@@ -110,21 +110,17 @@
         }
 
         .lang-option:hover {
-            background-color: #c0392b; /* rosso più scuro al passaggio */
+            background-color: #c0392b;
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         }
 
         .lang-option.active {
-            background-color: #2ecc71; /* verde per il link attivo */
+            background-color: #2ecc71;
             border-color: #27ae60;
             cursor: default;
             pointer-events: none;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .lang-option.active:hover {
-            background-color: #27ae60; /* verde più scuro (non serve, ma per coerenza) */
         }
         
         .giochi-lista {
@@ -196,39 +192,40 @@
             border-top: 1px solid #ccc;
         }
         
-        /* COMMENTI COMPATTI */
+        /* COMMENTI (inizialmente nascosti) */
         .comment-section {
             background-color: white;
-            padding: 8px;
+            padding: 12px;
             border-radius: 6px;
-            margin-top: 10px;
+            margin-top: 15px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
         }
         .comment-section h2 {
             color: #2c3e50;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             font-size: 1rem;
         }
         .comment-section input,
         .comment-section textarea {
             width: 100%;
-            padding: 4px;
-            margin-bottom: 5px;
+            padding: 6px;
+            margin-bottom: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-family: inherit;
             box-sizing: border-box;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
         }
         .comment-section textarea {
             resize: vertical;
-            min-height: 32px;
+            min-height: 60px;
         }
         .comment-section button {
             background-color: #3498db;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.8rem;
@@ -240,8 +237,81 @@
         .comment-note {
             font-size: 0.65rem;
             color: #888;
-            margin-top: 4px;
+            margin-top: 6px;
             text-align: center;
+        }
+        .close-comment-btn {
+            background-color: #e74c3c;
+            margin-top: 8px;
+        }
+        .close-comment-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* BOTTONI INFERIORI (INFO, COMMENTI, ESCI) */
+        .bottom-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        .bottom-btn {
+            flex: 1 1 0;
+            min-width: 100px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 0 #1f618d;
+            transition: 0.1s;
+            text-align: center;
+        }
+        .bottom-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #1f618d;
+        }
+        
+        /* MODALE ISTRUZIONI */
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 8px;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .close-modal {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 26px; height: 26px;
+            cursor: pointer;
         }
         
         @media (max-width: 600px) {
@@ -267,8 +337,10 @@
             .emoji-grande {
                 font-size: 1.5em;
             }
-            .comment-section {
-                padding: 6px;
+            .bottom-btn {
+                min-width: 80px;
+                font-size: 0.8rem;
+                padding: 6px 8px;
             }
         }
         
@@ -290,11 +362,9 @@
                 <p class="sottotitolo">🎮 Scegli un gioco e batti il record! 🎮</p>
             </div>
             <div class="lang-selector">
-                <!-- IT attivo: verde (classe active) -->
                 <a href="./" class="lang-option active" title="Versione italiana">
                     <span>IT</span>
                 </a>
-                <!-- EN inattivo: rosso (nessuna classe active) -->
                 <a href="en/" class="lang-option" title="English version">
                     <span>EN</span>
                 </a>
@@ -321,18 +391,81 @@
 
         <hr>
 
-        <div class="comment-section">
+        <!-- FORM COMMENTI (inizialmente nascosto) -->
+        <div id="commentSection" class="comment-section">
             <h2>✍️ Lascia un commento</h2>
             <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
                 <input type="hidden" name="_next" value="https://giochimatematici.vercel.app/grazie.html">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
                 <input type="text" name="name" placeholder="Il tuo nome" required>
-                <textarea name="message" placeholder="Suggerimento..." rows="1" required></textarea>
+                <textarea name="message" placeholder="Suggerimento..." rows="2" required></textarea>
                 <button type="submit">Invia</button>
             </form>
             <p class="comment-note">I commenti sono anonimi</p>
+            <button class="close-comment-btn" onclick="nascondiCommenti()">Chiudi</button>
+        </div>
+
+        <!-- PULSANTI INFERIORI -->
+        <div class="bottom-buttons">
+            <button class="bottom-btn" onclick="apriInfo()">❓ Info</button>
+            <button class="bottom-btn" onclick="mostraCommenti()">💬 Commenti</button>
+            <button class="bottom-btn" onclick="esciDalGioco()">🚪 Esci</button>
         </div>
     </div>
+
+    <!-- MODALE ISTRUZIONI -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>📚 Istruzioni</span>
+                <button class="close-modal" onclick="chiudiInfo()">✕</button>
+            </div>
+            <div class="modal-section">
+                <h3>🎯 Come giocare</h3>
+                <ul style="margin-left:18px;">
+                    <li>Seleziona un gioco dalla lista sopra.</li>
+                    <li>Ogni gioco ha le sue regole specifiche (addizioni, divisioni, ecc.).</li>
+                    <li>Prova a battere il tuo record!</li>
+                    <li>Se hai dubbi, usa il modulo dei commenti.</li>
+                </ul>
+                <h3>🏆 Suggerimenti</h3>
+                <p>Esercitati ogni giorno per migliorare la velocità e la precisione.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modale info
+        function apriInfo() {
+            document.getElementById('modal-overlay').style.display = 'flex';
+        }
+        function chiudiInfo() {
+            document.getElementById('modal-overlay').style.display = 'none';
+        }
+        // Mostra il form commenti (scrolla fino ad esso)
+        function mostraCommenti() {
+            const commentDiv = document.getElementById('commentSection');
+            commentDiv.style.display = 'block';
+            commentDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        // Nasconde il form commenti
+        function nascondiCommenti() {
+            document.getElementById('commentSection').style.display = 'none';
+        }
+        // Esci (con conferma)
+        function esciDalGioco() {
+            if (confirm("Vuoi davvero uscire?")) {
+                window.location.href = "https://giochimatematici.vercel.app/";
+            }
+        }
+        // Chiudi modale cliccando fuori dal contenuto
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-overlay');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
