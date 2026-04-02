@@ -208,7 +208,7 @@
             object-fit: contain;
             cursor: pointer;
         }
-        /* Opzioni con layout flessibile per 2 o 3 elementi */
+        /* Opzioni con layout flessibile */
         .opzioni-container {
             display: flex;
             flex-wrap: wrap;
@@ -239,7 +239,13 @@
             text-align: center;
             flex: 0 1 calc(50% - 8px);
             max-width: calc(50% - 8px);
-            min-width: 120px;
+            min-width: 100px;
+        }
+        /* Classe per opzioni brevi (numeri) su desktop */
+        .opzioni-container.opzioni-breve .opzione-btn {
+            flex: 0 1 auto;
+            min-width: 70px;
+            padding: 6px 10px;
         }
         .opzione-btn span {
             display: block;
@@ -458,7 +464,8 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 0 #1f618d;
         }
-        @media (max-width: 480px) {
+        /* Mobile: ottimizzazione pulsanti */
+        @media (max-width: 640px) {
             .bottom-buttons {
                 flex-wrap: nowrap;
             }
@@ -472,11 +479,19 @@
                 gap: 6px;
             }
             .opzione-btn {
-                flex: 0 1 100%;
-                max-width: 100%;
+                flex: 0 1 calc(50% - 6px);
+                max-width: calc(50% - 6px);
                 padding: 4px 2px;
                 font-size: 0.7rem;
                 min-height: 40px;
+                min-width: 70px;
+            }
+            /* Se le opzioni sono brevi, le facciamo più compatte e su 2 colonne */
+            .opzioni-container.opzioni-breve .opzione-btn {
+                flex: 0 1 auto;
+                min-width: 65px;
+                max-width: none;
+                padding: 4px 8px;
             }
             .opzione-btn img {
                 max-width: 40px;
@@ -503,6 +518,18 @@
             }
             .affermazione-testo {
                 font-size: 0.7rem;
+            }
+        }
+        /* Per schermi molto piccoli, le opzioni brevi vanno su una riga se possibile */
+        @media (max-width: 480px) {
+            .opzioni-container.opzioni-breve {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(65px, auto));
+                justify-content: center;
+            }
+            .opzioni-container.opzioni-breve .opzione-btn {
+                width: auto;
+                min-width: 60px;
             }
         }
         .modal-overlay, .comment-overlay {
@@ -854,6 +881,9 @@
             let coppie = opzioniOriginali.map((opt, idx) => ({ testo: opt, immagine: immaginiOriginali ? immaginiOriginali[idx] : null }));
             for(let i=coppie.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [coppie[i],coppie[j]]=[coppie[j],coppie[i]]; }
             let optsHtml = '';
+            // Determina se tutte le opzioni sono brevi (meno di 6 caratteri al netto di spazi)
+            let tutteBrevi = coppie.every(c => c.testo.trim().length <= 11);
+            let containerClass = tutteBrevi ? 'opzioni-container opzioni-breve' : 'opzioni-container';
             for(let c of coppie){
                 let imgHtml = '';
                 if(c.immagine){
@@ -861,7 +891,7 @@
                 }
                 optsHtml += `<button class="opzione-btn" onclick="selezionaOpzione('${c.testo.replace(/'/g,"\\'")}')">${imgHtml}<span>${c.testo}</span></button>`;
             }
-            html+=`<div class="opzioni-container">${optsHtml}</div>`;
+            html+=`<div class="${containerClass}">${optsHtml}</div>`;
             contenutoDomanda.innerHTML=html;
         } 
         if(bottoneVerifica) bottoneVerifica.disabled=false; 
