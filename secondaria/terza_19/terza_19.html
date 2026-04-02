@@ -208,10 +208,10 @@
             object-fit: contain;
             cursor: pointer;
         }
-        /* Opzioni con layout flessibile */
+        /* Opzioni con layout a griglia centrata */
         .opzioni-container {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, auto));
             justify-content: center;
             gap: 8px;
             width: 100%;
@@ -237,13 +237,14 @@
             justify-content: center;
             gap: 4px;
             text-align: center;
-            flex: 0 1 calc(50% - 8px);
-            max-width: calc(50% - 8px);
+            width: auto;
             min-width: 100px;
         }
-        /* Classe per opzioni brevi (numeri) su desktop */
+        /* Classe per opzioni brevi (numeri, lettere) */
+        .opzioni-container.opzioni-breve {
+            grid-template-columns: repeat(auto-fit, minmax(80px, auto));
+        }
         .opzioni-container.opzioni-breve .opzione-btn {
-            flex: 0 1 auto;
             min-width: 70px;
             padding: 6px 10px;
         }
@@ -477,20 +478,19 @@
             }
             .opzioni-container {
                 gap: 6px;
+                grid-template-columns: repeat(auto-fit, minmax(100px, auto));
             }
             .opzione-btn {
-                flex: 0 1 calc(50% - 6px);
-                max-width: calc(50% - 6px);
+                min-width: 80px;
                 padding: 4px 2px;
                 font-size: 0.7rem;
                 min-height: 40px;
-                min-width: 70px;
             }
-            /* Se le opzioni sono brevi, le facciamo più compatte e su 2 colonne */
+            .opzioni-container.opzioni-breve {
+                grid-template-columns: repeat(auto-fit, minmax(70px, auto));
+            }
             .opzioni-container.opzioni-breve .opzione-btn {
-                flex: 0 1 auto;
-                min-width: 65px;
-                max-width: none;
+                min-width: 60px;
                 padding: 4px 8px;
             }
             .opzione-btn img {
@@ -520,15 +520,12 @@
                 font-size: 0.7rem;
             }
         }
-        /* Per schermi molto piccoli, le opzioni brevi vanno su una riga se possibile */
+        /* Per schermi molto piccoli, le opzioni brevi mantengono la griglia */
         @media (max-width: 480px) {
             .opzioni-container.opzioni-breve {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(65px, auto));
-                justify-content: center;
+                grid-template-columns: repeat(auto-fit, minmax(65px, auto));
             }
             .opzioni-container.opzioni-breve .opzione-btn {
-                width: auto;
                 min-width: 60px;
             }
         }
@@ -766,7 +763,7 @@
         { tipo:"scelta_multipla", immagine:"imag/22_19a.webp", testo:"Questa figura rappresenta un solido e le figure a lato rappresentano lo stesso solido ruotato in diverse posizioni. Quale tra le seguenti figure non può rappresentare il solido ruotato?", opzioni:["A","B","C","D"], corretta:"D", hint:"D non è coerente con la rotazione." },
         { tipo:"scelta_multipla", immagine:"imag/23_19.webp", testo:"L'immagine che vedi rappresenta la situazione climatica sul versante Nord e sul versante Sud di una montagna in un certo periodo dell’anno. Da quale punto cardinale è vista la montagna in questa immagine? Per rispondere puoi aiutarti con la rosa dei venti.", opzioni:["Nord","Ovest","Sud","Est"], corretta:"Ovest", hint:"Osserva l'orientamento della montagna." },
         { tipo:"scelta_multipla", immagine:"imag/23_19b.webp", testo:"L'immagine che vedi rappresenta la situazione climatica sul versante Nord e sul versante Sud di una montagna in un certo periodo dell’anno. Quale differenza di temperatura si registra, a 200 m di altitudine, sui due versanti della montagna?", opzioni:["2","4,8","5","12"], corretta:"4,8", hint:"Leggi dal grafico la differenza." },
-        { tipo:"scelta_multipla", immagine:"imag/23_19b.webp", testo:"L'immagine che vedi rappresenta la situazione climatica sul versante Nord e sul versante Sud di una montagna in un certo periodo dell’anno. Uno scalatore parte da 200 m di altitudine e arriva a 1200 m di altitudine. Nel corso della scalata la temperatura diminuisce di 10°C. Su quale versante ha scalato la montagna?", opzioni:["Versante Nord, perché ...","Versante Sud, perché 13-3=10"], corretta:"Versante Sud, perché 13-3=10", hint:"Dal grafico la differenza di temperatura tra 200 e 1200 è 10°C solo sul versante Sud." },
+        { tipo:"scelta_multipla", immagine:"imag/23_19b.webp", testo:"L'immagine che vedi rappresenta la situazione climatica sul versante Nord e sul versante Sud di una montagna in un certo periodo dell’anno. Uno scalatore parte da 200 m di altitudine e arriva a 1200 m di altitudine. Nel corso della scalata la temperatura diminuisce di 10°C. Su quale versante ha scalato la montagna?", opzioni:["Versante Nord","Versante Sud"], corretta:"Versante Sud", hint:"Dal grafico la differenza di temperatura tra 200 e 1200 è 10°C solo sul versante Sud." },
         { tipo:"scelta_multipla", immagine:"imag/26_19.webp", testo:"Gabriele ha comperato un nuovo frigorifero. Per portarlo in cucina usa un carrello, come rappresentato nella figura.  Quale espressione ti permette di calcolare la massima distanza dal suolo del punto B quando il frigorifero è trasportato sul carrello?  Osserva il grafico e indica la risposta corretta.", opzioni:["A","B","C","D"], corretta:"B", hint:"Analizza il grafico." },
         { tipo:"scelta_multipla", immagine:"imag/27_19.webp", testo:"In questa figura le rette r ed s sono perpendicolari fra loro e l'arco ECB è una semicirconferenza di centro O. La lunghezza del segmento AB è di 20 cm e la lunghezza del segmento OB è di 12 cm. Qual è l'area del quadrilatero ABCE?", opzioni:["320 cm²","336 cm²","480 cm²","672 cm²"], corretta:"336 cm²", hint:"Calcola le aree delle parti." },
         { tipo:"scelta_multipla", immagine:"imag/28_19.webp", testo:"Un cubo ha lo spigolo lungo 10 centimetri. La sezione ottenuta dal piano che passa per i vertici A, B e C del cubo è la base di una piramide. Quanto misura il perimetro di base della piramide?", opzioni:["Circa 14 cm","Circa 30 cm","Circa 40 cm","Circa 42 cm"], corretta:"Circa 42 cm", hint:"La sezione è un triangolo equilatero con lato = diagonale di una faccia = 10√2 ≈ 14,14 cm. Perimetro ≈ 3×14,14 ≈ 42,4 cm." }
@@ -881,7 +878,7 @@
             let coppie = opzioniOriginali.map((opt, idx) => ({ testo: opt, immagine: immaginiOriginali ? immaginiOriginali[idx] : null }));
             for(let i=coppie.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [coppie[i],coppie[j]]=[coppie[j],coppie[i]]; }
             let optsHtml = '';
-            // Determina se tutte le opzioni sono brevi (meno di 6 caratteri al netto di spazi)
+            // Determina se tutte le opzioni sono brevi (meno di 12 caratteri al netto di spazi, per includere "Opzione 1" etc.)
             let tutteBrevi = coppie.every(c => c.testo.trim().length <= 11);
             let containerClass = tutteBrevi ? 'opzioni-container opzioni-breve' : 'opzioni-container';
             for(let c of coppie){
