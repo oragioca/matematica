@@ -187,13 +187,14 @@
             border-top: 1px solid #ccc;
         }
         
-        /* COMMENTI ULTRA COMPATTI */
+        /* COMMENTI (inizialmente nascosti) */
         .comment-section {
             background-color: white;
             padding: 8px;
             border-radius: 6px;
             margin-top: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
         }
         .comment-section h2 {
             color: #2c3e50;
@@ -234,6 +235,79 @@
             margin-top: 4px;
             text-align: center;
         }
+        .close-comment-btn {
+            background-color: #e74c3c;
+            margin-top: 8px;
+        }
+        .close-comment-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* BOTTONI INFERIORI (INFO, COMMENTI, ESCI) */
+        .bottom-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        .bottom-btn {
+            flex: 1 1 0;
+            min-width: 100px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 0 #1f618d;
+            transition: 0.1s;
+            text-align: center;
+        }
+        .bottom-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #1f618d;
+        }
+        
+        /* MODALE ISTRUZIONI */
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 8px;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .close-modal {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 26px; height: 26px;
+            cursor: pointer;
+        }
         
         @media (max-width: 600px) {
             .subheader {
@@ -257,6 +331,11 @@
             }
             .emoji-grande {
                 font-size: 1.5em;
+            }
+            .bottom-btn {
+                min-width: 80px;
+                font-size: 0.8rem;
+                padding: 6px 8px;
             }
             .comment-section {
                 padding: 6px;
@@ -311,26 +390,86 @@
         <div class="gioco-card"><a href="tables.html"><span class="emoji-grande">🤔</span><br>Tables and Charts</a></div>
         <div class="gioco-card"><a href="problems.html"><span class="emoji-grande">💡</span><br>Problems</a></div>
         <div class="gioco-card"><a href="column-operations.html"><span class="emoji-grande">🧩</span><br>Column Operations</a></div>
-        <div class="gioco-card"><a href="Geometry 1.html"><span class="emoji-grande">📐</span>Geometry 1</a></div>
+        <div class="gioco-card"><a href="Geometry%201.html"><span class="emoji-grande">📐</span>Geometry 1</a></div>
     </div>
     
     <hr>
 
-    <!-- COMMENTI COMPATTISSIMI -->
-    <div class="comment-section">
+    <!-- FORM COMMENTI (inizialmente nascosto) -->
+    <div id="commentSection" class="comment-section">
         <h2>✍️ Leave a comment</h2>
         <form action="https://formsubmit.co/posta0947@proton.me" method="POST">
             <input type="hidden" name="_next" value="https://oragioca.github.io/matematica/en/thanks.html">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
-
             <input type="text" name="name" placeholder="Your name" required>
             <textarea name="message" placeholder="Your comment..." rows="1" required></textarea>
-
             <button type="submit">Send comment</button>
         </form>
         <p class="comment-note">Comments are anonymous</p>
+        <button class="close-comment-btn" onclick="hideComments()">Close</button>
     </div>
+
+    <!-- PULSANTI INFERIORI -->
+    <div class="bottom-buttons">
+        <button class="bottom-btn" onclick="openInfo()">❓ Info</button>
+        <button class="bottom-btn" onclick="showComments()">💬 Comments</button>
+        <button class="bottom-btn" onclick="exitGame()">🚪 Exit</button>
+    </div>
+
+    <!-- MODALE ISTRUZIONI -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>📚 Instructions</span>
+                <button class="close-modal" onclick="closeInfo()">✕</button>
+            </div>
+            <div class="modal-section">
+                <h3>🎯 How to play</h3>
+                <ul style="margin-left:18px;">
+                    <li>Select a game from the list above.</li>
+                    <li>Each game has its own specific rules (additions, divisions, etc.).</li>
+                    <li>Try to beat your record!</li>
+                    <li>If you have questions, use the comments form.</li>
+                </ul>
+                <h3>🏆 Tips</h3>
+                <p>Practice every day to improve your speed and accuracy.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modale info
+        function openInfo() {
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+        function closeInfo() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+        // Mostra il form commenti (scrolla fino ad esso)
+        function showComments() {
+            const commentDiv = document.getElementById('commentSection');
+            commentDiv.style.display = 'block';
+            commentDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        // Nasconde il form commenti
+        function hideComments() {
+            document.getElementById('commentSection').style.display = 'none';
+        }
+        // Esci (con conferma)
+        function exitGame() {
+            if (confirm("Do you really want to exit?")) {
+                window.location.href = "https://giochimatematici.vercel.app/";
+            }
+        }
+        // Chiudi modale cliccando fuori dal contenuto
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalOverlay');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
 
 </body>
 </html>
