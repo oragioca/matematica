@@ -476,18 +476,20 @@
                 font-size: 0.75rem;
                 padding: 8px 4px;
             }
-            .opzioni-container {
+            /* Forza 2 colonne per le opzioni normali (non "brevi") */
+            .opzioni-container:not(.opzioni-breve) {
                 gap: 6px;
-                grid-template-columns: repeat(auto-fit, minmax(100px, auto));
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .opzioni-container.opzioni-breve {
+                gap: 6px;
+                grid-template-columns: repeat(auto-fit, minmax(70px, auto));
             }
             .opzione-btn {
                 min-width: 80px;
                 padding: 4px 2px;
                 font-size: 0.7rem;
                 min-height: 40px;
-            }
-            .opzioni-container.opzioni-breve {
-                grid-template-columns: repeat(auto-fit, minmax(70px, auto));
             }
             .opzioni-container.opzioni-breve .opzione-btn {
                 min-width: 60px;
