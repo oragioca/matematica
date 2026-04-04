@@ -12,14 +12,13 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #6d5a8c; /* viola chiaro esterno */
+            background: #6d5a8c;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 30px;
         }
-        /* Riquadro con gradient e angoli arrotondati */
         .riquadro {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 28px;
@@ -35,7 +34,6 @@
             text-align: center;
             color: white;
         }
-        /* Stili per l'icona joystick animata (emoji) */
         .icona-joystick {
             animation: bounce 1.5s infinite;
             display: inline-block;
@@ -62,7 +60,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px;
+            gap: 20px;  /* ridotto da 25px */
             margin: 0 auto 40px;
             width: 100%;
         }
@@ -71,52 +69,52 @@
             border-radius: 20px;
             padding: 0;
             text-align: center;
-            box-shadow: 0 12px 0 #4a3f6e, 0 15px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 0 #4a3f6e, 0 15px 25px rgba(0,0,0,0.3); /* ombra più bassa */
             transition: transform 0.1s ease, box-shadow 0.1s ease;
             width: 240px;
-            height: 140px;
+            height: 95px;   /* ridotto da 140px */
             position: relative;
             border: 2px solid #ffffff30;
         }
         .gioco-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 0 #3a2f5a, 0 20px 30px rgba(0,0,0,0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 0 #3a2f5a, 0 20px 30px rgba(0,0,0,0.4);
         }
         .gioco-card a {
             text-decoration: none;
             color: #2c3e50;
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             width: 100%;
             height: 100%;
-            padding: 15px;
+            padding: 8px 10px;  /* ridotto da 15px */
             box-sizing: border-box;
             border-radius: 20px;
             background: linear-gradient(145deg, #f9f9f9, #f0f0f0);
         }
         .icona {
-            font-size: 2rem;
-            margin-bottom: 5px;
+            font-size: 1.6rem;
+            margin-bottom: 2px;
         }
         .titolo {
             font-weight: 700;
             margin-bottom: 2px;
             color: #333;
+            font-size: 0.95rem;
         }
         .sotto {
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             color: #666;
             font-weight: normal;
             background: #e0e0e0;
-            padding: 3px 12px;
+            padding: 2px 10px;
             border-radius: 30px;
-            margin-top: 5px;
+            margin-top: 3px;
         }
-        /* Footer (come nella seconda pagina) */
         .footer {
             margin-top: 40px;
             padding-top: 20px;
@@ -138,33 +136,37 @@
             h1 { font-size: 1.8rem; }
             .gioco-card {
                 width: 200px;
-                height: 120px;
+                height: 85px;   /* ridotto da 120px */
             }
-            .icona { font-size: 1.8rem; }
-            .sotto { font-size: 0.75rem; }
+            .titolo {
+                font-size: 0.9rem;
+            }
+            .sotto {
+                font-size: 0.65rem;
+                padding: 2px 8px;
+            }
+            .giochi-lista {
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="riquadro">
         <div class="container">
-            <!-- Icona joystick animata e ingrandita (emoji) -->
             <div class="icona-joystick">🎮</div>
             <div class="sottotitolo"><strong>SCEGLI UN GIOCO E BATTI IL RECORD!</strong></div>
             <div class="giochi-lista">
                 <!-- Card per Classe Prima -->
                 <div class="gioco-card">
                     <a href="prima.html">
-                      
                         <span class="titolo">Math Game</span>
                         <span class="sotto">Classe Prima</span>
                     </a>
                 </div>
-                
                 <!-- Card per Terza 2008 -->
                 <div class="gioco-card">
                     <a href="terza_08.html">
-                      
                         <span class="titolo">Math Game 8</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
@@ -172,7 +174,6 @@
                 <!-- Card per Terza 2009 -->
                 <div class="gioco-card">
                     <a href="terza_09.html">
-                      
                         <span class="titolo">Math Game 9</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
@@ -180,7 +181,6 @@
                 <!-- Card per Terza 2010 -->
                 <div class="gioco-card">
                     <a href="terza_10.html">
-                      
                         <span class="titolo">Math Game 10</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
@@ -188,59 +188,53 @@
                 <!-- Card per Terza 2011 -->
                 <div class="gioco-card">
                     <a href="terza_11.html">
-                       
                         <span class="titolo">Math Game 11</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
                 </div>
-  		<div class="gioco-card">
+                <div class="gioco-card">
                     <a href="terza_12/terza_12.html">
-                     <span class="titolo">Math Game 12</span>
+                        <span class="titolo">Math Game 12</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
                 </div>
                 <div class="gioco-card">
                     <a href="terza_13/terza_13.html">
-                     <span class="titolo">Math Game 13</span>
+                        <span class="titolo">Math Game 13</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
                 </div>
                 <div class="gioco-card">
                     <a href="terza_14/terza_14.html">
-                     <span class="titolo">Math Game 14</span>
+                        <span class="titolo">Math Game 14</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
                 </div>
-
-	        <div class="gioco-card">
+                <div class="gioco-card">
                     <a href="terza_15/terza_15.html">
-                     <span class="titolo">Math Game 15</span>
+                        <span class="titolo">Math Game 15</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
                 </div>
-
- 		<div class="gioco-card">
+                <div class="gioco-card">
                     <a href="terza_16/terza_16.html">
-                     <span class="titolo">Math Game 16</span>
+                        <span class="titolo">Math Game 16</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
                 </div>
-               <div class="gioco-card">
+                <div class="gioco-card">
                     <a href="terza_17/terza_17.html">
-                     <span class="titolo">Math Game 17</span>
+                        <span class="titolo">Math Game 17</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
                 </div>
                 <div class="gioco-card">
                     <a href="terza_19/terza_19.html">
-                     <span class="titolo">Math Game 19</span>
+                        <span class="titolo">Math Game 19</span>
                         <span class="sotto">Classe Terza</span>
                     </a>
                 </div>
-
             </div>
-
-            <!-- Footer (con link Home incluso) -->
             <div class="footer">
                 <small> © RG 2026 Oragioca - Tutti i diritti riservati. | </small>
                 <a href="https://oragioca.github.io/matematica/">Home</a>
