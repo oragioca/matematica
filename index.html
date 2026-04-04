@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giochi di Matematica | Oragioca</title>
     <style>
-        /* Sfondo esterno */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #6d5a8c;
@@ -18,7 +17,6 @@
             box-sizing: border-box;
         }
 
-        /* Riquadro principale */
         .riquadro {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 28px;
@@ -54,7 +52,7 @@
             justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .card {
@@ -84,38 +82,22 @@
             margin-bottom: 10px;
         }
 
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
+        .istruzioni {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+
+        .linea {
             border-top: 1px solid rgba(255,255,255,0.2);
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.7);
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            margin: 0 0 20px 0;
         }
 
-        .footer span, .footer button {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.7);
-            font-size: 0.8rem;
-            cursor: default;
-        }
-
-        .footer button.esci {
-            cursor: pointer;
-            background: rgba(255,255,255,0.2);
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .footer button.esci:hover {
-            background: rgba(255,255,255,0.4);
-            color: white;
+        .copyright {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
         }
 
         @media (max-width: 600px) {
@@ -131,6 +113,9 @@
             }
             h1 {
                 font-size: 2rem;
+            }
+            .istruzioni {
+                font-size: 0.65rem;
             }
         }
     </style>
@@ -154,21 +139,18 @@
                 </div>
             </div>
 
-            <div class="footer">
-                <span><small>© RG 2026 Oragioca - Tutti i diritti riservati.</small></span>
-                <span>🏠HOME</span>
-                <button class="esci" onclick="esciDalGioco()"><small>🚪 ESCI</small></button>
+            <!-- Istruzione posizionata subito dopo le card, sopra la linea -->
+            <div class="istruzioni">
+              <small>  Per uscire dal gioco, chiudi questa scheda <br> </small> 
+            </div>
+
+            <!-- Linea orizzontale -->
+            <div class="linea"></div>
+
+            <div class="copyright">
+                © RG 2026 Oragioca - Tutti i diritti riservati.
             </div>
         </div>
     </div>
-
-    <script>
-        function esciDalGioco() {
-            // Mostra solo il messaggio semplice
-            alert("Chiudi questa scheda del browser per uscire.");
-            // Tentativo di chiudere (non sempre funziona, ma non fa male)
-            window.close();
-        }
-    </script>
 </body>
 </html>
