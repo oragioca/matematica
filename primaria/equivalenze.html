@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🌟 Le Equivalenze di Mattia 🌟</title>
     <style>
-        /* ... (tutti gli stili rimangono identici) ... */
         * {
             margin: 0;
             padding: 0;
@@ -38,6 +37,7 @@
             max-height: 100vh;
             overflow-y: auto;
             margin: 2px auto;
+            position: relative;
         }
 
         @keyframes fadeIn {
@@ -517,24 +517,6 @@
         .btn-restart:hover {
             transform: scale(1.05);
             background: #00a381;
-        }
-
-        .btn-home {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 800;
-            background: #6c5ce7;
-            color: white;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            font-size: 0.75em;
-            transition: all 0.3s;
-        }
-
-        .btn-home:hover {
-            transform: scale(1.05);
-            background: #5a4bd1;
         }
 
         /* ===== SCALA GIOCO ===== */
@@ -1968,11 +1950,6 @@
                 padding: 4px 8px;
             }
             
-            .btn-home {
-                font-size: 0.65em;
-                padding: 4px 8px;
-            }
-            
             .btn-close {
                 font-size: 0.7em;
                 padding: 6px 14px;
@@ -2327,11 +2304,6 @@
                 padding: 3px 6px;
             }
             
-            .btn-home {
-                font-size: 0.55em;
-                padding: 3px 6px;
-            }
-            
             .btn-close {
                 font-size: 0.6em;
                 padding: 4px 10px;
@@ -2647,7 +2619,6 @@
                 <div class="header-buttons">
                     <button class="btn-back" id="backBtn">⬅️ Indietro</button>
                     <button class="btn-restart" id="restartGameBtn">🔄 Rigioca</button>
-                    <button class="btn-home" id="homeBtn">🏠 Home</button>
                 </div>
                 <div class="game-score">
                     <span>⭐ <span id="gameScore">0</span></span>
@@ -3390,6 +3361,15 @@
         }
 
         // ============================================================
+        // FUNZIONE PER TORNARE ALLA HOME DEL GIOCO
+        // ============================================================
+        function goBackToIntro() {
+            document.getElementById('introScreen').classList.remove('hidden');
+            document.getElementById('gameScreen').classList.remove('visible');
+            clearInterval(gameState.timer);
+        }
+
+        // ============================================================
         // EVENTI - CORRETTI
         // ============================================================
 
@@ -3525,12 +3505,6 @@
             document.getElementById('introScreen').classList.add('hidden');
             document.getElementById('gameScreen').classList.add('visible');
             newExercise();
-        }
-
-        function goBack() {
-            document.getElementById('introScreen').classList.remove('hidden');
-            document.getElementById('gameScreen').classList.remove('visible');
-            clearInterval(gameState.timer);
         }
 
         function getRandomUnitPair() {
@@ -3754,7 +3728,7 @@
         }
 
         // ============================================================
-        // EVENTI
+        // EVENTI PRINCIPALI
         // ============================================================
 
         document.querySelectorAll('.btn-example').forEach(btn => {
@@ -3784,16 +3758,15 @@
         });
 
         document.getElementById('playBtn').addEventListener('click', startGame);
-        document.getElementById('backBtn').addEventListener('click', goBack);
+        document.getElementById('backBtn').addEventListener('click', goBackToIntro);
         document.getElementById('checkBtn').addEventListener('click', checkAnswer);
         document.getElementById('newBtn').addEventListener('click', newExercise);
         document.getElementById('hintBtn').addEventListener('click', showHint);
 
         // ============================================================
-        // NUOVI PULSANTI: RIGIOCA E HOME (già nel gioco)
+        // PULSANTE RIGIOCA (nel gioco)
         // ============================================================
 
-        // Pulsante Rigioca
         document.getElementById('restartGameBtn').addEventListener('click', function() {
             // Resetta il punteggio
             gameState.score = 0;
@@ -3808,29 +3781,25 @@
             newExercise();
         });
 
-        // Pulsante Home (torna alla pagina index.html)
-        document.getElementById('homeBtn').addEventListener('click', function() {
-            // Torna alla schermata principale
-            goBack();
-            // Se vuoi andare alla index.html principale del sito, decommenta la riga sotto
-            // window.location.href = 'index.html';
-        });
-
         // ============================================================
-        // NUOVI PULSANTI NELL'HEADER INTRO: CHIUDI E HOME
+        // PULSANTI NELL'HEADER INTRO: CHIUDI E HOME
         // ============================================================
 
-        // Pulsante Chiudi (chiude la pagina/scheda)
+        // Pulsante Chiudi - con messaggio di fallback
         document.getElementById('closeIntroBtn').addEventListener('click', function() {
-            // Chiude la finestra corrente o la scheda del browser
-            window.close();
-            // Fallback: se non funziona, reindirizza a una pagina vuota
-            // window.location.href = 'about:blank';
+            try {
+                window.close();
+                // Se la finestra non si chiude, mostriamo un messaggio
+                setTimeout(() => {
+                    alert('Non è possibile chiudere questa finestra automaticamente.\nPuoi chiuderla manualmente dal browser.');
+                }, 500);
+            } catch(e) {
+                alert('Non è possibile chiudere questa finestra automaticamente.\nPuoi chiuderla manualmente dal browser.');
+            }
         });
 
-        // Pulsante Home (torna alla index.html principale)
+        // Pulsante Home (va alla index.html)
         document.getElementById('homeIntroBtn').addEventListener('click', function() {
-            // Vai alla index.html principale
             window.location.href = 'index.html';
         });
 
