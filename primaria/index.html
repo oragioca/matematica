@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giochi di Matematica - Scuola Primaria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #4a7c59;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+        .riquadro {
+            background: linear-gradient(135deg, #43b47c 0%, #2d7d5a 100%);
+            border-radius: 28px;
+            padding: 40px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+            color: white;
+        }
+        .icona-joystick {
+            animation: bounce 1.5s infinite;
+            display: inline-block;
+            font-size: 6rem;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .sottotitolo {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        .giochi-lista {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 0 auto 40px;
+            width: 100%;
+        }
+        .gioco-card {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            text-align: center;
+            box-shadow: 0 8px 0 #1f5a3a, 0 15px 25px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            position: relative;
+            border: 2px solid #ffffff30;
+            min-height: 95px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gioco-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 0 #154a2e, 0 20px 30px rgba(0,0,0,0.4);
+        }
+        .gioco-card a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 10px 8px;
+            box-sizing: border-box;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #f9f9f9, #f0f0f0);
+        }
+        .icona {
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+        }
+        .titolo {
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: #333;
+            font-size: 0.85rem;
+            line-height: 1.2;
+        }
+        .sotto {
+            font-size: 0.65rem;
+            color: #666;
+            font-weight: normal;
+            background: #e0e0e0;
+            padding: 2px 10px;
+            border-radius: 30px;
+            margin-top: 4px;
+            display: inline-block;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            body { padding: 15px; }
+            .riquadro { padding: 25px; }
+            h1 { font-size: 1.8rem; }
+            .giochi-lista {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 12px;
+            }
+            .gioco-card {
+                min-height: 85px;
+            }
+            .icona {
+                font-size: 1.5rem;
+            }
+            .titolo {
+                font-size: 0.75rem;
+            }
+            .sotto {
+                font-size: 0.6rem;
+                padding: 2px 6px;
+            }
+        }
+        @media (max-width: 400px) {
+            .giochi-lista {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="riquadro">
+        <div class="container">
+            <div class="icona-joystick">🎮</div>
+            <h1>GIOCHI PER LA SCUOLA PRIMARIA</h1>
+            <div class="sottotitolo"><strong>SCEGLI UN GIOCO E BATTI IL RECORD!</strong></div>
+            <div class="giochi-lista">
+                <!-- Addizione in Colonna -->
+                <div class="gioco-card">
+                    <a href="addizione in colonna.html">
+                        <span class="icona">➕</span>
+                        <span class="titolo">Addizione in Colonna</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Divisioni con Virgola -->
+                <div class="gioco-card">
+                    <a href="divisioni con virgola.html">
+                        <span class="icona">➗</span>
+                        <span class="titolo">Divisioni con Virgola</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Divisioni per Telefonino -->
+                <div class="gioco-card">
+                    <a href="divisioni per telefonino.html">
+                        <span class="icona">📱</span>
+                        <span class="titolo">Divisioni per Telefonino</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Divisioni -->
+                <div class="gioco-card">
+                    <a href="divisioni.html">
+                        <span class="icona">✖️➗</span>
+                        <span class="titolo">Divisioni</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Moltiplicazioni -->
+                <div class="gioco-card">
+                    <a href="moltiplicazioni.html">
+                        <span class="icona">✖️</span>
+                        <span class="titolo">Moltiplicazioni</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Frazioni -->
+                <div class="gioco-card">
+                    <a href="frazioni.html">
+                        <span class="icona">½</span>
+                        <span class="titolo">Frazioni</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Calcolo Media -->
+                <div class="gioco-card">
+                    <a href="Media.html">
+                        <span class="icona">🧮</span>
+                        <span class="titolo">Calcolo Media</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Percentuale e Problemi -->
+                <div class="gioco-card">
+                    <a href="Percentuale e problemi.html">
+                        <span class="icona">%</span>
+                        <span class="titolo">Percentuale e Problemi</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Operazioni in Colonna -->
+                <div class="gioco-card">
+                    <a href="operazioni in colonna.html">
+                        <span class="icona">🧩</span>
+                        <span class="titolo">Operazioni in Colonna</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Ordinamenti -->
+                <div class="gioco-card">
+                    <a href="ordinamenti.html">
+                        <span class="icona">📊</span>
+                        <span class="titolo">Ordinamenti</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Probabilità -->
+                <div class="gioco-card">
+                    <a href="probabilità.html">
+                        <span class="icona">🎲</span>
+                        <span class="titolo">Probabilità</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Problem Solving -->
+                <div class="gioco-card">
+                    <a href="problem solving.html">
+                        <span class="icona">🤔</span>
+                        <span class="titolo">Tabelle e Grafici</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Problemi -->
+                <div class="gioco-card">
+                    <a href="problemi.html">
+                        <span class="icona">💡</span>
+                        <span class="titolo">Problemi</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Successioni 1 (succesioni 4) -->
+                <div class="gioco-card">
+                    <a href="succesioni 4.html">
+                        <span class="icona">🔁</span>
+                        <span class="titolo">Successioni 1</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Successioni 2 (successioni numeriche 5) -->
+                <div class="gioco-card">
+                    <a href="successioni numeriche 5.html">
+                        <span class="icona">🔢</span>
+                        <span class="titolo">Successioni 2</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Sequences 1 -->
+                <div class="gioco-card">
+                    <a href="sequences1.html">
+                        <span class="icona">📈</span>
+                        <span class="titolo">Sequences 1</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Area e Perimetro -->
+                <div class="gioco-card">
+                    <a href="area e perimetro.html">
+                        <span class="icona">📐</span>
+                        <span class="titolo">Area e Perimetro</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Geometria 2 -->
+                <div class="gioco-card">
+                    <a href="Geometria 2.html">
+                        <span class="icona">🧊</span>
+                        <span class="titolo">Geometria 2</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+                <!-- Equivalenze -->
+                <div class="gioco-card">
+                    <a href="equivalenze.html">
+                        <span class="icona">⚖️</span>
+                        <span class="titolo">Equivalenze</span>
+                        <span class="sotto">Primaria</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer">
+                <small> © RG 2026 Oragioca - Tutti i diritti riservati. | </small>
+                <a href="https://oragioca.github.io/matematica/">Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
