@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giochi di Matematica | Oragioca</title>
+    <style>
+        /* Sfondo esterno */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #6d5a8c;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        /* Riquadro principale */
+        .riquadro {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 28px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 800px;
+            text-align: center;
+            color: white;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        .scelta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            color: #333;
+            padding: 15px;
+            border-radius: 12px;
+            width: 250px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .emoji {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer span, .footer button {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            cursor: default;
+        }
+
+        .footer button.esci {
+            cursor: pointer;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .footer button.esci:hover {
+            background: rgba(255,255,255,0.4);
+            color: white;
+        }
+
+        /* Modale di uscita a metà schermo */
+        .modale {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modale-contenuto {
+            background: white;
+            color: #333;
+            width: 80%;
+            max-width: 320px;
+            padding: 25px 20px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s ease;
+        }
+        .modale-contenuto p {
+            margin: 15px 0;
+            font-size: 1rem;
+        }
+        .modale-contenuto button {
+            background: #667eea;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .modale-contenuto button:hover {
+            background: #5a67d8;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .riquadro {
+                padding: 20px;
+            }
+            .scelta {
+                flex-direction: column;
+                align-items: center;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="riquadro">
+        <div class="container">
+            <h1>Giochi di Matematica</h1>
+            <h2><small> con quesiti dell'archivio Invalsi</small></h2>
+            <p><small>Scegli la scuola e clicca per giocare</small></p>
+        
+            <div class="scelta">
+                <div class="card" onclick="location.href='primaria/index.html'">
+                    <div class="emoji">📚</div>
+                    <h2>Scuola Primaria</h2>
+                </div>
+                <div class="card" onclick="location.href='secondaria/index.html'">
+                    <div class="emoji">🧑‍🎓</div>
+                    <h2>Scuola Secondaria</h2>  
+                    <small>di Primo Grado</small>
+                </div>
+            </div>
+
+            <div class="footer">
+                <span><small>© RG 2026 Oragioca - Tutti i diritti riservati.</small></span>
+                <!-- HOME ora è cliccabile: ricarica la pagina -->
+                <span onclick="location.reload()" style="cursor:pointer;">🏠HOME</span>
+                <button class="esci" onclick="esciDalGioco()"><small>🚪 ESCI</small></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale di uscita -->
+    <div id="modaleUscita" class="modale">
+        <div class="modale-contenuto">
+            <div style="font-size: 3rem;">👋</div>
+            <h3>Grazie per aver giocato!</h3>
+            <p>Per uscire, chiudi questa scheda del browser.<br>
+            <small>Su smartphone: premi il pulsante delle schede 📱 e scorri via questa pagina.</small></p>
+            <button onclick="chiudiModale()">OK, ho capito</button>
+        </div>
+    </div>
+
+    <script>
+        function esciDalGioco() {
+            // Mostra il modale invece di cercare di chiudere la finestra
+            document.getElementById('modaleUscita').style.display = 'flex';
+        }
+
+        function chiudiModale() {
+            document.getElementById('modaleUscita').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
