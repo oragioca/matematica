@@ -105,6 +105,17 @@
             background: #e55a5a;
         }
 
+        /* MODIFICA QUI: Stile per il pulsante Chiudi su mobile (disabilitato) */
+        .btn-close.mobile-close {
+            opacity: 0.6;
+            cursor: default;
+            background: #b2bec3;
+        }
+        .btn-close.mobile-close:hover {
+            transform: none;
+            background: #b2bec3;
+        }
+
         .btn-home-intro {
             padding: 8px 20px;
             border: none;
@@ -3030,6 +3041,16 @@
 
     <script>
         // ============================================================
+        // MODIFICA QUI: Rilevamento dispositivo mobile
+        // ============================================================
+        function isMobileDevice() {
+            return ('ontouchstart' in window) || 
+                   (navigator.maxTouchPoints > 0) ||
+                   (window.innerWidth < 600) ||
+                   (navigator.userAgent.match(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i));
+        }
+
+        // ============================================================
         // DISEGNO METRO
         // ============================================================
         function drawMetro() {
@@ -3037,9 +3058,7 @@
             if (!container) return;
             
             let html = '';
-            // Disegnamo 100 quadratini da 1 cm
             for (let i = 0; i < 100; i++) {
-                // Ogni 10 quadratini mettiamo un segno
                 let label = '';
                 if (i % 10 === 0 && i > 0) {
                     label = '|';
@@ -3252,7 +3271,6 @@
             const steps = container.querySelectorAll('.example-step');
             const connectors = container.querySelectorAll('.example-connector');
 
-            // Resetta tutto
             steps.forEach(step => {
                 step.classList.remove('animate-step', 'highlight-step');
                 const circle = step.querySelector('.step-circle');
@@ -3262,7 +3280,6 @@
                     circle.style.transform = '';
                     circle.style.boxShadow = '';
                 }
-                // Ripristina la classe path
                 const isPath = step.dataset.path === 'true';
                 if (isPath) step.classList.add('path-step');
             });
@@ -3288,7 +3305,6 @@
             const from = data.fromIndex;
             const to = data.toIndex;
             const stepIndices = [];
-            // Prendiamo tutti i gradini del percorso (incluso l'arrivo, esclusa la partenza)
             if (data.direction === 'right') {
                 for (let i = from + 1; i <= to; i++) stepIndices.push(i);
             } else {
@@ -3350,7 +3366,6 @@
             const overlay = document.getElementById('cerchiettiOverlay');
             overlay.classList.add('show');
             document.body.style.overflow = 'hidden';
-            // Disegna il metro quando si apre il pop-up
             setTimeout(drawMetro, 100);
         }
 
@@ -3370,27 +3385,62 @@
         }
 
         // ============================================================
-        // EVENTI - CORRETTI
+        // MODIFICA QUI: Gestione del pulsante Chiudi
+        // ============================================================
+        function setupCloseButton() {
+            const closeBtn = document.getElementById('closeIntroBtn');
+            const isMobile = isMobileDevice();
+            
+            if (isMobile) {
+                // Su mobile: disabilita il pulsante, mostra un messaggio semplice
+                closeBtn.classList.add('mobile-close');
+                closeBtn.textContent = '📱 Torna a casa';
+                closeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Non fa niente, solo un messaggio amichevole
+                    // Mostra un messaggio veloce e poi sparisce
+                    const origText = this.textContent;
+                    this.textContent = '👍 Usa "Home" per uscire!';
+                    this.style.background = '#6c5ce7';
+                    setTimeout(() => {
+                        this.textContent = origText;
+                        this.style.background = '#b2bec3';
+                    }, 1500);
+                });
+            } else {
+                // Su PC: funziona normalmente
+                closeBtn.addEventListener('click', function() {
+                    try {
+                        window.close();
+                        // Fallback se non si chiude
+                        setTimeout(() => {
+                            alert('💡 Per chiudere questa finestra, premi il tasto "X" del tuo browser.');
+                        }, 500);
+                    } catch(e) {
+                        alert('💡 Per chiudere questa finestra, premi il tasto "X" del tuo browser.');
+                    }
+                });
+            }
+        }
+
+        // ============================================================
+        // EVENTI
         // ============================================================
 
-        // Apri la spiegazione cliccando sul link specifico
         document.getElementById('openSpiegazioneLink').addEventListener('click', function(e) {
             e.preventDefault();
             openCerchiettiOverlay();
         });
 
-        // Eventi per chiudere il pop-up delle spiegazioni
         document.getElementById('closeCerchiettiBtn').addEventListener('click', closeCerchiettiOverlay);
         document.getElementById('closeCerchiettiBtn2').addEventListener('click', closeCerchiettiOverlay);
 
-        // Chiudi cliccando sullo sfondo
         document.getElementById('cerchiettiOverlay').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeCerchiettiOverlay();
             }
         });
 
-        // Chiudi con ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 if (document.getElementById('cerchiettiOverlay').classList.contains('show')) {
@@ -3402,7 +3452,7 @@
         });
 
         // ============================================================
-        // ACCORDION - DEFINIZIONE
+        // ACCORDION
         // ============================================================
 
         document.addEventListener('click', function(e) {
@@ -3415,10 +3465,6 @@
             }
         });
 
-        // ============================================================
-        // ACCORDION - STORIA
-        // ============================================================
-
         document.addEventListener('click', function(e) {
             const toggle = document.getElementById('storiaAccordionToggle');
             if (toggle && toggle.contains(e.target)) {
@@ -3426,16 +3472,11 @@
                 const icon = document.getElementById('storiaAccordionIcon');
                 body.classList.toggle('open');
                 icon.classList.toggle('open');
-                // Ridisegna il metro quando si apre
                 if (body.classList.contains('open')) {
                     setTimeout(drawMetro, 100);
                 }
             }
         });
-
-        // ============================================================
-        // ACCORDION - SCALA
-        // ============================================================
 
         document.addEventListener('click', function(e) {
             const toggle = document.getElementById('scalaAccordionToggle');
@@ -3446,10 +3487,6 @@
                 icon.classList.toggle('open');
             }
         });
-
-        // ============================================================
-        // ACCORDION - COME SI FA?
-        // ============================================================
 
         document.addEventListener('click', function(e) {
             const toggle = document.getElementById('comeFaAccordionToggle');
@@ -3763,42 +3800,17 @@
         document.getElementById('newBtn').addEventListener('click', newExercise);
         document.getElementById('hintBtn').addEventListener('click', showHint);
 
-        // ============================================================
-        // PULSANTE RIGIOCA (nel gioco)
-        // ============================================================
-
         document.getElementById('restartGameBtn').addEventListener('click', function() {
-            // Resetta il punteggio
             gameState.score = 0;
             gameState.operations = 0;
             gameState.streak = 0;
             document.getElementById('gameScore').textContent = '0';
             document.getElementById('gameOps').textContent = '0';
             document.getElementById('gameStreak').textContent = '0';
-            // Ferma il timer
             clearInterval(gameState.timer);
-            // Ricomincia un nuovo esercizio
             newExercise();
         });
 
-        // ============================================================
-        // PULSANTI NELL'HEADER INTRO: CHIUDI E HOME
-        // ============================================================
-
-        // Pulsante Chiudi - con messaggio di fallback
-        document.getElementById('closeIntroBtn').addEventListener('click', function() {
-            try {
-                window.close();
-                // Se la finestra non si chiude, mostriamo un messaggio
-                setTimeout(() => {
-                    alert('Non è possibile chiudere questa finestra automaticamente.\nPuoi chiuderla manualmente dal browser.');
-                }, 500);
-            } catch(e) {
-                alert('Non è possibile chiudere questa finestra automaticamente.\nPuoi chiuderla manualmente dal browser.');
-            }
-        });
-
-        // Pulsante Home (va alla index.html)
         document.getElementById('homeIntroBtn').addEventListener('click', function() {
             window.location.href = 'index.html';
         });
@@ -3812,6 +3824,11 @@
         document.getElementById('gameInput').addEventListener('focus', function() {
             this.select();
         });
+
+        // ============================================================
+        // MODIFICA QUI: Setup iniziale del pulsante Chiudi
+        // ============================================================
+        setupCloseButton();
 
         console.log('🌟 Le Equivalenze Magiche - Pronto!');
     </script>
